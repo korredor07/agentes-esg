@@ -154,8 +154,11 @@ para el remanente, no un reemplazo de la reducción. Y hay que ser explícito: u
 certificación de neutralidad **no protege** frente a la prohibición europea si
 la reducción real fue marginal y la neutralidad descansa en créditos comprados.
 
+Usa el periodo de los datos que respaldan la afirmación (por ejemplo, 2025),
+no el año en curso:
+
 ```bash
-python .claude/motor/esg.py huella calcular
+python .claude/motor/esg.py huella calcular --periodo 2025
 python .claude/motor/esg.py meta validar
 ```
 

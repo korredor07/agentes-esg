@@ -69,7 +69,9 @@ Borra el JSON temporal después de crear la empresa.
    ```
 2. Resume en 5 líneas lo que quedó registrado y **dónde** quedó la carpeta.
 3. Propón exactamente **tres** próximos pasos, ordenados por lo que la persona
-   respondió en la pregunta 6. Por ejemplo:
+   respondió en la pregunta 6. Si no la respondió, ordénalos por urgencia:
+   primero lo que el calendario marque como vencido o por vencer, y después lo
+   que mencionó en sus mensajes. Por ejemplo:
    - «Calcular la huella de carbono del año pasado» (skill `huella-carbono`).
    - «Revisar qué normas te aplican hoy» (skill `brechas-cumplimiento`).
    - «Ver el estado general de la empresa» (skill `diagnostico-esg`).

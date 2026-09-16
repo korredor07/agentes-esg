@@ -220,9 +220,10 @@ def _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motiv
                                    "parte importante de ese impacto esta en lo que compramos, y por eso les "
                                    "pedimos ayuda." % nombre_empresa},
         {"tipo": "texto", "texto": "El motivo concreto es este: %s" % (
-            motivo or "nuestros clientes y las normas que nos aplican nos piden informar las emisiones de "
-                      "nuestra cadena de suministro, y hoy las estamos estimando con promedios generales "
-                      "que no reflejan lo que ustedes realmente hacen.")},
+            # Sin --motivo no se afirma que un cliente o una norma lo exige: puede no ser cierto.
+            motivo or "queremos conocer las emisiones de nuestra cadena de suministro con datos reales. "
+                      "Hoy las estamos estimando con promedios generales que no reflejan lo que ustedes "
+                      "realmente hacen.")},
 
         {"tipo": "titulo", "texto": "Que les pedimos", "nivel": 1},
         {"tipo": "lista", "items": [

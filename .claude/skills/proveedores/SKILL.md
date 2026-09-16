@@ -55,6 +55,11 @@ La carta **no exige respuesta** como condición de la relación comercial. Si la
 empresa decide exigirla, agrega `--condicionar`, pero esa es una decisión
 comercial que tiene que tomar la persona: pregúntale, no lo decidas tú.
 
+Pregúntale también **por qué** lo piden y pásalo con `--motivo` (por ejemplo,
+`--motivo "un cliente nos pidió un reporte de sostenibilidad VSME."`). Sin
+`--motivo` la carta solo dice que la empresa quiere datos reales: no afirma que
+un cliente o una norma lo exija, porque puede no ser cierto.
+
 Lo que hace la diferencia entre un cuestionario contestado y uno ignorado:
 
 - **Decir para qué es.** «Un cliente nos pide las emisiones de nuestra cadena y

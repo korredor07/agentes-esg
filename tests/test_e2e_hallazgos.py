@@ -318,6 +318,16 @@ class PruebaCartaAProveedores(PruebaConCarpeta):
         respuesta = self.proveedores.carta(dict(self.opciones, proveedor="Molino Central", condicionar=True))
         self.assertIn("necesitamos que exista una respuesta", self._texto(respuesta.resultado["archivo"]))
 
+    def test_sin_motivo_no_afirma_que_una_norma_lo_exige(self):
+        # Ronda 2 E2E: el pedido venia de un cliente y el VSME no es obligatorio.
+        respuesta = self.proveedores.carta(dict(self.opciones, proveedor="Molino Central"))
+        texto = self._texto(respuesta.resultado["archivo"])
+        self.assertNotIn("normas", texto)
+        self.assertIn("datos reales", texto)
+        con_motivo = self.proveedores.carta(dict(self.opciones, proveedor="Envases Sur",
+                                                 motivo="un cliente nos pidio un reporte VSME."))
+        self.assertIn("un cliente nos pidio un reporte VSME.", self._texto(con_motivo.resultado["archivo"]))
+
 
 class PruebaRutasLargas(unittest.TestCase):
     """En Windows, una ruta de mas de 260 caracteres fallaba con un «no encontre el archivo»."""
