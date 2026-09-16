@@ -138,6 +138,7 @@ class PruebaModuloReporte(PruebaConCarpeta):
         destino = espacio.ruta_de(self.ruta_empresa, "resultados", "huella_%s.json" % periodo)
         with open(destino, "w", encoding="utf-8") as archivo:
             json.dump({
+                "version_calculo": 2,
                 "total_t_co2e": 412.5, "periodo": periodo, "set_pcg": "AR5",
                 "por_alcance": {"alcance_1": {"kg_co2e": 120000.0}, "alcance_2": {"kg_co2e": 92500.0},
                                 "alcance_3": {"kg_co2e": 200000.0}},

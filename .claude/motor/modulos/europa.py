@@ -195,7 +195,9 @@ def _evaluar(perfil, respuestas):
 
     # 3. CBAM.
     bienes = _si(respuestas.get("exporta_bienes_cbam"))
-    if exporta is False or bienes is False:
+    if exporta is False:
+        estado_cbam, motivo_cbam = "no aplica", "No venden a la Union Europea."
+    elif bienes is False:
         estado_cbam = "no aplica"
         motivo_cbam = ("Sus productos no estan en la lista del CBAM. Solo cubre cemento, electricidad, "
                        "fertilizantes, hierro y acero, aluminio e hidrogeno.")
@@ -247,7 +249,10 @@ def _evaluar(perfil, respuestas):
 
     # 5. EUDR.
     commodities = _si(respuestas.get("exporta_commodities_eudr"))
-    if exporta is False or commodities is False:
+    if exporta is False:
+        estado_eudr = "no aplica"
+        motivo_eudr = "No venden a la Union Europea."
+    elif commodities is False:
         estado_eudr = "no aplica"
         motivo_eudr = ("Sus productos no estan entre las siete materias primas cubiertas (ganado, cacao, "
                        "cafe, palma, caucho, soya y madera).")
@@ -796,9 +801,18 @@ def informe_html(opciones):
              "detalle": "%s %s" % (m["motivo"], m["que_hacer"] if m["estado"] != "no aplica" else "")}
             for m in mecanismos]},
     ]
-    bloques.extend(_bloques_cbam(guardado))
-    bloques.extend(_bloques_maritimo(guardado))
-    bloques.extend(_bloques_eudr(guardado))
+    # Un calculo guardado no se muestra si hoy el mecanismo no le aplica: el informe se contradeciria.
+    estados = {m["id"]: m["estado"] for m in mecanismos}
+    for clave, armar in (("cbam", _bloques_cbam), ("maritimo", _bloques_maritimo), ("eudr", _bloques_eudr)):
+        secciones = armar(guardado)
+        if not secciones:
+            continue
+        if estados.get(clave) in ("aplica", "revisar"):
+            bloques.extend(secciones)
+        else:
+            bloques.append({"tipo": "nota", "estilo": "info",
+                            "texto": "Hay un calculo guardado de %s, pero con las respuestas actuales no le aplica a "
+                                     "la empresa: no se muestra." % clave.upper()})
 
     sin_verificar = ue.pendientes(*sorted(ue.PENDIENTES_DE_VERIFICAR))
     bloques.extend([

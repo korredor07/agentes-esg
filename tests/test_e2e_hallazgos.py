@@ -695,7 +695,9 @@ class PruebaCoberturaQueNoSeSobrestima(PruebaConCarpeta):
     def test_la_ficha_de_la_empresa_no_cubre_forma_juridica_ni_propiedad(self):
         self.assertEqual(self._ficha("GRI", "2-1", {"empresa.json"})["estado"], "parcial")
         self.assertEqual(self._ficha("NCG 461", "461-perfil", {"empresa.json"})["estado"], "parcial")
-        self.assertEqual(self._ficha("GRI", "404-1", {"personas.xlsx"})["estado"], "cubierto")
+        self.assertEqual(self._ficha("GRI", "405-2", {"personas.remuneracion"})["estado"], "cubierto")
+        # Tener la planilla de personas no basta: cada contenido pide su indicador.
+        self.assertEqual(self._ficha("GRI", "404-1", {"personas.xlsx"})["estado"], "pendiente")
 
     def test_no_recomienda_cargar_un_texto(self):
         resultado = self.reportes.evaluar_cobertura("VSME", set())
@@ -707,7 +709,8 @@ class PruebaCoberturaQueNoSeSobrestima(PruebaConCarpeta):
         opciones = {"raiz": self.carpeta, "empresa": "Harinera SpA", "periodo": "2025", "marco": "GRI"}
         ruta = espacio.cargar_empresa("Harinera SpA", raiz=self.carpeta)[1]
         with io.open(espacio.ruta_de(ruta, "resultados", "huella_2025.json"), "w", encoding="utf-8") as archivo:
-            json.dump({"total_t_co2e": 12.3, "periodo": "2025", "completo": False, "registros_con_problema": 2,
+            json.dump({"version_calculo": 2, "total_t_co2e": 12.3, "periodo": "2025", "completo": False,
+                       "registros_con_problema": 2,
                        "por_alcance": {"alcance_1": {"kg_co2e": 12300.0}}}, archivo)
         cobertura = self.reporte.cobertura(dict(opciones)).resultado
         self.assertNotIn("305-1", [c["codigo"] for c in cobertura["ya_puedes_reportar"]])
@@ -996,6 +999,104 @@ class PruebaCasosKarinHeredados(PruebaConCarpeta):
             guardado = json.load(archivo)
         self.assertEqual(guardado["casos"][1]["via"], "interna")
         self.assertFalse(any(clave.startswith("_avisos") for clave in guardado["casos"][0]))
+
+
+class PruebaResultadosYPeriodos(PruebaConCarpeta):
+    """Segunda revision: cifras de otro periodo, de una version anterior o incompletas no llegan calladas a un informe."""
+
+    def setUp(self):
+        super(PruebaResultadosYPeriodos, self).setUp()
+        from nucleo import excel
+        from plantillas import definiciones
+        self.excel, self.definiciones = excel, definiciones
+        espacio.crear_empresa({"nombre": "Periodos SpA", "pais": "CL", "anio_base": 2025, "periodo_actual": "2025",
+                               "exporta_a_ue": True}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Periodos SpA"}
+        self.ruta = espacio.cargar_empresa("Periodos SpA", raiz=self.carpeta)[1]
+
+    def _huella(self, nombre, total, version=2):
+        datos = {"total_t_co2e": total, "total_kg_co2e": total * 1000, "periodo": nombre, "completo": True,
+                 "por_alcance": {"alcance_1": {"kg_co2e": total * 1000}}}
+        if version:
+            datos["version_calculo"] = version
+        with io.open(os.path.join(self.ruta, "resultados", "huella_%s.json" % nombre), "w", encoding="utf-8") as archivo:
+            json.dump(datos, archivo)
+
+    def _personas(self, filas):
+        definicion = self.definiciones.PLANTILLAS["personas"]
+        self.excel.escribir_xlsx(os.path.join(self.ruta, "datos", "personas.xlsx"),
+                                 self.definiciones.hojas_de(dict(definicion, ejemplo=filas)))
+
+    def test_el_borrador_no_usa_la_huella_de_otro_periodo(self):
+        from modulos import reporte
+        self._huella("completa", 59.6)
+        claves, detalle, avisos, _ = reporte.datos_disponibles(
+            espacio.cargar_empresa("Periodos SpA", raiz=self.carpeta)[0], self.ruta, periodo="2025")
+        self.assertNotIn("huella.total_t_co2e", claves)
+        self.assertTrue(any("del periodo 2025" in a for a in avisos))
+
+    def test_una_huella_de_una_version_anterior_sin_datos_para_rehacerla_no_se_usa(self):
+        from modulos import reporte
+        self._huella("2025", 999, version=None)
+        claves, _, avisos, _ = reporte.datos_disponibles(
+            espacio.cargar_empresa("Periodos SpA", raiz=self.carpeta)[0], self.ruta, periodo="2025")
+        self.assertNotIn("huella.total_t_co2e", claves)
+        self.assertTrue(any("version anterior" in a for a in avisos))
+
+    def test_el_indice_sin_periodo_usa_el_de_la_ficha_y_no_suma_años(self):
+        from modulos import reporte
+        fila = ["", "Planta Talca", "operario", "mujer", "indefinido", "completa", 20, 0, 0, "", "", "", "", "", ""]
+        self._personas([["2024"] + fila[1:], ["2025"] + fila[1:]])
+        archivo = reporte.indice(dict(self.opciones, marco="GRI")).resultado["archivo"]
+        with io.open(archivo, encoding="utf-8") as origen:
+            html = origen.read()
+        self.assertIn("Dotacion: 20 personas", html)
+        self.assertNotIn("Dotacion: 40 personas", html)
+
+    def test_la_planilla_de_personas_no_cubre_lo_que_no_trae(self):
+        from modulos import reporte
+        fila = ["2025", "Planta Talca", "operario", "mujer", "indefinido", "completa", 20, 0, 0, "", "", "", "", "", ""]
+        self._personas([fila])
+        cobertura = reporte.cobertura(dict(self.opciones, marco="GRI")).resultado
+        listos = [c["codigo"] for c in cobertura["ya_puedes_reportar"]]
+        self.assertNotIn("404-1", listos)
+        self.assertNotIn("405-2", listos)
+
+    def test_el_agua_incompleta_no_sale_cubierta_y_su_informe_trae_los_avisos(self):
+        from modulos import agua, reporte
+        definicion = self.definiciones.PLANTILLAS["agua"]
+        filas = [["2025", "Planta Talca", "red publica", 5000, 1000, "alcantarillado", "si", "reportado", ""],
+                 ["2025", "Planta Talca", "pozo", "mucha", 0, "riego", "", "estimado", ""]]
+        self.excel.escribir_xlsx(os.path.join(self.ruta, "datos", "agua.xlsx"),
+                                 self.definiciones.hojas_de(dict(definicion, ejemplo=filas)))
+        agua.calcular(dict(self.opciones, periodo="2025"))
+        cobertura = reporte.cobertura(dict(self.opciones, marco="VSME")).resultado
+        self.assertNotIn("B6", [c["codigo"] for c in cobertura["ya_puedes_reportar"]])
+        respuesta = agua.informe_html(dict(self.opciones, periodo="2025"))
+        with io.open(respuesta.resultado["archivo"], encoding="utf-8") as origen:
+            self.assertIn("Supuestos y avisos del calculo", origen.read())
+
+    def test_los_avisos_de_la_tabla_del_sii_llegan_desde_la_planilla(self):
+        from calculos import activos
+        avisos = []
+        activos.vida_util_del_activo({"bien": "cargador frontal"}, avisos)
+        self.assertTrue(any("mineria" in aviso for aviso in avisos))
+
+    def test_el_informe_europeo_no_muestra_secciones_de_lo_que_no_aplica(self):
+        from modulos import europa
+        europa.eudr(dict(self.opciones, producto="cafe"))
+        europa.aplica(dict(self.opciones, exporta_a_ue="no"))
+        archivo = europa.informe_html(dict(self.opciones)).resultado["archivo"]
+        with io.open(archivo, encoding="utf-8") as origen:
+            html = origen.read()
+        self.assertIn("No venden a la Union Europea.", html)
+        self.assertNotIn("EUDR — productos libres de deforestacion", html)
+
+    def test_el_tablero_elige_la_huella_del_periodo_y_no_el_acumulado(self):
+        from modulos import tablero
+        self._huella("2025", 40.0)
+        self._huella("completa", 90.0)
+        self.assertEqual(tablero._ultima_huella(self.ruta)["total_t_co2e"], 40.0)
 
 
 class PruebaSinCaracteresDeControl(unittest.TestCase):

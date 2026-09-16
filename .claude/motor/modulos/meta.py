@@ -7,7 +7,7 @@ import os
 
 from calculos import macc as motor_macc
 from calculos import metas as motor_metas
-from nucleo import espacio, excel, informe
+from nucleo import espacio, excel, informe, resultados
 from nucleo.salida import Problema, Respuesta
 from plantillas import definiciones
 
@@ -47,14 +47,20 @@ def _guardar_meta(ruta_json, datos):
 
 
 def _ultima_huella(ruta_empresa):
-    archivos = sorted(glob.glob(os.path.join(ruta_empresa, "resultados", "huella_*.json")))
-    for ruta in reversed(archivos):
-        try:
-            with open(ruta, encoding="utf-8") as archivo:
-                return json.load(archivo)
-        except (ValueError, OSError):
-            continue
-    return None
+    """La huella del periodo mas reciente, con un aviso si la guardo una version anterior del motor."""
+    ruta, _ = resultados.elegir(ruta_empresa, "huella")
+    if not ruta:
+        return None
+    try:
+        with open(ruta, encoding="utf-8") as archivo:
+            huella = json.load(archivo)
+    except (ValueError, OSError):
+        raise Problema("El archivo %s esta dañado." % os.path.basename(ruta),
+                       "Vuelve a calcular la huella con: huella calcular.")
+    if not resultados.es_vigente(huella, "huella"):
+        huella["_aviso"] = ("Las emisiones salen de una huella guardada por una version anterior del motor (%s): "
+                            "recalculala con huella calcular antes de fijar la meta." % os.path.basename(ruta))
+    return huella
 
 
 def _emisiones_de_la_huella(huella):
@@ -93,7 +99,7 @@ def trayectoria(opciones):
     resultado = motor_metas.trayectoria(base, anio_base, anio_meta, tasa)
     resultado["largo_plazo"] = motor_metas.meta_largo_plazo(base)
     resultado["emisiones_actuales"] = emisiones
-    return Respuesta(resultado, advertencias=[AVISO])
+    return Respuesta(resultado, advertencias=[a for a in ((huella or {}).get("_aviso"),) if a] + [AVISO])
 
 
 def definir(opciones):
@@ -168,7 +174,8 @@ def definir(opciones):
         {"mensaje": "Meta guardada: reducir de %s a %s tCO2e entre %s y %s."
                     % (datos["emisiones_base"], datos["emisiones_meta"], datos["anio_base"], datos["anio_meta"]),
          "meta": datos, "trayectoria": resultado["trayectoria"], "revision": validacion},
-        advertencias=[AVISO] + [r["detalle"] for r in validacion["pendientes"]])
+        advertencias=[a for a in ((huella or {}).get("_aviso"),) if a] + [AVISO]
+        + [r["detalle"] for r in validacion["pendientes"]])
 
 
 def validar(opciones):

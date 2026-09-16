@@ -6,7 +6,7 @@ import json
 import os
 
 from calculos import agua as motor_agua
-from nucleo import espacio, excel, informe
+from nucleo import espacio, excel, informe, resultados
 from nucleo.salida import Problema, Respuesta
 from plantillas import definiciones
 
@@ -104,6 +104,7 @@ def calcular(opciones):
     resumen["empresa"] = perfil.get("nombre")
     resumen["pais"] = perfil.get("pais", "")
     resumen["indicadores_gri303"] = motor_agua.indicadores_gri303(resumen)
+    resumen["version_calculo"] = resultados.VERSIONES["agua"]
 
     destino = espacio.ruta_de(ruta_empresa, "resultados", _nombre_resultado(periodo))
     with open(destino, "w", encoding="utf-8") as archivo:
@@ -690,13 +691,31 @@ def informe_html(opciones):
         )
     with open(origen, encoding="utf-8") as archivo:
         resumen = json.load(archivo)
+    avisos = []
+    if not resultados.es_vigente(resumen, "agua"):
+        try:
+            calcular(dict(opciones))
+        except Problema as problema:
+            raise Problema("El calculo de agua guardado es de una version anterior del motor y no se pudo "
+                           "recalcular: %s" % problema.mensaje,
+                           "%s No armo el informe con un resultado viejo." % (problema.sugerencia or ""))
+        with open(origen, encoding="utf-8") as archivo:
+            resumen = json.load(archivo)
+        avisos.append("El calculo de agua guardado era de una version anterior del motor: se recalculo antes de "
+                      "armar el informe.")
+    avisos.extend(a for a in resumen.get("advertencias") or [] if a)
 
+    bloques = _bloques_informe(resumen)
+    if avisos:
+        # Lo que el calculo advirtio (ejemplos dejados fuera, estres hidrico sin definir) va en el informe.
+        bloques.append({"tipo": "titulo", "texto": "Supuestos y avisos del calculo", "nivel": 2})
+        bloques.append({"tipo": "lista", "items": avisos})
     destino = espacio.ruta_de(ruta_empresa, "reportes",
                               "huella-hidrica-%s.html" % (periodo or "completa"))
     informe.escribir_html(
         destino,
         "Huella hidrica y gestion del agua %s" % (periodo or ""),
-        _bloques_informe(resumen),
+        bloques,
         marca=perfil.get("marca") or {},
         subtitulo="%s - %s" % (perfil.get("nombre", ""),
                                perfil.get("sector", "") or "Agua, efluentes y escasez hidrica"),
@@ -710,7 +729,7 @@ def informe_html(opciones):
         "extraccion_megalitros": resumen.get("extraccion_megalitros"),
         "consumo_megalitros": resumen.get("consumo_megalitros"),
         "generado_el": datetime.datetime.now().replace(microsecond=0).isoformat(sep=" "),
-    }, advertencias=[AVISO_APOYO], fuentes=[motor_agua.FUENTE_GRI303])
+    }, advertencias=avisos + [AVISO_APOYO], fuentes=[motor_agua.FUENTE_GRI303])
 
 
 ACCIONES = {"calcular": calcular, "escasez": escasez, "dga": dga, "informe": informe_html}

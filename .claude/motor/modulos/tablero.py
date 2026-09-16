@@ -7,7 +7,7 @@ import json
 import os
 
 from calculos import puntaje as motor_puntaje
-from nucleo import espacio, evidencias, informe
+from nucleo import espacio, evidencias, informe, resultados
 from nucleo.salida import Problema, Respuesta
 
 AYUDA = "Arma un tablero HTML con la huella, el diagnostico, las alertas y el estado de los datos."
@@ -24,8 +24,9 @@ def _leer_json(ruta):
 
 
 def _ultima_huella(ruta_empresa):
-    archivos = sorted(glob.glob(os.path.join(ruta_empresa, "resultados", "huella_*.json")))
-    return _leer_json(archivos[-1]) if archivos else None
+    """La huella del periodo mas reciente (antes, el orden alfabetico elegia el acumulado)."""
+    ruta, _ = resultados.elegir(ruta_empresa, "huella")
+    return _leer_json(ruta) if ruta else None
 
 
 def _estado_archivos(ruta_empresa):
@@ -107,7 +108,10 @@ def generar(opciones):
         {"etiqueta": "Puntaje ESG", "valor": diagnostico["puntaje_general"], "unidad": "/100",
          "detalle": "Nivel: %s" % palabra, "color": color},
         {"etiqueta": "Huella de carbono", "valor": (huella or {}).get("total_t_co2e", 0), "unidad": "tCO2e",
-         "detalle": ("Periodo: %s" % (huella or {}).get("periodo", "sin calcular")) if (huella or {}).get("completo", True)
+         "detalle": ("Periodo: %s%s" % ((huella or {}).get("periodo", "sin calcular"),
+                                        "" if not huella or resultados.es_vigente(huella, "huella")
+                                        else " (calculada con una version anterior: vuelve a calcular)"))
+                    if (huella or {}).get("completo", True)
                     else "INCOMPLETA: faltan %d fila(s)" % (huella or {}).get("registros_con_problema", 0),
          "color": None if (huella or {}).get("completo", True) else "rojo"},
         {"etiqueta": "Brechas por cerrar", "valor": len([b for b in diagnostico["brechas"]

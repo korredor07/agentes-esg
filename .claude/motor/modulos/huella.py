@@ -5,7 +5,7 @@ import json
 import os
 
 from calculos import carbono
-from nucleo import espacio, excel, informe
+from nucleo import espacio, excel, informe, resultados
 from nucleo.salida import Problema, Respuesta
 from plantillas import definiciones
 
@@ -59,7 +59,7 @@ def _preparar_filas(tabla, alcance_por_defecto=None):
 
 # Sube cuando cambia lo que guarda un calculo (por ejemplo, las notas de cada factor). Un informe armado
 # con un resultado de una version anterior podria omitir advertencias: se recalcula antes.
-VERSION_CALCULO = 2
+VERSION_CALCULO = resultados.VERSIONES["huella"]
 
 
 def _leer_planilla(ruta_empresa, nombre, alcance=None):

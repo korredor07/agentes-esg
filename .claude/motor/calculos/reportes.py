@@ -53,6 +53,13 @@ DATOS_CONOCIDOS = {
     "consumos.xlsx": "Planilla de consumos de energia (datos/consumos.xlsx)",
     "alcance3.xlsx": "Planilla de cadena de valor (datos/alcance3.xlsx)",
     "personas.xlsx": "Planilla de personas (datos/personas.xlsx)",
+    # Cada contenido de personas pide un indicador: tener la planilla no basta.
+    "personas.dotacion": "Numero de personas por genero (planilla de personas)",
+    "personas.rotacion": "Contrataciones y desvinculaciones del periodo (planilla de personas)",
+    "personas.seguridad": "Accidentes con tiempo perdido y dias perdidos (planilla de personas)",
+    "personas.remuneracion": "Remuneracion promedio de mujeres y hombres por categoria (planilla de personas)",
+    "personas.formacion": "Horas de capacitacion (planilla de personas)",
+    "personas.diversidad": "Composicion por genero y personas con discapacidad (planilla de personas)",
     "huella.total_t_co2e": "Huella total calculada (resultados/huella_*.json)",
     "huella.por_alcance.alcance_1": "Emisiones de alcance 1 calculadas",
     "huella.por_alcance.alcance_2": "Emisiones de alcance 2 calculadas",
@@ -278,6 +285,7 @@ def dato_sin_marca(dato):
 DATOS_INCOMPLETOS = {
     "huella.incompleta": ("huella.", "la huella de carbono tiene filas que no se pudieron calcular y el total "
                                      "real es mayor"),
+    "agua.incompleta": ("agua.", "el calculo de agua tiene filas que no se pudieron calcular"),
 }
 
 

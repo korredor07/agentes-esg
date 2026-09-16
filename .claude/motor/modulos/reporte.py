@@ -7,7 +7,7 @@ import os
 
 from calculos import reportes as catalogo
 from calculos import social
-from nucleo import espacio, excel, informe, word
+from nucleo import espacio, excel, informe, resultados, word
 from nucleo.salida import Problema, Respuesta
 from plantillas import definiciones
 
@@ -117,24 +117,29 @@ def _leer_json(ruta):
 
 
 def _elegir_huella(ruta_empresa, periodo=None):
-    """Devuelve la ruta del calculo de huella mas util, o None si todavia no hay."""
-    carpeta = espacio.ruta_de(ruta_empresa, "resultados")
-    candidatos = [os.path.join(carpeta, nombre) for nombre in sorted(os.listdir(carpeta))
-                  if nombre.startswith("huella_") and nombre.endswith(".json")]
-    if not candidatos:
-        return None
+    """Devuelve (ruta, aviso): solo la huella del periodo pedido; la de otro periodo pondria otras cifras."""
+    return resultados.elegir(ruta_empresa, "huella", periodo)
+
+
+def _periodo_del_reporte(opciones, perfil):
+    """Cobertura, indice y borrador usan el mismo periodo: el pedido o el de la ficha."""
+    return _texto(opciones, "periodo") or str(perfil.get("periodo_actual") or "")
+
+
+def _recalcular(ruta_empresa, modulo, periodo, **extra):
+    """Rehace un resultado guardado por una version anterior del motor."""
+    opciones = dict(extra, raiz=os.path.dirname(os.path.dirname(ruta_empresa)),
+                    empresa=os.path.basename(ruta_empresa))
     if periodo:
-        preferido = os.path.join(carpeta, "huella_%s.json" % periodo)
-        if preferido in candidatos:
-            return preferido
-    return max(candidatos, key=lambda ruta: os.path.getmtime(ruta))
+        opciones["periodo"] = periodo
+    modulo.calcular(opciones)
 
 
 def _datos_de_huella(ruta_empresa, periodo, claves, detalle, avisos):
-    ruta = _elegir_huella(ruta_empresa, periodo)
+    ruta, aviso = _elegir_huella(ruta_empresa, periodo)
     if not ruta:
-        avisos.append("Todavia no hay una huella de carbono calculada: por eso quedan pendientes los contenidos "
-                      "de emisiones. Se resuelve con: huella calcular.")
+        avisos.append(aviso or "Todavia no hay una huella de carbono calculada: por eso quedan pendientes los "
+                               "contenidos de emisiones. Se resuelve con: huella calcular.")
         return None
     try:
         resumen = _leer_json(ruta)
@@ -142,6 +147,18 @@ def _datos_de_huella(ruta_empresa, periodo, claves, detalle, avisos):
         avisos.append("El archivo %s esta dañado y no lo pude leer. Vuelve a ejecutar: huella calcular."
                       % os.path.basename(ruta))
         return None
+    if not resultados.es_vigente(resumen, "huella"):
+        from modulos import huella as modulo_huella
+        try:
+            _recalcular(ruta_empresa, modulo_huella, resultados.periodo_del_nombre(ruta, "huella"),
+                        pcg=resumen.get("set_pcg"))
+            resumen = _leer_json(ruta)
+            avisos.append("La huella guardada era de una version anterior del motor: se recalculo con los datos "
+                          "actuales antes de usarla.")
+        except Problema as problema:
+            avisos.append("La huella guardada es de una version anterior del motor y no se pudo recalcular (%s): "
+                          "los contenidos de emisiones quedan pendientes." % problema.mensaje)
+            return None
 
     periodo_huella = resumen.get("periodo") or "el periodo calculado"
     por_alcance = resumen.get("por_alcance") or {}
@@ -222,6 +239,7 @@ def _resumen_personas(ruta_archivo, periodo=None):
         por_genero[genero] = por_genero.get(genero, 0) + cantidad
     resumen = {
         "aviso_ejemplos": aviso,
+        "periodos_distintos": sorted({str(f.get("periodo") or "") for f in filas} - {""}),
         "de_otros_periodos": de_otros_periodos,
         "filas": len(filas),
         "personas": _suma(filas, "numero_de_personas"),
@@ -394,6 +412,12 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
                 avisos.append("%s no tiene filas del periodo %s (tiene %s de otros periodos): lo que depende de "
                               "esa planilla queda pendiente." % (nombre, periodo, informe.formatear_numero(fuera)))
             continue
+        periodos = sorted({str(f.get("periodo") or "")[:4] for f in filas} - {""})
+        if por_periodo and not periodo and len(periodos) > 1:
+            # Sin periodo no se suman años distintos: el reporte diria una cifra que no existio.
+            avisos.append("%s tiene datos de varios años (%s) y no se indico el periodo del reporte: usa --periodo."
+                          % (nombre, ", ".join(periodos)))
+            continue
         claves.add(nombre)
         texto = plantilla % _plural(len(filas), singular, plural)
         if nombre == "consumos.xlsx":
@@ -423,6 +447,11 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
             return
         if resumen["aviso_ejemplos"]:
             avisos.append(resumen["aviso_ejemplos"])
+        if not periodo and len({p[:4] for p in resumen["periodos_distintos"]}) > 1:
+            avisos.append("La planilla de personas tiene datos de varios años (%s) y no se indico el periodo del "
+                          "reporte: los contenidos de personas quedan pendientes. Usa --periodo."
+                          % ", ".join(resumen["periodos_distintos"]))
+            return
         if not resumen["filas"]:
             if resumen["de_otros_periodos"]:
                 avisos.append("La planilla de personas no tiene filas del periodo %s (tiene %s de otros "
@@ -431,7 +460,21 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
             return
         if resumen.get("aviso_indicadores"):
             avisos.append("No pude calcular los indicadores de personas: %s" % resumen["aviso_indicadores"])
+        for aviso in (resumen.get("indicadores") or {}).get("advertencias") or []:
+            avisos.append("Personas: %s" % aviso)
         claves.add("personas.xlsx")
+        indicadores = resumen.get("indicadores") or {}
+        # Solo los indicadores que de verdad se pueden calcular con lo que hay en la planilla.
+        existentes = {
+            "personas.dotacion": bool(resumen["personas"]),
+            "personas.rotacion": bool(resumen["contrataciones"] or resumen["desvinculaciones"]),
+            "personas.seguridad": bool(resumen["accidentes"] or resumen["dias_perdidos"]),
+            "personas.remuneracion": bool(indicadores.get("brecha_salarial_por_categoria")),
+            "personas.formacion": bool(resumen["horas_capacitacion"]),
+            "personas.diversidad": bool(resumen["personas_con_discapacidad"]
+                                        or indicadores.get("mujeres_pct") is not None),
+        }
+        claves.update(clave for clave, hay in existentes.items() if hay)
         vinetas = _vinetas_de_personas(resumen)
         detalle.update(vinetas)
         detalle["personas.xlsx"] = vinetas.get("personas.dotacion") or (
@@ -441,19 +484,35 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
 
 def _datos_de_agua(ruta_empresa, periodo, claves, detalle, avisos):
     """Indicadores de agua ya calculados por el modulo agua (GRI 303, VSME B6)."""
-    carpeta = espacio.ruta_de(ruta_empresa, "resultados")
-    candidatos = sorted(n for n in os.listdir(carpeta) if n.startswith("agua_") and n.endswith(".json"))
-    if not candidatos:
+    ruta, aviso = resultados.elegir(ruta_empresa, "agua", periodo)
+    if not ruta:
+        if aviso:
+            avisos.append(aviso)
         return
-    elegido = next((n for n in candidatos if periodo and str(periodo) in n), candidatos[-1])
+    elegido = os.path.basename(ruta)
     try:
-        datos = _leer_json(os.path.join(carpeta, elegido))
+        datos = _leer_json(ruta)
     except ValueError:
         avisos.append("El archivo %s esta dañado y no lo pude leer. Vuelve a ejecutar: agua calcular." % elegido)
         return
+    if not resultados.es_vigente(datos, "agua"):
+        from modulos import agua as modulo_agua
+        try:
+            _recalcular(ruta_empresa, modulo_agua, resultados.periodo_del_nombre(ruta, "agua"))
+            datos = _leer_json(ruta)
+            avisos.append("Los indicadores de agua guardados eran de una version anterior del motor: se recalcularon "
+                          "antes de usarlos.")
+        except Problema as problema:
+            avisos.append("Los indicadores de agua guardados son de una version anterior del motor y no se pudieron "
+                          "recalcular (%s): los contenidos de agua quedan pendientes." % problema.mensaje)
+            return
     if datos.get("extraccion_m3") is None:
         return
     claves.add("agua.indicadores")
+    if datos.get("registros_con_problema"):
+        claves.add("agua.incompleta")
+        avisos.append("El calculo de agua tiene %d fila(s) que no se pudieron calcular: los contenidos de agua "
+                      "quedan parciales hasta corregirlas." % datos["registros_con_problema"])
     estres = ((datos.get("zonas_estres_hidrico") or {}).get("porcentaje") or {}).get("extraccion") or {}
     texto = "Agua (%s): extraccion %s m3, descarga %s m3 y consumo %s m3." % (
         datos.get("periodo") or "periodo calculado", informe.formatear_numero(datos.get("extraccion_m3")),
@@ -461,10 +520,9 @@ def _datos_de_agua(ruta_empresa, periodo, claves, detalle, avisos):
     if estres.get("si") is not None:
         texto = texto[:-1] + ("; el %s %% de la extraccion ocurre en zonas con estres hidrico."
                               % informe.formatear_numero(estres.get("si")))
+    if datos.get("registros_con_problema"):
+        texto = texto[:-1] + " INCOMPLETO: hay filas que no se pudieron calcular."
     detalle["agua.indicadores"] = texto
-    if periodo and str(periodo) not in str(datos.get("periodo") or ""):
-        avisos.append("Los indicadores de agua son de «%s», no solo del periodo %s: revisalos antes de "
-                      "reportarlos." % (datos.get("periodo"), periodo))
 
 
 def _revisar_dotacion(perfil, detalle, avisos):
@@ -583,7 +641,7 @@ def cobertura(opciones):
     """Revisa que contenidos del marco puede reportar la empresa hoy y cuales faltan."""
     perfil, ruta_empresa = _contexto(opciones)
     marco = _marco_pedido(opciones, perfil)
-    periodo = _texto(opciones, "periodo")
+    periodo = _periodo_del_reporte(opciones, perfil)
     claves, detalle, avisos, huella = datos_disponibles(perfil, ruta_empresa, periodo)
     resultado = catalogo.evaluar_cobertura(marco, claves)
 
@@ -742,7 +800,7 @@ def borrador(opciones):
     """Genera en Word un borrador del reporte con las secciones del marco elegido."""
     perfil, ruta_empresa = _contexto(opciones)
     marco = _marco_pedido(opciones, perfil)
-    periodo = _texto(opciones, "periodo") or str(perfil.get("periodo_actual") or "")
+    periodo = _periodo_del_reporte(opciones, perfil)
     claves, detalle, avisos, huella = datos_disponibles(perfil, ruta_empresa, periodo)
     resultado = catalogo.evaluar_cobertura(marco, claves)
     fichas = _seleccionar(resultado, opciones)
@@ -828,7 +886,7 @@ def indice(opciones):
     """Genera en HTML el indice de contenidos del marco, con el estado de cada contenido."""
     perfil, ruta_empresa = _contexto(opciones)
     marco = _marco_pedido(opciones, perfil)
-    periodo = _texto(opciones, "periodo")
+    periodo = _periodo_del_reporte(opciones, perfil)
     claves, detalle, avisos, _huella = datos_disponibles(perfil, ruta_empresa, periodo)
     resultado = catalogo.evaluar_cobertura(marco, claves)
     fichas = _seleccionar(resultado, opciones)

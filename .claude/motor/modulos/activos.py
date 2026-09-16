@@ -483,6 +483,9 @@ def _bloques(resultado):
             "%s: %s" % (problema["activo"], problema["motivo"])
             for problema in resultado["activos_con_problema"]]})
 
+    if resultado.get("advertencias"):
+        bloques.append({"tipo": "titulo", "texto": "Tener en cuenta", "nivel": 2})
+        bloques.append({"tipo": "lista", "items": list(resultado["advertencias"])})
     bloques.append({"tipo": "nota", "estilo": "aviso", "texto": AVISO_LEGAL})
     return bloques
 

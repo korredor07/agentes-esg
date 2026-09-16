@@ -1014,6 +1014,10 @@ def vida_util_del_activo(activo, advertencias, ruta=None):
     if not descripcion:
         return None, None, ("No me dijiste que bien es ni cuantos anios dura, asi que no puedo depreciarlo.")
     busqueda = buscar_vida_util(descripcion, activo.get("actividad"), ruta=ruta)
+    # Por ejemplo, que las nominas de mineria o construccion no estan cargadas: tambien vale desde la planilla.
+    for aviso in busqueda.get("advertencias") or []:
+        if aviso not in advertencias:
+            advertencias.append(aviso)
     if not busqueda["encontrado"]:
         return None, None, busqueda["mensaje"]
     elegido = busqueda["eleccion_unica"]

@@ -5,7 +5,7 @@ import json
 import os
 
 from calculos import social as motor_social
-from nucleo import espacio, excel, informe
+from nucleo import espacio, excel, informe, resultados
 from nucleo.salida import Problema, Respuesta
 from plantillas import definiciones
 
@@ -42,6 +42,7 @@ def calcular(opciones):
         indicadores["advertencias"] = [aviso] + list(indicadores.get("advertencias", []))
     indicadores["empresa"] = perfil.get("nombre")
     indicadores["inclusion"] = motor_social.revisar_inclusion(indicadores, perfil.get("pais"))
+    indicadores["version_calculo"] = resultados.VERSIONES["social"]
 
     destino = espacio.ruta_de(ruta, "resultados", "social_%s.json" % (periodo or "completo"))
     with open(destino, "w", encoding="utf-8") as archivo_salida:
@@ -126,10 +127,14 @@ def informe_html(opciones):
     perfil, ruta = _contexto(opciones)
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
     origen = espacio.ruta_de(ruta, "resultados", "social_%s.json" % (periodo or "completo"))
+    indicadores = None
     if os.path.isfile(origen):
         with open(origen, encoding="utf-8") as archivo:
             indicadores = json.load(archivo)
-    else:
+        if not resultados.es_vigente(indicadores, "social"):
+            # Guardado por una version anterior: se rehace desde la planilla.
+            indicadores = None
+    if indicadores is None:
         filas, _, aviso = _leer_personas(ruta)
         indicadores = motor_social.calcular(filas, periodo)
         if aviso:
