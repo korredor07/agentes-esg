@@ -202,9 +202,16 @@ class PruebaNombresDescubribles(unittest.TestCase):
 
     def test_busca_por_lo_que_se_compra(self):
         from modulos import huella
-        resultado = huella.factores({"recurso": "harina"})
+        resultado = huella.factores({"recurso": "trigo"})
         self.assertEqual(resultado["coincidencia"], "por descripcion")
         self.assertEqual([f["recurso"] for f in resultado["factores"]], ["gasto agricultura"])
+
+    def test_la_harina_no_tiene_factor_y_no_se_fuerza_uno(self):
+        # Segunda ronda E2E: el factor de agricultura es del cultivo de maiz (NAICS 111150);
+        # la harina es trigo molido (NAICS 311211) y no esta en el catalogo.
+        from modulos import huella
+        resultado = huella.factores({"recurso": "harina"})
+        self.assertEqual(resultado["total"], 0)
 
     def test_filtra_por_uso(self):
         from modulos import huella
@@ -232,7 +239,7 @@ class PruebaNombresDescubribles(unittest.TestCase):
 
     def test_el_error_ofrece_nombres_parecidos(self):
         with self.assertRaises(Problema) as contexto:
-            carbono.buscar_factor(self.factores, "sacos de harina", unidad="USD", pais="CL")
+            carbono.buscar_factor(self.factores, "sacos de trigo", unidad="USD", pais="CL")
         self.assertIn("gasto agricultura", contexto.exception.sugerencia)
         self.assertIn("gasto agricultura",
                       [o["recurso"] for o in contexto.exception.detalle["nombres_parecidos"]])
@@ -243,8 +250,13 @@ class PruebaNombresDescubribles(unittest.TestCase):
 
     def test_la_materia_prima_y_el_producto_no_se_confunden(self):
         notas = {f["recurso"]: f["notas"] for f in self.factores}
-        self.assertIn("harina", notas["gasto_agricultura"])
-        self.assertIn("gasto agricultura", notas["gasto_alimentos"])
+        self.assertIn("111150", notas["gasto_agricultura"])
+        self.assertIn("No cubre", notas["gasto_agricultura"])
+        self.assertIn("molidos", notas["gasto_agricultura"])
+        self.assertIn("panaderia", notas["gasto_alimentos"])
+        # Nombrar la harina en la descripcion, aunque sea para excluirla, la haria aparecer en la busqueda.
+        self.assertNotIn("harina", notas["gasto_agricultura"])
+        self.assertNotIn("harina", notas["gasto_alimentos"])
 
 
 class PruebaBorradorSinRepetir(PruebaConCarpeta):

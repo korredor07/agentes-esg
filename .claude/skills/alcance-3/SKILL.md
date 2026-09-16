@@ -82,8 +82,8 @@ actividad». Todos van en **USD** y son alcance 3.
 
 | Lo que compra la empresa | Nombre que se escribe | kg CO2e por USD |
 |---|---|---|
-| Harina, trigo, maíz, arroz, azúcar, papas, frutas y verduras frescas, semillas | `gasto agricultura` | 0,848 |
-| Pan, galletas, pastas, conservas, snacks, comida ya preparada | `gasto alimentos` | 0,253 |
+| Maíz, trigo, arroz u oleaginosas **en grano**, sin procesar | `gasto agricultura` | 0,848 |
+| Pan, pasteles o galletas comprados ya hechos | `gasto alimentos` | 0,253 |
 | Carne de vacuno | `gasto carne bovina` | 2,893 |
 | Leche, queso, mantequilla, crema, yogurt | `gasto lacteos` | 1,724 |
 | Bebidas, jugos, aguas envasadas | `gasto bebidas` | 0,214 |
@@ -121,20 +121,34 @@ actividad». Todos van en **USD** y son alcance 3.
 | Cuenta del agua sin metros cúbicos | `gasto agua` | 0,578 |
 | Combustible del que solo se tiene el monto | `gasto combustibles` | 0,270 |
 
-**Ojo con estos dos**, que se confunden todo el tiempo y cambian el resultado
-más de tres veces: `gasto agricultura` es la **materia prima** (la harina que
-compra una panadería) y `gasto alimentos` es el **producto ya elaborado** (el
-pan que vende). Si la persona duda, pregúntale si lo que compra viene del campo
-o ya viene procesado.
+**Lo que no está en la tabla no tiene factor.** Tres casos que aparecen seguido:
+
+- **Harina.** Es trigo molido (código NAICS 311211, molienda de harina) y ese
+  factor **no está en el catálogo**. No uses `gasto alimentos`: es el de las
+  panaderías. Tampoco `gasto agricultura` como si fuera exacto: es el del grano,
+  no el del molido.
+- **Azúcar, frutas y verduras.** Tampoco tienen factor propio en el catálogo.
+- **Cualquier compra que no calce con una fila de la tabla.**
+
+Para esos casos, en este orden:
+
+1. **Pedirle el dato al proveedor** (su huella por kilo): es lo mejor y no
+   depende de un promedio de otro país. Usa la skill `proveedores`.
+2. **Buscar el factor oficial** con el `agente-investigador` y agregarlo al
+   catálogo con su fuente y su año.
+3. Solo si la persona lo acepta, usar el factor más cercano como
+   **aproximación declarada** (por ejemplo, `gasto agricultura` para la harina)
+   y dejarlo escrito como supuesto en la columna de notas y en el informe.
 
 ### Cómo averiguar el nombre
 
 ```bash
-python .claude/motor/esg.py huella factores --recurso harina
+python .claude/motor/esg.py huella factores --recurso trigo
 ```
 
 Busca primero por nombre y, si no encuentra, por la descripción del factor: con
-`harina` devuelve `gasto agricultura`. También sirve `--uso gasto` para ver los
+`trigo` devuelve `gasto agricultura`. **Si no devuelve nada (por ejemplo, con
+`harina`), es que no hay factor**: no fuerces el más parecido sin decirlo. También sirve `--uso gasto` para ver los
 38 nombres completos, `--alcance 3` y `--pais CL`. Cada resultado trae la fuente,
 el año, la unidad y qué cubre.
 

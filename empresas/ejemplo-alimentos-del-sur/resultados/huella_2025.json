@@ -193,7 +193,9 @@
       "estimado": 71.52909043618763,
       "reportado": 28.470909563812363,
       "verificado": 0.0
-    }
+    },
+    "estimado_por_gasto_kg": 587797.0,
+    "estimado_por_gasto_pct": 37.533824172499095
   },
   "set_pcg": "AR5",
   "detalle": [
@@ -216,7 +218,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 15038.07744,
       "calidad_dato": "reportado",
@@ -241,7 +245,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 753.48288,
       "calidad_dato": "reportado",
@@ -266,7 +272,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 6656.035547259161,
       "calidad_dato": "reportado",
@@ -291,7 +299,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8401.331600252568,
       "calidad_dato": "reportado",
@@ -316,7 +326,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 612.9270316545056,
       "calidad_dato": "estimado",
@@ -341,7 +353,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 14530.08096,
       "calidad_dato": "reportado",
@@ -366,7 +380,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 850.69056,
       "calidad_dato": "reportado",
@@ -391,7 +407,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 6237.997425612379,
       "calidad_dato": "reportado",
@@ -416,7 +434,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 7601.204781180894,
       "calidad_dato": "reportado",
@@ -441,7 +461,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 726.8041850766542,
       "calidad_dato": "estimado",
@@ -466,7 +488,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 14500.967999999999,
       "calidad_dato": "reportado",
@@ -491,7 +515,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 843.53568,
       "calidad_dato": "reportado",
@@ -516,7 +542,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 6403.583954316623,
       "calidad_dato": "reportado",
@@ -541,7 +569,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 6680.510907180613,
       "calidad_dato": "reportado",
@@ -566,7 +596,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 621.3003517590754,
       "calidad_dato": "estimado",
@@ -591,7 +623,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9634.90944,
       "calidad_dato": "reportado",
@@ -616,7 +650,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 821.08416,
       "calidad_dato": "reportado",
@@ -641,7 +677,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 3759.628561563596,
       "calidad_dato": "reportado",
@@ -666,7 +704,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 7250.464257752215,
       "calidad_dato": "reportado",
@@ -691,7 +731,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 621.3003517590754,
       "calidad_dato": "estimado",
@@ -716,7 +758,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9872.25408,
       "calidad_dato": "reportado",
@@ -741,7 +785,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 822.56448,
       "calidad_dato": "reportado",
@@ -766,7 +812,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 3746.055895276363,
       "calidad_dato": "reportado",
@@ -791,7 +839,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8162.937650734638,
       "calidad_dato": "reportado",
@@ -816,7 +866,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 627.9990078427312,
       "calidad_dato": "estimado",
@@ -841,7 +893,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9209.56416,
       "calidad_dato": "reportado",
@@ -866,7 +920,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 862.5331199999999,
       "calidad_dato": "reportado",
@@ -891,7 +947,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 3748.7704285338095,
       "calidad_dato": "reportado",
@@ -916,7 +974,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8193.079414466789,
       "calidad_dato": "reportado",
@@ -941,7 +1001,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 726.8041850766542,
       "calidad_dato": "estimado",
@@ -966,7 +1028,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9560.15328,
       "calidad_dato": "reportado",
@@ -991,7 +1055,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 727.824,
       "calidad_dato": "reportado",
@@ -1016,7 +1082,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 3971.362155644434,
       "calidad_dato": "reportado",
@@ -1041,7 +1109,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 6705.172350234192,
       "calidad_dato": "reportado",
@@ -1066,7 +1136,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 721.7801930139124,
       "calidad_dato": "estimado",
@@ -1091,7 +1163,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9027.4848,
       "calidad_dato": "reportado",
@@ -1116,7 +1190,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 788.51712,
       "calidad_dato": "reportado",
@@ -1141,7 +1217,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 4245.530014646545,
       "calidad_dato": "reportado",
@@ -1166,7 +1244,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 6979.188384162847,
       "calidad_dato": "reportado",
@@ -1191,7 +1271,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 718.4308649720845,
       "calidad_dato": "estimado",
@@ -1216,7 +1298,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 8996.398079999999,
       "calidad_dato": "reportado",
@@ -1241,7 +1325,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 859.5724799999999,
       "calidad_dato": "reportado",
@@ -1266,7 +1352,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 4090.801618972086,
       "calidad_dato": "reportado",
@@ -1291,7 +1379,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8146.496688698918,
       "calidad_dato": "reportado",
@@ -1316,7 +1406,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 777.0441057040728,
       "calidad_dato": "estimado",
@@ -1341,7 +1433,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9123.7056,
       "calidad_dato": "reportado",
@@ -1366,7 +1460,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 741.3936,
       "calidad_dato": "reportado",
@@ -1391,7 +1487,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 4470.836275014616,
       "calidad_dato": "reportado",
@@ -1416,7 +1514,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8176.638452431071,
       "calidad_dato": "reportado",
@@ -1441,7 +1541,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 738.5268332230519,
       "calidad_dato": "estimado",
@@ -1466,7 +1568,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 9138.26208,
       "calidad_dato": "reportado",
@@ -1491,7 +1595,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 809.4883199999999,
       "calidad_dato": "reportado",
@@ -1516,7 +1622,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 3797.632027167849,
       "calidad_dato": "reportado",
@@ -1541,7 +1649,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8110.874604288193,
       "calidad_dato": "reportado",
@@ -1566,7 +1676,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 755.2734734321914,
       "calidad_dato": "estimado",
@@ -1591,7 +1703,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 14510.59008,
       "calidad_dato": "reportado",
@@ -1616,7 +1730,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - Ministerio de Energia",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "electricidad",
+        "calidad": "media"
       },
       "kg_co2e": 857.8454399999999,
       "calidad_dato": "reportado",
@@ -1641,7 +1757,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 6189.135826978339,
       "calidad_dato": "reportado",
@@ -1666,7 +1784,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "movil",
+        "calidad": "alta"
       },
       "kg_co2e": 8310.90630905611,
       "calidad_dato": "reportado",
@@ -1691,7 +1811,9 @@
         "pais": "CL",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "estacionaria",
+        "calidad": "alta"
       },
       "kg_co2e": 646.4203120727847,
       "calidad_dato": "estimado",
@@ -1713,10 +1835,12 @@
         "id": "cl-r404a",
         "valor": 3942.8,
         "unidad": "kg",
-        "pais": "CL",
+        "pais": "*",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - IPCC AR5 Tabla 8.A.1",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "fugitiva",
+        "calidad": "alta"
       },
       "kg_co2e": 25628.2,
       "calidad_dato": "estimado",
@@ -1738,10 +1862,12 @@
         "id": "cl-r410a",
         "valor": 1923.5,
         "unidad": "kg",
-        "pais": "CL",
+        "pais": "*",
         "anio": 2025,
         "fuente": "HuellaChile (MMA) - IPCC AR5 Tabla 8.A.1",
-        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx",
+        "uso": "fugitiva",
+        "calidad": "alta"
       },
       "kg_co2e": 3847.0,
       "calidad_dato": "estimado",
@@ -1766,12 +1892,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "carga",
+        "calidad": "media"
       },
       "kg_co2e": 112909.20000000001,
       "calidad_dato": "estimado",
       "advertencias": [
-        "No tengo factor propio de CL para camion: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para camion: use una referencia internacional."
       ]
     },
     {
@@ -1793,12 +1921,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "carga",
+        "calidad": "media"
       },
       "kg_co2e": 158683.2,
       "calidad_dato": "estimado",
       "advertencias": [
-        "No tengo factor propio de CL para camion: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para camion: use una referencia internacional."
       ]
     },
     {
@@ -1820,12 +1950,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "carga",
+        "calidad": "media"
       },
       "kg_co2e": 228620.28,
       "calidad_dato": "estimado",
       "advertencias": [
-        "No tengo factor propio de CL para barco contenedor: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para barco contenedor: use una referencia internacional."
       ]
     },
     {
@@ -1847,12 +1979,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "carga",
+        "calidad": "media"
       },
       "kg_co2e": 52334.94,
       "calidad_dato": "estimado",
       "advertencias": [
-        "No tengo factor propio de CL para camion: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para camion: use una referencia internacional."
       ]
     },
     {
@@ -1874,12 +2008,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Business travel air",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "pasajeros",
+        "calidad": "media"
       },
       "kg_co2e": 5383.84,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para vuelo: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para vuelo: use una referencia internacional."
       ]
     },
     {
@@ -1901,7 +2037,9 @@
         "pais": "CL",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Hotel stay",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "alojamiento",
+        "calidad": "media"
       },
       "kg_co2e": 1711.2,
       "calidad_dato": "reportado",
@@ -1926,12 +2064,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Waste disposal",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "residuos",
+        "calidad": "media"
       },
       "kg_co2e": 75484.13335,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para residuo mixto relleno: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para residuo mixto relleno: use una referencia internacional."
       ]
     },
     {
@@ -1953,12 +2093,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Waste disposal",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "residuos",
+        "calidad": "media"
       },
       "kg_co2e": 2882.1983999999998,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para organico compostaje: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para organico compostaje: use una referencia internacional."
       ]
     },
     {
@@ -1980,12 +2122,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Water supply",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "agua",
+        "calidad": "media"
       },
       "kg_co2e": 5452.05,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para agua potable: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para agua potable: use una referencia internacional."
       ]
     },
     {
@@ -2007,12 +2151,14 @@
         "pais": "*",
         "anio": 2026,
         "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Water treatment",
-        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting",
+        "uso": "agua",
+        "calidad": "media"
       },
       "kg_co2e": 4101.12,
       "calidad_dato": "estimado",
       "advertencias": [
-        "No tengo factor propio de CL para agua residual: use un factor internacional de referencia."
+        "No tengo un factor propio de Chile para agua residual: use una referencia internacional."
       ]
     },
     {
@@ -2034,12 +2180,14 @@
         "pais": "*",
         "anio": 2022,
         "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 322211)",
-        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors",
+        "uso": "gasto",
+        "calidad": "baja"
       },
       "kg_co2e": 37362.0,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para gasto envases carton: use un factor internacional de referencia.",
+        "No tengo un factor propio de Chile para gasto envases carton: use una referencia internacional.",
         "Para gasto envases carton use el factor de 2022, que es el mas cercano que tengo a 2025."
       ]
     },
@@ -2062,12 +2210,14 @@
         "pais": "*",
         "anio": 2022,
         "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 326160)",
-        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors",
+        "uso": "gasto",
+        "calidad": "baja"
       },
       "kg_co2e": 23739.0,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para gasto envases plastico: use un factor internacional de referencia.",
+        "No tengo un factor propio de Chile para gasto envases plastico: use una referencia internacional.",
         "Para gasto envases plastico use el factor de 2022, que es el mas cercano que tengo a 2025."
       ]
     },
@@ -2090,12 +2240,14 @@
         "pais": "*",
         "anio": 2022,
         "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 541611)",
-        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors",
+        "uso": "gasto",
+        "calidad": "baja"
       },
       "kg_co2e": 936.0,
       "calidad_dato": "reportado",
       "advertencias": [
-        "No tengo factor propio de CL para gasto consultoria: use un factor internacional de referencia.",
+        "No tengo un factor propio de Chile para gasto consultoria: use una referencia internacional.",
         "Para gasto consultoria use el factor de 2022, que es el mas cercano que tengo a 2025."
       ]
     },
@@ -2118,29 +2270,31 @@
         "pais": "*",
         "anio": 2022,
         "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 111150)",
-        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors",
+        "uso": "gasto",
+        "calidad": "baja"
       },
       "kg_co2e": 525760.0,
       "calidad_dato": "estimado",
       "advertencias": [
-        "No tengo factor propio de CL para gasto agricultura: use un factor internacional de referencia.",
+        "No tengo un factor propio de Chile para gasto agricultura: use una referencia internacional.",
         "Para gasto agricultura use el factor de 2022, que es el mas cercano que tengo a 2025."
       ]
     }
   ],
   "problemas": [],
   "advertencias": [
-    "No tengo factor propio de CL para agua potable: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para agua residual: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para barco contenedor: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para camion: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para gasto agricultura: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para gasto consultoria: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para gasto envases carton: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para gasto envases plastico: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para organico compostaje: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para residuo mixto relleno: use un factor internacional de referencia.",
-    "No tengo factor propio de CL para vuelo: use un factor internacional de referencia.",
+    "No tengo un factor propio de Chile para agua potable: use una referencia internacional.",
+    "No tengo un factor propio de Chile para agua residual: use una referencia internacional.",
+    "No tengo un factor propio de Chile para barco contenedor: use una referencia internacional.",
+    "No tengo un factor propio de Chile para camion: use una referencia internacional.",
+    "No tengo un factor propio de Chile para gasto agricultura: use una referencia internacional.",
+    "No tengo un factor propio de Chile para gasto consultoria: use una referencia internacional.",
+    "No tengo un factor propio de Chile para gasto envases carton: use una referencia internacional.",
+    "No tengo un factor propio de Chile para gasto envases plastico: use una referencia internacional.",
+    "No tengo un factor propio de Chile para organico compostaje: use una referencia internacional.",
+    "No tengo un factor propio de Chile para residuo mixto relleno: use una referencia internacional.",
+    "No tengo un factor propio de Chile para vuelo: use una referencia internacional.",
     "Para gasto agricultura use el factor de 2022, que es el mas cercano que tengo a 2025.",
     "Para gasto consultoria use el factor de 2022, que es el mas cercano que tengo a 2025.",
     "Para gasto envases carton use el factor de 2022, que es el mas cercano que tengo a 2025.",
@@ -2162,7 +2316,7 @@
     "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 326160) (2022)",
     "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 541611) (2022)"
   ],
-  "calculado_el": "2026-09-16 06:52:53",
+  "calculado_el": "2026-09-16 11:52:42",
   "empresa": "Alimentos del Sur SpA",
   "periodo": "2025",
   "archivos": [

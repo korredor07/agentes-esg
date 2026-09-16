@@ -88,7 +88,7 @@ con conversaciones simuladas (ver [prueba-e2e.md](prueba-e2e.md)).
 | Dile algo como… | Lo que obtienes |
 |---|---|
 | «Un cliente me pide la huella de carbono del 2025» | Te pide las boletas, llena las planillas por ti, calcula y te entrega el informe |
-| «Tengo las boletas: luz enero 4.200 kWh, febrero…» | Las carga y calcula. *En la prueba, una panadería de Arequipa: 107,6 toneladas de CO2 al año, el 85 % por la harina* |
+| «Tengo las boletas: luz enero 4.200 kWh, febrero…» | Las carga y calcula. *En la prueba, una panadería de Arequipa: casi toda la huella venía de la harina, que no tiene un factor exacto en el catálogo; el asistente lo dice y ofrece pedirle el dato al molino* |
 | «¿Cuánto emite mandar 12 toneladas de fruta a Rotterdam?» | Emisiones tramo por tramo. *En la prueba: 3.508 kg; el camión es el 3 % de los km pero el 19 % de las emisiones* |
 | «¿Cuánta agua usamos y en zonas de estrés?» | Indicadores de agua para reportes |
 | «Queremos bajar 42 % al 2030, ¿es creíble?» | Trayectoria año a año y qué falta para cumplirla |
