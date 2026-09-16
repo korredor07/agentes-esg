@@ -80,12 +80,13 @@ def _estado(inicio, fin, hoy):
         return "cerrado este año", (fin - hoy).days
     dias = (fin - hoy).days
     if inicio and hoy < inicio:
-        return ("por abrir" if dias > DIAS_AVISO else "se acerca"), dias
+        # la ventana todavia no abre
+        return ("se acerca" if dias <= DIAS_AVISO else "por abrir"), dias
     if dias <= 7:
         return "urgente", dias
-    if dias <= DIAS_AVISO:
-        return "se acerca", dias
-    return "abierto" if inicio and inicio <= hoy else "programado", dias
+    if inicio and inicio <= hoy <= fin:
+        return "abierto", dias
+    return ("se acerca" if dias <= DIAS_AVISO else "programado"), dias
 
 
 def proximas(opciones):

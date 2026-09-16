@@ -410,10 +410,6 @@ def normalizar_producto(texto, donde=""):
     )
 
 
-def _tabla_de(clave_producto):
-    return PRODUCTOS[clave_producto]["tabla"]
-
-
 def normalizar_categoria(clave_producto, texto, donde=""):
     """Traduce la categoria escrita por la persona a la del decreto."""
     info = PRODUCTOS[clave_producto]
@@ -953,8 +949,8 @@ def calcular_cumplimiento(declaraciones, anio, producto, categoria=None, materia
 
     Devuelve, por cada combinacion con meta, las toneladas puestas en el
     mercado, la meta aplicable, las toneladas exigidas, las gestionadas, la
-    brecha y el estado. Cuando no hay meta verificada lo dice en el estado en
-    vez de calcular un cumplimiento inventado.
+    brecha y el estado (uno de ESTADOS). Cuando no hay meta verificada lo dice
+    en el estado en vez de calcular un cumplimiento inventado.
     """
     clave = normalizar_producto(producto)
     info = PRODUCTOS[clave]

@@ -659,11 +659,10 @@ def _bloques_informe(resultado, perfil):
 def informe_html(opciones):
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
-    resultado = guardado.get("ultima_revision")
-    if not resultado:
-        resultado = _evaluar(perfil, guardado.get("respuestas"))
-        guardado["ultima_revision"] = resultado
-        _guardar(ruta_json, guardado)
+    # Se recalcula siempre: asi el informe nunca queda atras de la ultima respuesta guardada.
+    resultado = _evaluar(perfil, guardado.get("respuestas"))
+    guardado["ultima_revision"] = resultado
+    _guardar(ruta_json, guardado)
     destino = espacio.ruta_de(ruta, "reportes", "gobernanza-modelo-prevencion.html")
     informe.escribir_html(
         destino, "Gobernanza y modelo de prevencion de delitos", _bloques_informe(resultado, perfil),
