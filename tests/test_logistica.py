@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Pruebas del calculo de emisiones de transporte segun ISO 14083."""
 
+import os
 import unittest
 
 from ayuda_pruebas import PruebaConCarpeta  # noqa: E402
@@ -244,8 +245,22 @@ class PruebaModulo(PruebaConCarpeta):
         espacio.crear_empresa({"nombre": "Exportadora Prueba", "pais": "CL"}, raiz=self.carpeta)
         self.opciones = {"raiz": self.carpeta, "empresa": "Exportadora Prueba"}
 
-    def test_calcula_desde_la_planilla(self):
+    def _planilla_real(self):
+        from nucleo import excel
         self.modulo.plantilla(dict(self.opciones))
+        ruta = os.path.join(espacio.cargar_empresa("Exportadora Prueba", raiz=self.carpeta)[1], "datos",
+                            self.modulo.ARCHIVO_DATOS)
+        filas = [["Envio real a Venlo"] + list(fila[1:]) for fila in self.modulo.EJEMPLO_TRAMOS]
+        excel.escribir_xlsx(ruta, [{"nombre": "Tramos", "filas": [self.modulo.COLUMNAS] + filas}])
+
+    def test_la_planilla_recien_creada_no_se_calcula_con_el_ejemplo(self):
+        self.modulo.plantilla(dict(self.opciones))
+        with self.assertRaises(Problema) as contexto:
+            self.modulo.calcular(dict(self.opciones))
+        self.assertIn("ejemplo", contexto.exception.mensaje)
+
+    def test_calcula_desde_la_planilla(self):
+        self._planilla_real()
         resultado = self.modulo.calcular(dict(self.opciones)).resultado
         self.assertAlmostEqual(resultado["total_kg_co2e"], 3508.0404, places=4)
         self.assertFalse(resultado["completo"])
@@ -267,8 +282,7 @@ class PruebaModulo(PruebaConCarpeta):
         self.assertAlmostEqual(respuesta.resultado["kg_co2e_total"], 393.1224, places=4)
 
     def test_el_informe_queda_escrito(self):
-        import os
-        self.modulo.plantilla(dict(self.opciones))
+        self._planilla_real()
         respuesta = self.modulo.informe_html(dict(self.opciones))
         self.assertTrue(os.path.isfile(respuesta.resultado["archivo"]))
 

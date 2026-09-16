@@ -7,6 +7,7 @@ import os
 from calculos import frio as motor
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = ("Revisa los registros de temperatura de la cadena de frio: temperatura cinetica media, "
          "excursiones fuera de rango y que exige la norma chilena para cada producto.")
@@ -14,6 +15,14 @@ AYUDA = ("Revisa los registros de temperatura de la cadena de frio: temperatura 
 ARCHIVO_DATOS = "temperaturas.xlsx"
 
 COLUMNAS = ["Registro", "Fecha y hora", "Temperatura (C)", "Punto de medicion", "Producto", "Notas"]
+
+# Filas de ejemplo de la planilla: se reconocen al leer para que no entren a la revision.
+EJEMPLO_LECTURAS = [
+    ["Camara 1 enero", "2026-01-05 08:00", 4.0, "Aire de la camara", "Vacunas", ""],
+    ["Camara 1 enero", "2026-01-05 09:00", 4.5, "Aire de la camara", "Vacunas", ""],
+    ["Camara 1 enero", "2026-01-05 10:00", 12.0, "Aire de la camara", "Vacunas",
+     "Se abrio la puerta para inventario"],
+]
 
 
 def _contexto(opciones):
@@ -52,7 +61,7 @@ def _serie(opciones, ruta_empresa=None):
             else str(crudo).replace(";", " ").replace(",", ".")
         piezas = [p for p in texto.replace("[", " ").replace("]", " ").split() if p]
         try:
-            return [float(p) for p in piezas], "las lecturas que me diste"
+            return [float(p) for p in piezas], "las lecturas que me diste", None
         except ValueError:
             raise Problema(
                 "No pude leer la serie de temperaturas.",
@@ -71,7 +80,8 @@ def _serie(opciones, ruta_empresa=None):
             '--temperaturas "4.0 4.5 5.0".',
         )
     registro = _valor(opciones, "registro")
-    tabla = excel.leer_tabla(ruta)
+    tabla, aviso = definiciones.leer_sin_ejemplos(
+        ruta, definicion={"columnas": [{"titulo": c} for c in COLUMNAS], "ejemplo": EJEMPLO_LECTURAS})
     serie = []
     for fila in tabla["filas"]:
         if registro and motor._clave(fila.get("registro")) != motor._clave(registro):
@@ -82,10 +92,13 @@ def _serie(opciones, ruta_empresa=None):
     if not serie:
         disponibles = sorted({str(f.get("registro") or "") for f in tabla["filas"]} - {""})
         raise Problema(
-            "No encontre lecturas%s en la planilla." % (" del registro «%s»" % registro if registro else ""),
-            "Revisa la columna Registro. Los cargados son: %s." % (", ".join(disponibles) or "ninguno"),
+            ("La planilla de temperaturas solo tiene las filas de ejemplo." if aviso and not tabla["filas"] else
+             "No encontre lecturas%s en la planilla." % (" del registro «%s»" % registro if registro else "")),
+            ("Reemplazalas por las lecturas del registrador, o pasalas directo con --temperaturas."
+             if aviso and not tabla["filas"] else
+             "Revisa la columna Registro. Los cargados son: %s." % (", ".join(disponibles) or "ninguno")),
         )
-    return serie, "la planilla %s" % ARCHIVO_DATOS
+    return serie, "la planilla %s" % ARCHIVO_DATOS, aviso
 
 
 def plantilla(opciones):
@@ -114,12 +127,7 @@ def plantilla(opciones):
             ["Importante: las lecturas tienen que estar tomadas a intervalos regulares. Si el "
              "registrador midio cada 15 minutos, todas deben ser cada 15 minutos."],
         ]},
-        {"nombre": "Lecturas", "filas": [COLUMNAS] + [
-            ["Camara 1 enero", "2026-01-05 08:00", 4.0, "Aire de la camara", "Vacunas", ""],
-            ["Camara 1 enero", "2026-01-05 09:00", 4.5, "Aire de la camara", "Vacunas", ""],
-            ["Camara 1 enero", "2026-01-05 10:00", 12.0, "Aire de la camara", "Vacunas",
-             "Se abrio la puerta para inventario"],
-        ]},
+        {"nombre": "Lecturas", "filas": [COLUMNAS] + [list(fila) for fila in EJEMPLO_LECTURAS]},
     ]
     excel.escribir_xlsx(destino, hojas)
     return Respuesta(
@@ -135,10 +143,12 @@ def mkt(opciones):
         perfil, ruta_empresa = _contexto(opciones)
     except Problema:
         perfil, ruta_empresa = {}, None
-    serie, origen = _serie(opciones, ruta_empresa)
+    serie, origen, aviso = _serie(opciones, ruta_empresa)
     entalpia = _numero(opciones, "entalpia")
     resultado = motor.temperatura_cinetica_media(serie, entalpia=entalpia)
     resultado["origen_de_los_datos"] = origen
+    if aviso:
+        resultado["advertencias"] = [aviso] + list(resultado["advertencias"])
     resultado["mensaje"] = (
         "La temperatura cinetica media es %s C, %s C por encima del promedio simple (%s C). "
         "Es esa la que se compara con el limite, no el promedio."
@@ -174,7 +184,7 @@ def revisar(opciones):
         perfil, ruta_empresa = _contexto(opciones)
     except Problema:
         perfil, ruta_empresa = {}, None
-    serie, origen = _serie(opciones, ruta_empresa)
+    serie, origen, aviso = _serie(opciones, ruta_empresa)
 
     minimo = _numero(opciones, "minimo")
     maximo = _numero(opciones, "maximo")
@@ -199,6 +209,8 @@ def revisar(opciones):
     resultado = motor.evaluar_excursiones(serie, minimo, maximo,
                                           _numero(opciones, "minutos_por_lectura"))
     resultado["origen_de_los_datos"] = origen
+    if aviso:
+        resultado["advertencias"] = [aviso] + list(resultado["advertencias"])
     resultado["origen_del_rango"] = fuente_del_rango
     resultado["mensaje"] = resultado["resumen"]
 

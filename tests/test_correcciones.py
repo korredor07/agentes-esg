@@ -322,11 +322,13 @@ class PruebaBorradorSinRepetir(PruebaConCarpeta):
         self.assertEqual(len(del_periodo), 2)
         self.assertEqual(fuera, 1)
 
-    def test_sin_filas_del_periodo_no_esconde_los_datos(self):
+    def test_sin_filas_del_periodo_no_usa_las_de_otros_anios(self):
+        # Revision independiente: usar las filas de otro año ponia en el reporte cifras que no eran del periodo.
+        # El modulo lo avisa y deja pendiente lo que depende de esa planilla (test_e2e_hallazgos).
         filas = [{"periodo": "2024-11"}]
         del_periodo, fuera = self.reporte._filas_del_periodo(filas, "2025")
-        self.assertEqual(len(del_periodo), 1)
-        self.assertEqual(fuera, 0)
+        self.assertEqual(del_periodo, [])
+        self.assertEqual(fuera, 1)
 
 
 class PruebaHallazgosMenores(PruebaConCarpeta):

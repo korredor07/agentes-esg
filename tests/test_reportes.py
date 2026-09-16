@@ -151,7 +151,10 @@ class PruebaModuloReporte(PruebaConCarpeta):
         from nucleo import excel
         from plantillas import definiciones
         destino = espacio.ruta_de(self.ruta_empresa, "datos", "personas.xlsx")
-        excel.escribir_xlsx(destino, definiciones.hojas_de(definiciones.PLANTILLAS["personas"]))
+        # Las cifras del ejemplo, pero de otro sitio: asi son datos de la empresa y no filas de ejemplo.
+        definicion = dict(definiciones.PLANTILLAS["personas"])
+        definicion["ejemplo"] = [[fila[0], "Planta Talca"] + list(fila[2:]) for fila in definicion["ejemplo"]]
+        excel.escribir_xlsx(destino, definiciones.hojas_de(definicion))
         return destino
 
     def _diagnostico(self):

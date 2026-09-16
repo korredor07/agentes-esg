@@ -9,6 +9,7 @@ from calculos import reportes as catalogo
 from calculos import social
 from nucleo import espacio, excel, informe, word
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = ("Compara los marcos de reporte, revisa que puede reportar la empresa con los datos que ya tiene y "
          "arma el borrador del reporte y su indice de contenidos.")
@@ -195,17 +196,22 @@ def _datos_de_huella(ruta_empresa, periodo, claves, detalle, avisos):
 
 
 def _resumen_personas(ruta_archivo, periodo=None):
-    tabla = excel.leer_tabla(ruta_archivo)
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta_archivo)
     filas = tabla["filas"]
+    de_otros_periodos = 0
     if periodo:
+        # Solo el periodo del reporte: sumar otros años daria una dotacion que no existio.
         del_periodo = [f for f in filas if str(f.get("periodo") or "").startswith(str(periodo))]
-        filas = del_periodo or filas
+        de_otros_periodos = len(filas) - len(del_periodo)
+        filas = del_periodo
     por_genero = {}
     for fila in filas:
         genero = str(fila.get("genero") or "sin declarar").strip().lower() or "sin declarar"
         cantidad = _numero(fila.get("numero_de_personas")) or 0
         por_genero[genero] = por_genero.get(genero, 0) + cantidad
     resumen = {
+        "aviso_ejemplos": aviso,
+        "de_otros_periodos": de_otros_periodos,
         "filas": len(filas),
         "personas": _suma(filas, "numero_de_personas"),
         "por_genero": por_genero,
@@ -219,8 +225,9 @@ def _resumen_personas(ruta_archivo, periodo=None):
     }
     try:
         resumen["indicadores"] = social.calcular(filas, periodo)
-    except Problema:
+    except Problema as problema:
         resumen["indicadores"] = {}
+        resumen["aviso_indicadores"] = problema.mensaje
     return resumen
 
 
@@ -343,8 +350,7 @@ def _filas_del_periodo(filas, periodo):
     if not periodo:
         return filas, 0
     del_periodo = [f for f in filas if str(f.get("periodo") or "").startswith(str(periodo))]
-    if not del_periodo:
-        return filas, 0
+    # Sin filas del periodo no se usan las de otros años: el reporte diria cifras que no son del periodo.
     return del_periodo, len(filas) - len(del_periodo)
 
 
@@ -361,15 +367,22 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
         if not os.path.isfile(ruta):
             continue
         try:
-            tabla = excel.leer_tabla(ruta)
+            tabla, aviso = definiciones.leer_sin_ejemplos(ruta)
         except Problema as problema:
             avisos.append("No pude leer %s: %s" % (nombre, problema.mensaje))
             continue
-        claves.add(nombre)
+        if aviso:
+            avisos.append(aviso)
         filas = tabla["filas"]
         fuera = 0
         if por_periodo:
             filas, fuera = _filas_del_periodo(filas, periodo)
+        if not filas:
+            if fuera:
+                avisos.append("%s no tiene filas del periodo %s (tiene %s de otros periodos): lo que depende de "
+                              "esa planilla queda pendiente." % (nombre, periodo, informe.formatear_numero(fuera)))
+            continue
+        claves.add(nombre)
         texto = plantilla % _plural(len(filas), singular, plural)
         if nombre == "consumos.xlsx":
             totales = {}
@@ -396,6 +409,16 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
         except Problema as problema:
             avisos.append("No pude leer personas.xlsx: %s" % problema.mensaje)
             return
+        if resumen["aviso_ejemplos"]:
+            avisos.append(resumen["aviso_ejemplos"])
+        if not resumen["filas"]:
+            if resumen["de_otros_periodos"]:
+                avisos.append("La planilla de personas no tiene filas del periodo %s (tiene %s de otros "
+                              "periodos): los contenidos de personas quedan pendientes."
+                              % (periodo, resumen["de_otros_periodos"]))
+            return
+        if resumen.get("aviso_indicadores"):
+            avisos.append("No pude calcular los indicadores de personas: %s" % resumen["aviso_indicadores"])
         claves.add("personas.xlsx")
         vinetas = _vinetas_de_personas(resumen)
         detalle.update(vinetas)

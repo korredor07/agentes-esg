@@ -7,6 +7,7 @@ import os
 from calculos import logistica as motor
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = ("Calcula las emisiones de una cadena de transporte tramo por tramo segun ISO 14083, "
          "compara modos y arma el informe para el cliente que lo pide.")
@@ -15,6 +16,20 @@ ARCHIVO_DATOS = "cadenas_transporte.xlsx"
 
 COLUMNAS = ["Cadena", "Tramo", "Tipo", "Descripcion", "Modo", "Vehiculo", "Toneladas", "TEU",
             "Kilometros", "Tipo de distancia", "Intensidad propia", "Fuente", "Notas"]
+
+# Filas de ejemplo de la planilla: se reconocen al leer para que no entren al calculo.
+EJEMPLO_TRAMOS = [
+    ["Fruta a Venlo", 1, "transporte", "Curico a Puerto San Antonio", "carretera",
+     "camion refrigerado", 12, "", 220, "SFD", "", "", "Distancia de ruta"],
+    ["Fruta a Venlo", 2, "hub", "Terminal de contenedores San Antonio", "", "", 12, "", "", "",
+     "", "", "Falta la intensidad del terminal"],
+    ["Fruta a Venlo", 3, "transporte", "San Antonio a Rotterdam", "maritimo", "barco", 12, "",
+     12000, "SFD", "", "", ""],
+    ["Fruta a Venlo", 4, "hub", "Terminal de contenedores Rotterdam", "", "", 12, "", "", "",
+     "", "", ""],
+    ["Fruta a Venlo", 5, "transporte", "Rotterdam a Venlo", "carretera", "camion refrigerado",
+     12, "", 150, "SFD", "", "", ""],
+]
 
 
 def _contexto(opciones):
@@ -126,7 +141,8 @@ def _leer_tramos(ruta_empresa, cadena=None):
             "No hay ninguna cadena de transporte cargada.",
             "Crea la planilla con: logistica plantilla, llenala con los tramos del envio y avisame.",
         )
-    tabla = excel.leer_tabla(ruta)
+    tabla, aviso = definiciones.leer_sin_ejemplos(
+        ruta, definicion={"columnas": [{"titulo": c} for c in COLUMNAS], "ejemplo": EJEMPLO_TRAMOS})
     filas = []
     for numero, fila in enumerate(tabla["filas"], start=1):
         nombre = str(fila.get("cadena") or "").strip()
@@ -148,11 +164,14 @@ def _leer_tramos(ruta_empresa, cadena=None):
         })
     if not filas:
         raise Problema(
-            "No encontre tramos%s en la planilla." % (" de la cadena «%s»" % cadena if cadena else ""),
-            "Revisa la columna Cadena. Las cargadas son: %s."
-            % ", ".join(sorted({str(f.get("cadena") or "") for f in tabla["filas"]}) or ["ninguna"]),
+            ("La planilla de transporte solo tiene las filas de ejemplo." if aviso and not tabla["filas"] else
+             "No encontre tramos%s en la planilla." % (" de la cadena «%s»" % cadena if cadena else "")),
+            ("Reemplazalas por los tramos del envio real, o dictalos con --tramos."
+             if aviso and not tabla["filas"] else
+             "Revisa la columna Cadena. Las cargadas son: %s."
+             % ", ".join(sorted({str(f.get("cadena") or "") for f in tabla["filas"]}) or ["ninguna"])),
         )
-    return filas, ruta
+    return filas, ruta, aviso
 
 
 def plantilla(opciones):
@@ -165,18 +184,7 @@ def plantilla(opciones):
             "Puedo leerla tal como esta con: logistica calcular. Si de verdad quieres empezar de "
             "cero, agrega --sobrescribir.",
         )
-    ejemplo = [
-        ["Fruta a Venlo", 1, "transporte", "Curico a Puerto San Antonio", "carretera",
-         "camion refrigerado", 12, "", 220, "SFD", "", "", "Distancia de ruta"],
-        ["Fruta a Venlo", 2, "hub", "Terminal de contenedores San Antonio", "", "", 12, "", "", "",
-         "", "", "Falta la intensidad del terminal"],
-        ["Fruta a Venlo", 3, "transporte", "San Antonio a Rotterdam", "maritimo", "barco", 12, "",
-         12000, "SFD", "", "", ""],
-        ["Fruta a Venlo", 4, "hub", "Terminal de contenedores Rotterdam", "", "", 12, "", "", "",
-         "", "", ""],
-        ["Fruta a Venlo", 5, "transporte", "Rotterdam a Venlo", "carretera", "camion refrigerado",
-         12, "", 150, "SFD", "", "", ""],
-    ]
+    ejemplo = [list(fila) for fila in EJEMPLO_TRAMOS]
     hojas = [
         {"nombre": "Instrucciones", "filas": [
             ["Como llenar esta planilla"],
@@ -215,11 +223,14 @@ def calcular(opciones):
     dictados = _tramos_del_comando(opciones)
     if dictados:
         filas, archivo, nombre = dictados, "tramos indicados en el comando", cadena or "Cadena de transporte"
+        aviso = None
     else:
-        filas, archivo = _leer_tramos(ruta_empresa, cadena)
+        filas, archivo, aviso = _leer_tramos(ruta_empresa, cadena)
         nombre = filas[0].get("cadena") if cadena or len({f["cadena"] for f in filas}) == 1 else None
 
     resultado = motor.calcular_cadena(filas, nombre)
+    if aviso:
+        resultado["advertencias"] = [aviso] + list(resultado.get("advertencias", []))
     resultado["empresa"] = perfil.get("nombre")
     resultado["archivo"] = archivo
 
@@ -338,10 +349,13 @@ def informe_html(opciones):
     dictados = _tramos_del_comando(opciones)
     if dictados:
         filas, nombre = dictados, cadena or "Cadena de transporte"
+        aviso = None
     else:
-        filas, _ = _leer_tramos(ruta_empresa, cadena)
+        filas, _, aviso = _leer_tramos(ruta_empresa, cadena)
         nombre = filas[0].get("cadena") if cadena or len({f["cadena"] for f in filas}) == 1 else None
     resultado = motor.calcular_cadena(filas, nombre)
+    if aviso:
+        resultado["advertencias"] = [aviso] + list(resultado.get("advertencias", []))
 
     destino = espacio.ruta_de(ruta_empresa, "reportes",
                               "transporte-%s.html" % espacio.texto_a_slug(resultado["cadena"]))

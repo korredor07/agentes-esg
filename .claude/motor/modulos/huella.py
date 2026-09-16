@@ -7,6 +7,7 @@ import os
 from calculos import carbono
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = "Calcula la huella de carbono desde las planillas, guarda el resultado y arma el informe."
 
@@ -59,9 +60,9 @@ def _preparar_filas(tabla, alcance_por_defecto=None):
 def _leer_planilla(ruta_empresa, nombre, alcance=None):
     ruta = espacio.ruta_de(ruta_empresa, "datos", nombre)
     if not os.path.isfile(ruta):
-        return [], None
-    tabla = excel.leer_tabla(ruta)
-    return _preparar_filas(tabla, alcance), ruta
+        return [], None, None
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta)
+    return _preparar_filas(tabla, alcance), ruta, aviso
 
 
 def calcular(opciones):
@@ -70,9 +71,15 @@ def calcular(opciones):
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
     conjunto = (opciones.get("pcg") if opciones.get("pcg") is not True else None) or "AR5"
 
-    registros, archivo_consumos = _leer_planilla(ruta_empresa, "consumos.xlsx")
-    registros_a3, archivo_a3 = _leer_planilla(ruta_empresa, "alcance3.xlsx", alcance=3)
+    registros, archivo_consumos, aviso_consumos = _leer_planilla(ruta_empresa, "consumos.xlsx")
+    registros_a3, archivo_a3, aviso_a3 = _leer_planilla(ruta_empresa, "alcance3.xlsx", alcance=3)
+    avisos_de_ejemplo = [aviso for aviso in (aviso_consumos, aviso_a3) if aviso]
     registros = registros + registros_a3
+    if not registros and avisos_de_ejemplo:
+        raise Problema(
+            "Las planillas de %s solo tienen las filas de ejemplo de la plantilla." % perfil.get("nombre"),
+            "Reemplazalas por los consumos reales de la empresa y avisame para calcular.",
+        )
     if not registros:
         raise Problema(
             "No encontre datos para calcular la huella de %s." % perfil.get("nombre"),
@@ -87,6 +94,7 @@ def calcular(opciones):
             )
 
     resumen = carbono.calcular(registros, conjunto=conjunto.upper(), pais=perfil.get("pais"))
+    resumen["advertencias"] = avisos_de_ejemplo + list(resumen["advertencias"])
     resumen["empresa"] = perfil.get("nombre")
     resumen["periodo"] = periodo or "todos los periodos cargados"
     resumen["archivos"] = [a for a in (archivo_consumos, archivo_a3) if a]

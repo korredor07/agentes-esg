@@ -55,12 +55,14 @@ def _refrescar_alertas(opciones):
     el tablero mostraba plazos «criticos» de un caso de Ley Karin que ya no existe.
     """
     from modulos import calendario, karin
-    for rehacer in (karin.alertas, calendario.proximas):
+    errores = []
+    for nombre, rehacer in (("Ley Karin", karin.alertas), ("el calendario de obligaciones", calendario.proximas)):
         try:
             rehacer(dict(opciones))
-        except Problema:
-            # Un pais sin calendario todavia, por ejemplo: no impide armar el tablero.
-            continue
+        except Problema as error:
+            # No impide armar el tablero, pero tampoco se esconde: las alertas de abajo pueden estar viejas.
+            errores.append("No pude actualizar las alertas de %s: %s %s" % (nombre, error.mensaje, error.sugerencia))
+    return errores
 
 
 def _alertas(ruta_empresa):
@@ -73,7 +75,8 @@ def _alertas(ruta_empresa):
             vigentes.append({
                 "etiqueta": alerta.get("titulo", "Plazo"),
                 "estado": "rojo" if alerta["vence"] <= hoy else ("amarillo" if alerta.get("por_vencer") else "verde"),
-                "detalle": "Vence el %s. %s" % (alerta["vence"], alerta.get("detalle", "")),
+                "detalle": (alerta.get("detalle", "") if alerta.get("estado") == "error" else
+                            "Vence el %s. %s" % (alerta["vence"], alerta.get("detalle", ""))),
             })
     return vigentes
 
@@ -83,7 +86,7 @@ def generar(opciones):
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     identificador = opciones.get("empresa") if opciones.get("empresa") is not True else None
     perfil, ruta = espacio.cargar_empresa(identificador, raiz=raiz)
-    _refrescar_alertas(dict(opciones, empresa=perfil.get("carpeta") or identificador))
+    errores_alertas = _refrescar_alertas(dict(opciones, empresa=perfil.get("carpeta") or identificador))
 
     huella = _ultima_huella(ruta)
     seguimiento = _leer_json(os.path.join(ruta, "seguimiento", "diagnostico.json")) or {}
@@ -116,6 +119,8 @@ def generar(opciones):
                         "texto": "%s Mientras tanto, la huella que aparece aqui abajo esta subestimada."
                                  % huella.get("aviso_principal", "El ultimo calculo de huella esta incompleto.")})
     bloques.append({"tipo": "kpi", "items": tarjetas})
+    for error in errores_alertas:
+        bloques.append({"tipo": "nota", "estilo": "riesgo", "texto": error})
 
     alertas = _alertas(ruta)
     if alertas:
@@ -177,7 +182,8 @@ def generar(opciones):
          "huella_t_co2e": (huella or {}).get("total_t_co2e"),
          "brechas_abiertas": len([b for b in diagnostico["brechas"] if b["seguimiento"] != "resuelta"]),
          "evidencias_ok": verificacion["ok"]},
-        advertencias=[] if verificacion["ok"] else ["Hay problemas en la cadena de evidencias: revisalos."])
+        advertencias=errores_alertas + ([] if verificacion["ok"] else
+                                        ["Hay problemas en la cadena de evidencias: revisalos."]))
 
 
 ACCIONES = {"generar": generar}

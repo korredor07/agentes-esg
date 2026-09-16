@@ -8,6 +8,7 @@ import os
 from calculos import rep as motor_rep
 from nucleo import espacio, excel
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = ("Ley REP (Ley 20.920 de Chile): consulta las metas de cada producto prioritario, calcula el "
          "cumplimiento con las toneladas de la empresa y lista que hay que declarar y cuando.")
@@ -52,14 +53,15 @@ def _leer_declaraciones(ruta_empresa):
             "La creo vacia con: plantilla crear --tipo rep. Despues la llenas en Excel con las toneladas "
             "puestas en el mercado cada anio y me avisas.",
         )
-    tabla = excel.leer_tabla(ruta)
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta)
     if not tabla["filas"]:
         raise Problema(
-            "La planilla %s esta sin datos." % PLANILLA,
+            "La planilla %s %s." % (PLANILLA, "solo tiene las filas de ejemplo de la plantilla"
+                                    if aviso else "esta sin datos"),
             "Abrela en Excel y escribe una fila por anio, producto, categoria y material, con las "
             "toneladas puestas en el mercado, recolectadas y valorizadas.",
         )
-    return tabla["filas"], ruta
+    return tabla["filas"], ruta, aviso
 
 
 def _anio_pedido(opciones, perfil, advertencias):
@@ -151,7 +153,9 @@ def calcular(opciones):
     """Compara las toneladas de la planilla con la meta que fija el decreto."""
     perfil, ruta_empresa = _contexto(opciones)
     advertencias = []
-    filas, archivo = _leer_declaraciones(ruta_empresa)
+    filas, archivo, aviso = _leer_declaraciones(ruta_empresa)
+    if aviso:
+        advertencias.append(aviso)
     anio = _anio_pedido(opciones, perfil, advertencias)
 
     pedido = _valor(opciones, "producto")
@@ -270,7 +274,10 @@ def obligaciones(opciones):
     filas = None
     ruta_planilla = espacio.ruta_de(ruta_empresa, "datos", PLANILLA)
     if os.path.isfile(ruta_planilla):
-        filas = excel.leer_tabla(ruta_planilla)["filas"]
+        tabla, aviso = definiciones.leer_sin_ejemplos(ruta_planilla)
+        filas = tabla["filas"]
+        if aviso:
+            advertencias.append(aviso)
 
     pedido = _valor(opciones, "producto")
     if pedido:

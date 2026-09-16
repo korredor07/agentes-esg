@@ -93,18 +93,67 @@ def cargar_feriados(region=None):
     return fechas.cargar_feriados(ARCHIVO_FERIADOS, ambitos=ambitos)
 
 
-# Eventos que no son un plazo en si, pero desde los que corre un plazo.
+# Eventos que no son un plazo en si, pero que cambian el camino o desde los que corre un plazo.
 EVENTOS_EXTRA = {
+    "derivacion_dt": {
+        "id": "derivacion_dt",
+        "titulo": "Derivacion de la denuncia a la Direccion del Trabajo",
+        "articulo": "Art. 211-C inc. 1 del Codigo del Trabajo; art. 12 inc. 4 y 5 DS 21",
+    },
     "recepcion_dt": {
         "id": "recepcion_dt",
         "titulo": "Certificado de recepcion de la derivacion emitido por la Direccion del Trabajo",
         "articulo": "Art. 17 DS 21",
     },
+    "conclusiones_dt": {
+        "id": "conclusiones_dt",
+        "titulo": "La empresa recibe las conclusiones de la investigacion de la Direccion del Trabajo",
+        "articulo": "Art. 211-E inc. 1 del Codigo del Trabajo",
+    },
+}
+
+# Eventos que solo existen si la denuncia se derivo, e hitos que solo existen si investiga la empresa.
+SOLO_DERIVADA = ("recepcion_dt", "conclusiones_dt")
+SOLO_INTERNA = ("informar_dt", "designar_investigador", "remision_informe", "pronunciamiento_dt")
+
+VIAS = {
+    "interna": "interna", "investigacion interna": "interna",
+    "derivada": "derivada", "derivado": "derivada", "dt": "derivada",
+    "direccion del trabajo": "derivada", "inspeccion del trabajo": "derivada",
+}
+
+CONFIRMAR_DERIVACION = {
+    "id": "confirmar_derivacion", "titulo": "Confirmar si la denuncia debe derivarse a la Direccion del Trabajo",
+    "dias": 3, "tipo": "habiles", "desde": "denuncia",
+    "articulo": "DS 21, art. primero transitorio inc. 3; art. 12 inc. 5 DS 21",
 }
 
 
+def sin_tildes(texto):
+    for con, sin in (("á", "a"), ("é", "e"), ("í", "i"), ("ó", "o"), ("ú", "u")):
+        texto = texto.replace(con, sin)
+    return texto
+
+
+def normalizar_via(valor):
+    """Solo hay dos caminos: la empresa investiga (interna) o la denuncia va a la DT (derivada)."""
+    texto = sin_tildes(str(valor or "").strip().lower())
+    if not texto:
+        return "interna"
+    if texto in VIAS:
+        return VIAS[texto]
+    raise Problema(
+        "No entiendo la via «%s»." % valor,
+        "Escribe interna (la empresa investiga) o derivada (la denuncia se envio a la Direccion del Trabajo).",
+    )
+
+
 def derivacion_obligatoria(reglamento_actualizado=None, contra_representante=None):
-    """Si la ley obliga a derivar la denuncia a la Direccion del Trabajo. Devuelve (obligatoria, motivo)."""
+    """Si la ley obliga a derivar la denuncia a la Direccion del Trabajo.
+
+    Devuelve (True, motivo), (False, "") o (None, lo que falta confirmar): con una sola
+    respuesta desconocida no se puede afirmar que la empresa puede investigar.
+    """
     if contra_representante is True:
         return True, ("La denuncia es contra una de las personas del art. 4 inc. 1 del Codigo del Trabajo "
                       "(gerente, administrador o quien representa al empleador): siempre se deriva a la "
@@ -113,44 +162,124 @@ def derivacion_obligatoria(reglamento_actualizado=None, contra_representante=Non
         return True, ("El reglamento interno todavia no esta actualizado con el procedimiento de la Ley Karin: "
                       "mientras no lo este, la denuncia se deriva a la Direccion del Trabajo de inmediato (DS 21, "
                       "art. primero transitorio inc. 3).")
+    faltan = []
+    if reglamento_actualizado is None:
+        faltan.append("si el reglamento interno ya tiene el procedimiento de la Ley Karin")
+    if contra_representante is None:
+        faltan.append("si la persona denunciada es gerente, administrador o representa al empleador")
+    if faltan:
+        return None, ("Falta confirmar %s. Si el reglamento no esta actualizado o si el denunciado representa al "
+                      "empleador, la denuncia se deriva a la Direccion del Trabajo y la empresa no investiga."
+                      % " y ".join(faltan))
     return False, ""
 
 
-def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None):
+def _hitos_derivada(inmediata):
+    """El camino de una denuncia derivada: investiga la Direccion del Trabajo, no la empresa."""
+    return [
+        HITOS_POR_ID["medidas_resguardo"],
+        {
+            "id": "derivar_dt", "titulo": "Derivar la denuncia a la Direccion del Trabajo",
+            "dias": 0 if inmediata else 3, "tipo": "inmediato" if inmediata else "habiles",
+            "desde": "denuncia", "eventos": ("derivacion_dt",),
+            "articulo": ("DS 21, art. primero transitorio inc. 3; art. 12 inc. 4 DS 21" if inmediata else
+                         "Art. 211-C inc. 1 del Codigo del Trabajo; art. 12 inc. 4 y 5 DS 21"),
+            "que_hacer": ("Remitir la denuncia con sus antecedentes a la Direccion del Trabajo e informarlo por "
+                          "escrito a la persona denunciante. Cuando se envie, registrarlo con: "
+                          "karin evento --hito derivacion_dt --fecha <fecha>."),
+        },
+        {
+            "id": "conclusion_investigacion", "titulo": "Concluir la investigacion (la hace la Direccion del Trabajo)",
+            "dias": 30, "tipo": "habiles", "desde": "recepcion_dt",
+            "eventos": ("conclusion_investigacion", "conclusiones_dt"),
+            "articulo": "Art. 211-C inc. 2 del Codigo del Trabajo; art. 17 DS 21",
+            "responsable": "Direccion del Trabajo",
+            "que_hacer": ("Investiga la Direccion del Trabajo: 30 dias habiles desde la fecha del certificado de "
+                          "recepcion de la derivacion. La empresa colabora y mantiene las medidas de resguardo."),
+            "falta": ("pendiente: falta el certificado de recepcion de la DT",
+                      "Los 30 dias habiles corren desde el certificado de recepcion que emite la Direccion del "
+                      "Trabajo (art. 17 DS 21). Registralo con: karin evento --hito recepcion_dt --fecha <fecha>."),
+        },
+        {
+            "id": "aplicar_medidas", "titulo": "Aplicar las medidas y sanciones e informarlas a las partes",
+            "dias": 15, "tipo": "corridos", "desde": "conclusiones_dt",
+            "articulo": "Art. 211-E inc. 1 del Codigo del Trabajo",
+            "que_hacer": ("Aplicar las medidas o sanciones que correspondan segun las conclusiones de la Direccion "
+                          "del Trabajo e informarlas por escrito a la persona denunciante y a la denunciada. El "
+                          "motor cuenta 15 dias corridos, como fija el art. 19 DS 21 para la investigacion interna; "
+                          "en una denuncia derivada confirma el tipo de dias con la asesoria juridica."),
+            "falta": ("pendiente: corre desde que la empresa recibe las conclusiones de la DT",
+                      "Los 15 dias corren desde que la empresa recibe las conclusiones de la Direccion del Trabajo "
+                      "(art. 211-E inc. 1 del Codigo del Trabajo). Registralo con: "
+                      "karin evento --hito conclusiones_dt --fecha <fecha>."),
+        },
+        {"id": "designar_investigador", "titulo": HITOS_POR_ID["designar_investigador"]["titulo"],
+         "no_aplica": "no aplica: la investigacion la hace la Direccion del Trabajo"},
+        {"id": "remision_informe", "titulo": HITOS_POR_ID["remision_informe"]["titulo"],
+         "no_aplica": "no aplica: el informe lo emite la Direccion del Trabajo"},
+        {"id": "pronunciamiento_dt", "titulo": HITOS_POR_ID["pronunciamiento_dt"]["titulo"],
+         "no_aplica": "no aplica: solo existe cuando investiga la empresa"},
+    ]
+
+
+def _no_aplica(hito):
+    return {"id": hito["id"], "titulo": hito["titulo"], "articulo": "", "que_hacer": "", "responsable": "",
+            "dias": None, "tipo_de_dias": None, "cuenta_desde": None, "vence": None, "cumplido_el": None,
+            "dias_restantes": None, "estado": hito["no_aplica"], "proyectado": False, "aplica": False}
+
+
+def _pendiente(hito):
+    estado, que_hacer = hito["falta"]
+    return {"id": hito["id"], "titulo": hito["titulo"], "articulo": hito["articulo"], "que_hacer": que_hacer,
+            "responsable": hito.get("responsable", "La empresa"), "dias": hito["dias"],
+            "tipo_de_dias": hito["tipo"], "cuenta_desde": hito["desde"], "vence": None, "cumplido_el": None,
+            "dias_restantes": None, "estado": estado, "proyectado": False, "aplica": True}
+
+
+def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None,
+           reglamento_actualizado=None, contra_representante=None):
     """Calcula el estado de cada plazo del procedimiento.
 
-    eventos: fechas reales ya ocurridas, por id de hito. Cuando un hito previo
-    ya ocurrio, el siguiente plazo se cuenta desde esa fecha real; si no, se
-    proyecta desde el vencimiento estimado y se marca como proyectado.
+    Hay dos caminos. Si la empresa investiga (via interna), los plazos son los de HITOS.
+    Si la denuncia se derivo a la Direccion del Trabajo, o la ley obliga a derivarla,
+    investiga la DT: los 30 dias corren desde el certificado de recepcion (art. 17 DS 21)
+    y los hitos de la investigacion interna no aplican. Si falta saber si hay que derivar,
+    se agrega un plazo para confirmarlo.
+
+    eventos: fechas reales ya ocurridas, por id de hito o de evento. Cuando un hito previo
+    ya ocurrio, el siguiente plazo se cuenta desde esa fecha real; si no, se proyecta desde
+    el vencimiento estimado y se marca como proyectado.
     """
     eventos = {clave: valor for clave, valor in (eventos or {}).items() if valor}
     feriados = cargar_feriados(region)
     referencia = fechas.parsear_fecha(hoy) if hoy else datetime.date.today()
     inicio = fechas.parsear_fecha(fecha_denuncia)
+    obligatoria, motivo = derivacion_obligatoria(reglamento_actualizado, contra_representante)
+    derivada = normalizar_via(via) == "derivada" or bool(eventos.get("derivacion_dt"))
 
     calculados = {"denuncia": {"fecha": inicio, "real": True}}
-    derivada = str(via or "").strip().lower() in ("derivada", "dt", "direccion del trabajo")
-    if eventos.get("recepcion_dt"):
-        calculados["recepcion_dt"] = {"fecha": fechas.parsear_fecha(eventos["recepcion_dt"]), "real": True}
+    for clave in EVENTOS_EXTRA:
+        if eventos.get(clave):
+            calculados[clave] = {"fecha": fechas.parsear_fecha(eventos[clave]), "real": True}
+
+    if derivada or obligatoria is True:
+        camino = "derivada"
+        lista = _hitos_derivada(inmediata=reglamento_actualizado is False)
+    else:
+        camino = "interna"
+        lista = list(HITOS)
+        if obligatoria is None:
+            lista.insert(1, dict(CONFIRMAR_DERIVACION, que_hacer=motivo))
+
     salida = []
-    for hito in HITOS:
-        desde = hito["desde"]
-        if derivada and hito["id"] == "conclusion_investigacion":
-            # Art. 17 DS 21: si se derivo, los 30 dias corren desde la recepcion en la DT.
-            desde = "recepcion_dt"
-            if "recepcion_dt" not in calculados:
-                salida.append({
-                    "id": hito["id"], "titulo": hito["titulo"], "articulo": "Art. 17 DS 21",
-                    "que_hacer": ("La denuncia fue derivada: los 30 dias habiles corren desde la fecha del "
-                                  "certificado de recepcion que emite la Direccion del Trabajo. Registralo con "
-                                  "karin evento --hito recepcion_dt --fecha <fecha>."),
-                    "responsable": "Direccion del Trabajo", "dias": hito["dias"], "tipo_de_dias": hito["tipo"],
-                    "cuenta_desde": "recepcion_dt", "vence": None, "cumplido_el": None, "dias_restantes": None,
-                    "estado": "pendiente: falta el certificado de recepcion de la DT", "proyectado": False,
-                })
-                continue
-        base = calculados.get(desde)
+    for hito in lista:
+        if hito.get("no_aplica"):
+            salida.append(_no_aplica(hito))
+            continue
+        base = calculados.get(hito["desde"])
         if base is None:
+            if hito.get("falta"):
+                salida.append(_pendiente(hito))
             continue
         proyectado = not base["real"]
 
@@ -163,7 +292,7 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None):
             detalle = fechas.plazo(base["fecha"], hito["dias"], hito["tipo"], feriados, hoy=referencia)
             vence = fechas.parsear_fecha(detalle["vence"])
 
-        real = eventos.get(hito["id"])
+        real = next((eventos[clave] for clave in hito.get("eventos", (hito["id"],)) if eventos.get(clave)), None)
         cumplido = None
         if real:
             cumplido = fechas.parsear_fecha(real)
@@ -178,17 +307,21 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None):
             "id": hito["id"], "titulo": hito["titulo"], "articulo": hito["articulo"],
             "que_hacer": hito["que_hacer"], "responsable": hito.get("responsable", "La empresa"),
             "dias": hito["dias"], "tipo_de_dias": hito["tipo"],
-            "cuenta_desde": desde,
+            "cuenta_desde": hito["desde"],
             "vence": vence.isoformat(),
             "cumplido_el": cumplido.isoformat() if cumplido else None,
             "dias_restantes": detalle["dias_restantes"] if not cumplido else None,
             "estado": estado,
             "proyectado": proyectado and not cumplido,
+            "aplica": True,
         })
     return {
         "fecha_denuncia": inicio.isoformat(),
         "region": region or "nacional",
         "hoy": referencia.isoformat(),
+        "camino": camino,
+        "derivacion_obligatoria": obligatoria,
+        "motivo_derivacion": motivo,
         "hitos": salida,
         "vencidos": [h for h in salida if h["estado"] == "vencido"],
         "por_vencer": [h for h in salida if h["estado"] in ("por vencer", "pendiente: debe hacerse de inmediato")],
@@ -200,6 +333,9 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None):
 
 
 def validar_evento(identificador):
+    if identificador == "derivar_dt":
+        # Es el nombre del plazo; el hecho que lo cumple es la derivacion.
+        return EVENTOS_EXTRA["derivacion_dt"]
     if identificador in EVENTOS_EXTRA:
         return EVENTOS_EXTRA[identificador]
     if identificador not in HITOS_POR_ID:

@@ -27,21 +27,37 @@ Actúa en este orden:
      art. primero transitorio inc. 3°).
    - ¿La persona denunciada es gerente, administrador o representa al
      empleador? Si es así, **siempre** se deriva (art. 12 inc. 5° DS 21).
-4. Registra el caso con esas respuestas y muéstrale el calendario completo:
+4. Registra el caso con esas respuestas (`si`, `no` o `no se`) y muéstrale el
+   calendario completo:
 
 ```bash
 python .claude/motor/esg.py karin crear --fecha-denuncia 15-09-2026 --tipo "acoso laboral" --sitio "Planta" --denunciante "A.P." --denunciado "M.R." --resumen "Descripción breve" --reglamento-actualizado no --contra-representante no
 ```
 
-Si el motor responde `derivacion_obligatoria: true`, eso va **primero** en tu
-respuesta, antes que cualquier plazo: la empresa no puede investigar
-internamente. Registra la derivación con `--via derivada` y, cuando la DT emita
-el certificado de recepción, anótalo: desde esa fecha corren los 30 días de
-investigación (art. 17 DS 21).
+Si la persona no sabe alguna de las dos respuestas, regístralas como `no se`: el
+motor agrega el plazo «Confirmar si la denuncia debe derivarse» y no da por
+hecho que la empresa puede investigar. Cuando las confirme:
 
 ```bash
-python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito recepcion_dt --fecha 2026-09-03
+python .claude/motor/esg.py karin actualizar --caso KARIN-2026-001 --reglamento-actualizado no --contra-representante no
 ```
+
+Si el motor responde `derivacion_obligatoria: true`, eso va **primero** en tu
+respuesta, antes que cualquier plazo: la empresa no puede investigar
+internamente. Registra la fecha en que se envió la denuncia a la DT y, cuando
+la DT emita el certificado de recepción, anótalo: desde esa fecha corren los 30
+días de investigación (art. 17 DS 21). Cuando la empresa reciba las
+conclusiones de la DT, regístralo: desde ahí corren los 15 días para aplicar las
+medidas.
+
+```bash
+python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito derivacion_dt --fecha 2026-09-16
+python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito recepcion_dt --fecha 2026-09-17
+```
+
+En una denuncia derivada **investiga la Dirección del Trabajo**: no hay que
+designar investigador, ni remitir un informe, ni esperar su pronunciamiento. El
+motor los muestra como «no aplica».
 
 4. Dile que **involucre desde ya a su asesoría jurídica y al organismo
    administrador de la Ley 16.744** (ACHS, Mutual, IST o ISL). Tú acompañas y
@@ -67,6 +83,14 @@ y sanciones, que es de **15 días corridos** (art. 19 DS 21). Muchas guías dice
 | Pronunciamiento de la Dirección del Trabajo | 30 días hábiles |
 | Aplicar medidas y sanciones e informar a las partes | **15 días corridos** |
 
+Si la denuncia **se derivó** a la Dirección del Trabajo, el camino es otro:
+medidas de resguardo inmediatas; derivar la denuncia (de inmediato si el
+reglamento interno no está actualizado, y si no dentro de 3 días hábiles); la
+DT investiga en 30 días hábiles desde su certificado de recepción; y la empresa
+aplica las medidas dentro de 15 días desde que recibe las conclusiones de la
+DT. Para este último plazo el motor cuenta días corridos, como en la
+investigación interna: que la asesoría jurídica lo confirme.
+
 Los plazos **no se suspenden** por vacaciones ni licencia médica de los
 involucrados (dictamen DT ORD. N° 386/10 de 2025).
 
@@ -79,12 +103,16 @@ python .claude/motor/esg.py karin ver --caso KARIN-2026-001
 Cuando algo se cumple, regístralo: el resto del calendario se recalcula solo.
 
 ```bash
-python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito informar_dt --fecha 17-09-2026
+python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito medidas_resguardo --fecha 15-09-2026
 ```
 
-Hitos válidos: `medidas_resguardo`, `informar_dt`, `designar_investigador`,
-`conclusion_investigacion`, `remision_informe`, `pronunciamiento_dt`,
-`aplicar_medidas`.
+Hitos válidos si la empresa investiga: `medidas_resguardo`, `informar_dt`,
+`designar_investigador`, `conclusion_investigacion`, `remision_informe`,
+`pronunciamiento_dt`, `aplicar_medidas`.
+
+Si la denuncia se derivó: `medidas_resguardo`, `derivacion_dt`, `recepcion_dt`,
+`conclusion_investigacion` o `conclusiones_dt`, y `aplicar_medidas`. El motor
+rechaza un hito que no corresponde al camino del caso y explica cuál usar.
 
 Para dejar los vencimientos visibles en el tablero:
 

@@ -81,7 +81,7 @@ def leer(opciones):
     limite = int(limite) if limite and limite is not True else 300
     tabla = excel.leer_tabla(completa, hoja=hoja)
     filas = tabla["filas"]
-    return {
+    resultado = {
         "archivo": completa,
         "hoja": tabla["hoja"],
         "columnas": tabla["encabezados"],
@@ -89,6 +89,15 @@ def leer(opciones):
         "filas": filas[:limite],
         "truncado": len(filas) > limite,
     }
+    # Aqui se muestra la planilla tal cual, pero se dice si quedan ejemplos: los calculos no los usan.
+    _, definicion = definiciones.obtener(os.path.splitext(os.path.basename(completa))[0])
+    if definicion and not definiciones.es_empresa_de_ejemplo(completa):
+        ejemplos = len([f for f in filas if definiciones.es_fila_de_ejemplo(definicion, f)])
+        resultado["filas_de_ejemplo"] = ejemplos
+        if ejemplos:
+            resultado["aviso"] = ("La planilla todavia tiene %d fila(s) de ejemplo de la plantilla. Los calculos "
+                                  "las dejan fuera, pero conviene borrarlas." % ejemplos)
+    return resultado
 
 
 def _numero(valor):
@@ -123,10 +132,12 @@ def anomalias(opciones):
     avisos = []
     for completa in archivos:
         try:
-            del_archivo, series = _anomalias_de(completa, umbral)
+            del_archivo, series, aviso = _anomalias_de(completa, umbral)
         except Problema as problema:
             avisos.append("No pude revisar %s: %s" % (os.path.basename(completa), problema.mensaje))
             continue
+        if aviso:
+            avisos.append(aviso)
         revisadas.append({"archivo": os.path.basename(completa), "series": series,
                           "hallazgos": len(del_archivo)})
         hallazgos.extend(del_archivo)
@@ -172,7 +183,7 @@ def _primer_valor(fila, columnas):
 
 def _anomalias_de(completa, umbral):
     """Revisa una planilla y devuelve (hallazgos, series revisadas)."""
-    tabla = excel.leer_tabla(completa)
+    tabla, aviso = definiciones.leer_sin_ejemplos(completa)
     archivo = os.path.basename(completa)
     columnas = COLUMNAS_POR_PLANILLA.get(archivo.lower(), COLUMNAS_POR_DEFECTO)
 
@@ -224,7 +235,7 @@ def _anomalias_de(completa, umbral):
                                   ", ".join(faltantes), anio, "%s / %s" % (sitio, recurso)),
                 })
 
-    return hallazgos, len(series)
+    return hallazgos, len(series), aviso
 
 
 def escribir(opciones):
@@ -292,7 +303,7 @@ def escribir(opciones):
         for fila in tabla["filas"]:
             # Una planilla recien creada trae filas de ejemplo de una empresa inventada:
             # si se agregan datos reales debajo, esas filas entrarian al calculo.
-            if definiciones.es_fila_de_ejemplo(definicion, fila):
+            if definiciones.es_fila_de_ejemplo(definicion, fila) and not definiciones.es_empresa_de_ejemplo(destino):
                 ejemplos_quitados += 1
                 continue
             existentes.append([fila.get(excel.normalizar_encabezado(c)) for c in columnas])

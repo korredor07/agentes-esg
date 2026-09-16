@@ -467,7 +467,193 @@ class PruebaDerivacionLeyKarin(PruebaConCarpeta):
     def test_la_recepcion_se_puede_registrar_como_evento(self):
         caso = self.karin.crear(dict(self.opciones, via="derivada", reglamento_actualizado="no")).resultado["caso"]
         respuesta = self.karin.evento(dict(self.opciones, caso=caso, hito="recepcion_dt", fecha="2026-09-03"))
-        self.assertTrue(respuesta.resultado)
+        por_id = {h["id"]: h for h in respuesta.resultado["plazos"]}
+        self.assertEqual(por_id["conclusion_investigacion"]["cuenta_desde"], "recepcion_dt")
+        self.assertEqual(por_id["conclusion_investigacion"]["responsable"], "Direccion del Trabajo")
+
+
+class PruebaRevisionLeyKarin(PruebaConCarpeta):
+    """Revision independiente: respuestas ambiguas, derivacion tardia y datos dañados no pueden pasar en silencio."""
+
+    def setUp(self):
+        super(PruebaRevisionLeyKarin, self).setUp()
+        from modulos import karin
+        from nucleo.salida import Problema
+        self.karin, self.Problema = karin, Problema
+        espacio.crear_empresa({"nombre": "Envases SpA", "pais": "CL", "trabajadores": 60,
+                               "exporta_a_ue": False, "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Envases SpA"}
+        self.denuncia = dict(self.opciones, fecha_denuncia="2026-09-01")
+
+    def _plazos(self, respuesta):
+        return {h["id"]: h for h in respuesta.resultado["plazos"]}
+
+    def test_una_opcion_sin_valor_es_si(self):
+        respuesta = self.karin.crear(dict(self.denuncia, reglamento_actualizado="si", contra_representante=True))
+        self.assertTrue(respuesta.resultado["derivacion_obligatoria"])
+
+    def test_una_respuesta_que_no_se_entiende_se_pregunta_y_no_se_guarda(self):
+        with self.assertRaises(self.Problema):
+            self.karin.crear(dict(self.denuncia, reglamento_actualizado="si",
+                                  contra_representante="sí, es el gerente general"))
+        self.assertEqual(self.karin.listar(self.opciones)["total"], 0)
+
+    def test_con_una_respuesta_desconocida_no_da_por_hecho_que_se_investiga(self):
+        respuesta = self.karin.crear(dict(self.denuncia, contra_representante="no"))
+        self.assertIsNone(respuesta.resultado["derivacion_obligatoria"])
+        self.assertTrue(respuesta.advertencias[0].startswith("Antes de investigar internamente"))
+        self.assertEqual(respuesta.resultado["proximos_pasos"][0]["id"], "confirmar_derivacion")
+        actualizada = self.karin.actualizar(dict(self.opciones, caso="KARIN-2026-001", reglamento_actualizado="no"))
+        self.assertEqual(actualizada.resultado["camino"], "derivada")
+        self.assertTrue(actualizada.advertencias[0].startswith("IMPORTANTE"))
+
+    def test_la_derivacion_se_registra_despues_de_crear_y_cambia_todo_el_camino(self):
+        self.karin.crear(dict(self.denuncia, reglamento_actualizado="no", contra_representante="no"))
+        caso = dict(self.opciones, caso="KARIN-2026-001")
+        visto = self.karin.ver(caso)
+        self.assertTrue(visto.advertencias[0].startswith("IMPORTANTE"))
+
+        derivada = self.karin.evento(dict(caso, hito="derivacion_dt", fecha="2026-09-02"))
+        plazos = self._plazos(derivada)
+        self.assertEqual(plazos["derivar_dt"]["cumplido_el"], "2026-09-02")
+        self.assertIsNone(plazos["conclusion_investigacion"]["vence"])
+        for hito in ("designar_investigador", "remision_informe", "pronunciamiento_dt"):
+            self.assertTrue(plazos[hito]["estado"].startswith("no aplica"), hito)
+        self.assertFalse(self.karin.ver(caso).advertencias[0].startswith("IMPORTANTE"))
+
+        recibida = self._plazos(self.karin.evento(dict(caso, hito="recepcion_dt", fecha="2026-09-03")))
+        self.assertEqual(recibida["conclusion_investigacion"]["cuenta_desde"], "recepcion_dt")
+        self.assertEqual(recibida["conclusion_investigacion"]["responsable"], "Direccion del Trabajo")
+        self.assertIsNone(recibida["aplicar_medidas"]["vence"])
+
+        cerrada = self._plazos(self.karin.evento(dict(caso, hito="conclusiones_dt", fecha="2026-10-20")))
+        self.assertEqual(cerrada["aplicar_medidas"]["vence"], "2026-11-04")
+        self.assertEqual(cerrada["aplicar_medidas"]["tipo_de_dias"], "corridos")
+
+    def test_la_recepcion_en_un_caso_interno_se_rechaza_sin_guardar(self):
+        self.karin.crear(dict(self.denuncia, reglamento_actualizado="si", contra_representante="no"))
+        caso = dict(self.opciones, caso="KARIN-2026-001")
+        with self.assertRaises(self.Problema) as contexto:
+            self.karin.evento(dict(caso, hito="recepcion_dt", fecha="2026-09-03"))
+        self.assertIn("derivacion_dt", contexto.exception.sugerencia)
+        self.assertEqual(self.karin.ver(caso).resultado["caso"]["eventos"], {})
+
+    def test_un_hito_de_investigacion_interna_no_se_registra_si_hay_que_derivar(self):
+        self.karin.crear(dict(self.denuncia, reglamento_actualizado="si", contra_representante="si"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.opciones, caso="KARIN-2026-001", hito="designar_investigador",
+                                   fecha="2026-09-02"))
+
+    def test_una_fecha_mal_escrita_no_queda_guardada(self):
+        self.karin.crear(dict(self.denuncia, reglamento_actualizado="si", contra_representante="no"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.opciones, caso="KARIN-2026-001", hito="informar_dt", fecha="15 sept. 2026"))
+        listado = self.karin.listar(self.opciones)
+        self.assertEqual((listado["total"], listado["con_error"]), (1, 0))
+
+    def test_la_via_se_normaliza_o_se_pregunta(self):
+        respuesta = self.karin.crear(dict(self.denuncia, via="DT", reglamento_actualizado="si",
+                                          contra_representante="no"))
+        self.assertEqual(respuesta.resultado["camino"], "derivada")
+        self.assertEqual(self.karin.ver(dict(self.opciones, caso="KARIN-2026-001")).resultado["caso"]["via"],
+                         "derivada")
+        with self.assertRaises(self.Problema):
+            self.karin.crear(dict(self.denuncia, via="mediacion"))
+
+    def test_un_caso_dañado_no_esconde_a_los_demas_ni_se_esconde(self):
+        self.karin.crear(dict(self.denuncia, reglamento_actualizado="si", contra_representante="no"))
+        self.karin.crear(dict(self.denuncia, reglamento_actualizado="si", contra_representante="no"))
+        ruta = self.karin._contexto(self.opciones)[2]
+        with io.open(ruta, encoding="utf-8") as archivo:
+            datos = json.load(archivo)
+        datos["casos"][0]["eventos"]["informar_dt"] = "15 sept. 2026"
+        with io.open(ruta, "w", encoding="utf-8") as archivo:
+            json.dump(datos, archivo)
+        listado = self.karin.listar(self.opciones)
+        self.assertEqual((listado["total"], listado["con_error"]), (2, 1))
+        alertas = self.karin.alertas(self.opciones).resultado["alertas"]
+        self.assertTrue(any(a["estado"] == "error" and a["caso"] == "KARIN-2026-001" for a in alertas))
+        self.assertTrue(any(a["caso"] == "KARIN-2026-002" for a in alertas))
+
+    def test_el_tablero_muestra_que_no_pudo_actualizar_las_alertas(self):
+        from unittest import mock
+        from modulos import tablero
+        with mock.patch.object(self.karin, "alertas", side_effect=self.Problema("Archivo dañado.", "Reconstruyelo.")):
+            errores = tablero._refrescar_alertas(dict(self.opciones))
+        self.assertTrue(any("Ley Karin" in e and "Archivo dañado." in e for e in errores))
+
+
+class PruebaFilasDeEjemploFueraDeLosCalculos(PruebaConCarpeta):
+    """Revision independiente: el filtro de ejemplos estaba solo en el plan de medidas."""
+
+    def setUp(self):
+        super(PruebaFilasDeEjemploFueraDeLosCalculos, self).setUp()
+        from nucleo import excel
+        from plantillas import definiciones
+        self.excel, self.definiciones = excel, definiciones
+        espacio.crear_empresa({"nombre": "Real SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Real SpA"}
+        self.datos = os.path.join(espacio.cargar_empresa("Real SpA", raiz=self.carpeta)[1], "datos")
+
+    def _planilla(self, tipo, filas_reales, cambiar_nota_del_ejemplo=False):
+        definicion = self.definiciones.PLANTILLAS[tipo]
+        hojas = self.definiciones.hojas_de(definicion, con_ejemplo=True)
+        ejemplos = [list(fila) for fila in hojas[1]["filas"]]
+        if cambiar_nota_del_ejemplo:
+            ejemplos[0][-1] = "la persona le escribio una nota"
+        hojas[1]["filas"] = ejemplos + filas_reales
+        ruta = os.path.join(self.datos, "%s.xlsx" % tipo)
+        self.excel.escribir_xlsx(ruta, hojas)
+        return ruta
+
+    def test_la_huella_no_suma_los_ejemplos_que_quedaron_en_excel(self):
+        from modulos import huella
+        self._planilla("consumos", [["2025-01", "Local", "electricidad", "electricidad", 1000, "kWh",
+                                     "reportado", "", ""]], cambiar_nota_del_ejemplo=True)
+        respuesta = huella.calcular(dict(self.opciones, periodo="2025"))
+        self.assertEqual(respuesta.resultado["registros_calculados"], 1)
+        self.assertTrue(any("fila(s) de ejemplo" in a for a in respuesta.advertencias))
+
+    def test_solo_con_ejemplos_no_hay_huella(self):
+        from modulos import huella
+        from nucleo.salida import Problema
+        self._planilla("consumos", [])
+        with self.assertRaises(Problema) as contexto:
+            huella.calcular(dict(self.opciones))
+        self.assertIn("ejemplo", contexto.exception.mensaje)
+
+    def test_los_activos_de_ejemplo_no_entran_a_la_cartera(self):
+        from modulos import activos
+        from nucleo.salida import Problema
+        with self.assertRaises(Problema):
+            activos.cartera(dict(self.opciones))  # la primera vez crea la planilla con ejemplos
+        with self.assertRaises(Problema) as contexto:
+            activos.cartera(dict(self.opciones))
+        self.assertIn("ejemplo", contexto.exception.mensaje)
+
+    def test_la_empresa_de_ejemplo_conserva_sus_datos(self):
+        demo = os.path.join(RAIZ, "empresas", "ejemplo-alimentos-del-sur", "datos", "agua.xlsx")
+        tabla, aviso = self.definiciones.leer_sin_ejemplos(demo)
+        self.assertIsNone(aviso)
+        self.assertEqual(len(tabla["filas"]), 1)
+
+    def test_datos_leer_dice_que_quedan_ejemplos(self):
+        from modulos import datos
+        self._planilla("consumos", [])
+        leido = datos.leer(dict(self.opciones, archivo="consumos.xlsx"))
+        self.assertEqual(leido["filas_de_ejemplo"], 4)
+        self.assertIn("ejemplo", leido["aviso"])
+
+    def test_el_reporte_no_rellena_un_periodo_con_otros_anios(self):
+        from modulos import reporte
+        definicion = self.definiciones.PLANTILLAS["personas"]
+        filas = [["2024", "Planta Talca"] + list(fila[2:]) for fila in definicion["ejemplo"]]
+        self.excel.escribir_xlsx(os.path.join(self.datos, "personas.xlsx"),
+                                 self.definiciones.hojas_de(dict(definicion, ejemplo=filas)))
+        perfil, ruta = espacio.cargar_empresa("Real SpA", raiz=self.carpeta)
+        claves, _, avisos, _ = reporte.datos_disponibles(perfil, ruta, periodo="2025")
+        self.assertNotIn("personas.xlsx", claves)
+        self.assertTrue(any("no tiene filas del periodo 2025" in a for a in avisos))
 
 
 class PruebaSinCaracteresDeControl(unittest.TestCase):

@@ -7,6 +7,10 @@ nucleo.excel.leer_tabla, que normaliza los titulos (por ejemplo
 "Cantidad (kWh)" pasa a "cantidad_kwh").
 """
 
+import json
+import os
+import re
+
 PLANTILLAS = {
     "sitios": {
         "titulo": "Sitios e instalaciones",
@@ -224,6 +228,9 @@ def _comparable(valor):
     if valor is None:
         return ""
     texto = str(valor).strip().lower()
+    # Excel devuelve «2026-01-05 08:00:00» lo que en la plantilla se escribio «2026-01-05 08:00».
+    if re.match(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:00$", texto):
+        texto = texto[:-3]
     try:
         numero = float(texto.replace(",", "."))
         return ("%.6f" % numero).rstrip("0").rstrip(".")
@@ -231,26 +238,70 @@ def _comparable(valor):
         return texto
 
 
+# Columnas de texto libre que la persona toca sin cambiar el dato: no deciden si una fila es de ejemplo.
+COLUMNAS_QUE_NO_IDENTIFICAN = ("notas", "responsable", "evidencia", "calidad")
+
+
 def es_fila_de_ejemplo(definicion, fila):
     """Si la fila es una de las filas de ejemplo que trae la plantilla nueva.
 
     Acepta la fila como lista (en el orden de las columnas) o como diccionario con
     los encabezados normalizados, que es como la devuelve nucleo.excel.leer_tabla.
+    Cambiar solo la nota, el responsable, la evidencia o la calidad de una fila de
+    ejemplo no la vuelve un dato de la empresa: sus cifras siguen siendo inventadas.
     """
     if not definicion or not fila:
         return False
-    if isinstance(fila, dict):
-        from nucleo import excel
-        valores = [fila.get(excel.normalizar_encabezado(c["titulo"])) for c in definicion["columnas"]]
-    else:
-        valores = list(fila)
-    valores = [_comparable(v) for v in valores]
-    for ejemplo in definicion.get("ejemplo") or []:
-        esperado = [_comparable(v) for v in ejemplo]
-        largo = max(len(esperado), len(valores))
-        if (esperado + [""] * (largo - len(esperado))) == (valores + [""] * (largo - len(valores))):
-            return True
-    return False
+    from nucleo import excel
+    columnas = [excel.normalizar_encabezado(c["titulo"]) for c in definicion["columnas"]]
+    valores = [fila.get(c) for c in columnas] if isinstance(fila, dict) else list(fila)
+    cuentan = [i for i, c in enumerate(columnas) if not c.startswith(COLUMNAS_QUE_NO_IDENTIFICAN)]
+
+    def clave(lista):
+        lista = list(lista) + [""] * (len(columnas) - len(lista))
+        return [_comparable(lista[i]) for i in cuentan]
+
+    buscada = clave(valores)
+    return any(clave(ejemplo) == buscada for ejemplo in definicion.get("ejemplo") or [])
+
+
+def es_empresa_de_ejemplo(ruta_planilla):
+    """La empresa de ejemplo del proyecto usa a proposito los mismos datos que las plantillas.
+
+    Se reconoce por la marca empresa_de_ejemplo de su empresa.json. Si ese archivo no
+    se puede leer, se trata como una empresa real: dejar fuera los ejemplos es lo seguro.
+    """
+    carpeta = os.path.dirname(os.path.dirname(os.path.abspath(ruta_planilla)))
+    try:
+        with open(os.path.join(carpeta, "empresa.json"), encoding="utf-8") as archivo:
+            return json.load(archivo).get("empresa_de_ejemplo") is True
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
+def leer_sin_ejemplos(ruta, definicion=None, hoja=None):
+    """Lee una planilla de datos dejando fuera las filas de ejemplo de la plantilla.
+
+    Si la persona llena la planilla en Excel y no borra los ejemplos, esas filas son de
+    una empresa inventada y entrarian al calculo sin que nadie lo note. Devuelve
+    (tabla, aviso): el aviso dice cuantas se dejaron fuera, o es None si no habia.
+    definicion: la de la plantilla; si no se da, se deduce del nombre del archivo.
+    """
+    from nucleo import excel
+    tabla = excel.leer_tabla(ruta, hoja=hoja)
+    if definicion is None:
+        definicion = PLANTILLAS.get(os.path.splitext(os.path.basename(ruta))[0].lower())
+    tabla["filas_de_ejemplo"] = 0
+    if not definicion or es_empresa_de_ejemplo(ruta):
+        return tabla, None
+    reales = [fila for fila in tabla["filas"] if not es_fila_de_ejemplo(definicion, fila)]
+    tabla["filas_de_ejemplo"] = len(tabla["filas"]) - len(reales)
+    tabla["filas"] = reales
+    if not tabla["filas_de_ejemplo"]:
+        return tabla, None
+    return tabla, ("Deje fuera %d fila(s) de ejemplo de %s: son de una empresa inventada y no entran al "
+                   "calculo. Borralas de la planilla cuando puedas."
+                   % (tabla["filas_de_ejemplo"], os.path.basename(ruta)))
 
 
 def obtener(tipo):

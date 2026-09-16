@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Pruebas de la cadena de frio: temperatura cinetica media y excursiones."""
 
+import os
 import unittest
 
 from ayuda_pruebas import PruebaConCarpeta  # noqa: E402
@@ -219,16 +220,30 @@ class PruebaModulo(PruebaConCarpeta):
         respuesta = self.modulo.mkt(dict(self.opciones, temperaturas="20.0 25.0 30.0"))
         self.assertAlmostEqual(respuesta.resultado["mkt_c"], 25.858208, places=6)
 
-    def test_calcula_desde_la_planilla(self):
+    def _planilla_real(self):
+        from nucleo import excel
         self.modulo.plantilla(dict(self.opciones))
-        respuesta = self.modulo.mkt(dict(self.opciones, registro="Camara 1 enero"))
+        ruta = os.path.join(espacio.cargar_empresa("Frigorifico Prueba", raiz=self.carpeta)[1], "datos",
+                            self.modulo.ARCHIVO_DATOS)
+        filas = [["Camara 2 enero"] + list(fila[1:]) for fila in self.modulo.EJEMPLO_LECTURAS]
+        excel.escribir_xlsx(ruta, [{"nombre": "Lecturas", "filas": [self.modulo.COLUMNAS] + filas}])
+
+    def test_calcula_desde_la_planilla(self):
+        self._planilla_real()
+        respuesta = self.modulo.mkt(dict(self.opciones, registro="Camara 2 enero"))
         self.assertEqual(respuesta.resultado["lecturas"], 3)
 
-    def test_registro_inexistente_lo_dice(self):
+    def test_la_planilla_recien_creada_no_se_calcula_con_los_ejemplos(self):
         self.modulo.plantilla(dict(self.opciones))
         with self.assertRaises(Problema) as contexto:
+            self.modulo.mkt(dict(self.opciones, registro="Camara 1 enero"))
+        self.assertIn("ejemplo", contexto.exception.mensaje)
+
+    def test_registro_inexistente_lo_dice(self):
+        self._planilla_real()
+        with self.assertRaises(Problema) as contexto:
             self.modulo.mkt(dict(self.opciones, registro="Camara 9"))
-        self.assertIn("Camara 1 enero", contexto.exception.sugerencia)
+        self.assertIn("Camara 2 enero", contexto.exception.sugerencia)
 
     def test_revisa_contra_el_limite_legal(self):
         respuesta = self.modulo.revisar(dict(self.opciones, temperaturas="-19 -18 -13 -18",

@@ -7,6 +7,7 @@ import os
 from calculos import activos as motor_activos
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = ("Activos fijos en Chile: busca la vida util que fija el SII, calcula la depreciacion normal o "
          "acelerada, aplica la correccion monetaria y resume la cartera (inversion, depreciacion del "
@@ -125,15 +126,16 @@ def _leer_planilla(ruta_empresa):
             "costo y desde cuando se usa), guardala y avisame para calcular.",
             {"archivo": ruta, "columnas": [c["titulo"] for c in COLUMNAS]},
         )
-    tabla = excel.leer_tabla(ruta, hoja=HOJA)
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta, definicion={"columnas": COLUMNAS, "ejemplo": EJEMPLO},
+                                                  hoja=HOJA)
     if not tabla["filas"]:
         raise Problema(
-            "La planilla de activos fijos esta sin datos.",
+            "La planilla de activos fijos %s." % ("solo tiene las filas de ejemplo" if aviso else "esta sin datos"),
             "Abrela en Excel y escribe una fila por cada bien: nombre, que es, cuanto costo y desde cuando "
             "se usa.",
             {"archivo": ruta},
         )
-    return tabla["filas"], ruta
+    return tabla["filas"], ruta, aviso
 
 
 def _activo_desde_fila(fila):
@@ -273,8 +275,8 @@ def _depreciar_uno(opciones):
 
 def _depreciar_planilla(opciones):
     perfil, ruta_empresa = _contexto(opciones)
-    filas, archivo = _leer_planilla(ruta_empresa)
-    advertencias = []
+    filas, archivo, aviso = _leer_planilla(ruta_empresa)
+    advertencias = [aviso] if aviso else []
     calculados = []
     con_problema = []
     for fila in filas:
@@ -331,7 +333,7 @@ def depreciar(opciones):
 
 def _resumen(opciones):
     perfil, ruta_empresa = _contexto(opciones)
-    filas, archivo = _leer_planilla(ruta_empresa)
+    filas, archivo, aviso = _leer_planilla(ruta_empresa)
     anio = _valor(opciones, "anio") or _valor(opciones, "ejercicio") or perfil.get("periodo_actual")
     if anio and str(anio)[:4].isdigit():
         anio = int(str(anio)[:4])
@@ -340,6 +342,8 @@ def _resumen(opciones):
     resultado = motor_activos.resumen_cartera([_activo_desde_fila(f) for f in filas], anio=anio)
     resultado["empresa"] = perfil.get("nombre")
     resultado["archivo"] = archivo
+    if aviso:
+        resultado["advertencias"] = [aviso] + list(resultado.get("advertencias", []))
 
     if opciones.get("corregir") or opciones.get("correccion"):
         _agregar_correccion(resultado, _valor(opciones, "porcentaje"))

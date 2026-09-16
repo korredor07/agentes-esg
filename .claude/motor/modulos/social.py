@@ -7,6 +7,7 @@ import os
 from calculos import social as motor_social
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = "Calcula los indicadores de personas: dotacion, rotacion, brecha salarial, accidentes e inclusion."
 
@@ -24,15 +25,21 @@ def _leer_personas(ruta_empresa):
             "No encontre la planilla de personas.",
             "Creala con: plantilla crear --tipo personas, llenala con los datos del año y avisame.",
         )
-    return excel.leer_tabla(ruta)["filas"], ruta
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta)
+    if not tabla["filas"] and aviso:
+        raise Problema("La planilla de personas solo tiene las filas de ejemplo de la plantilla.",
+                       "Reemplazalas por los datos de la empresa y avisame.")
+    return tabla["filas"], ruta, aviso
 
 
 def calcular(opciones):
     """Calcula los indicadores de personas: dotacion, rotacion, brecha salarial, accidentes."""
     perfil, ruta = _contexto(opciones)
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
-    filas, archivo = _leer_personas(ruta)
+    filas, archivo, aviso = _leer_personas(ruta)
     indicadores = motor_social.calcular(filas, periodo)
+    if aviso:
+        indicadores["advertencias"] = [aviso] + list(indicadores.get("advertencias", []))
     indicadores["empresa"] = perfil.get("nombre")
     indicadores["inclusion"] = motor_social.revisar_inclusion(indicadores, perfil.get("pais"))
 
@@ -123,8 +130,10 @@ def informe_html(opciones):
         with open(origen, encoding="utf-8") as archivo:
             indicadores = json.load(archivo)
     else:
-        filas, _ = _leer_personas(ruta)
+        filas, _, aviso = _leer_personas(ruta)
         indicadores = motor_social.calcular(filas, periodo)
+        if aviso:
+            indicadores["advertencias"] = [aviso] + list(indicadores.get("advertencias", []))
         indicadores["inclusion"] = motor_social.revisar_inclusion(indicadores, perfil.get("pais"))
 
     destino = espacio.ruta_de(ruta, "reportes", "indicadores-sociales-%s.html" % (periodo or "completo"))

@@ -430,8 +430,24 @@ class PruebaModuloRep(PruebaConCarpeta):
         self.assertIn("rep.xlsx", contexto.exception.mensaje)
         self.assertIn("plantilla crear --tipo rep", contexto.exception.sugerencia)
 
-    def test_flujo_completo_desde_la_planilla(self):
+    def _planilla_real(self):
+        """Las cifras del ejemplo, pero como datos de la empresa: cambia el sistema de gestion."""
+        from nucleo import excel
+        from plantillas import definiciones
         creada = self.plantilla.crear(dict(self.opciones, tipo="rep"))
+        definicion = dict(definiciones.PLANTILLAS["rep"])
+        definicion["ejemplo"] = [list(fila[:7]) + ["colectivo GIRO"] + list(fila[8:]) for fila in definicion["ejemplo"]]
+        excel.escribir_xlsx(creada["archivo"], definiciones.hojas_de(definicion))
+        return creada
+
+    def test_la_planilla_recien_creada_no_se_calcula_con_los_ejemplos(self):
+        self.plantilla.crear(dict(self.opciones, tipo="rep"))
+        with self.assertRaises(Problema) as contexto:
+            self.modulo.calcular(dict(self.opciones, anio="2026"))
+        self.assertIn("ejemplo", contexto.exception.mensaje)
+
+    def test_flujo_completo_desde_la_planilla(self):
+        creada = self._planilla_real()
         self.assertTrue(os.path.isfile(creada["archivo"]))
 
         respuesta = self.modulo.calcular(dict(self.opciones, anio="2026"))
@@ -451,7 +467,7 @@ class PruebaModuloRep(PruebaConCarpeta):
         self.assertEqual(solo_neumaticos["total"]["metas_evaluadas"], 2)
 
     def test_obligaciones_segun_el_perfil(self):
-        self.plantilla.crear(dict(self.opciones, tipo="rep"))
+        self._planilla_real()
         respuesta = self.modulo.obligaciones(self.opciones)
         resultado = respuesta.resultado
         productos = [p["producto"] for p in resultado["productos_que_le_aplican"]]

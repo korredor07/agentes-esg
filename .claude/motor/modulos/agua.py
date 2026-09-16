@@ -8,6 +8,7 @@ import os
 from calculos import agua as motor_agua
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = ("Calcula cuanta agua entra, sale y se consume en cada sitio (GRI 303), pondera el consumo por "
          "la escasez del lugar (metodo AWARE) y revisa la obligacion chilena de monitorear las "
@@ -59,22 +60,25 @@ def _leer_planilla(ruta_empresa):
             "por periodo, sitio y origen del agua (cuanta entro, cuanta salio y a donde) y me avisas.",
             {"archivo_esperado": ruta},
         )
-    tabla = excel.leer_tabla(ruta)
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta)
     if not tabla["filas"]:
         raise Problema(
-            "La planilla de agua (%s) esta sin datos." % PLANILLA,
+            "La planilla de agua (%s) %s." % (PLANILLA, "solo tiene las filas de ejemplo de la plantilla"
+                                              if aviso else "esta sin datos"),
             "Abrela en Excel y escribe al menos una fila: periodo, sitio, origen del agua, metros "
             "cubicos extraidos y metros cubicos descargados.",
             {"archivo": ruta},
         )
-    return tabla["filas"], ruta
+    return tabla["filas"], ruta, aviso
 
 
 def _resumen_del_periodo(ruta_empresa, periodo):
     """Calcula la contabilidad de agua del periodo desde la planilla."""
-    filas, ruta = _leer_planilla(ruta_empresa)
+    filas, ruta, aviso = _leer_planilla(ruta_empresa)
     resumen = motor_agua.calcular(filas, periodo)
     resumen["planilla"] = ruta
+    if aviso:
+        resumen["advertencias"] = [aviso] + list(resumen.get("advertencias", []))
     return resumen
 
 
