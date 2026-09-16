@@ -146,6 +146,8 @@ datos inventados, para que veas cómo se ve todo antes de cargar lo tuyo.
 ## Guías
 
 - [Guía de uso paso a paso](docs/guia-de-uso.md) — para empezar.
+- [Prueba E2E](docs/prueba-e2e.md) — seis conversaciones simuladas y todos los
+  comandos documentados, con su nota y lo que sigue abierto.
 - [Equivalencias con plataformas comerciales](docs/equivalencias.md) — qué
   cubre y qué no.
 - [Investigación normativa](docs/investigacion/) — de dónde sale cada dato, con
