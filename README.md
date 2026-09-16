@@ -94,7 +94,8 @@ qué pedir, escribe **ayuda**.
 ### Sectoriales
 
 - **Minería**: depósitos de relaves, ventilación de minas subterráneas,
-  exposición ocupacional, ruido y cierre de faenas.
+  exposición a agentes químicos, polvo y gases, y cierre de faenas. No evalúa
+  ruido ni estrés térmico.
 - **Agua**: consumo, indicadores GRI 303 y huella de escasez hídrica.
 - **Transporte de carga**: emisiones de un envío tramo por tramo según ISO
   14083, y comparación entre camión, tren, barco y avión.

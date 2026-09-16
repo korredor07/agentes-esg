@@ -53,7 +53,7 @@ improvisar. Este archivo se actualiza cuando se agregan capacidades.
 | Declaraciones ambientales: RETC, residuos, emisiones, riles, impuesto verde | `retc` |
 | Modelo de prevención de delitos y gobierno corporativo (Ley 20.393, CMF) | `gobernanza` |
 | Datos personales, consentimiento, Ley 21.719 | `proteccion-datos` |
-| Faenas mineras: relaves, ventilación, exposición, ruido, altura | `mineria` |
+| Faenas mineras: relaves, ventilación, exposición a químicos, polvo y gases, altura, cierre (no ruido ni calor) | `mineria` |
 | Activos fijos, vida útil del SII, depreciación y recambio de equipos | `activos-fijos` |
 
 ## Personas
