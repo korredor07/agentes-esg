@@ -26,12 +26,22 @@ consultora). El prospecto se indica con `--prospecto`.
 | `perdido` | Se cerró sin contrato | — |
 
 ```bash
-python .claude/motor/esg.py crm registrar --prospecto "Viña Los Robles" --contacto "Marta Diaz" --sector Vitivinicola --tamano mediana --origen recomendacion --necesidad "un cliente europeo le pide la huella"
+python .claude/motor/esg.py crm registrar --prospecto "Viña Los Robles" --contacto "Marta Diaz" --sector Vitivinicola --tamano mediana --origen recomendacion --necesidad "un cliente europeo le pide la huella" --fecha-contacto 2026-09-15 --proxima-accion "Enviar propuesta" --fecha-proxima 2026-09-18
 python .claude/motor/esg.py crm listar
 python .claude/motor/esg.py crm mover --prospecto CRM-0001 --estado contactado --nota "llamada inicial, quedó de mandar el requerimiento del cliente"
 python .claude/motor/esg.py crm siguiente
 python .claude/motor/esg.py crm informe
 ```
+
+Anota siempre la **próxima acción y su fecha** (`--proxima-accion`,
+`--fecha-proxima`): es lo que evita que un prospecto se enfríe. Si el contacto
+fue antes de hoy, pon su fecha con `--fecha-contacto`. Las fechas van como
+año-mes-día: si la persona dice «el viernes», conviértelo a la fecha exacta y
+confírmaselo.
+
+El CRM vive en la carpeta de **tu propia empresa** (la consultora). Si todavía
+no está registrada, regístrala una vez con la skill `inicio`: solo hace falta el
+nombre.
 
 Cada movimiento deja bitácora con la fecha y la nota. Esa bitácora es lo que
 permite retomar una conversación tres semanas después sin partir de cero.

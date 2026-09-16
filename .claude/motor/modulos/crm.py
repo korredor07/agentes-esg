@@ -210,6 +210,15 @@ def registrar(opciones):
             )
 
     hoy = _hoy(opciones)
+    fecha_contacto = _valor(opciones, "fecha_contacto")
+    fecha_proxima = _valor(opciones, "fecha_proxima")
+    for etiqueta, fecha in (("--fecha-contacto", fecha_contacto), ("--fecha-proxima", fecha_proxima)):
+        if fecha:
+            try:
+                datetime.date.fromisoformat(str(fecha))
+            except ValueError:
+                raise Problema("La fecha «%s» no es valida." % fecha,
+                               "Escribela como año-mes-dia, por ejemplo %s 2026-09-18." % etiqueta)
     prospecto = {
         "id": "CRM-%04d" % (len(datos["prospectos"]) + 1),
         "prospecto_id": clave,
@@ -226,8 +235,10 @@ def registrar(opciones):
         "valor_estimado": valor_estimado,
         "moneda": _valor(opciones, "moneda", perfil.get("moneda") or "CLP"),
         "notas": _valor(opciones, "notas"),
-        "bitacora": [{"fecha": hoy.isoformat(), "de": "", "a": estado,
-                      "nota": "Prospecto registrado."}],
+        "proxima_accion": _valor(opciones, "proxima_accion"),
+        "fecha_proxima_accion": fecha_proxima,
+        "bitacora": [{"fecha": fecha_contacto or hoy.isoformat(), "de": "", "a": estado,
+                      "nota": "Primer contacto." if fecha_contacto else "Prospecto registrado."}],
         "creado_el": datetime.datetime.now().replace(microsecond=0).isoformat(sep=" "),
     }
     datos["prospectos"].append(prospecto)

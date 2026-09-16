@@ -277,6 +277,91 @@ class PruebaProductorRep(unittest.TestCase):
         self.assertNotIn("sea fabricandolos", rep["motivo"])
 
 
+class PruebaCartaAProveedores(PruebaConCarpeta):
+    """La carta no puede exigir respuesta si la empresa no lo decidio (agente-proveedores)."""
+
+    def setUp(self):
+        super(PruebaCartaAProveedores, self).setUp()
+        from modulos import proveedores
+        self.proveedores = proveedores
+        espacio.crear_empresa({"nombre": "Compras SpA", "pais": "CL", "exporta_a_ue": False,
+                               "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Compras SpA"}
+
+    def _texto(self, archivo):
+        import re
+        import zipfile
+        with zipfile.ZipFile(archivo) as z:
+            xml = z.read("word/document.xml").decode("utf-8")
+        return " ".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", xml, re.S))
+
+    def test_por_defecto_no_condiciona(self):
+        respuesta = self.proveedores.carta(dict(self.opciones, proveedor="Molino Central"))
+        texto = self._texto(respuesta.resultado["archivo"])
+        self.assertNotIn("necesitamos que exista una respuesta", texto)
+        self.assertTrue(any("--condicionar" in a for a in respuesta.advertencias))
+
+    def test_condiciona_solo_si_se_pide(self):
+        respuesta = self.proveedores.carta(dict(self.opciones, proveedor="Molino Central", condicionar=True))
+        self.assertIn("necesitamos que exista una respuesta", self._texto(respuesta.resultado["archivo"]))
+
+
+class PruebaRutasLargas(unittest.TestCase):
+    """En Windows, una ruta de mas de 260 caracteres fallaba con un «no encontre el archivo»."""
+
+    def test_explica_el_problema_y_como_resolverlo(self):
+        from unittest import mock
+        from nucleo.salida import Problema
+        larga = "C:\\" + "carpeta-muy-larga\\" * 20 + "carta.docx"
+        with mock.patch.object(espacio.os, "name", "nt"), \
+                mock.patch.object(espacio, "_rutas_largas_habilitadas", return_value=False), \
+                mock.patch.object(espacio.os.path, "abspath", side_effect=lambda r: r):
+            with self.assertRaises(Problema) as contexto:
+                espacio.revisar_largo_de_ruta(larga)
+        self.assertIn("260", contexto.exception.mensaje)
+        self.assertIn("raiz del disco", contexto.exception.sugerencia)
+
+    def test_una_ruta_normal_pasa(self):
+        espacio.revisar_largo_de_ruta("C:\\agentes-esg\\empresas\\x\\reportes\\carta.docx")
+
+
+class PruebaCalendarioDePeru(PruebaConCarpeta):
+    """Revisar plazos es el primer paso del asistente: para Peru no puede ser un error."""
+
+    def test_pais_sin_calendario_responde_ok(self):
+        from modulos import calendario
+        espacio.crear_empresa({"nombre": "Panaderia SAC", "pais": "PE", "exporta_a_ue": False,
+                               "anio_base": 2025}, raiz=self.carpeta)
+        respuesta = calendario.proximas({"raiz": self.carpeta, "empresa": "Panaderia SAC"})
+        self.assertFalse(respuesta.resultado["calendario_disponible"])
+        self.assertEqual(respuesta.resultado["urgentes"], [])
+        self.assertIn("no puedo avisar plazos", respuesta.resultado["mensaje"])
+
+
+class PruebaProximaAccionEnCrm(PruebaConCarpeta):
+
+    def test_registra_la_proxima_accion_y_su_fecha(self):
+        from modulos import crm
+        espacio.crear_empresa({"nombre": "Consultora SpA", "pais": "CL", "exporta_a_ue": False,
+                               "anio_base": 2025}, raiz=self.carpeta)
+        respuesta = crm.registrar({"raiz": self.carpeta, "empresa": "Consultora SpA",
+                                   "prospecto": "Vina Santa Rita", "necesidad": "huella de carbono",
+                                   "fecha_contacto": "2026-09-15", "proxima_accion": "Enviar propuesta",
+                                   "fecha_proxima": "2026-09-18"})
+        prospecto = respuesta.resultado["prospecto"]
+        self.assertEqual(prospecto["proxima_accion"], "Enviar propuesta")
+        self.assertEqual(prospecto["fecha_proxima_accion"], "2026-09-18")
+        self.assertEqual(prospecto["bitacora"][0]["fecha"], "2026-09-15")
+
+    def test_fecha_invalida_se_explica(self):
+        from modulos import crm
+        from nucleo.salida import Problema
+        espacio.crear_empresa({"nombre": "Consultora SpA", "pais": "CL"}, raiz=self.carpeta)
+        with self.assertRaises(Problema):
+            crm.registrar({"raiz": self.carpeta, "empresa": "Consultora SpA", "prospecto": "X",
+                           "fecha_proxima": "el viernes"})
+
+
 class PruebaSinCaracteresDeControl(unittest.TestCase):
     """Un caracter de control escrito por error rompe una expresion regular sin que se vea."""
 

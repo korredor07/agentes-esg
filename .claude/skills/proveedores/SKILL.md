@@ -51,6 +51,10 @@ python .claude/motor/esg.py proveedores carta --proveedor "Envases del Sur" --pl
 python .claude/motor/esg.py proveedores cuestionario --proveedor "Envases del Sur" --plazo 30-10-2026 --responsable "Ana Rojas" --correo ana@empresa.cl
 ```
 
+La carta **no exige respuesta** como condición de la relación comercial. Si la
+empresa decide exigirla, agrega `--condicionar`, pero esa es una decisión
+comercial que tiene que tomar la persona: pregúntale, no lo decidas tú.
+
 Lo que hace la diferencia entre un cuestionario contestado y uno ignorado:
 
 - **Decir para qué es.** «Un cliente nos pide las emisiones de nuestra cadena y

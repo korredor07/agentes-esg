@@ -201,7 +201,7 @@ def _bloques_cuestionario(perfil, proveedor, periodo, plazo, responsable, correo
     ]
 
 
-def _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motivo):
+def _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motivo, condicionar=False):
     nombre_empresa = perfil.get("nombre", "la empresa")
     return [
         {"tipo": "titulo", "texto": "Solicitud de datos ambientales y laborales a proveedores", "nivel": 0},
@@ -244,8 +244,10 @@ def _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motiv
         {"tipo": "lista", "items": [
             "No pedimos informacion sobre sus costos, margenes ni sus otros clientes.",
             "No pedimos una certificacion ni una auditoria: no hace falta contratar a nadie para responder.",
-            "No condicionamos la relacion comercial a que el resultado sea bueno; si condicionamos a que "
-            "exista una respuesta, porque necesitamos saber con quien estamos trabajando.",
+            "No condicionamos la relacion comercial a que el resultado sea bueno." +
+            # Exigir respuesta es una decision de la empresa, no del asistente (agente-proveedores).
+            (" Si necesitamos que exista una respuesta, porque tenemos que saber con quien estamos "
+             "trabajando." if condicionar else ""),
         ]},
 
         {"tipo": "titulo", "texto": "Plazo y contacto", "nivel": 1},
@@ -301,8 +303,10 @@ def carta(opciones):
     motivo = _valor(opciones, "motivo")
     sufijo = espacio.texto_a_slug(proveedor) if proveedor else "general"
     destino = espacio.ruta_de(ruta, "reportes", "carta-solicitud-proveedores-%s.docx" % sufijo)
+    condicionar = bool(opciones.get("condicionar"))
     word.escribir_docx(destino,
-                       _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motivo),
+                       _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motivo,
+                                      condicionar),
                        "Solicitud de datos a proveedores")
     return Respuesta(
         {"mensaje": "Carta de solicitud lista.",
@@ -310,7 +314,10 @@ def carta(opciones):
          "proveedor": proveedor or "generica (sirve para cualquier proveedor)",
          "siguiente_paso": "Revisa el texto, firmalo y envialo con el cuestionario adjunto."},
         advertencias=[AVISO_PRIVACIDAD,
-                      "Es un borrador: revisa que el motivo y el plazo sean los reales antes de enviarlo."])
+                      "Es un borrador: revisa que el motivo y el plazo sean los reales antes de enviarlo."] +
+                     ([] if condicionar else [
+                         "La carta no exige respuesta como condicion. Si la empresa decide exigirla, se agrega "
+                         "con --condicionar: es una decision comercial que tiene que tomar la persona."]))
 
 
 # --------------------------------------------------------------------------

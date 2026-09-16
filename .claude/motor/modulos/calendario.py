@@ -96,7 +96,19 @@ def proximas(opciones):
     hoy = opciones.get("hoy")
     hoy = datetime.date.fromisoformat(hoy) if hoy and hoy is not True else datetime.date.today()
     respuestas = aplicabilidad.respuestas_efectivas(perfil, _respuestas(ruta))
-    filas = cargar(perfil.get("pais") or "CL")
+    pais = perfil.get("pais") or "CL"
+    try:
+        filas = cargar(pais)
+    except Problema as problema:
+        # El asistente revisa los plazos al empezar: para una empresa peruana eso no puede ser un error.
+        return Respuesta(
+            {"empresa": perfil.get("nombre"), "hoy": hoy.isoformat(), "pais": pais,
+             "calendario_disponible": False,
+             "obligaciones_con_fecha": [], "obligaciones_permanentes": [], "por_confirmar": [],
+             "urgentes": [], "proximas_semanas": [],
+             "mensaje": "Todavia no tengo el calendario de obligaciones de %s, asi que no puedo avisar plazos. "
+                        "Las normas que le aplican si se pueden revisar." % pais},
+            advertencias=[problema.sugerencia])
 
     aplican, por_confirmar, sin_fecha = [], [], []
     for fila in filas:

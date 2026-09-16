@@ -125,8 +125,12 @@ es pagar por una lista de hallazgos.
 python .claude/motor/esg.py diagnostico evaluar
 ```
 
-El diagnóstico entrega el indicador **«listo para auditoría»**: el porcentaje de
-datos que están respaldados y no estimados. Úsalo como punto de partida.
+El diagnóstico entrega el indicador **«listo para auditoría»**: qué parte de los
+indicadores que el motor puede revisar por su cuenta (huella calculada, datos
+cargados, evidencias registradas, metas) están en regla. **No es** el porcentaje
+de datos respaldados ni estimados: ese sale de la calidad de datos de la huella
+(`huella calcular`, campo `calidad_datos`, que además dice cuánto se estimó por
+gasto). Usa los dos, y no presentes uno como si fuera el otro.
 
 1. ¿Cada cifra del reporte tiene detrás un archivo registrado en la bóveda?
 2. ¿La verificación de la cadena de evidencias pasa sin problemas?

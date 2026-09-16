@@ -260,6 +260,34 @@ def cargar_empresa(identificador=None, raiz=None):
     return perfil, ruta
 
 
+LARGO_MAXIMO_WINDOWS = 259
+
+
+def _rutas_largas_habilitadas():
+    """Windows 10+ acepta rutas largas solo si el administrador lo habilito en el registro."""
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SYSTEM\CurrentControlSet\Control\FileSystem") as clave:
+            return winreg.QueryValueEx(clave, "LongPathsEnabled")[0] == 1
+    except (ImportError, OSError):
+        return False
+
+
+def revisar_largo_de_ruta(ruta):
+    """Una ruta de mas de 260 caracteres falla en Windows con un «no encontre el archivo» que confunde."""
+    if os.name != "nt" or len(os.path.abspath(ruta)) <= LARGO_MAXIMO_WINDOWS:
+        return
+    if _rutas_largas_habilitadas():
+        return
+    raise Problema(
+        "No puedo guardar el archivo: la ruta tiene %d caracteres y Windows no acepta mas de 260."
+        % len(os.path.abspath(ruta)),
+        "Mueve la carpeta del proyecto mas cerca de la raiz del disco, por ejemplo a C:\\agentes-esg, y "
+        "vuelve a intentarlo. No se pierde nada: todo esta dentro de la carpeta.",
+        {"ruta": os.path.abspath(ruta)},
+    )
+
+
 def ruta_de(ruta_empresa, carpeta, *partes):
     """Devuelve una ruta dentro de la carpeta de la empresa, creandola si falta."""
     if carpeta not in CARPETAS:
@@ -270,4 +298,7 @@ def ruta_de(ruta_empresa, carpeta, *partes):
     destino = os.path.join(ruta_empresa, carpeta)
     if not os.path.isdir(destino):
         os.makedirs(destino)
-    return os.path.join(destino, *partes) if partes else destino
+    resultado = os.path.join(destino, *partes) if partes else destino
+    if partes:
+        revisar_largo_de_ruta(resultado)
+    return resultado
