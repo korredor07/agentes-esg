@@ -692,20 +692,26 @@ def _bloques_maritimo(guardado):
     datos = guardado.get("maritimo")
     if not datos:
         return []
-    ets = datos["ets"]
-    bloques = [
-        {"tipo": "titulo", "texto": "Flete maritimo: mercado de carbono europeo y FuelEU", "nivel": 2},
-        {"tipo": "kpi", "items": [
-            {"etiqueta": "Emisiones cubiertas", "valor": ets["emisiones_cubiertas_t_co2e"], "unidad": "t CO2e",
-             "detalle": "%s %% del viaje" % round(ets["cobertura_viaje"] * 100)},
-            {"etiqueta": "Costo del viaje", "valor": ets["costo_eur"], "unidad": "EUR",
-             "detalle": "Entrega del %s %% en %d" % (round(ets["porcentaje_entrega"] * 100), ets["anio"])},
-            {"etiqueta": "Recargo por contenedor", "valor": ets["recargo_por_teu_eur"], "unidad": "EUR/TEU",
-             "detalle": "Referencia para negociar el flete", "color": "amarillo"},
-        ]},
-        {"tipo": "titulo", "texto": "Que pedirle a la naviera", "nivel": 3},
-        {"tipo": "lista", "items": ets["que_pedirle_a_la_naviera"]},
-    ]
+    ets = datos.get("ets")
+    bloques = [{"tipo": "titulo", "texto": "Flete maritimo: mercado de carbono europeo y FuelEU", "nivel": 2}]
+    if ets:
+        bloques.extend([
+            {"tipo": "kpi", "items": [
+                {"etiqueta": "Emisiones cubiertas", "valor": ets["emisiones_cubiertas_t_co2e"], "unidad": "t CO2e",
+                 "detalle": "%s %% del viaje" % round(ets["cobertura_viaje"] * 100)},
+                {"etiqueta": "Costo del viaje", "valor": ets["costo_eur"], "unidad": "EUR",
+                 "detalle": "Entrega del %s %% en %d" % (round(ets["porcentaje_entrega"] * 100), ets["anio"])},
+                {"etiqueta": "Recargo por contenedor", "valor": ets["recargo_por_teu_eur"], "unidad": "EUR/TEU",
+                 "detalle": "Referencia para negociar el flete", "color": "amarillo"},
+            ]},
+            {"tipo": "titulo", "texto": "Que pedirle a la naviera", "nivel": 3},
+            {"tipo": "lista", "items": ets["que_pedirle_a_la_naviera"]},
+        ])
+    else:
+        # Se calculo solo FuelEU, que va por buque y año: no hay un viaje del que sacar el recargo.
+        bloques.append({"tipo": "nota", "estilo": "aviso",
+                        "texto": "No se calculo el recargo del mercado de carbono porque no se indico un viaje. "
+                                 "Para calcularlo hace falta el consumo del viaje o sus emisiones."})
     fueleu = datos.get("fueleu") or {}
     if fueleu.get("penalizacion_eur") is not None:
         bloques.append({"tipo": "texto", "texto": (

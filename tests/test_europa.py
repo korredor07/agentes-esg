@@ -407,6 +407,13 @@ class PruebaModuloEuropa(PruebaConCarpeta):
         self.assertIn("FuelEU", resultado["en_una_frase"])
         self.assertTrue(any(a.startswith("ETS:") for a in respuesta.advertencias))
 
+    def test_informe_despues_de_calcular_solo_fueleu(self):
+        # Regresion encontrada por la prueba E2E de comandos documentados.
+        self.modulo.maritimo(dict(self.opciones, anio="2025", consumo_anual="10000", combustible="HFO",
+                                  precio_eua="75", gwp_ch4="25", gwp_n2o="298"))
+        respuesta = self.modulo.informe_html(self.opciones)
+        self.assertTrue(os.path.isfile(respuesta.resultado["archivo"]))
+
     def test_maritimo_sin_ningun_dato_sigue_pidiendo_el_viaje(self):
         with self.assertRaises(Problema):
             self.modulo.maritimo(dict(self.opciones, anio="2026", precio_eua="75"))
