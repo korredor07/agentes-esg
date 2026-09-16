@@ -317,5 +317,142 @@ class PruebaBorradorSinRepetir(PruebaConCarpeta):
         self.assertEqual(fuera, 0)
 
 
+class PruebaHallazgosMenores(PruebaConCarpeta):
+    """H15: los detalles que rompen la confianza."""
+
+    def setUp(self):
+        super(PruebaHallazgosMenores, self).setUp()
+        import json
+        from modulos import datos
+        self.json = json
+        self.datos = datos
+        espacio.crear_empresa({"nombre": "Prueba SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Prueba SpA"}
+
+    def _cargar(self, tipo, filas):
+        self.datos.escribir(dict(self.opciones, tipo=tipo, filas=self.json.dumps(filas)))
+
+    def test_revisa_todas_las_planillas_no_solo_consumos(self):
+        self._cargar("consumos", [["2025-0%d" % m, "Planta", "electricidad", "electricidad",
+                                   1000 if m != 3 else 9000, "kWh", "reportado", "", ""]
+                                  for m in range(1, 7)])
+        self._cargar("alcance3", [["2025-0%d" % m, "1", "gasto alimentos",
+                                   100 if m != 2 else 900, "USD", "", "", "", "reportado", "", ""]
+                                  for m in range(1, 7)])
+        resultado = self.datos.anomalias(dict(self.opciones)).resultado
+        revisadas = {r["archivo"] for r in resultado["planillas_revisadas"]}
+        self.assertEqual(revisadas, {"consumos.xlsx", "alcance3.xlsx"})
+        archivos_con_hallazgo = {h["archivo"] for h in resultado["hallazgos"]}
+        self.assertIn("alcance3.xlsx", archivos_con_hallazgo)
+        self.assertIn("consumos.xlsx", archivos_con_hallazgo)
+
+    def test_sin_planillas_lo_dice(self):
+        with self.assertRaises(Problema) as contexto:
+            self.datos.anomalias(dict(self.opciones))
+        self.assertIn("plantilla crear", contexto.exception.sugerencia)
+
+    def test_se_puede_pedir_una_sola_planilla(self):
+        self._cargar("consumos", [["2025-01", "Planta", "electricidad", "electricidad",
+                                   1000, "kWh", "reportado", "", ""]])
+        resultado = self.datos.anomalias(dict(self.opciones, archivo="consumos.xlsx")).resultado
+        self.assertEqual([r["archivo"] for r in resultado["planillas_revisadas"]], ["consumos.xlsx"])
+
+
+class PruebaSinDatoNoEsCero(unittest.TestCase):
+    """H15.2: una celda vacia no puede convertirse en un cero que se reporta."""
+
+    FILAS = [
+        {"_fila": 2, "periodo": "2025", "categoria": "operario", "genero": "mujer",
+         "numero_de_personas": 7, "accidentes_con_tiempo_perdido": 1, "dias_perdidos": 4},
+        {"_fila": 3, "periodo": "2025", "categoria": "operario", "genero": "hombre",
+         "numero_de_personas": 5, "accidentes_con_tiempo_perdido": 0, "dias_perdidos": 0},
+    ]
+
+    def test_columna_vacia_queda_sin_dato(self):
+        from calculos import social
+        resultado = social.calcular(self.FILAS, "2025")
+        self.assertIsNone(resultado["horas_capacitacion_por_persona"])
+        self.assertIsNone(resultado["personas_con_discapacidad"])
+        self.assertIn("horas de capacitacion", resultado["columnas_sin_llenar"])
+
+    def test_un_cero_escrito_sigue_siendo_cero(self):
+        from calculos import social
+        resultado = social.calcular(self.FILAS, "2025")
+        self.assertEqual(resultado["accidentes_con_tiempo_perdido"], 1)
+        self.assertEqual(resultado["dias_perdidos"], 4)
+        self.assertNotIn("accidentes con tiempo perdido", resultado.get("columnas_sin_llenar", []))
+
+    def test_avisa_para_que_nadie_lo_reporte_como_cero(self):
+        from calculos import social
+        resultado = social.calcular(self.FILAS, "2025")
+        self.assertTrue(any("no los reportes" in a.lower() for a in resultado["advertencias"]))
+
+    def test_con_todo_lleno_no_hay_columnas_sin_dato(self):
+        from calculos import social
+        filas = [dict(f, contrataciones=1, desvinculaciones=0, horas_de_capacitacion=20,
+                      personas_con_discapacidad=0, horas_trabajadas=2000) for f in self.FILAS]
+        resultado = social.calcular(filas, "2025")
+        self.assertNotIn("columnas_sin_llenar", resultado)
+        self.assertEqual(resultado["horas_capacitacion"], 40.0)
+
+    def test_el_informe_no_se_cae_con_datos_faltantes(self):
+        from calculos import social
+        from modulos import social as modulo
+        indicadores = social.calcular(self.FILAS, "2025")
+        bloques = modulo._bloques(indicadores, {"nombre": "Prueba SpA"})
+        textos = [str(b) for b in bloques]
+        self.assertTrue(any("Sin dato" in t for t in textos))
+
+
+class PruebaAyudaDelMotor(unittest.TestCase):
+    """H15.3: se tiene que poder saber que opciones acepta cada accion."""
+
+    def setUp(self):
+        import esg
+        self.esg = esg
+
+    def test_cada_modulo_explica_sus_acciones(self):
+        for nombre in self.esg.modulos_disponibles():
+            ayuda = self.esg.ayuda_de_modulo(nombre)
+            self.assertTrue(ayuda["acciones"], "El modulo %s no declara acciones." % nombre)
+            for accion, ficha in ayuda["acciones"].items():
+                self.assertTrue(ficha["que_hace"],
+                                "La accion %s %s no dice que hace." % (nombre, accion))
+
+    def test_muestra_las_opciones_reales(self):
+        ayuda = self.esg.ayuda_de_modulo("huella")
+        self.assertIn("--periodo", ayuda["acciones"]["calcular"]["opciones"])
+        self.assertIn("--empresa", ayuda["acciones"]["calcular"]["opciones"])
+        self.assertIn("--uso", ayuda["acciones"]["factores"]["opciones"])
+
+    def test_sigue_a_los_ayudantes(self):
+        # cartera llama a _resumen, que llama a _contexto: ahi viven --empresa y --raiz.
+        ayuda = self.esg.ayuda_de_modulo("activos")
+        self.assertIn("--empresa", ayuda["acciones"]["cartera"]["opciones"])
+
+    def test_la_ayuda_general_dice_como_pedir_el_detalle(self):
+        general = self.esg.ayuda_general()
+        self.assertIn("--ayuda", general["mensaje"])
+
+
+class PruebaPaisesDelAlcance(unittest.TestCase):
+    """H15.6: el paquete promete la Union Europea, asi que tiene que aceptarla."""
+
+    def test_estan_los_27_de_la_union_europea(self):
+        self.assertEqual(len(espacio.PAISES_UE), 27)
+        for codigo in ("DE", "FR", "IT", "NL", "PT", "SE"):
+            self.assertIn(codigo, espacio.PAISES)
+
+    def test_reconoce_si_la_empresa_esta_en_la_ue(self):
+        self.assertTrue(espacio.es_de_la_union_europea("DE"))
+        self.assertTrue(espacio.es_de_la_union_europea("es"))
+        self.assertFalse(espacio.es_de_la_union_europea("CL"))
+        self.assertFalse(espacio.es_de_la_union_europea(None))
+
+    def test_siguen_los_de_siempre(self):
+        for codigo in ("CL", "PE", "CO", "MX", "AR", "BR"):
+            self.assertIn(codigo, espacio.PAISES)
+
+
 if __name__ == "__main__":
     unittest.main()

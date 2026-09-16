@@ -9,6 +9,7 @@ VERSION = "0.1.0"
 
 
 def mostrar(opciones):
+    """Muestra la version del motor y datos del computador, para soporte."""
     return {
         "motor": "Agentes ESG",
         "version": VERSION,

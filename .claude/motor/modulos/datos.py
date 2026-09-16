@@ -36,6 +36,7 @@ def _resolver_archivo(ruta_empresa, nombre):
 
 
 def resumen(opciones):
+    """Resume que hay cargado en la carpeta de la empresa."""
     perfil, ruta = _contexto(opciones)
     carpeta = espacio.ruta_de(ruta, "datos")
     archivos = []
@@ -68,6 +69,7 @@ def resumen(opciones):
 
 
 def leer(opciones):
+    """Muestra el contenido de una planilla cargada."""
     perfil, ruta = _contexto(opciones)
     nombre = opciones.get("archivo")
     if not nombre or nombre is True:
@@ -97,20 +99,92 @@ def _numero(valor):
 
 
 def anomalias(opciones):
-    """Busca saltos raros y meses faltantes en los consumos cargados."""
+    """Busca saltos raros y meses faltantes en todas las planillas cargadas."""
     perfil, ruta = _contexto(opciones)
-    completa = _resolver_archivo(ruta, opciones.get("archivo")
-                                 if opciones.get("archivo") not in (None, True) else "consumos.xlsx")
+    pedido = opciones.get("archivo") if opciones.get("archivo") not in (None, True) else None
     umbral = _numero(opciones.get("umbral")) or 50.0
+
+    if pedido:
+        archivos = [_resolver_archivo(ruta, pedido)]
+    else:
+        archivos = []
+        for nombre in ("consumos.xlsx", "alcance3.xlsx", "personas.xlsx", "agua.xlsx", "residuos.xlsx"):
+            candidato = espacio.ruta_de(ruta, "datos", nombre)
+            if os.path.isfile(candidato):
+                archivos.append(candidato)
+        if not archivos:
+            raise Problema(
+                "No hay ninguna planilla cargada para revisar.",
+                "Crea la primera con: plantilla crear --tipo consumos.",
+            )
+
+    hallazgos = []
+    revisadas = []
+    avisos = []
+    for completa in archivos:
+        try:
+            del_archivo, series = _anomalias_de(completa, umbral)
+        except Problema as problema:
+            avisos.append("No pude revisar %s: %s" % (os.path.basename(completa), problema.mensaje))
+            continue
+        revisadas.append({"archivo": os.path.basename(completa), "series": series,
+                          "hallazgos": len(del_archivo)})
+        hallazgos.extend(del_archivo)
+
+    hallazgos.sort(key=lambda h: (h["tipo"] != "meses_faltantes", -abs(h.get("desvio_pct", 0))))
+    return Respuesta(
+        {
+            "empresa": perfil.get("nombre"),
+            "planillas_revisadas": revisadas,
+            "umbral_pct": umbral,
+            "hallazgos": hallazgos,
+            "mensaje": ("No encontre datos raros en %s."
+                        % (", ".join(r["archivo"] for r in revisadas) or "ninguna planilla")
+                        if not hallazgos else
+                        "Encontre %d cosa(s) que conviene revisar en %d planilla(s)."
+                        % (len(hallazgos), len([r for r in revisadas if r["hallazgos"]]))),
+        },
+        advertencias=avisos + (
+            ["Un salto no siempre es un error: puede ser estacionalidad o una parada de planta. "
+             "Preguntale a la persona antes de corregir nada."] if hallazgos else []),
+    )
+
+
+# Cada planilla llama distinto a lo mismo: aqui se dice donde esta la cantidad
+# y que la identifica, para poder revisarlas todas con el mismo criterio.
+COLUMNAS_POR_PLANILLA = {
+    "consumos.xlsx": {"cantidad": ["cantidad"], "que_es": ["recurso"]},
+    "alcance3.xlsx": {"cantidad": ["cantidad"], "que_es": ["actividad", "categoria"]},
+    "residuos.xlsx": {"cantidad": ["cantidad"], "que_es": ["tipo_de_residuo"]},
+    "agua.xlsx": {"cantidad": ["extraccion_m3", "extraccion"], "que_es": ["origen"]},
+    "personas.xlsx": {"cantidad": ["numero_de_personas"], "que_es": ["categoria"]},
+}
+COLUMNAS_POR_DEFECTO = {"cantidad": ["cantidad"], "que_es": ["recurso", "actividad", "categoria"]}
+
+
+def _primer_valor(fila, columnas):
+    for columna in columnas:
+        valor = fila.get(columna)
+        if valor not in (None, ""):
+            return valor
+    return None
+
+
+def _anomalias_de(completa, umbral):
+    """Revisa una planilla y devuelve (hallazgos, series revisadas)."""
     tabla = excel.leer_tabla(completa)
+    archivo = os.path.basename(completa)
+    columnas = COLUMNAS_POR_PLANILLA.get(archivo.lower(), COLUMNAS_POR_DEFECTO)
 
     series = {}
     for fila in tabla["filas"]:
         periodo = str(fila.get("periodo") or "").strip()
-        cantidad = _numero(fila.get("cantidad"))
-        if len(periodo) != 7 or cantidad is None:
+        cantidad = _numero(_primer_valor(fila, columnas["cantidad"]))
+        # 2025 (anual) o 2025-03 (mensual): cualquier otra cosa no es un periodo.
+        if len(periodo) not in (4, 7) or cantidad is None:
             continue
-        clave = (str(fila.get("sitio") or "sin sitio"), str(fila.get("recurso") or "sin recurso"),
+        clave = (str(fila.get("sitio") or "sin sitio"),
+                 str(_primer_valor(fila, columnas["que_es"]) or "sin recurso"),
                  str(fila.get("unidad") or ""))
         series.setdefault(clave, {})[periodo] = series.setdefault(clave, {}).get(periodo, 0.0) + cantidad
 
@@ -128,41 +202,29 @@ def anomalias(opciones):
             desvio = (valor - mediana) / mediana * 100.0
             if abs(desvio) >= umbral:
                 hallazgos.append({
-                    "tipo": "salto",
+                    "tipo": "salto", "archivo": archivo,
                     "sitio": sitio, "recurso": recurso, "periodo": periodo,
                     "valor": valor, "unidad": unidad, "mediana": round(mediana, 2),
                     "desvio_pct": round(desvio, 1),
-                    "detalle": "%s en %s: %s %s, %s%% respecto a su mes tipico (%s %s)."
-                               % (recurso, periodo, round(valor, 1), unidad,
+                    "detalle": "%s, %s en %s: %s %s, %s%% respecto a su mes tipico (%s %s)."
+                               % (archivo, recurso, periodo, round(valor, 1), unidad,
                                   ("+%.0f" % desvio) if desvio > 0 else "%.0f" % desvio,
                                   round(mediana, 1), unidad),
                 })
-        anios = {p[:4] for p in valores}
+        mensuales = {p for p in valores if len(p) == 7}
+        anios = {p[:4] for p in mensuales}
         for anio in sorted(anios):
-            faltantes = [m for m in MESES if "%s-%s" % (anio, m) not in valores]
+            faltantes = [m for m in MESES if "%s-%s" % (anio, m) not in mensuales]
             if faltantes and len(faltantes) < 12:
                 hallazgos.append({
-                    "tipo": "meses_faltantes", "sitio": sitio, "recurso": recurso, "anio": anio,
+                    "tipo": "meses_faltantes", "archivo": archivo, "sitio": sitio, "recurso": recurso, "anio": anio,
                     "meses": faltantes,
-                    "detalle": "Falta %s de %s en %s (%s): el total del año queda incompleto."
-                               % ("el mes" if len(faltantes) == 1 else "los meses",
+                    "detalle": "%s: falta %s de %s en %s (%s), el total del año queda incompleto."
+                               % (archivo, "el mes" if len(faltantes) == 1 else "los meses",
                                   ", ".join(faltantes), anio, "%s / %s" % (sitio, recurso)),
                 })
 
-    hallazgos.sort(key=lambda h: (h["tipo"] != "meses_faltantes", -abs(h.get("desvio_pct", 0))))
-    return Respuesta(
-        {
-            "empresa": perfil.get("nombre"),
-            "archivo": completa,
-            "series_revisadas": len(series),
-            "umbral_pct": umbral,
-            "hallazgos": hallazgos,
-            "mensaje": "No encontre datos raros." if not hallazgos else
-                       "Encontre %d cosa(s) que conviene revisar." % len(hallazgos),
-        },
-        advertencias=["Un salto no siempre es un error: puede ser estacionalidad o una parada de planta. "
-                      "Preguntale a la persona antes de corregir nada."] if hallazgos else [],
-    )
+    return hallazgos, len(series)
 
 
 def escribir(opciones):

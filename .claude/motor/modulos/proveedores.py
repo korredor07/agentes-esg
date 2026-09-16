@@ -261,6 +261,7 @@ def _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motiv
 
 
 def cuestionario(opciones):
+    """Crea la planilla de preguntas para enviarle a un proveedor."""
     perfil, ruta, _ = _contexto(opciones)
     proveedor = _valor(opciones, "proveedor")
     periodo = _valor(opciones, "periodo", str(perfil.get("periodo_actual") or datetime.date.today().year))
@@ -290,6 +291,7 @@ def cuestionario(opciones):
 
 
 def carta(opciones):
+    """Redacta la carta con la que se le pide los datos a un proveedor."""
     perfil, ruta, _ = _contexto(opciones)
     proveedor = _valor(opciones, "proveedor")
     periodo = _valor(opciones, "periodo", str(perfil.get("periodo_actual") or datetime.date.today().year))
@@ -316,6 +318,7 @@ def carta(opciones):
 # --------------------------------------------------------------------------
 
 def registrar(opciones):
+    """Registra un proveedor y lo que respondio."""
     perfil, ruta, ruta_json = _contexto(opciones)
     nombre = _valor(opciones, "nombre") or _valor(opciones, "proveedor")
     if not nombre:
@@ -455,6 +458,7 @@ def _ordenar_por_prioridad(proveedores):
 
 
 def evaluar(opciones):
+    """Puntua a los proveedores y dice a quien conviene perseguir primero."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     proveedores = datos["proveedores"]
@@ -491,6 +495,7 @@ def evaluar(opciones):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de la cadena de suministro."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     proveedores = datos["proveedores"]

@@ -41,6 +41,7 @@ def _guardar(ruta_json, datos):
 
 
 def evaluar(opciones):
+    """Calcula el puntaje ESG, el nivel de madurez y las brechas por cerrar."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     resultado = motor_puntaje.evaluar(perfil, ruta, guardado.get("respuestas"))
@@ -99,6 +100,7 @@ def preguntas(opciones):
 
 
 def responder(opciones):
+    """Guarda la respuesta a uno de los indicadores del diagnostico."""
     perfil, ruta, ruta_json = _contexto(opciones)
     indicador = opciones.get("indicador")
     estado = opciones.get("estado")
@@ -193,6 +195,7 @@ def _bloques(resultado, perfil):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML del diagnostico ESG."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     resultado = guardado.get("ultima_evaluacion")

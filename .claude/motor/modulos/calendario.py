@@ -90,6 +90,7 @@ def _estado(inicio, fin, hoy):
 
 
 def proximas(opciones):
+    """Muestra que obligaciones vencen pronto y cuales ya estan abiertas."""
     perfil, ruta = _contexto(opciones)
     hoy = opciones.get("hoy")
     hoy = datetime.date.fromisoformat(hoy) if hoy and hoy is not True else datetime.date.today()
@@ -159,6 +160,7 @@ def proximas(opciones):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML del calendario de obligaciones."""
     perfil, ruta = _contexto(opciones)
     datos = proximas(dict(opciones, sin_alertas=True)).resultado
     colores = {"urgente": "rojo", "abierto": "rojo", "se acerca": "amarillo",

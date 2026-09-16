@@ -42,10 +42,15 @@ sé», déjalo sin responder y anótalo como algo por averiguar.
 Guarda cada respuesta apenas la recibas:
 
 ```bash
-python .claude/motor/esg.py diagnostico responder --indicador soc-karin --estado no_cumple --nota "Nunca se redactó"
+python .claude/motor/esg.py diagnostico responder --indicador soc-canal --estado no_cumple --nota "Nunca se implementó"
 ```
 
-No hagas las 16 preguntas de una vez. Tres o cuatro por conversación es
+El identificador (`soc-canal`, `amb-huella`, …) sale de la lista que devuelve
+`diagnostico evaluar`: **no lo inventes**. La lista ya viene filtrada por el
+país de la empresa, así que a una empresa peruana no le aparecen indicadores
+que solo existen en Chile (como `soc-karin`, de la Ley Karin).
+
+No hagas todas las preguntas de una vez. Tres o cuatro por conversación es
 suficiente; el diagnóstico se puede retomar cuando quieran.
 
 ## 3. Priorizar y comprometer
@@ -60,7 +65,7 @@ urgentes**, con esta estructura para cada una:
 Si la persona se compromete con alguna, regístralo:
 
 ```bash
-python .claude/motor/esg.py diagnostico brecha --indicador soc-karin --seguimiento reconocida --responsable "Jefa de personas" --fecha-compromiso 2026-11-30
+python .claude/motor/esg.py diagnostico brecha --indicador soc-canal --seguimiento reconocida --responsable "Jefa de personas" --fecha-compromiso 2026-11-30
 ```
 
 Estados de seguimiento: `abierta`, `reconocida` (la vio y la asumió),

@@ -337,6 +337,7 @@ def _bloques(resultado, matriz):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de doble materialidad."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     resultado = guardado.get("ultima_evaluacion")

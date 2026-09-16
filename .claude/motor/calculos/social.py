@@ -39,6 +39,11 @@ def _texto(valor):
     return str(valor or "").strip().lower()
 
 
+def _hay_dato(fila, *columnas):
+    """Distingue «escribio 0» de «dejo la celda vacia»."""
+    return any(fila.get(c) not in (None, "") for c in columnas)
+
+
 def _agregar(destino, clave, personas):
     destino[clave] = destino.get(clave, 0) + personas
 
@@ -67,6 +72,10 @@ def calcular(filas, periodo=None):
     remuneraciones = {}
     direccion_total = direccion_mujeres = 0
     advertencias = []
+    # Una columna vacia no es un cero: si nadie la lleno, el indicador no existe.
+    con_dato = {"horas_capacitacion": False, "accidentes": False, "dias_perdidos": False,
+                "horas_trabajadas": False, "discapacidad": False, "contrataciones": False,
+                "desvinculaciones": False}
 
     for fila in filas:
         personas = int(_numero(fila.get("numero_de_personas") or fila.get("personas") or 0))
@@ -90,6 +99,14 @@ def calcular(filas, periodo=None):
         horas_trabajadas += _numero(fila.get("horas_trabajadas"))
         horas_capacitacion += _numero(fila.get("horas_de_capacitacion") or fila.get("horas_capacitacion"))
         discapacidad += int(_numero(fila.get("personas_con_discapacidad")))
+
+        con_dato["contrataciones"] |= _hay_dato(fila, "contrataciones")
+        con_dato["desvinculaciones"] |= _hay_dato(fila, "desvinculaciones")
+        con_dato["accidentes"] |= _hay_dato(fila, "accidentes_con_tiempo_perdido", "accidentes")
+        con_dato["dias_perdidos"] |= _hay_dato(fila, "dias_perdidos")
+        con_dato["horas_trabajadas"] |= _hay_dato(fila, "horas_trabajadas")
+        con_dato["horas_capacitacion"] |= _hay_dato(fila, "horas_de_capacitacion", "horas_capacitacion")
+        con_dato["discapacidad"] |= _hay_dato(fila, "personas_con_discapacidad")
 
         remuneracion = _numero(fila.get("remuneracion_promedio"))
         if remuneracion > 0:
@@ -169,6 +186,31 @@ def calcular(filas, periodo=None):
     if not brechas:
         advertencias.append("Falta la remuneracion promedio por grupo: sin ese dato no se puede calcular "
                             "la brecha salarial, que piden todos los marcos de reporte.")
+
+    # Lo que nadie lleno se informa como sin dato, no como cero.
+    SIN_DATO = {
+        "horas_capacitacion": (["horas_capacitacion", "horas_capacitacion_por_persona"],
+                               "horas de capacitacion"),
+        "accidentes": (["accidentes_con_tiempo_perdido", "tasa_accidentabilidad_pct",
+                        "tasa_accidentes_registrables"], "accidentes con tiempo perdido"),
+        "dias_perdidos": (["dias_perdidos", "tasa_siniestralidad"], "dias perdidos"),
+        "discapacidad": (["personas_con_discapacidad", "discapacidad_pct"],
+                         "personas con discapacidad"),
+        "contrataciones": (["contrataciones", "tasa_contratacion_pct"], "contrataciones"),
+        "desvinculaciones": (["desvinculaciones", "tasa_rotacion_pct"], "desvinculaciones"),
+    }
+    sin_dato = []
+    for clave, (afectados, etiqueta) in SIN_DATO.items():
+        if con_dato[clave]:
+            continue
+        for indicador in afectados:
+            indicadores[indicador] = None
+        sin_dato.append(etiqueta)
+    if sin_dato:
+        indicadores["columnas_sin_llenar"] = sorted(sin_dato)
+        advertencias.append(
+            "La planilla no trae %s: esos indicadores quedan sin dato, no en cero. No los reportes "
+            "como si valieran cero." % ", ".join(sorted(sin_dato)))
 
     indicadores["advertencias"] = advertencias
     indicadores["nota_metodologica"] = (

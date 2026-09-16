@@ -65,6 +65,7 @@ def _leer_planilla(ruta_empresa, nombre, alcance=None):
 
 
 def calcular(opciones):
+    """Calcula la huella de carbono del periodo y guarda el resultado."""
     perfil, ruta_empresa = _contexto(opciones)
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
     conjunto = (opciones.get("pcg") if opciones.get("pcg") is not True else None) or "AR5"
@@ -218,6 +219,7 @@ def _bloques_informe(resumen, perfil):
 
 
 def reporte(opciones):
+    """Arma el informe HTML de la huella de carbono."""
     perfil, ruta_empresa = _contexto(opciones)
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
     nombre = "huella_%s.json" % (periodo or "completa")

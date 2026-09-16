@@ -67,6 +67,7 @@ def _emisiones_de_la_huella(huella):
 
 
 def trayectoria(opciones):
+    """Calcula la trayectoria de reduccion ano por ano hasta la meta."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardada = _leer_meta(ruta_json)
     huella = _ultima_huella(ruta)
@@ -95,6 +96,7 @@ def trayectoria(opciones):
 
 
 def definir(opciones):
+    """Define la meta de reduccion y la guarda en el seguimiento."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardada = _leer_meta(ruta_json)
     huella = _ultima_huella(ruta)
@@ -156,6 +158,7 @@ def definir(opciones):
 
 
 def validar(opciones):
+    """Revisa si la meta cumple los criterios de un objetivo creible."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer_meta(ruta_json)
     if not datos:
@@ -175,6 +178,7 @@ def validar(opciones):
 
 
 def probabilidad(opciones):
+    """Estima que tan probable es cumplir la meta, simulando muchos escenarios."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer_meta(ruta_json)
     if not datos.get("emisiones_meta"):
@@ -241,6 +245,7 @@ def plan(opciones):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de la meta y su trayectoria."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer_meta(ruta_json)
     if not datos:

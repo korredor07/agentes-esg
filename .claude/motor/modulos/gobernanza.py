@@ -559,6 +559,7 @@ DOCUMENTOS = {
 
 
 def documento(opciones):
+    """Redacta un documento del modelo de prevencion de delitos."""
     perfil, ruta, _ = _contexto(opciones)
     tipo = _valor(opciones, "tipo").lower()
     if not tipo:
@@ -657,6 +658,7 @@ def _bloques_informe(resultado, perfil):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de gobernanza y prevencion de delitos."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     # Se recalcula siempre: asi el informe nunca queda atras de la ultima respuesta guardada.

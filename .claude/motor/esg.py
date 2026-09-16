@@ -11,7 +11,9 @@ Siempre imprime JSON:
 """
 
 import importlib
+import inspect
 import os
+import re
 import sys
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))
@@ -76,6 +78,72 @@ def ayuda_general():
     return {
         "uso": "python esg.py <módulo> <acción> [--opción valor ...]",
         "modulos": catalogo,
+        "mensaje": "Para ver qué opciones acepta cada acción: python esg.py <módulo> --ayuda.",
+    }
+
+
+# Opciones que aceptan todos los módulos que trabajan sobre una empresa.
+OPCIONES_COMUNES = {
+    "empresa": "Qué empresa usar, cuando hay más de una registrada (el nombre o la carpeta).",
+    "raiz": "Dónde está la carpeta 'empresas/'. Solo hace falta si no es la del proyecto.",
+}
+
+
+def _leer_opciones(fuente):
+    """Las dos formas en que los modulos leen una opcion."""
+    encontradas = set(re.findall(r"opciones(?:\.get\(|\[)[\"']([a-z_0-9]+)[\"']", fuente))
+    encontradas |= set(re.findall(r"\(\s*opciones\s*,\s*[\"']([a-z_0-9]+)[\"']", fuente))
+    return encontradas
+
+
+def _opciones_de(funcion, modulo=None):
+    """Lee del propio código qué opciones usa una acción.
+
+    Se lee el código en vez de mantener una lista aparte: así la ayuda no puede
+    quedar desactualizada respecto de lo que la acción realmente acepta. Sigue
+    también a los ayudantes a los que la acción le pasa las opciones (como
+    _contexto), porque ahí viven --empresa y --raiz.
+    """
+    encontradas = set()
+    pendientes = [funcion]
+    vistas = set()
+    while pendientes:
+        actual = pendientes.pop()
+        if actual in vistas:
+            continue
+        vistas.add(actual)
+        try:
+            fuente = inspect.getsource(actual)
+        except (OSError, TypeError):
+            continue
+        encontradas |= _leer_opciones(fuente)
+        for ayudante in set(re.findall(r"(_[a-z_0-9]+)\(\s*(?:dict\()?\s*opciones", fuente)):
+            destino = getattr(modulo, ayudante, None)
+            if destino is not None and destino not in vistas:
+                pendientes.append(destino)
+    encontradas.discard("_extra")
+    return sorted(encontradas)
+
+
+def ayuda_de_modulo(nombre):
+    """Qué hace cada acción de un módulo y qué opciones acepta."""
+    modulo = cargar_modulo(nombre)
+    acciones = {}
+    for accion, funcion in sorted(getattr(modulo, "ACCIONES", {}).items()):
+        opciones = _opciones_de(funcion, modulo)
+        acciones[accion] = {
+            "que_hace": (inspect.getdoc(funcion) or "").split("\n\n")[0].strip(),
+            "opciones": ["--%s" % o.replace("_", "-") for o in opciones],
+            "explicacion": {"--%s" % o.replace("_", "-"): OPCIONES_COMUNES[o]
+                            for o in opciones if o in OPCIONES_COMUNES},
+        }
+    return {
+        "modulo": nombre,
+        "para_que_sirve": getattr(modulo, "AYUDA", "").strip(),
+        "uso": "python esg.py %s <acción> [--opción valor ...]" % nombre,
+        "acciones": acciones,
+        "nota": "Las opciones salen del código de cada acción. Una opción sin valor se entiende como sí "
+                "(por ejemplo --corregir). Los valores con espacios van entre comillas.",
     }
 
 
@@ -85,18 +153,23 @@ def despachar(argumentos):
     if not modulo_nombre or modulo_nombre in ("--ayuda", "ayuda", "-h", "--help"):
         return ayuda_general()
 
+    if opciones.get("ayuda") or accion_nombre in ("ayuda", "--ayuda"):
+        return ayuda_de_modulo(modulo_nombre)
+
     modulo = cargar_modulo(modulo_nombre)
     acciones = getattr(modulo, "ACCIONES", {})
 
     if not accion_nombre:
         raise Problema(
             "Falta indicar qué acción quieres del módulo «%s»." % modulo_nombre,
-            "Acciones disponibles: %s." % ", ".join(sorted(acciones)),
+            "Acciones disponibles: %s. Para ver qué opciones acepta cada una: "
+            "python esg.py %s --ayuda." % (", ".join(sorted(acciones)), modulo_nombre),
         )
     if accion_nombre not in acciones:
         raise Problema(
             "El módulo «%s» no tiene la acción «%s»." % (modulo_nombre, accion_nombre),
-            "Acciones disponibles: %s." % ", ".join(sorted(acciones)),
+            "Acciones disponibles: %s. Para ver qué opciones acepta cada una: "
+            "python esg.py %s --ayuda." % (", ".join(sorted(acciones)), modulo_nombre),
         )
     return acciones[accion_nombre](opciones)
 

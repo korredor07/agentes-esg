@@ -350,6 +350,7 @@ def _bloques_certificado_word(perfil, persona, ficha, fecha, correctas, respondi
 
 
 def certificado(opciones):
+    """Emite el certificado interno de una persona que completo un curso."""
     perfil, ruta, ruta_json = _contexto(opciones)
     persona = _valor(opciones, "persona")
     nombre_curso = _valor(opciones, "curso")

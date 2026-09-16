@@ -85,6 +85,7 @@ def _revisar_escritura(carpeta):
 
 
 def sistema(opciones):
+    """Revisa que el motor este completo y bien instalado en este computador."""
     carpeta = os.path.abspath(opciones.get("carpeta") if opciones.get("carpeta") not in (None, True)
                               else os.getcwd())
     revisiones = [_revisar_python()]

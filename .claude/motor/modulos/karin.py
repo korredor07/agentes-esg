@@ -62,6 +62,7 @@ def _valor(opciones, clave, por_defecto=""):
 
 
 def crear(opciones):
+    """Abre un caso nuevo y calcula todos sus plazos legales."""
     perfil, ruta, ruta_json = _contexto(opciones)
     fecha = _valor(opciones, "fecha_denuncia")
     if not fecha:
@@ -100,6 +101,7 @@ def crear(opciones):
 
 
 def evento(opciones):
+    """Registra un hito del caso (notificacion, informe, resolucion) y recalcula los plazos."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     caso = _buscar(datos, _valor(opciones, "caso"))
@@ -123,6 +125,7 @@ def evento(opciones):
 
 
 def ver(opciones):
+    """Muestra un caso con sus plazos, que sigue y cuanto queda."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     caso = _buscar(datos, _valor(opciones, "caso"))
@@ -136,6 +139,7 @@ def ver(opciones):
 
 
 def listar(opciones):
+    """Lista los casos abiertos y cual tiene el plazo mas urgente."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     resumen = []
@@ -300,6 +304,7 @@ DOCUMENTOS = {
 
 
 def documento(opciones):
+    """Redacta un documento del procedimiento (protocolo, acta, resolucion)."""
     perfil, ruta, _ = _contexto(opciones)
     tipo = _valor(opciones, "tipo", "protocolo").lower()
     if tipo not in DOCUMENTOS:

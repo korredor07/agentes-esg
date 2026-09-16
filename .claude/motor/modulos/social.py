@@ -28,6 +28,7 @@ def _leer_personas(ruta_empresa):
 
 
 def calcular(opciones):
+    """Calcula los indicadores de personas: dotacion, rotacion, brecha salarial, accidentes."""
     perfil, ruta = _contexto(opciones)
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
     filas, archivo = _leer_personas(ruta)
@@ -43,19 +44,33 @@ def calcular(opciones):
     return Respuesta(indicadores, advertencias=indicadores.get("advertencias", []))
 
 
+SIN_DATO = "Sin dato: la columna quedo vacia en la planilla"
+
+
 def _bloques(indicadores, perfil):
     inclusion = indicadores.get("inclusion") or {}
+
+    def detalle(clave, singular, plural):
+        """Una columna vacia se dice, no se muestra como cero."""
+        valor = indicadores.get(clave)
+        if valor is None:
+            return SIN_DATO
+        return "%d %s" % (valor, singular if valor == 1 else plural)
+
     tarjetas = [
         {"etiqueta": "Dotacion", "valor": indicadores["dotacion_total"], "unidad": "personas",
          "detalle": "Periodo: %s" % indicadores.get("periodo", "")},
         {"etiqueta": "Mujeres", "valor": indicadores["mujeres_pct"], "unidad": "%"},
         {"etiqueta": "Rotacion", "valor": indicadores["tasa_rotacion_pct"], "unidad": "%",
-         "detalle": "%d desvinculaciones" % indicadores["desvinculaciones"]},
+         "detalle": detalle("desvinculaciones", "desvinculacion", "desvinculaciones")},
         {"etiqueta": "Accidentabilidad", "valor": indicadores["tasa_accidentabilidad_pct"], "unidad": "%",
-         "detalle": "%d accidentes con tiempo perdido" % indicadores["accidentes_con_tiempo_perdido"],
-         "color": "rojo" if indicadores["accidentes_con_tiempo_perdido"] else "verde"},
+         "detalle": detalle("accidentes_con_tiempo_perdido", "accidente con tiempo perdido",
+                            "accidentes con tiempo perdido"),
+         "color": "gris" if indicadores.get("accidentes_con_tiempo_perdido") is None else
+                  ("rojo" if indicadores["accidentes_con_tiempo_perdido"] else "verde")},
         {"etiqueta": "Capacitacion", "valor": indicadores["horas_capacitacion_por_persona"],
-         "unidad": "h/persona"},
+         "unidad": "h/persona",
+         "detalle": SIN_DATO if indicadores.get("horas_capacitacion_por_persona") is None else ""},
     ]
     bloques = [
         {"tipo": "kpi", "items": tarjetas},
@@ -100,6 +115,7 @@ def _bloques(indicadores, perfil):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de indicadores sociales."""
     perfil, ruta = _contexto(opciones)
     periodo = opciones.get("periodo") if opciones.get("periodo") is not True else None
     origen = espacio.ruta_de(ruta, "resultados", "social_%s.json" % (periodo or "completo"))

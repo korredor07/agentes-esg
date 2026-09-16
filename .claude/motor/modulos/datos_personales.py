@@ -654,6 +654,7 @@ DOCUMENTOS = {
 
 
 def documento(opciones):
+    """Redacta un documento de proteccion de datos (politica, consentimiento o registro)."""
     perfil, ruta, ruta_json = _contexto(opciones)
     tipo = _valor(opciones, "tipo").lower()
     if not tipo:
@@ -759,6 +760,7 @@ def _bloques_informe(resultado, perfil):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de cumplimiento en proteccion de datos personales."""
     perfil, ruta, ruta_json = _contexto(opciones)
     # Se recalcula siempre para que el informe no quede atras de lo ultimo registrado.
     resultado = evaluar(opciones).resultado

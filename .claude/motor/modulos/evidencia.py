@@ -20,6 +20,7 @@ def _contexto(opciones):
 
 
 def registrar(opciones):
+    """Respalda un archivo con su huella SHA-256 encadenada."""
     perfil, ruta_empresa, carpeta = _contexto(opciones)
     archivo = opciones.get("archivo")
     if not archivo or archivo is True:
@@ -49,6 +50,7 @@ def registrar(opciones):
 
 
 def verificar(opciones):
+    """Revisa si los archivos respaldados siguen siendo los mismos."""
     perfil, ruta_empresa, carpeta = _contexto(opciones)
     resultado = evidencias.verificar(carpeta, base=ruta_empresa)
     return Respuesta(
@@ -58,6 +60,7 @@ def verificar(opciones):
 
 
 def listar(opciones):
+    """Lista los respaldos registrados y cuando se hicieron."""
     perfil, _, carpeta = _contexto(opciones)
     listado = evidencias.listar(carpeta)
     return {

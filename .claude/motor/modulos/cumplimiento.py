@@ -36,6 +36,7 @@ def _guardar(ruta_json, datos):
 
 
 def preguntas(opciones):
+    """Devuelve las preguntas que faltan para saber que normas le aplican."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     resultado = aplicabilidad.evaluar(perfil, guardado.get("respuestas"))
@@ -49,6 +50,7 @@ def preguntas(opciones):
 
 
 def responder(opciones):
+    """Guarda la respuesta a una de las preguntas de aplicabilidad."""
     perfil, ruta, ruta_json = _contexto(opciones)
     clave = opciones.get("clave")
     respuesta = opciones.get("respuesta")
@@ -67,6 +69,7 @@ def responder(opciones):
 
 
 def revisar(opciones):
+    """Revisa que normas le aplican a la empresa, con plazos y riesgos."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     resultado = aplicabilidad.evaluar(perfil, guardado.get("respuestas"))
@@ -85,6 +88,7 @@ def revisar(opciones):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML de normativa aplicable."""
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     resultado = guardado.get("ultima_revision") or aplicabilidad.evaluar(perfil, guardado.get("respuestas"))

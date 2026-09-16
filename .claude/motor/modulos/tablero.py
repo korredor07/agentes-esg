@@ -64,6 +64,7 @@ def _alertas(ruta_empresa):
 
 
 def generar(opciones):
+    """Arma el tablero ESG de una pagina con todo lo importante."""
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     identificador = opciones.get("empresa") if opciones.get("empresa") is not True else None
     perfil, ruta = espacio.cargar_empresa(identificador, raiz=raiz)

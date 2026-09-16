@@ -23,11 +23,41 @@ from .salida import Problema
 CARPETAS = ["datos", "resultados", "reportes", "evidencias", "seguimiento"]
 VERSION_ESQUEMA = 1
 
-PAISES = {
+# Paises donde la empresa puede estar registrada. America Latina, la Union Europea
+# completa (por CSRD, CBAM y EUDR) y los destinos de exportacion mas frecuentes.
+PAISES_AMERICA = {
     "CL": "Chile", "PE": "Perú", "AR": "Argentina", "CO": "Colombia", "MX": "México",
-    "BR": "Brasil", "ES": "España", "UY": "Uruguay", "EC": "Ecuador", "BO": "Bolivia",
-    "PY": "Paraguay", "CR": "Costa Rica", "PA": "Panamá", "US": "Estados Unidos",
+    "BR": "Brasil", "UY": "Uruguay", "EC": "Ecuador", "BO": "Bolivia",
+    "PY": "Paraguay", "VE": "Venezuela", "CR": "Costa Rica", "PA": "Panamá",
+    "GT": "Guatemala", "HN": "Honduras", "SV": "El Salvador", "NI": "Nicaragua",
+    "DO": "República Dominicana", "CU": "Cuba", "US": "Estados Unidos", "CA": "Canadá",
 }
+
+# Los 27 Estados miembros de la Union Europea.
+PAISES_UE = {
+    "AT": "Austria", "BE": "Bélgica", "BG": "Bulgaria", "CY": "Chipre", "CZ": "Chequia",
+    "DE": "Alemania", "DK": "Dinamarca", "EE": "Estonia", "ES": "España", "FI": "Finlandia",
+    "FR": "Francia", "GR": "Grecia", "HR": "Croacia", "HU": "Hungría", "IE": "Irlanda",
+    "IT": "Italia", "LT": "Lituania", "LU": "Luxemburgo", "LV": "Letonia", "MT": "Malta",
+    "NL": "Países Bajos", "PL": "Polonia", "PT": "Portugal", "RO": "Rumania",
+    "SE": "Suecia", "SI": "Eslovenia", "SK": "Eslovaquia",
+}
+
+PAISES_OTROS = {
+    "GB": "Reino Unido", "CH": "Suiza", "NO": "Noruega", "CN": "China", "JP": "Japón",
+    "KR": "Corea del Sur", "IN": "India", "AU": "Australia", "NZ": "Nueva Zelanda",
+    "ZA": "Sudáfrica",
+}
+
+PAISES = {}
+PAISES.update(PAISES_AMERICA)
+PAISES.update(PAISES_UE)
+PAISES.update(PAISES_OTROS)
+
+
+def es_de_la_union_europea(codigo):
+    """Si la empresa esta en la UE le aplican CSRD, CBAM y EUDR como importadora."""
+    return str(codigo or "").strip().upper() in PAISES_UE
 TAMANOS = ["micro", "pequena", "mediana", "grande"]
 MARCOS = ["GRI", "NIIF S1/S2", "CSRD/ESRS", "VSME", "TCFD", "SASB", "NCG 519", "HuellaChile", "ISO 14064"]
 

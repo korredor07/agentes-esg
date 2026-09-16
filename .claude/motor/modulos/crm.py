@@ -176,6 +176,7 @@ def _ficha(prospecto, hoy):
 # --------------------------------------------------------------------------
 
 def registrar(opciones):
+    """Registra un prospecto nuevo en el embudo comercial."""
     perfil, ruta, ruta_json = _contexto(opciones)
     nombre = _nombre_prospecto(opciones)
     if not nombre:
@@ -247,6 +248,7 @@ def registrar(opciones):
 
 
 def listar(opciones):
+    """Lista los prospectos, su estado y cual necesita atencion hoy."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     hoy = _hoy(opciones)
@@ -291,6 +293,7 @@ def listar(opciones):
 
 
 def mover(opciones):
+    """Mueve un prospecto a otro estado del embudo y deja la bitacora."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     prospecto = _buscar(datos, _nombre_prospecto(opciones))
@@ -405,6 +408,7 @@ def siguiente(opciones):
 
 
 def informe_html(opciones):
+    """Arma el informe HTML del embudo comercial."""
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     hoy = _hoy(opciones)

@@ -47,6 +47,7 @@ def _datos_de(opciones):
 
 
 def crear(opciones):
+    """Registra una empresa nueva y le arma su carpeta de trabajo."""
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     perfil, ruta, advertencias = espacio.crear_empresa(_datos_de(opciones), raiz=raiz)
     siguientes = [
@@ -67,6 +68,7 @@ def crear(opciones):
 
 
 def ver(opciones):
+    """Muestra la ficha de la empresa: quien es, donde opera y que marcos usa."""
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     identificador = opciones.get("empresa") if opciones.get("empresa") is not True else None
     perfil, ruta = espacio.cargar_empresa(identificador, raiz=raiz)
@@ -78,6 +80,7 @@ def ver(opciones):
 
 
 def listar(opciones):
+    """Lista las empresas registradas en este computador."""
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     empresas = espacio.listar_empresas(raiz=raiz)
     return {
@@ -89,6 +92,7 @@ def listar(opciones):
 
 
 def actualizar(opciones):
+    """Cambia datos de la ficha de la empresa."""
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     identificador = opciones.get("empresa") if opciones.get("empresa") is not True else None
     perfil, ruta = espacio.cargar_empresa(identificador, raiz=raiz)

@@ -11,6 +11,7 @@ AYUDA = "Crea en Excel las plantillas de datos (sitios, personas, ...) y lista l
 
 
 def listar(opciones):
+    """Lista las planillas que se pueden crear y para que sirve cada una."""
     disponibles = definiciones.listar()
     return {
         "total": len(disponibles),
@@ -20,6 +21,7 @@ def listar(opciones):
 
 
 def crear(opciones):
+    """Crea una planilla Excel vacia con sus columnas y una fila de ejemplo."""
     tipo = opciones.get("tipo")
     if not tipo or tipo is True:
         raise Problema(
