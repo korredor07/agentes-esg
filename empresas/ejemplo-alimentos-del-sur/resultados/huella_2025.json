@@ -30,7 +30,7 @@
       "kg_co2e": 92718.80540043906,
       "registros": 12
     },
-    "Sin sitio": {
+    "Cadena de valor": {
       "kg_co2e": 1235359.16175,
       "registros": 14
     }
@@ -2160,7 +2160,7 @@
     "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 326160) (2022)",
     "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 541611) (2022)"
   ],
-  "calculado_el": "2026-09-15 20:47:02",
+  "calculado_el": "2026-09-16 01:19:46",
   "empresa": "Alimentos del Sur SpA",
   "periodo": "2025",
   "archivos": [

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Diagnostico ESG</title>
+<style>
+:root { --primario: #1B4332; --secundario: #D8F3DC; --texto: #1B2A22; --suave: #5A6B62; --borde: #E3E6E3; --fondo: #F7F9F7; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto);
+       font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; line-height: 1.55; }
+.hoja { max-width: 960px; margin: 0 auto; padding: 32px 28px 64px; background: #FFFFFF; min-height: 100vh; }
+header.principal { border-bottom: 4px solid var(--primario); padding-bottom: 16px; margin-bottom: 28px; }
+.marca { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--primario); font-weight: 700; }
+h1 { font-size: 30px; margin: 6px 0 4px; }
+h2 { font-size: 21px; margin: 32px 0 10px; color: var(--primario); }
+h3 { font-size: 16px; margin: 20px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
+p { margin: 10px 0; }
+.subtitulo { color: var(--suave); margin: 0; }
+.tarjetas { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+.tarjeta { flex: 1 1 190px; border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; background: #FCFDFC; }
+.tarjeta-etiqueta { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); }
+.tarjeta-valor { font-size: 27px; font-weight: 700; margin-top: 4px; }
+.tarjeta-valor span { font-size: 14px; font-weight: 500; color: var(--suave); }
+.tarjeta-detalle { font-size: 13px; color: var(--suave); }
+.tabla-envoltura { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--borde); padding: 9px 10px; text-align: left; vertical-align: top; }
+th { background: var(--secundario); color: var(--primario); font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+.nota-tabla, .vacio { font-size: 13px; color: var(--suave); font-style: italic; }
+.panel { border: 1px solid var(--borde); border-radius: 12px; padding: 16px; margin: 16px 0; background: #FCFDFC; }
+.grafico { width: 100%; height: auto; }
+.grafico .eje { font-size: 12px; fill: var(--suave); }
+.grafico .valor { font-size: 12px; fill: var(--texto); font-weight: 600; }
+.dona-total { font-size: 22px; font-weight: 700; fill: var(--texto); }
+.leyendas { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--suave); margin-top: 8px; }
+.leyenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; }
+.semaforo-fila { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--borde); }
+.pastilla { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 11px; white-space: nowrap; }
+.aviso { border-left: 4px solid var(--primario); background: #F1F6F2; padding: 11px 14px; border-radius: 6px; margin: 14px 0; font-size: 14px; }
+.aviso.aviso-riesgo, .aviso.riesgo { border-color: #A4161A; background: #FBE3E4; }
+.aviso.aviso, .aviso.advertencia { border-color: #D9A441; background: #FFF6E0; }
+.aviso.exito { border-color: #2D6A4F; background: #D8F3DC; }
+footer { margin-top: 42px; border-top: 1px solid var(--borde); padding-top: 14px; font-size: 12.5px; color: var(--suave); }
+hr { border: none; border-top: 1px solid var(--borde); margin: 26px 0; }
+@media print {
+  body { background: #FFFFFF; }
+  .hoja { max-width: none; padding: 0; }
+  .panel, .tarjeta { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="hoja">
+<header class="principal">
+<div class="marca">Alimentos del Sur SpA</div>
+<h1>Diagnostico ESG</h1>
+<p class="subtitulo">Alimentos del Sur SpA - evaluado el 2026-09-16 01:18:15</p>
+</header>
+<div class="tarjetas"><div class="tarjeta"><div class="tarjeta-etiqueta">Puntaje general</div><div class="tarjeta-valor" style="color:#A4161A">31,9 <span>/100</span></div><div class="tarjeta-detalle">Nivel: sin gestion</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Ambiental</div><div class="tarjeta-valor" style="color:#1B4332">55 <span>/100</span></div><div class="tarjeta-detalle"></div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Social</div><div class="tarjeta-valor" style="color:#1B4332">26,5 <span>/100</span></div><div class="tarjeta-detalle"></div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Gobernanza</div><div class="tarjeta-valor" style="color:#1B4332">14,3 <span>/100</span></div><div class="tarjeta-detalle"></div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Listo para auditoria</div><div class="tarjeta-valor" style="color:#1B4332">55,6 <span>%</span></div><div class="tarjeta-detalle">Indicadores con dato respaldado</div></div></div>
+<div class="panel"><h3>Puntaje por dimension</h3><svg viewBox="0 0 720 112" class="grafico" role="img" xmlns="http://www.w3.org/2000/svg"><text x="0" y="21" class="eje">Ambiental</text><rect x="190" y="6" width="410.0" height="20" rx="4" fill="#2D6A4F"/><text x="608.0" y="21" class="valor">55 /100</text><text x="0" y="55" class="eje">Social</text><rect x="190" y="40" width="197.5" height="20" rx="4" fill="#40916C"/><text x="395.5" y="55" class="valor">26,5 /100</text><text x="0" y="89" class="eje">Gobernanza</text><rect x="190" y="74" width="106.6" height="20" rx="4" fill="#74C69D"/><text x="304.6" y="89" class="valor">14,3 /100</text></svg></div>
+<h2>Brechas por atender, de mayor a menor riesgo</h2>
+<div class="tabla-envoltura"><table><thead><tr><th class="num">Prioridad</th><th>Brecha</th><th>Por que importa</th><th>Que hacer</th><th>Seguimiento</th></tr></thead><tbody><tr><td class="num">9</td><td>Permisos y declaraciones ambientales al dia</td><td>Las declaraciones fuera de plazo son la causa mas comun de multas ambientales.</td><td>Revisar que declaraciones le aplican y sus fechas.</td><td>abierta</td></tr><tr><td class="num">9</td><td>Modelo de prevencion de delitos</td><td>La Ley 21.595 amplio la responsabilidad penal de las empresas.</td><td>Identificar riesgos, definir controles y designar un encargado.</td><td>abierta</td></tr><tr><td class="num">9</td><td>Proteccion de datos personales</td><td>Se manejan datos de trabajadores y clientes; el incumplimiento tiene multas altas.</td><td>Inventariar que datos se tratan, para que, y como se protegen.</td><td>abierta</td></tr><tr><td class="num">9</td><td>Prevencion de riesgos laborales activa</td><td>Obligatorio y ademas es lo que evita accidentes graves.</td><td>Matriz de riesgos, elementos de proteccion y capacitacion vigente.</td><td>abierta</td></tr><tr><td class="num">9</td><td>Protocolo de prevencion de acoso y violencia laboral (Ley Karin)</td><td>Es obligatorio para todo empleador en Chile y su ausencia se multa.</td><td>Elaborar el protocolo, incorporarlo al reglamento interno y difundirlo.</td><td>abierta</td></tr><tr><td class="num">6</td><td>Gestion de residuos con destino conocido</td><td>Saber cuanto se genera y a donde va es la base de casi toda la normativa de residuos.</td><td>Registrar toneladas por tipo y su destino (relleno, reciclaje, compostaje).</td><td>abierta</td></tr><tr><td class="num">6</td><td>Canal para recibir denuncias</td><td>Sin canal, los problemas llegan directo a la autoridad o a la prensa.</td><td>Definir un canal conocido, con responsable y plazos.</td><td>abierta</td></tr><tr><td class="num">6</td><td>Cumplimiento de inclusion laboral</td><td>Las empresas de 100 o mas trabajadores deben cumplir la cuota de la Ley 21.015.</td><td>Revisar la dotacion, las contrataciones y la comunicacion anual.</td><td>abierta</td></tr><tr><td class="num">4</td><td>Datos respaldados en boletas o mediciones</td><td>Un numero estimado no resiste una auditoria ni una exigencia de cliente.</td><td>Reemplazar estimaciones por boletas, facturas o lecturas de medidor.</td><td>abierta</td></tr><tr><td class="num">4</td><td>Meta de reduccion definida</td><td>Medir sin meta no reduce nada, y las metas se piden en todos los reportes.</td><td>Definir año base, meta y plazo.</td><td>abierta</td></tr></tbody></table></div>
+<h2>Lo que ya esta resuelto</h2>
+<ul><li>Perfil de la empresa completo — Perfil completo.</li><li>Huella de carbono del ultimo año calculada — Huella calculada (1566.0 tCO2e).</li><li>Alcance 1 medido (combustibles y fugas propias) — 187.8 tCO2e registradas.</li><li>Alcance 2 medido (electricidad comprada) — 142.9 tCO2e registradas.</li><li>Alcance 3 estimado (cadena de valor) — 1235.4 tCO2e registradas.</li><li>Contratos y obligaciones laborales al dia — Contratos y cotizaciones al dia, revisado por contabilidad</li><li>Responsable de sostenibilidad designado — Jefa de calidad a cargo</li></ul>
+<h2>Como se calculo</h2>
+<p>Autoevaluacion de madurez y cumplimiento con los datos de la carpeta y las respuestas de la empresa. No es una calificacion ESG de mercado ni una certificacion.</p>
+<p>Cada indicador vale segun su peso (1 a 3) y su estado: cumple suma todo, parcial la mitad, y no cumple o sin datos no suman. Los indicadores que no aplican al giro de la empresa salen del calculo.</p>
+<div class="aviso aviso">Esto es orientacion de gestion, no asesoria legal ni auditoria.</div>
+<footer>Generado por Agentes ESG el 16-09-2026 01:18. Documento de apoyo: revisa los datos antes de usarlo con fines regulatorios o publicos.</footer>
+</div>
+</body>
+</html>

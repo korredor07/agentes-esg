@@ -392,7 +392,8 @@ def calcular(registros, factores=None, pcg=None, conjunto="AR6", pais=None, cont
         kg = fila["kg_co2e"]
         total += kg
         _sumar(por_alcance, "alcance_%d" % fila["alcance"], kg)
-        _sumar(por_sitio, fila["sitio"] or "Sin sitio", kg)
+        etiqueta_sitio = fila["sitio"] or ("Cadena de valor" if fila["alcance"] == 3 else "Sin sitio asignado")
+        _sumar(por_sitio, etiqueta_sitio, kg)
         _sumar(por_recurso, fila["recurso"], kg)
         _sumar(por_periodo, fila["periodo"] or "sin periodo", kg)
         if fila["alcance"] == 3 and fila["categoria"]:

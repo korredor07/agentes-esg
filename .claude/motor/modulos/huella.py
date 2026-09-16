@@ -132,7 +132,17 @@ def _bloques_informe(resumen, perfil):
                                   for nombre, dato in mayores]})
 
     periodos = sorted(k for k in resumen["por_periodo"] if k != "sin periodo")
-    if len(periodos) > 1:
+    mensuales = [p for p in periodos if len(p) == 7]
+    if len(mensuales) > 1:
+        bloques.append({"tipo": "lineas", "titulo": "Evolucion mes a mes", "unidad": "tCO2e",
+                        "series": [{"nombre": "Emisiones",
+                                    "puntos": [(p, resumen["por_periodo"][p]["kg_co2e"] / 1000.0)
+                                               for p in mensuales]}]})
+        if len(mensuales) < len(periodos):
+            bloques.append({"tipo": "texto",
+                            "texto": "La curva muestra solo los datos cargados mes a mes. Los datos anuales "
+                                     "(por ejemplo la cadena de valor) no aparecen aqui, pero si en el total."})
+    elif len(periodos) > 1:
         bloques.append({"tipo": "lineas", "titulo": "Evolucion por periodo", "unidad": "tCO2e",
                         "series": [{"nombre": "Emisiones",
                                     "puntos": [(p, resumen["por_periodo"][p]["kg_co2e"] / 1000.0) for p in periodos]}]})

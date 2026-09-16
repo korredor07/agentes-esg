@@ -2,8 +2,8 @@
 
 Fecha de investigación: 2026-09-15
 
-> **Documento en elaboración.** Se actualiza por secciones. Etiquetas de fiabilidad:
-> `[VERIFICADO]` = confirmado contra el texto publicado en EUR-Lex / Diario Oficial (DOUE).
+> **Etiquetas de fiabilidad usadas en todo el documento:**
+> `[VERIFICADO]` = confirmado contra el texto publicado en EUR-Lex / Diario Oficial (DOUE) o en el BOE.
 > `[SECUNDARIO]` = fuente oficial no legislativa (páginas de la Comisión, Consejo, EMSA) o despacho jurídico; útil pero no es el texto legal.
 > `[NO VERIFICADO]` = dato que NO se pudo confirmar contra fuente oficial en esta investigación. **No usar en el motor de cálculo sin verificar.**
 
@@ -436,7 +436,102 @@ Condiciones: el precio del carbono debe haberse **pagado efectivamente** en el p
 
 ## 5. EU ETS marítimo
 
-*(Sección pendiente de completar.)*
+### 5.1 Normas aplicables
+
+| Norma | Contenido | Fecha | DOUE | Etiqueta |
+|---|---|---|---|---|
+| **Directiva 2003/87/CE** | Norma base del RCDE UE (EU ETS) | 13-10-2003 | 25-10-2003 | [VERIFICADO] [10] |
+| **Directiva (UE) 2023/959** | Modifica la Directiva 2003/87/CE: **incluye el transporte marítimo** en el RCDE UE, crea el ETS2 y ajusta la asignación gratuita/factor CBAM | **10-05-2023** | **16-05-2023 (DO L 130)** | [VERIFICADO] [16] |
+| **Reglamento (UE) 2015/757** ("MRV marítimo") | Seguimiento, notificación y verificación de emisiones del transporte marítimo | 29-04-2015 | 19-05-2015 (DO L 123) | [VERIFICADO] [16] |
+| **Reglamento (UE) 2023/957** | Modifica el MRV para alinearlo con la inclusión en el RCDE (añade CH₄ y N₂O desde 2024 y amplía buques) | 10-05-2023 | 16-05-2023 | [SECUNDARIO] [16] |
+
+### 5.2 Buques cubiertos
+
+El **Anexo I de la Directiva 2003/87/CE**, en la fila añadida por la Directiva (UE) 2023/959, dice literalmente:
+
+> **‘Maritime transport**
+> Maritime transport activities covered by Regulation (EU) 2015/757 with the exception of the maritime transport activities covered by Article 2(1a) and, until 31 December 2026, Article 2(1b) of that Regulation
+> **Carbon dioxide**
+> **From 1 January 2026, methane and nitrous oxide’** [VERIFICADO] [16]
+
+En consecuencia:
+
+| Elemento | Regla | Etiqueta |
+|---|---|---|
+| Arqueo bruto | Buques de **más de 5 000 GT** (umbral heredado del MRV) que transporten pasajeros o carga con fines comerciales | [VERIFICADO] [16] |
+| Buques por debajo de 5 000 GT | **Excluidos** de momento. El considerando 30 constata que representan menos del 15 % de las emisiones y encarga a la Comisión un informe, **a más tardar el 31 de diciembre de 2026**, sobre la viabilidad de incluir buques **por debajo de 5 000 GT pero no por debajo de 400 GT**, incluidos los buques *offshore* | [VERIFICADO] [16] |
+| Exclusiones del Anexo I | Actividades del art. 2(1a) del MRV y, **hasta el 31-12-2026**, las del art. 2(1b) del MRV | [VERIFICADO] [16] — el contenido exacto de esos apartados del MRV **[NO VERIFICADO]** |
+| Buques pesqueros | Fuera del ámbito | [SECUNDARIO] [16] |
+
+### 5.3 Cobertura de los viajes (artículo 3 octies bis / 3ga)
+
+> "The allocation of allowances and the application of surrender requirements in respect of maritime transport activities shall apply in respect of **fifty percent (50 %)** of the emissions from ships performing voyages departing from a port of call under the jurisdiction of a Member State and arriving at a port of call outside the jurisdiction of a Member State, **fifty percent (50 %)** of the emissions from ships performing voyages departing from a port of call outside the jurisdiction of a Member State and arriving at a port of call under the jurisdiction of a Member State, **one hundred percent (100 %)** of emissions from ships performing voyages departing from a port of call under the jurisdiction of a Member State and arriving at a port of call under the jurisdiction of a Member State, and **one hundred percent (100 %)** of emissions from ships within a port of call under the jurisdiction of a Member State." [VERIFICADO] [16]
+
+| Tipo de viaje | Cobertura |
+|---|---|
+| UE → tercer país (salida de puerto UE) | **50 %** |
+| Tercer país → UE (llegada a puerto UE) | **50 %** |
+| UE → UE (intracomunitario) | **100 %** |
+| Emisiones **dentro** de un puerto UE (atraque) | **100 %** |
+
+> **Chile y Perú → Europa: se cubre el 50 % de las emisiones del viaje.** La misma regla que en FuelEU. Es el diseño deliberado de "responsabilidades comunes pero diferenciadas" que el considerando 20 justifica expresamente.
+
+**Regla antielusión — puertos de transbordo vecinos (art. 3ga, ap. 2):** la Comisión establece por acto de ejecución una lista de puertos de transbordo de contenedores situados **fuera de la Unión, a menos de 300 millas náuticas** de un puerto UE y con **más del 65 %** de transbordo sobre el tráfico total de contenedores. Esos puertos **no cuentan** como "puerto de escala", de modo que una escala allí no interrumpe el viaje ni reduce la obligación. Primera lista antes del **31 de diciembre de 2023**, actualizada cada dos años. [VERIFICADO] [16]
+
+### 5.4 Calendario de entrega de derechos (artículo 3 octies ter / 3gb)
+
+> "Shipping companies shall be liable to surrender allowances according to the following schedule:
+> (a) **40 %** of verified emissions reported for **2024** […]
+> (b) **70 %** of verified emissions reported for **2025** […]
+> (c) **100 %** of verified emissions reported for **2026** and each year thereafter […]" [VERIFICADO] [16]
+
+| Año de emisiones | % de emisiones verificadas a cubrir con derechos | Año de entrega |
+|---|---|---|
+| 2024 | **40 %** | 2025 |
+| 2025 | **70 %** | 2026 |
+| **2026 y siguientes** | **100 %** | 2027 y ss. |
+
+Cláusula de integridad ambiental: en 2024 y 2025, la diferencia entre emisiones verificadas y derechos entregados **se cancela** en lugar de subastarse. [VERIFICADO] [16]
+
+> **2026 es el primer año al 100 %.** Combinado con la entrada de CH₄ y N₂O el mismo año, 2026 supone el salto de coste más grande de toda la serie para las navieras — y por tanto para el flete.
+
+### 5.5 Gases cubiertos: CO₂ desde 2024, CH₄ y N₂O desde 2026
+
+Considerando 20 de la Directiva (UE) 2023/959, literal:
+
+> "Those emissions should first be included in Regulation (EU) 2015/757 **from 2024**, and they should be included in the EU ETS **from 2026**." [VERIFICADO] [16]
+
+| Gas | Seguimiento (MRV) | Obligación de entrega (ETS) |
+|---|---|---|
+| **CO₂** | Desde 2018 (MRV original) | **Desde 2024** (con phase-in 40/70/100) |
+| **CH₄ (metano)** | **Desde 2024** | **Desde 1 de enero de 2026** |
+| **N₂O (óxido nitroso)** | **Desde 2024** | **Desde 1 de enero de 2026** |
+
+[VERIFICADO] [16]
+
+> Motivo declarado: el metano crece con la flota propulsada por **GNL**, y el *methane slip* de los motores Otto es material (véase el 3,1 % del Anexo II de FuelEU, sección 6.7). La inclusión de CH₄ y N₂O en 2026 cierra esa vía de escape.
+
+### 5.6 Quién es el obligado y cómo se traslada el coste
+
+- **Obligada: la compañía naviera** (*shipping company*), definida como el armador o cualquier otra organización o persona —el gestor naval o el fletador a casco desnudo— que haya asumido la responsabilidad de la explotación del buque. [VERIFICADO] [16]
+- **Autoridad administradora (art. 3gf):** el Estado miembro de registro; si no está registrada en la UE, el Estado miembro con **mayor número estimado de escalas** en los cuatro años de seguimiento anteriores; y si no hubo viajes, el Estado del primer viaje. [VERIFICADO] [16]
+- **Traslado del coste (art. 3gc):** cuando la responsabilidad última de la compra del combustible o de la explotación del buque la asume otra entidad por contrato (típicamente el **fletador por tiempo**), los Estados miembros deben garantizar que la naviera tiene **derecho al reembolso** de los costes de entrega de derechos. La naviera sigue siendo, no obstante, la responsable de entregar los derechos. [VERIFICADO] [16]
+
+> "'Operation of the ship' for the purposes of this Article means determining the cargo carried or the route and the speed of the ship." [VERIFICADO] [16]
+
+### 5.7 Cláusula de revisión (artículo 3gg)
+
+- Si la **OMI** adopta una medida mundial de mercado, la Comisión revisará la Directiva y presentará un informe en **18 meses** desde la adopción y antes de que sea operativa. [VERIFICADO] [16]
+- Si la OMI **no** adopta tal medida **antes de 2028**, la Comisión examinará la necesidad de aplicar las obligaciones a **más del 50 %** de las emisiones de los viajes extracomunitarios. [VERIFICADO] [16]
+
+> **Riesgo a vigilar para Chile y Perú:** el 50 % actual no está garantizado a perpetuidad. Si la OMI no entrega una medida global equiparable antes de 2028, la UE tiene mandato expreso para subir la cobertura de los viajes de larga distancia. Eso duplicaría el coste ETS del flete Sudamérica–Europa.
+
+### 5.8 Relevancia para exportadores de Chile y Perú
+
+- **No hay obligación directa.** El exportador no monitoriza, no declara y no entrega derechos.
+- **El impacto llega como recargo en el flete.** Las navieras aplican un "ETS Surcharge" o "Emission Surcharge" por contenedor, normalmente revisado trimestralmente y diferenciado por ruta y tipo de equipo.
+- **Qué exigir a la naviera:** (a) que el recargo aplique el **50 %** en rutas Sudamérica–Europa; (b) el **precio del EUA** usado como referencia y el periodo; (c) el **factor de emisión por TEU** de la ruta; (d) el **desglose separado** de ETS y FuelEU.
+- **Palanca de negociación:** las rutas y los buques no son iguales. Un servicio con buques modernos y eficientes tendrá menor recargo por TEU. Conviene compararlo entre navieras al licitar el flete anual.
 
 ---
 
@@ -723,8 +818,518 @@ Los Estados miembros deben establecer sanciones **efectivas, proporcionadas y di
 
 ---
 
+## 8. España: Ley 11/2018 (EINF) y estado tras la CSRD
+
+### 8.1 La norma
+
+**Ley 11/2018, de 28 de diciembre**, por la que se modifica el Código de Comercio, el texto refundido de la Ley de Sociedades de Capital y la Ley 22/2015 de Auditoría de Cuentas, **en materia de información no financiera y diversidad**. BOE núm. 314, de **29 de diciembre de 2018**. [VERIFICADO] [17]
+
+Transpone la **Directiva 2014/95/UE** (NFRD). Crea el **Estado de Información No Financiera (EINF)**.
+
+### 8.2 Umbrales
+
+| Periodo | Empleados | Condición adicional | Etiqueta |
+|---|---|---|---|
+| **Ejercicios 2018–2020** | Media **> 500** trabajadores | Ser **entidad de interés público** **o** cumplir, durante dos ejercicios consecutivos, al menos **dos** de: total de activo **> 20 M EUR**; importe neto de la cifra anual de negocios **> 40 M EUR**; media de trabajadores **> 250** | [VERIFICADO] [17] |
+| **Desde ejercicios iniciados a partir del 1-1-2021** (tras el periodo transitorio de 3 años) | Media **> 250** trabajadores | Mismo test de entidad de interés público o dos de los tres criterios financieros | [VERIFICADO] [17] |
+
+Redacción literal del criterio de empleados en la versión original:
+
+> "Número medio de trabajadores empleado durante el ejercicio sea superior a 500" [VERIFICADO] [17]
+
+> **La rebaja a 250 trabajadores** desde 2021 es lo que convirtió a la Ley 11/2018 en la norma de reporte de sostenibilidad más amplia de España: alcanza a varios miles de empresas, muchas más de las que quedarán en el ámbito de la CSRD tras el Ómnibus I.
+
+### 8.3 Contenido del EINF
+
+El estado debe incluir información significativa sobre: [VERIFICADO] [17]
+
+- **Cuestiones medioambientales**: emisiones, energía, agua, residuos, biodiversidad, contaminación.
+- **Cuestiones sociales y relativas al personal**: empleo, organización del trabajo, salud y seguridad, relaciones sociales, formación, accesibilidad, **igualdad** (incluida la brecha salarial).
+- **Respeto de los derechos humanos**: procedimientos de diligencia debida y mitigación de riesgos.
+- **Lucha contra la corrupción y el soborno**.
+- **Información sobre la sociedad**: desarrollo local, subcontratación y proveedores, consumidores, información fiscal.
+
+Estructura obligatoria: modelo de negocio, políticas aplicadas, resultados de esas políticas, **riesgos principales** e **indicadores clave de resultados no financieros**. Se exige seguir un marco de referencia (habitualmente GRI) e indicar cuál. [VERIFICADO] [17] [SECUNDARIO]
+
+### 8.4 Verificación y publicación
+
+| Requisito | Regla | Etiqueta |
+|---|---|---|
+| **Verificación** | "El estado de información no financiera será verificada por un **prestador independiente de servicios de verificación**" | [VERIFICADO] [17] |
+| Papel del auditor de cuentas | Solo comprueba que el EINF **se haya incorporado** al informe de gestión; **no audita su contenido** | [VERIFICADO] [17] |
+| Publicación | **Gratuita y fácilmente accesible en el sitio web** de la sociedad, dentro de los **seis meses** siguientes al cierre del ejercicio, y disponible durante **cinco años** | [VERIFICADO] [17] |
+| Presentación | Como **estado separado** dentro del informe de gestión, sometido a **votación separada** en la junta general | [SECUNDARIO] |
+
+### 8.5 Estado de la transposición de la CSRD en España (a 16 de septiembre de 2026)
+
+> **[NO VERIFICADO] — este es el punto más incierto de todo el documento.**
+>
+> No se pudo confirmar, contra el BOE, la existencia ni el contenido de una norma española que transponga la Directiva (UE) 2022/2464 (CSRD) y que derogue o modifique la Ley 11/2018. Las búsquedas en el buscador de legislación del BOE devolvieron error, y la ficha de análisis del texto consolidado de la Ley 11/2018 consultada **no mostraba modificaciones posteriores a 2018**.
+
+Lo que sí puede afirmarse con base sólida:
+
+| Hecho | Etiqueta |
+|---|---|
+| El plazo original de transposición de la CSRD era el **6 de julio de 2024**. España **no** transpuso en plazo y fue objeto de procedimiento de infracción de la Comisión. | [SECUNDARIO] [3] |
+| La Directiva (UE) 2025/794 ("stop-the-clock") fijó el **31 de diciembre de 2025** como plazo de transposición de sus propias disposiciones de aplazamiento. | [VERIFICADO] [1] |
+| La Directiva (UE) 2026/470 (Ómnibus I) fija el **19 de marzo de 2027** como plazo de transposición de las disposiciones relativas a la CSRD. | [SECUNDARIO] [3] |
+| Mientras no se apruebe la norma española de transposición, **la Ley 11/2018 sigue vigente y es exigible** con sus umbrales propios (250 trabajadores). | [VERIFICADO] [17] — la vigencia se deduce de la ausencia de derogación en el texto consolidado consultado |
+
+**Implicación práctica y algo paradójica.** En España coexisten hoy dos perímetros muy distintos:
+
+- El de la **Ley 11/2018**: muy amplio (desde 250 trabajadores), contenido tipo NFRD, verificación por prestador independiente.
+- El futuro de la **CSRD tras el Ómnibus I**: mucho más estrecho (450 M EUR **y** 1 000 empleados), contenido ESRS, aseguramiento limitado, desde ejercicios que empiezan en 2027.
+
+Es decir: **muchas empresas españolas que quedarán fuera de la CSRD siguen obligadas por la Ley 11/2018**. Para un proveedor chileno o peruano de una empresa española mediana, esto significa que su cliente **puede seguir pidiéndole datos** aunque no esté sujeto a CSRD — y que el **tope VSME de la sección 1.5 no le ampara**, porque ese tope opera dentro del régimen de la CSRD, no del de la Ley 11/2018. **[NO VERIFICADO]** en cuanto a cómo resolverá la norma española de transposición esta coexistencia.
+
+**Acción recomendada para el proyecto:** verificar este punto en el BOE antes de publicar cualquier skill que dependa de él. Es un dato que cambia y que tiene consecuencias comerciales directas.
+
+---
+
+## 9. Sanciones de la UE y debida diligencia para exportadores no comunitarios
+
+### 9.1 Qué son y quién las adopta
+
+Las **medidas restrictivas** (sanciones) son, en palabras de la Comisión, una "herramienta esencial de la Política Exterior y de Seguridad Común" (PESC). [VERIFICADO] [18]
+
+- Las adopta el **Consejo de la UE** por unanimidad, mediante **Decisiones PESC** (base: artículo 29 del TUE) desarrolladas por **Reglamentos** del Consejo (base: artículo 215 del TFUE), que son directamente aplicables en todos los Estados miembros.
+- Tipos: embargos de armas, restricciones de admisión (prohibiciones de viaje), **congelación de fondos y recursos económicos**, prohibiciones de importación/exportación, restricciones sectoriales (financieras, energéticas, tecnológicas) y prohibiciones de prestación de servicios.
+
+### 9.2 Ámbito de aplicación (a quién obligan)
+
+Las sanciones de la UE vinculan a: [VERIFICADO] [18]
+
+- **Nacionales de los Estados miembros**, estén donde estén;
+- **Empresas y entidades constituidas conforme al Derecho de un Estado miembro**, incluidas sus sucursales;
+- **Cualquier actividad desarrollada, total o parcialmente, en el territorio de la Unión**;
+- **Buques y aeronaves** bajo jurisdicción de un Estado miembro.
+
+> **Clave para un exportador chileno o peruano.** Una empresa latinoamericana **no está sujeta directamente** a las sanciones de la UE por el mero hecho de existir. Pero queda alcanzada en la práctica cuando: (a) tiene una **filial en la UE**; (b) opera con **bancos europeos** o en **euros** a través de bancos corresponsales de la UE; (c) vende a un **cliente europeo** que sí está obligado y que le trasladará la exigencia; o (d) **reexporta a la UE** bienes de origen sancionado. El riesgo real no es sancionador directo, es de **bloqueo de pagos, ruptura de contrato y exclusión de la cadena de suministro**.
+
+### 9.3 Fuentes oficiales (URLs)
+
+| Recurso | Qué es | URL oficial | Etiqueta |
+|---|---|---|---|
+| **EU Sanctions Map** | Mapa interactivo de todos los regímenes de sanciones vigentes, organizados por régimen y por país. Mantenido por el Consejo/Comisión | **https://www.sanctionsmap.eu/** | [VERIFICADO] [18][19] |
+| **EU Consolidated Financial Sanctions List (CFSP list)** | Base de datos oficial de personas, entidades y organismos sujetos a congelación de activos | Accesible desde la página de sanciones de la Comisión; el servicio técnico histórico es el *Financial Sanctions Files* (FSF) de la DG FISMA | [SECUNDARIO] [18] — **la URL directa y estable de descarga [NO VERIFICADO]** |
+| **EU Sanctions Compliance Helpdesk** | Asistencia especializada en cumplimiento, orientada especialmente a **pymes** | **https://eu-sanctions-compliance-helpdesk.europa.eu/index_en** | [VERIFICADO] [18] |
+| **EU Sanctions Tool** | Instrumento de la Comisión para consultar qué sanciones aplican a una operación | Desde la página de sanciones de la Comisión | [SECUNDARIO] [18] |
+| **EU Sanctions Whistleblower Tool** | Canal anónimo para denunciar elusión de sanciones | Desde la página de sanciones de la Comisión | [SECUNDARIO] [18] |
+| Página raíz de sanciones de la Comisión | Punto de entrada a todo lo anterior | **https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures_en** | [VERIFICADO] [18] |
+
+> El **texto legal** de cada régimen de sanciones está siempre en EUR-Lex. La Sanctions Map enlaza a cada Reglamento y Decisión. Para el motor de cálculo, la fuente autorizada de nombres es **siempre la lista consolidada**, nunca una copia intermedia.
+
+### 9.4 Obligaciones y recomendaciones de debida diligencia para exportadores no comunitarios
+
+Ninguna de estas es una obligación legal directa para una empresa chilena o peruana; son las prácticas que los clientes, bancos y aseguradoras europeos exigen y que reducen el riesgo de bloqueo:
+
+| # | Medida | Por qué importa |
+|---|---|---|
+| 1 | **Cribado (*screening*) de contrapartes** contra la lista consolidada de la UE, y también contra OFAC (EE. UU.), HMT (Reino Unido) y ONU | Un cliente europeo no podrá pagar si cualquier parte de la operación toca a un designado |
+| 2 | **Screening de la titularidad real** (*beneficial ownership*), no solo del nombre de la sociedad | La regla del **50 %** de propiedad y el criterio de **control** hacen que una filial no listada de un designado esté igualmente bloqueada |
+| 3 | **Cribado de partes accesorias**: bancos, navieras, aseguradoras, agentes de aduana, buque y armador | Las sanciones sobre transporte marítimo (buques designados, topes de precio) golpean por esta vía |
+| 4 | **Control de bienes de doble uso y de la lista de bienes restringidos** | La reexportación de bienes tecnológicos sancionados es el foco principal de aplicación desde 2022 |
+| 5 | **Cláusulas antielusión en los contratos**: prohibición de reexportación a Rusia/Bielorrusia, derecho de auditoría y resolución | Los compradores europeos las están imponiendo de forma estándar |
+| 6 | **Trazabilidad del origen** de las materias primas y de los componentes | Evita el riesgo de "origen sancionado camuflado" (por ejemplo, metal de origen ruso transformado en un tercer país) |
+| 7 | **Registro documental y conservación** de todos los cribados con fecha y resultado | Es la prueba que exigirá el banco o el cliente si hay una alerta |
+| 8 | **Repetición periódica del cribado**, no solo al alta del cliente | Las listas cambian con frecuencia; una contraparte limpia hoy puede estar designada en dos meses |
+
+> **Recomendación operativa para el proyecto Agentes ESG:** el cribado de sanciones es un caso de uso muy bueno para automatizar, pero debe apoyarse **siempre** en la lista consolidada oficial descargada en el momento de la consulta, con registro de la versión y la fecha. Un falso negativo por usar una copia desactualizada tiene consecuencias graves. Y ninguna herramienta automática debe presentarse como sustituto del asesoramiento legal: el criterio de **control** y la regla del 50 % requieren juicio humano.
+
+---
+
+## Fórmulas y métodos
+
+> **Advertencia sobre los precios.** Todos los ejemplos usan un **precio hipotético de 75 EUR/t CO₂** para el derecho del RCDE UE (EUA), señalado como `[HIPÓTESIS]`. El precio real es de mercado y cambia a diario. El motor de cálculo debe tomarlo de una fuente de precios en tiempo de ejecución, nunca de una constante en el código. Las intensidades de emisión de los productos también son hipotéticas y están marcadas como tales; las **fórmulas y los factores normativos** sí están verificados.
+
+### A. CBAM — emisiones incorporadas y coste
+
+#### A.1 Fórmulas normativas (Anexo IV del Reg. (UE) 2023/956) [VERIFICADO] [6]
+
+**Mercancías simples:**
+```
+SEE_g = AttrEm_g / AL_g
+AttrEm_g = DirEm + IndirEm
+```
+
+**Mercancías complejas:**
+```
+SEE_g = (AttrEm_g + EE_InpMat) / AL_g
+EE_InpMat = Σ (M_i × SEE_i)
+```
+
+**Obligación de certificados (derivada de los arts. 22 y 31):**
+```
+Certificados_a_entregar = (Σ_g  Q_g × SEE_g) × (1 − FactorCBAM_año) − Deducción_carbono_origen
+Coste = Certificados_a_entregar × Precio_certificado_CBAM
+```
+
+> El término `(1 − FactorCBAM_año)` traduce el artículo 31: se ajusta la obligación para reflejar la asignación gratuita que aún reciben las instalaciones europeas. La **mecánica exacta de la deducción por carbono pagado en origen** se remite a acto de ejecución — **[NO VERIFICADO]**; en el motor debe implementarse como parámetro abierto, no como fórmula cerrada.
+
+#### A.2 Ejemplo resuelto — acero peruano
+
+**Supuesto.** Un importador español compra **500 toneladas** de barras de acero (capítulo NC 72) a un productor peruano. Importación en el año 2026.
+
+| Paso | Cálculo | Resultado |
+|---|---|---|
+| 1. ¿Aplica CBAM? | 500 t > umbral de minimis de **50 t** acumuladas/año | **Sí.** El importador debe ser declarante CBAM autorizado |
+| 2. ¿Qué emisiones se computan? | El acero está en el **Anexo II** → **solo emisiones directas** | `IndirEm = 0` |
+| 3. SEE verificada del productor | `[HIPÓTESIS]` 1,80 t CO₂e por tonelada de acero | `SEE_g = 1,80` |
+| 4. Emisiones incorporadas totales | 500 t × 1,80 | **900 t CO₂e** |
+| 5. Factor CBAM 2026 | **97,5 %** → exigible el **2,5 %** | `1 − 0,975 = 0,025` |
+| 6. Certificados a entregar | 900 × 0,025 | **22,5 certificados** |
+| 7. Deducción carbono en origen | Perú sin precio explícito del carbono | **0** |
+| 8. Precio del certificado | `[HIPÓTESIS]` 75 EUR/t (media **trimestral** EUA en 2026) | 75 EUR |
+| 9. **Coste CBAM** | 22,5 × 75 | **1 687,50 EUR** |
+| 10. Coste unitario | 1 687,50 / 500 | **3,38 EUR por tonelada de acero** |
+| 11. Plazos | Declaración: **30-09-2027**. Compra de certificados: desde **01-02-2027** | — |
+
+#### A.3 El mismo envío según avanza el factor CBAM
+
+| Año | Factor CBAM | % exigible | Certificados | Coste (a 75 EUR) | EUR/t de acero |
+|---|---|---|---|---|---|
+| 2026 | 97,5 % | 2,5 % | 22,5 | 1 687,50 | **3,38** |
+| 2027 | 95 % | 5 % | 45,0 | 3 375,00 | 6,75 |
+| 2028 | 90 % | 10 % | 90,0 | 6 750,00 | 13,50 |
+| 2029 | 77,5 % | 22,5 % | 202,5 | 15 187,50 | 30,38 |
+| **2030** | 51,5 % | **48,5 %** | 436,5 | 32 737,50 | **65,48** |
+| 2031 | 39 % | 61 % | 549,0 | 41 175,00 | 82,35 |
+| 2032 | 26,5 % | 73,5 % | 661,5 | 49 612,50 | 99,23 |
+| 2033 | 14 % | 86 % | 774,0 | 58 050,00 | 116,10 |
+| **2034** | 0 % | **100 %** | 900,0 | 67 500,00 | **135,00** |
+
+> El coste se multiplica por **40** entre 2026 y 2034. Un exportador que hoy mire el CBAM y concluya "son 3 euros por tonelada, no importa" está leyendo mal la curva.
+
+#### A.4 Por qué conviene calcular las emisiones reales
+
+Comparación del mismo envío con **datos reales verificados** frente a **valores por defecto**:
+
+| Escenario | SEE (t CO₂e/t) | 2026 | 2034 |
+|---|---|---|---|
+| Datos reales verificados | 1,80 `[HIPÓTESIS]` | 1 687,50 EUR | 67 500 EUR |
+| Valor por defecto | 2,50 `[HIPÓTESIS]` | 2 343,75 EUR | 93 750 EUR |
+| **Sobrecoste por no aportar datos** | +0,70 | **+656,25 EUR** | **+26 250 EUR** |
+
+> Y esto **antes** del endurecimiento del Reg. (UE) 2025/2083, que fija los valores por defecto en la intensidad media de los **diez países exportadores con mayores emisiones**. La brecha real será mayor.
+
+---
+
+### B. EU ETS marítimo — obligación y recargo por contenedor
+
+#### B.1 Fórmula
+
+```
+Emisiones_viaje (t CO2e) = Σ_combustibles ( M_combustible × Factor_emisión )
+Emisiones_cubiertas     = Emisiones_viaje × Cobertura_viaje      # 50 % o 100 %
+Derechos_a_entregar     = Emisiones_cubiertas × Phase_in_año     # 40 % / 70 % / 100 %
+Coste_ETS               = Derechos_a_entregar × Precio_EUA
+Recargo_por_TEU         = Coste_ETS / TEU_transportados
+```
+
+Parámetros normativos: cobertura del **50 %** (viaje tercer país ↔ UE) o **100 %** (intra-UE y estancia en puerto) [VERIFICADO] [16]; phase-in **40 % (2024) / 70 % (2025) / 100 % (2026 y ss.)** [VERIFICADO] [16].
+
+#### B.2 Ejemplo resuelto — Callao → Rotterdam
+
+**Supuesto.** Portacontenedores de 8 000 TEU, propulsión HFO, viaje Callao (Perú) → Rotterdam (Países Bajos).
+
+| Paso | Cálculo | Resultado |
+|---|---|---|
+| 1. Consumo del viaje | `[HIPÓTESIS]` 1 500 t de HFO | 1 500 t |
+| 2. Factor de emisión CO₂ del HFO | **3,114** t CO₂ / t combustible (Anexo II FuelEU) [VERIFICADO] [11] | 3,114 |
+| 3. Emisiones del viaje (solo CO₂) | 1 500 × 3,114 | **4 671 t CO₂** |
+| 4. Cobertura del viaje | Tercer país → UE = **50 %** | **2 335,5 t CO₂** |
+| 5. Phase-in 2026 | **100 %** | 2 335,5 derechos |
+| 6. Precio EUA | `[HIPÓTESIS]` 75 EUR/t | 75 EUR |
+| 7. **Coste ETS del viaje** | 2 335,5 × 75 | **175 162,50 EUR** |
+| 8. Contenedores transportados | 8 000 TEU × 85 % de ocupación `[HIPÓTESIS]` | 6 800 TEU |
+| 9. **Recargo por TEU** | 175 162,50 / 6 800 | **25,76 EUR/TEU** |
+| 10. Recargo por contenedor de 40 pies | 25,76 × 2 | **≈ 51,52 EUR/FEU** |
+
+#### B.3 Efecto del phase-in y de la entrada de CH₄ y N₂O
+
+| Año | Phase-in | Gases | Emisiones cubiertas | Coste | EUR/TEU |
+|---|---|---|---|---|---|
+| 2024 | 40 % | CO₂ | 934,2 t | 70 065 EUR | **10,30** |
+| 2025 | 70 % | CO₂ | 1 634,9 t | 122 614 EUR | **18,03** |
+| 2026 | 100 % | CO₂ | 2 335,5 t | 175 163 EUR | **25,76** |
+| **2026 con CH₄ + N₂O** | 100 % | CO₂ + CH₄ + N₂O | 2 376,7 t | **178 250 EUR** | **26,21** |
+
+Cálculo de la fila de CH₄ + N₂O: se sustituye el factor de CO₂ (3,114) por el factor **CO₂-equivalente TtW** del HFO (**3,16889** gCO₂e/gFuel, véase C.2), lo que eleva las emisiones un **1,76 %**.
+
+> **Para el HFO el efecto de CH₄ y N₂O es pequeño (1,76 %). Para el GNL es enorme**, por el *methane slip* del 3,1 % en motores Otto de media velocidad. Por eso la inclusión de esos gases en 2026 cambia el atractivo relativo del GNL como combustible de transición.
+
+> **El coste por TEU se multiplica por 2,5 entre 2024 y 2026.** Un exportador que negoció su flete en 2024 y no revisó la cláusula de recargos encontrará una diferencia notable en la factura de 2026.
+
+---
+
+### C. FuelEU Maritime — intensidad, balance y penalización
+
+#### C.1 Fórmulas normativas
+
+**Intensidad de GEI (Anexo I, ecuación 1):** [VERIFICADO] [11]
+```
+GHG intensity [gCO2eq/MJ] = f_wind × (WtT + TtW)
+
+WtT = [ Σ_i (M_i × CO2eq_WtT,i × LCV_i) + Σ_k (E_k × CO2eq_elec,k) ]
+      ────────────────────────────────────────────────────────────
+      [ Σ_i (M_i × LCV_i × RWD_i) + Σ_k E_k ]
+
+TtW = [ Σ_i Σ_j  M_i,j × ( (1 − C_slip,j/100) × CO2eq_TtW,i,j + (C_slip,j/100) × CO2eq_TtW,slip,i,j ) ]
+      ──────────────────────────────────────────────────────────────────────────────────────────────
+      [ Σ_i (M_i × LCV_i × RWD_i) + Σ_k E_k ]
+```
+
+**Ecuación (2) — factor CO₂-equivalente TtW por combustible:** [VERIFICADO] [11]
+```
+CO2eq_TtW,i,j = Cf_CO2,j × GWP_CO2 + Cf_CH4,j × GWP_CH4 + Cf_N2O,j × GWP_N2O
+```
+Para el combustible deslizado (*slip*): `Csf_CO2 = 0`, `Csf_N2O = 0`, `Csf_CH4 = 1`. [VERIFICADO] [11]
+
+`RWD_i` = **factor de recompensa de 2** para combustibles de origen no biológico, del **1-1-2025 al 31-12-2033**; en los demás casos `RWD_i = 1`. [VERIFICADO] [11]
+
+> Los valores de **GWP a 100 años** se remiten a la Directiva (UE) 2018/2001, Anexo V, parte C, apartado 4. [VERIFICADO] [11] en cuanto a la **remisión**; los valores numéricos concretos (CO₂ = 1, CH₄ = 25, N₂O = 298) son **[NO VERIFICADO]** — no se leyó directamente esa disposición. El ejemplo C.2 los usa como hipótesis explícita.
+
+**Balance de cumplimiento (Anexo IV, parte A):** [VERIFICADO] [11]
+```
+Compliance balance [gCO2eq] = (GHGIE_target − GHGIE_actual) × [ Σ (M_i × LCV_i) + Σ E_k ]
+```
+
+**Penalización (Anexo IV, parte B):** [VERIFICADO] [11]
+```
+FuelEU Penalty [EUR] = ( |Compliance Balance| / (GHGIE_actual × 41 000) ) × 2 400
+```
+Y, en caso de déficit en periodos consecutivos, se multiplica por `1 + (n − 1)/10`. [VERIFICADO] [11]
+
+#### C.2 Ejemplo resuelto — buque que quema HFO puro en 2025
+
+**Supuesto.** Buque de más de 5 000 GT que consume **10 000 toneladas de HFO** dentro del ámbito de FuelEU en el periodo de referencia 2025, sin OPS, sin propulsión asistida por viento, sin RFNBO (`f_wind = 1`, `RWD = 1`, `E_k = 0`).
+
+**Paso 1 — Factores del Anexo II para el HFO** [VERIFICADO] [11]
+
+| Parámetro | Valor |
+|---|---|
+| `LCV` | 0,0405 MJ/g |
+| `CO2eq_WtT` | 13,5 gCO₂e/MJ |
+| `Cf_CO2` | 3,114 gCO₂/gFuel |
+| `Cf_CH4` | 0,00005 gCH₄/gFuel |
+| `Cf_N2O` | 0,00018 gN₂O/gFuel |
+| `C_slip` | no aplicable (—) → 0 |
+
+**Paso 2 — Factor CO₂-equivalente TtW** (con GWP `[HIPÓTESIS]` CO₂ = 1, CH₄ = 25, N₂O = 298)
+```
+CO2eq_TtW = 3,114 × 1 + 0,00005 × 25 + 0,00018 × 298
+          = 3,114 + 0,00125 + 0,05364
+          = 3,16889 gCO2eq/gFuel
+```
+
+**Paso 3 — Componentes de la intensidad**
+```
+WtT = 13,5 gCO2e/MJ                        (un solo combustible, RWD = 1)
+TtW = 3,16889 / 0,0405 = 78,2442 gCO2e/MJ
+GHGIE_actual = 1 × (13,5 + 78,2442) = 91,7442 gCO2e/MJ
+```
+
+> Obsérvese que el HFO puro queda **por encima** del valor de referencia de 91,16 gCO₂e/MJ. Ese valor de referencia es la media de la flota en 2020, no el valor del HFO.
+
+**Paso 4 — Límite aplicable en 2025**
+```
+GHGIE_target = 91,16 × (1 − 0,02) = 89,3368 gCO2e/MJ
+```
+
+**Paso 5 — Energía total**
+```
+M = 10 000 t = 1,0 × 10^10 g
+E = M × LCV = 1,0 × 10^10 × 0,0405 = 405 000 000 MJ
+```
+
+**Paso 6 — Balance de cumplimiento**
+```
+CB = (89,3368 − 91,7442) × 405 000 000
+   = (−2,4074) × 405 000 000
+   ≈ −974 996 000 gCO2eq
+   ≈ −975,0 toneladas de CO2eq   → DÉFICIT
+```
+
+**Paso 7 — Penalización FuelEU**
+```
+FuelEU Penalty = 974 996 000 / (91,7442 × 41 000) × 2 400
+               = 974 996 000 / 3 761 512 × 2 400
+               = 259,20 × 2 400
+               ≈ 622 088 EUR
+```
+
+| Resultado | Valor |
+|---|---|
+| Déficit de cumplimiento | ≈ **975 t CO₂eq** |
+| Equivalente en toneladas de VLSFO | ≈ **259,2 t** |
+| **Penalización FuelEU 2025** | **≈ 622 088 EUR** |
+| Coste implícito por tonelada de HFO | ≈ **62 EUR/t de combustible** |
+
+> **Regla práctica útil:** para un buque que quema HFO puro, la penalización FuelEU de 2025 ronda los **62 EUR por tonelada de combustible**. Es una cifra fácil de recordar para estimar el impacto en el flete y para contrastar el recargo que cobra la naviera.
+
+#### C.3 Escalada por reincidencia
+
+Mismo buque, mismo déficit, en periodos consecutivos:
+
+| Periodos consecutivos (n) | Multiplicador `1 + (n−1)/10` | Penalización |
+|---|---|---|
+| 1 | 1,0 | 622 088 EUR |
+| 2 | 1,1 | 684 296 EUR |
+| 3 | 1,2 | 746 505 EUR |
+| 5 | 1,4 | 870 923 EUR |
+| 10 | 1,9 | 1 181 967 EUR |
+
+#### C.4 Efecto del multiplicador RFNBO
+
+Si parte de la energía procede de un **RFNBO**, `RWD = 2` se aplica en el **denominador** de la ecuación (1), lo que **reduce** la intensidad calculada — el combustible "cuenta doble" a efectos de cumplimiento, del 1-1-2025 al 31-12-2033. [VERIFICADO] [11]
+
+> Este es el incentivo que hace atractivo el **e-metanol y el amoníaco verde chilenos** para las navieras que operan rutas europeas: cada MJ de RFNBO vale por dos en el cómputo de cumplimiento durante nueve años.
+
+#### C.5 Nota de integración: ETS y FuelEU son acumulativos
+
+Para el mismo buque y el mismo viaje se pagan **las dos cosas**:
+
+| Mecanismo | Base | Obligado | Naturaleza |
+|---|---|---|---|
+| **EU ETS marítimo** | Emisiones **absolutas** (t CO₂e) cubiertas | Compañía naviera | Compra y entrega de derechos |
+| **FuelEU Maritime** | **Intensidad** de GEI de la energía (gCO₂e/MJ) | Compañía naviera | Penalización si hay déficit |
+
+No hay compensación entre ambos. Un buque puede cumplir FuelEU (intensidad baja) y seguir pagando mucho ETS (volumen alto), o al revés. El motor de cálculo debe tratarlos como **módulos independientes** que se suman.
+
+---
+
+## Cambios recientes (2024–2026)
+
+| Fecha | Norma / hito | Qué cambió | Etiqueta |
+|---|---|---|---|
+| **01-01-2024** | Directiva (UE) 2023/959 | Entra el **transporte marítimo** en el RCDE UE. Phase-in del **40 %** | [VERIFICADO] [16] |
+| **2024** | Reglamento (UE) 2023/957 | El MRV marítimo empieza a monitorizar **CH₄ y N₂O** | [SECUNDARIO] [16] |
+| **19-12-2024** | **Reglamento (UE) 2024/3234** | **Primer aplazamiento del EUDR** (un año) | [VERIFICADO] [13] |
+| **01-01-2025** | Reglamento (UE) 2023/1805 | Arranca **FuelEU Maritime**: primer periodo de referencia, meta de **−2 %** sobre 91,16 gCO₂e/MJ. Empieza el multiplicador RFNBO de 2 | [VERIFICADO] [11] |
+| **01-01-2025** | Directiva (UE) 2023/959 | Phase-in del ETS marítimo sube al **70 %** | [VERIFICADO] [16] |
+| **26-02-2025** | Paquete Ómnibus I (propuesta) | La Comisión propone recortar CSRD, CSDDD y Taxonomía | [SECUNDARIO] [3] |
+| **14-04-2025** | **Directiva (UE) 2025/794** | **"Stop-the-clock"**: aplaza CSRD 2 años y CSDDD 1 año. DOUE 16-04-2025 | [VERIFICADO] [1] |
+| **22-05-2025** | **Reg. de Ejecución (UE) 2025/1093** | **Clasificación de países por riesgo del EUDR**. Chile → **riesgo bajo**; Perú, Brasil y Colombia → **riesgo estándar** | [VERIFICADO] [14] |
+| **04-07-2025** | Acto delegado de simplificación de la Taxonomía | Umbral de materialidad, plantillas simplificadas, criterios técnicos aligerados. Publicado como Reg. Delegado (UE) **2026/73** el 08-01-2026 | [SECUNDARIO] [5] |
+| **08-10-2025** | **Reglamento (UE) 2025/2083** | **Simplificación del CBAM**: umbral de minimis de **50 t**, declarante autorizado, calendario, valores por defecto más estrictos. DOUE 17-10-2025, en vigor 20-10-2025 | [VERIFICADO] [7] |
+| **28-10-2025** | Guías de la Comisión sobre FuelEU | Guía general y guía sobre *methane slip* real | [SECUNDARIO] [12] |
+| **19-12-2025** | **Reglamento (UE) 2025/2650** | **Segundo aplazamiento y simplificación del EUDR**. DOUE 23-12-2025 | [VERIFICADO] [13] |
+| **31-12-2025** | Directiva (UE) 2025/794 | Vence el plazo de transposición del "stop-the-clock" | [VERIFICADO] [1] |
+| **01-01-2026** | Reglamento (UE) 2023/956 | **Arranca el periodo definitivo del CBAM**. Fin del periodo transitorio de solo información | [VERIFICADO] [6] |
+| **01-01-2026** | Directiva (UE) 2023/959 | ETS marítimo al **100 %**. Entran **CH₄ y N₂O** | [VERIFICADO] [16] |
+| **08-01-2026** | Reg. Delegado (UE) 2026/73 | Publicación en el DOUE del acto de simplificación de la Taxonomía | [SECUNDARIO] [5] |
+| **24-02-2026** | **Directiva (UE) 2026/470** | **Ómnibus I de contenido**: CSRD a 450 M EUR y 1 000 empleados; CSDDD a 1 500 M EUR y 5 000 empleados; fin de los estándares sectoriales; aseguramiento limitado; supresión de la responsabilidad civil armonizada; tope del 3 % en sanciones; tope VSME a la cadena de valor. DOUE 26-02-2026 | [VERIFICADO] [2] |
+| **18-03-2026** | Directiva (UE) 2026/470 | Entrada en vigor | [SECUNDARIO] [3] |
+| **25-06-2026** | Guías de la Comisión sobre FuelEU | Guía de verificación y guía de aplicación por los Estados miembros | [SECUNDARIO] [12] |
+
+### Calendario hacia adelante
+
+| Fecha | Qué ocurre |
+|---|---|
+| **30-12-2026** | EUDR aplicable a **grandes y medianas empresas** |
+| **31-12-2026** | Informe de la Comisión sobre buques de 400–5 000 GT en el ETS |
+| **01-02-2027** | Empieza la **venta de certificados CBAM** |
+| **19-03-2027** | Plazo de transposición de la CSRD reformada (Ómnibus I) |
+| **30-06-2027** | EUDR aplicable a **microempresas y pequeñas empresas** |
+| **01-07-2027** | Plazo para los actos delegados de normas de verificación limitada |
+| **26-07-2027** | Directrices generales de diligencia debida de la Comisión (CSDDD) |
+| **30-09-2027** | **Primera declaración CBAM anual** (ejercicio 2026) |
+| **2028** | Primeros informes CSRD bajo el régimen nuevo (ejercicios iniciados en 2027) |
+| **26-07-2028** | Plazo de transposición de la CSDDD |
+| **2028** | Si la OMI no adopta medida global, la Comisión evalúa subir la cobertura ETS por encima del 50 % |
+| **26-07-2029** | **Aplicación de la CSDDD** a todas las empresas en ámbito |
+| **01-01-2030** | FuelEU: meta **−6 %**; obligación de OPS en puertos AFIR |
+| **2030** | El factor CBAM cae al 51,5 % (48,5 % exigible) |
+| **2034** | Factor CBAM **0 %**: CBAM al 100 %. Posible subobjetivo RFNBO del 2 % |
+
+---
+
+## Pendientes y dudas
+
+Lista de puntos que **no se pudieron verificar** contra fuente oficial en esta investigación, ordenados por impacto sobre el motor de cálculo y las skills.
+
+### Prioridad alta — bloquean o distorsionan cálculos
+
+| # | Punto | Por qué importa | Cómo resolverlo |
+|---|---|---|---|
+| 1 | **Valores por defecto del CBAM para el periodo definitivo**: número y fecha del acto de ejecución, y la tabla de valores por país y mercancía | Sin ellos no se puede calcular el escenario "sin datos del proveedor", que es el más frecuente | Buscar en EUR-Lex el acto de ejecución del art. 7(7) y descargar el fichero "Default values definitive period" de la DG TAXUD |
+| 2 | **Mecánica exacta de la deducción por carbono pagado en origen** (art. 9 CBAM) | Determina si el **impuesto verde chileno** se puede descontar y por cuánto. Vale dinero real para Chile | Localizar el acto de ejecución del art. 9 y su anexo de documentación acreditativa |
+| 3 | **Valores de GWP a 100 años** de la Directiva (UE) 2018/2001, Anexo V, parte C, ap. 4 | Entran en la ecuación (2) de FuelEU. Un GWP equivocado desvía toda la intensidad | Leer directamente el Anexo V de la RED II en EUR-Lex |
+| 4 | **Anexo I completo del CBAM a nivel de subpartida** para los capítulos 72, 73 y 76 | El motor necesita la lista exacta de códigos NC para decidir si un producto está cubierto | Extraer el Anexo I consolidado del Reg. 2023/956 tras la modificación de 2025/2083 |
+| 5 | **Contenido de los artículos 2(1a) y 2(1b) del Reglamento (UE) 2015/757** | Definen las exclusiones del ámbito del ETS marítimo | Leer el MRV consolidado tras el Reg. (UE) 2023/957 |
+
+### Prioridad media — afectan al asesoramiento, no al cálculo
+
+| # | Punto | Por qué importa |
+|---|---|---|
+| 6 | **Estado de la transposición de la CSRD en España**: si existe ya una ley de 2025 o 2026 que derogue o modifique la Ley 11/2018 | Es la pregunta que más van a hacer los clientes españoles. Ver sección 8.5 |
+| 7 | **Umbral de la sucursal en la UE** en el art. 40 bis de la Directiva 2013/34/UE tras el Ómnibus I (¿sigue en 40 M EUR?) | Determina si un grupo latinoamericano con sucursal europea entra en ámbito |
+| 8 | **Porcentaje del umbral de materialidad** del acto delegado de simplificación de la Taxonomía | Afecta al alcance del análisis de elegibilidad |
+| 9 | **Confirmación en EUR-Lex del Reg. Delegado (UE) 2026/73** (número y fechas) | El dato procede de una página de la Comisión, no del DOUE |
+| 10 | **Fechas de aplicación del EUDR contra el artículo 38** del texto consolidado tras el Reg. (UE) 2025/2650 | Las fechas usadas proceden de una página de la Comisión |
+| 11 | **Contenido concreto de las simplificaciones del Reg. (UE) 2025/2650** (EUDR) | Determina qué se aligera en la declaración de diligencia debida |
+| 12 | **Formato de geolocalización del EUDR** (seis decimales, punto hasta 4 ha, polígono por encima) tras las modificaciones de 2024–2025 | Es el requisito operativo más costoso para café y cacao peruanos |
+| 13 | **Porcentajes de control de las autoridades competentes del EUDR** por categoría de riesgo | Permite dimensionar el riesgo de inspección |
+| 14 | **URL directa y estable de descarga de la EU Consolidated Financial Sanctions List** | Necesaria para automatizar el cribado |
+| 15 | **Alcance extraterritorial del derecho de negativa del tope VSME** frente a un proveedor no domiciliado en la UE | Determina si un proveedor chileno o peruano puede realmente invocarlo |
+
+### Prioridad baja — contexto
+
+| # | Punto |
+|---|---|
+| 16 | Número exacto de empresas que salen del ámbito de la CSRD tras el Ómnibus I |
+| 17 | Fecha y número del acto delegado de revisión de los **ESRS simplificados** (set 1 revisado por EFRAG) |
+| 18 | Si Perú dispone de algún mecanismo de precio del carbono acreditable a efectos del art. 9 del CBAM |
+| 19 | Si el cobre llegará a incluirse en una futura ampliación del Anexo I del CBAM |
+
+### Dudas de criterio (no son datos, son decisiones de diseño)
+
+- **Precios.** EUA, certificados CBAM y `Pd` de FuelEU son variables de mercado. El motor debe tomarlos de una fuente en tiempo de ejecución y **registrar la fecha y el valor usados** en cada cálculo, para que el resultado sea auditable.
+- **Coexistencia de regímenes en España.** Mientras no se transponga la CSRD, conviven la Ley 11/2018 (250 trabajadores) y el futuro régimen CSRD (1 000 empleados). Las skills deben preguntar **ambas cosas** al usuario español, no asumir una.
+- **El tope VSME es un techo regulatorio, no contractual.** Conviene que las skills lo expliquen así para no generar falsas expectativas en proveedores latinoamericanos.
+
+---
+
 ## Fuentes
 
-1. Directiva (UE) 2025/794 del Parlamento Europeo y del Consejo, de 14 de abril de 2025 — EUR-Lex: https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=OJ:L_202500794 [VERIFICADO]
-2. Directiva (UE) 2026/470 del Parlamento Europeo y del Consejo, de 24 de febrero de 2026 — EUR-Lex: https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=OJ:L_202600470 [VERIFICADO]
-3. Análisis de despachos jurídicos sobre el Ómnibus I (Covington, DLA Piper, Norton Rose Fulbright, Linklaters, Latham & Watkins) — [SECUNDARIO]
+### Fuentes primarias (texto legal en EUR-Lex / DOUE)
+
+| # | Referencia | URL | Etiqueta |
+|---|---|---|---|
+| **[1]** | **Directiva (UE) 2025/794** del Parlamento Europeo y del Consejo, de 14 de abril de 2025, por la que se modifican las Directivas (UE) 2022/2464 y (UE) 2024/1760 en lo que respecta a las fechas a partir de las cuales los Estados miembros deben aplicar determinados requisitos ("stop-the-clock"). DOUE 16-04-2025 | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=OJ:L_202500794 | [VERIFICADO] |
+| **[2]** | **Directiva (UE) 2026/470** del Parlamento Europeo y del Consejo, de 24 de febrero de 2026, por la que se modifican las Directivas 2006/43/CE, 2013/34/UE, (UE) 2022/2464 y (UE) 2024/1760 ("Ómnibus I"). DOUE 26-02-2026 | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=OJ:L_202600470 | [VERIFICADO] |
+| **[4]** | **Reglamento (UE) 2020/852** del Parlamento Europeo y del Consejo, de 18 de junio de 2020, relativo al establecimiento de un marco para facilitar las inversiones sostenibles (Taxonomía) | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32020R0852 | [VERIFICADO] |
+| **[6]** | **Reglamento (UE) 2023/956** del Parlamento Europeo y del Consejo, de 10 de mayo de 2023, por el que se establece un Mecanismo de Ajuste en Frontera por Carbono. DO L 130 de 16-05-2023 | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32023R0956 | [VERIFICADO] |
+| **[7]** | **Reglamento (UE) 2025/2083** del Parlamento Europeo y del Consejo, de 8 de octubre de 2025, por el que se modifica el Reglamento (UE) 2023/956 en lo que respecta a la simplificación y el refuerzo del MAFC. DOUE 17-10-2025 | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=OJ:L_202502083 | [VERIFICADO] |
+| **[10]** | **Directiva 2003/87/CE** por la que se establece el RCDE UE — versión consolidada (art. 10 bis, ap. 1 bis: factor CBAM) | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:02003L0087-20240301 | [VERIFICADO] |
+| **[11]** | **Reglamento (UE) 2023/1805** del Parlamento Europeo y del Consejo, de 13 de septiembre de 2023, relativo al uso de combustibles renovables y hipocarbónicos en el transporte marítimo (FuelEU Maritime). **DO L 234 de 22-09-2023** — Anexos I, II, IV y V transcritos del PDF oficial del DOUE | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32023R1805 | [VERIFICADO] |
+| **[13]** | **Reglamento (UE) 2023/1115** relativo a productos libres de deforestación (EUDR) — **versión consolidada a 26-12-2025**, que incorpora el Reg. (UE) 2024/3234 y el **Reg. (UE) 2025/2650** (19-12-2025, DOUE 23-12-2025) | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A02023R1115-20251226 | [VERIFICADO] |
+| **[14]** | **Reglamento de Ejecución (UE) 2025/1093** de la Comisión, de 22 de mayo de 2025, por el que se establece la lista de países de riesgo bajo o alto a efectos del artículo 29 del Reglamento (UE) 2023/1115 | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025R1093 | [VERIFICADO] |
+| **[16]** | **Directiva (UE) 2023/959** del Parlamento Europeo y del Consejo, de 10 de mayo de 2023, por la que se modifica la Directiva 2003/87/CE (inclusión del transporte marítimo, ETS2). **DO L 130 de 16-05-2023** — artículos 3ga a 3gg y Anexo I transcritos del PDF oficial del DOUE | https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32023L0959 | [VERIFICADO] |
+| **[17]** | **Ley 11/2018, de 28 de diciembre**, en materia de información no financiera y diversidad. BOE núm. 314, de 29-12-2018 | https://www.boe.es/buscar/act.php?id=BOE-A-2018-17989 | [VERIFICADO] |
+
+### Fuentes oficiales no legislativas (Comisión Europea, agencias)
+
+| # | Referencia | URL | Etiqueta |
+|---|---|---|---|
+| **[5]** | Comisión Europea, DG FISMA — *EU taxonomy for sustainable activities* y *Delegated and implementing acts to the Taxonomy Regulation* | https://finance.ec.europa.eu/sustainable-finance/tools-and-standards/eu-taxonomy-sustainable-activities_en · https://finance.ec.europa.eu/regulation-and-supervision/financial-services-legislation/implementing-and-delegated-acts/taxonomy-regulation_en | [SECUNDARIO] |
+| **[9]** | Comisión Europea, DG TAXUD — *Carbon Border Adjustment Mechanism* y *CBAM definitive regime* | https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en · https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-definitive-regime_en | [SECUNDARIO] |
+| **[12]** | Comisión Europea, DG MOVE — *Decarbonising maritime transport — FuelEU Maritime* (incluye la lista de actos de ejecución y las guías de 28-10-2025 y 25-06-2026) | https://transport.ec.europa.eu/transport-modes/maritime/decarbonising-maritime-transport-fueleu-maritime_en | [SECUNDARIO] |
+| **[15]** | Comisión Europea, DG ENV — *Regulation on deforestation-free products* | https://environment.ec.europa.eu/topics/forests/deforestation/regulation-deforestation-free-products_en | [SECUNDARIO] |
+| **[18]** | Comisión Europea, DG FISMA — *Sanctions (restrictive measures)*; EU Sanctions Compliance Helpdesk | https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures_en · https://eu-sanctions-compliance-helpdesk.europa.eu/index_en | [VERIFICADO] |
+| **[19]** | **EU Sanctions Map** (Consejo de la UE / Comisión Europea) | https://www.sanctionsmap.eu/ | [VERIFICADO] (existencia y URL) |
+
+### Fuentes secundarias
+
+| # | Referencia | Etiqueta |
+|---|---|---|
+| **[3]** | Análisis de despachos y organismos profesionales sobre el paquete Ómnibus I: Covington & Burling, DLA Piper, Norton Rose Fulbright, Linklaters, Latham & Watkins, PwC Viewpoint, Accountancy Europe. Usados para fechas de transposición y para el detalle del régimen de PYME cotizadas | [SECUNDARIO] |
+| **[8]** | Análisis sobre la simplificación del CBAM: Mayer Brown, SGS, PwC Malta, Reed Smith, ICAP; nota de prensa del Consejo de la UE de 29-09-2025 (consilium.europa.eu) | [SECUNDARIO] |
+
+### Nota metodológica
+
+- Todos los datos marcados `[VERIFICADO]` proceden de la lectura directa del texto publicado en el **Diario Oficial de la Unión Europea** (a través de EUR-Lex) o del **BOE**. En el caso de FuelEU (Reg. 2023/1805), la Directiva (UE) 2023/959 y el Reglamento CBAM (2023/956), los **anexos** se transcribieron del **PDF oficial del DOUE**, porque la versión HTML de EUR-Lex se trunca antes de llegar a ellos.
+- Los datos marcados `[SECUNDARIO]` proceden de páginas oficiales de la Comisión Europea que **no son texto legal**, o de análisis de despachos jurídicos. Son fiables como orientación pero **deben contrastarse** antes de codificarse.
+- Los datos marcados `[NO VERIFICADO]` **no se confirmaron** contra ninguna fuente oficial en esta investigación. Están recogidos en la sección "Pendientes y dudas". **No deben usarse en el motor de cálculo sin verificación previa.**
+- No se ha inventado ningún umbral, fecha ni fórmula. Donde no se pudo confirmar un dato, se dice expresamente.
+- Investigación realizada el **15 y 16 de septiembre de 2026**. Fecha de corte de la normativa consultada: **16 de septiembre de 2026**.

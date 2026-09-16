@@ -50,10 +50,8 @@ def formatear_numero(valor, decimales=None):
         magnitud = abs(numero)
         if numero == int(numero) and magnitud < 1e12:
             decimales = 0
-        elif magnitud >= 10:
-            decimales = 1
         elif magnitud >= 1:
-            decimales = 2
+            decimales = 1
         else:
             decimales = 3
     texto = ("{:,.%df}" % decimales).format(float(valor))
