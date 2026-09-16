@@ -310,3 +310,200 @@ Tabla "Porcentajes de Actualización Corrección Monetaria (Término de Giro), A
 > El SII publica estas tablas mes a mes; el motor debe **leerlas dinámicamente** o versionarlas por año tributario, no fijarlas en código.
 
 ---
+
+## 4. Documentos tributarios electrónicos (DTE) y Registro de Compras y Ventas
+
+### 4.1 Especificación vigente
+
+| Dato | Valor |
+|---|---|
+| Documento | "Formato Documentos Tributarios Electrónicos" |
+| Versión vigente | **2.5**, fecha **2026-02** (bitácora de cambios del **16/02/2026**) |
+| URL | https://www.sii.cl/factura_electronica/factura_mercado/formato_dte_202602.pdf |
+| Etiqueta | [VERIFICADO] [12] |
+
+**Cambios del 16.02.2026 relevantes para logística** [VERIFICADO] [12]:
+1. En "Indicador Tipo de traslado de bienes", el tipo N° 7 cambia de nombre: de *"Guía de devolución"* a *"Devolución de Mercaderías"*.
+2. En la subsección **Transporte** se agregan los campos **Patente de Carro o remolque, Fecha de Salida, Hora de Salida y Fecha de Llegada**, según **Resolución Ex. N° 154 de 2025**. → *Esto abre la puerta a calcular alcance 3 de transporte propio directamente desde la guía de despacho electrónica.*
+3. Se modifica la condición de uso de los campos de la guía de despacho: Patente, RUT transportista, RUT chofer, Nombre chofer, dirección destino.
+4. En "Unidad de Medida" se elimina la condicionalidad para Indicador de tipo de Traslado = 8 y 9.
+5. En "Datos de manejo de la madera" se agregan Georreferenciación de Destino, Rol Predio destino y Aviso Ejecución.
+
+### 4.2 Tipos de DTE y códigos (campo `<TipoDTE>`)
+
+Tabla del campo N° 2 "Tipo Documento Tributario Electrónico" del formato v2.5 [VERIFICADO] [12]:
+
+| Código | Documento |
+|---:|---|
+| **33** | Factura Electrónica |
+| **34** | Factura No Afecta o Exenta Electrónica |
+| **43** | Liquidación-Factura Electrónica |
+| **46** | Factura de Compra Electrónica |
+| **52** | Guía de Despacho Electrónica |
+| **56** | Nota de Débito Electrónica |
+| **61** | Nota de Crédito Electrónica |
+| **110** | Factura de Exportación |
+| **111** | Nota de Débito de Exportación |
+| **112** | Nota de Crédito de Exportación |
+
+Códigos adicionales usados en el campo `<TpoDocRef>` (información de referencia) y en los libros [VERIFICADO] [12]:
+
+| Código | Documento |
+|---:|---|
+| 30 | Factura (papel) |
+| 32 | Factura de venta de bienes y servicios no afectos o exentos de IVA |
+| 39 | Boleta Electrónica |
+| 41 | Boleta No Afecta o Exenta Electrónica |
+| 45 | Factura de Compra (papel) |
+| 48 | Comprobante de pago electrónico |
+| 50 | Guía de Despacho (papel) |
+| 55 | Nota de Débito (papel) |
+| 60 | Nota de Crédito (papel) |
+| 801 / 802 / 803… | Documentos no tributarios (orden de compra, nota de pedido, etc.) — verificar nómina vigente |
+
+> Las **boletas electrónicas (39 y 41)** se rigen por un **documento de formato distinto** ("Formato Boletas Electrónicas"), no por el formato DTE v2.5. [VERIFICADO] (por ausencia en la tabla del campo 2)
+
+### 4.3 Campos clave del XML para extracción automática
+
+Tags confirmados en el esquema del formato v2.5 [VERIFICADO] [12]:
+
+| Zona | Tag XML | Contenido | Uso en ESG |
+|---|---|---|---|
+| Encabezado / IdDoc | `<TipoDTE>` | Código del documento | Clasificar compra/venta |
+| | `<Folio>` | Folio autorizado por el SII (máx. 10 dígitos, NUM) | Clave primaria junto con RUT y tipo |
+| | `<FchEmis>` | Fecha de emisión contable, formato **AAAA-MM-DD**, válida entre **2003-04-01 y 2050-12-31** | Período de reporte |
+| | `<FchVenc>` | Fecha de vencimiento | — |
+| | `<TipoDespacho>` | 1 = despacho por cuenta del receptor; 2 = por cuenta del emisor a instalaciones del cliente; 3 = por cuenta del emisor a otras instalaciones (p. ej. entrega en obra) | **Determina si el transporte es alcance 1 (flota propia) o alcance 3 (categoría 4/9)** |
+| | `<IndNoRebaja>` | 1 = Nota de crédito sin derecho a descontar débito (art. 70 DL 825) | Limpieza de duplicados |
+| Emisor | `<RUTEmisor>`, `<RznSoc>`, `<GiroEmis>`, `<Acteco>`, `<CdgSIISucur>` | RUT, razón social, giro, **código de actividad económica** y código de sucursal SII | `<Acteco>` es **la llave para mapear gasto → factor de emisión por sector (EEIO)** |
+| Receptor | `<RUTRecep>`, `<RznSocRecep>` | RUT y razón social del receptor | Identificación de contraparte |
+| Totales | `<MntNeto>`, `<MntExe>`, `<TasaIVA>`, `<IVA>`, `<MntTotal>`, `<MntBruto>`, `<ImptoReten>` | Neto, exento, tasa e importe de IVA, total, indicador de documento bruto, impuestos retenidos | Base monetaria del alcance 3 por gasto (usar **neto**, no total) |
+| Detalle | `<NmbItem>`, `<CdgItem>` (`<TpoCodigo>`, `<VlrCodigo>`), `<QtyItem>`, `<UnmdItem>`, `<PrcItem>`, `<MontoItem>`, `<CodImpAdic>` | Nombre, código (permite **GTIN/EAN vía `TpoCodigo`**), cantidad (enteros con hasta 6 decimales), unidad de medida, precio unitario, monto y código de impuesto adicional | **Ruta preferida**: cantidad física × factor de emisión, mucho mejor que gasto × factor |
+| Referencias | `<TpoDocRef>`, `<FolioRef>` | Documento referenciado | Enlazar guía de despacho ↔ factura |
+| Transporte (guía 52) | Patente, RUT transportista, RUT chofer, nombre chofer, dirección destino, **Patente de Carro/remolque, Fecha y Hora de Salida, Fecha de Llegada** (Res. Ex. 154/2025) | Datos del viaje | **Insumo directo para tonelada-kilómetro** |
+| Timbre | `<TED>` | Timbre electrónico SII | Validación |
+
+> **Regla de oro para el motor:** priorizar `QtyItem × UnmdItem` (dato físico) sobre `MntNeto` (dato monetario). El gasto solo como *fallback*.
+
+### 4.4 Registro de Compras y Ventas (RCV) — estructura oficial exportable
+
+Fuentes oficiales del SII: *"Instrucciones de llenado de Información de Compras para Informar en el Registro de Compras"* y su equivalente de Ventas [13][14] [VERIFICADO].
+
+**Reglas generales del archivo** [VERIFICADO] [13]:
+- Formato **.csv separado por punto y coma (`;`)**; se acepta comprimido `.Gz`.
+- Primera línea con encabezados de columna.
+- Montos **sin comas ni separadores de miles, máximo 15 dígitos**; si se requieren decimales, el separador decimal es el **punto**.
+- RUT: **solo cuerpo con guion y DV, sin puntos ni espacios**; DV "K" en **mayúscula**.
+- Razón social: alfanumérico latino, **solo se consideran los primeros 40 caracteres**.
+- El importador de libros acepta hasta **20.000 registros por archivo** (dividir en tramos si hay más) [VERIFICADO] [15].
+- `(*)` = campo obligatorio.
+
+#### Registro de COMPRAS — 28 campos
+
+| N° | Nombre del campo | Nombre en el archivo | Obl. |
+|---:|---|---|:--:|
+| 1 | Tipo de Documento | `Tipo Doc` | * |
+| 2 | Folio del Documento | `Folio` | * |
+| 3 | RUT de la Contraparte | `Rut Contraparte` | * |
+| 4 | Tasa de Impuesto | `Tasa Impuesto` | |
+| 5 | Nombre o Razón Social | `Razón Social Contraparte` | * |
+| 6 | Tipo de Impuesto (1=IVA, 2=Ley 18.211) | `Tipo Impuesto` | * |
+| 7 | Fecha de emisión del Documento | `Fecha Emisión` | * |
+| 8 | Monto Exento o No Gravado | `Monto Exento` | |
+| 9 | Monto Neto | `Monto Neto` | |
+| 10 | Monto IVA Recuperable | `Monto IVA (Recuperable)` | |
+| 11 | Código IVA No Recuperable | `Cod IVA no Rec` | |
+| 12 | Monto IVA No Recuperable | `Monto IVA no Rec` | |
+| 13 | Monto IVA Uso Común | `IVA Uso Comun` | |
+| 14 | Código Otro Impuesto o Retención | `Cod Otro Imp (Con Credito)` | |
+| 15 | Tasa Otro Impuesto o Retención | `Tasa Otro Imp (Con Credito)` | |
+| 16 | Monto Otro Impuesto o Retención (con crédito) | `Monto Otro Imp (Con Credito)` | |
+| 17 | Monto Otro Impuesto (sin crédito) | `Monto Otro Imp Sin Credito` | |
+| 18 | **Monto Neto Activo Fijo** | `Monto Activo Fijo` | |
+| 19 | **Monto IVA Activo Fijo** | `Monto IVA Activo Fijo` | |
+| 20 | Monto IVA No Retenido | `IVA no Retenido` | |
+| 21 | Impuesto Cigarros Puros | `Tabacos – Puros` | |
+| 22 | Impuesto Cigarrillos | `Tabacos – Cigarrillos` | |
+| 23 | Impuesto Tabaco Elaborado | `Tabacos – Elaborados` | |
+| 24 | Código de Sucursal SII | `Código sucursal SII` | |
+| 25 | Número Interno (comprobante contable) | `Numero Interno` | |
+| 26 | Notas de Débito/Crédito por Facturas de Compra | `Emisor/Receptor` | |
+| 27 | Monto Total | `Monto Total` | * |
+| 28 | **Tipo de Transacción de Compra** | `Tipo Transaccion` | |
+
+**Códigos del campo 28 — Tipo de Transacción de Compra** [VERIFICADO] [13]:
+
+| Valor | Código |
+|---|---:|
+| Compras del Giro | 1 |
+| Compras en Supermercados o comercios similares | 2 |
+| Adquisición de bienes raíces | 3 |
+| **Compra de Activo Fijo** | **4** |
+| Compras con IVA Uso Común | 5 |
+| Compras sin Derecho a Crédito | 6 |
+
+> **Uso doble para Agentes ESG:** el código **4** (y los campos 18-19 *Monto Activo Fijo* / *Monto IVA Activo Fijo*) permiten **detectar automáticamente las altas de activo fijo del ejercicio** y alimentar el módulo de depreciación. El código **1** (compras del giro) es la base natural del **alcance 3 por gasto**, y el **2** (supermercados) suele aislar gasto no productivo.
+
+**Códigos del campo 11 — IVA No Recuperable** [VERIFICADO] [13]: 1 = compras destinadas a operaciones exentas o no gravadas; 2 = facturas de proveedores registradas fuera de plazo; 3 = gastos no necesarios para producir la renta; 4 = entregas gratuitas recibidas; 9 = otros.
+
+**Códigos de documentos de compras** (campo 1) [VERIFICADO] [13]: 29 Factura de Inicio · 30 Factura · 32 Factura de Ventas y Servicios No Afectos o Exentos de IVA · 33 Factura Electrónica · 34 Factura No Afecta o Exenta Electrónica · 40 Liquidación Factura · 43 Liquidación Factura Electrónica · 45 Factura de Compra · 46 Factura de Compra Electrónica · 55 Nota de Débito · 56 Nota de Débito Electrónica · 60 Nota de Crédito · 61 Nota de Crédito Electrónica · 108 SRF Solicitud de Registro de Factura · 901 Factura de ventas a empresas del territorio preferencial · 904 Factura de Traspaso · 909 Facturas Venta Módulo ZF · 910 Solicitud Traslado Zona Franca (Z) · 911 Declaración de Ingreso a Zona Franca Primaria · 914 Declaración de Ingreso (DIN).
+
+> El código **914 (DIN, Declaración de Ingreso)** identifica **importaciones**: es la puerta de entrada para el alcance 3 de bienes importados y para el transporte internacional.
+
+#### Registro de VENTAS — 40 campos
+
+| N° | Nombre del campo | Nombre en el archivo | Obl. |
+|---:|---|---|:--:|
+| 1 | Tipo de Documento | `Tipo Doc` | * |
+| 2 | Folio del Documento | `Folio` | * |
+| 3 | RUT del Cliente | `Rut Contraparte` | * |
+| 4 | Tasa de Impuesto | `Tasa Impuesto` | * |
+| 5 | Nombre o Razón Social | `Razón Social Contraparte` | * |
+| 6 | Fecha Emisión del Documento | `Fecha Emisión` | * |
+| 7 | Monto Exento o No Gravado | `Monto Exento` | |
+| 8 | Monto Neto | `Monto Neto` | * |
+| 9 | Monto IVA | `Monto IVA` | * |
+| 10 | Monto IVA Fuera de Plazo | `IVA Fuera Plazo (Nota de Crédito)` | |
+| 11 | Código Otro Impuesto o Retención | `Cod Otro Imp` | |
+| 12 | Tasa Otro Impuesto o Retención | `Tasa Otro Imp` | |
+| 13 | Monto Otro Impuesto o Retenciones | `Monto Otro Imp` | |
+| 14 | Monto IVA Propio | `Monto IVA Propio` | |
+| 15 | Monto IVA Terceros | `Monto IVA Terceros` | |
+| 16 | Monto IVA Retenido Total | `IVA Retenido Total` | |
+| 17 | Monto IVA Retenido Parcial | `IVA Retenido Parcial` | |
+| 18 | Monto IVA No Retenido | `IVA No Retenido` | |
+| 19 | Impuesto Zona Franca Ley 18.211 | `Ley 18211` | |
+| 20 | Monto Crédito Especial Empresas Constructoras | *(ver fuente)* | |
+| 21 | Tipo Documento Referencia | `Tipo Doc Referencia` | |
+| 22 | Folio Documento Referencia | `Folio Documento Referencia` | |
+| 23 | Monto Depósito por Envases | `Deposito por Envase` | |
+| 24 | Monto No Facturable | `Monto No Facturable` | |
+| 25 | Monto Período | `Monto Periodo` | |
+| 26 | Monto Venta Pasaje Nacional | `Venta Pasaje Nacional` | |
+| 27 | Monto Venta Pasaje Internacional | `Venta Pasaje Internacional` | |
+| 28 | Número Identificación Receptor Extranjero | *(ver fuente)* | |
+| 29 | Nacionalidad | `Nacionalidad` | |
+| 30 | Indicador de Facturación / Servicio periódico | *(ver fuente)* | |
+| 31 | Indicador Venta sin Costo | `Indicador sin Costo` | |
+| 32 | RUT Liquidador emisor de Liquidación-Factura | *(ver fuente)* | |
+| 33 | Monto Valor Neto Comisiones | `Valor Neto Comisiones` | |
+| 34 | Monto Valor Comisiones Exentas | `Valor Comisiones Exentas` | |
+| 35 | Monto Valor IVA Comisiones | `Valor IVA Comisiones` | |
+| 36 | Código Sucursal SII | `Codigo sucursal SII` | |
+| 37 | Número Interno | `Numero Interno` | |
+| 38 | Notas de Débito/Crédito por Facturas de Compra | *(ver fuente)* | |
+| 39 | Monto Total | `Monto Total` | * |
+| 40 | **Tipo de Transacción de Venta** | `Tipo Transacción` | |
+
+**Códigos del campo 40 — Tipo de Transacción de Venta** [VERIFICADO] [14]: 1 = Ventas del Giro · 2 = **Venta de Activo Fijo** · 3 = Venta de Bienes Raíces · 4 = Emisión de Nota de Crédito por Vale de Máquina Registradora.
+
+> Los campos 20, 28, 30, 32 y 38 de ventas no se pudieron leer completos por problemas de extracción del PDF; **verificar sus nombres exactos en [14] antes de codificar el parser**. [NO VERIFICADO]
+
+### 4.5 Recomendaciones de implementación
+
+1. **Descarga**: el RCV se descarga desde el portal del SII con "Descargar Detalles" / "Exportar CSV"; se generan archivos separados para compras y ventas (registro y resumen). [SECUNDARIO]
+2. **Encoding**: los CSV del SII vienen históricamente en **Latin-1 / Windows-1252**, no UTF-8. Probar `cp1252` con *fallback* a `utf-8-sig`. [NO VERIFICADO] — confirmar con un archivo real.
+3. **Alcance 3 por gasto**: agrupar por `Rut Contraparte` → enriquecer con `<Acteco>` del emisor (desde el XML del DTE, no está en el RCV) → mapear a un factor EEIO. El RCV **no trae el código de actividad económica**, solo el RUT, así que el cruce exige consultar el DTE o un padrón de contribuyentes.
+4. **Evitar doble conteo**: restar notas de crédito (56/61 en ventas; 60/61 en compras) y excluir `Tipo Transaccion = 3` (bienes raíces) y `= 4` (activo fijo) del gasto operacional — el activo fijo va a **categoría 2 (bienes de capital)** del alcance 3, no a la categoría 1.
+
+---

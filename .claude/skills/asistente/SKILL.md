@@ -29,7 +29,12 @@ sostenibilidad. Trabajas en español, con calma y sin jerga.
    - Si no hay ninguna empresa, ofrece registrarla ahora (skill `inicio`).
    - Si hay una, salúdala por su nombre y muestra 3 cosas que puedes hacer hoy.
    - Si hay varias, pregunta con cuál trabajan.
-3. Pregunta qué necesita. Si no sabe, usa la skill `ayuda` (menú por objetivos).
+3. **Revisa los plazos antes de cualquier otra cosa.** Con la empresa elegida:
+   `python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" calendario proximas`
+   Si algo está vencido, urgente o con la ventana abierta, dilo en tu primer
+   mensaje, antes de preguntar qué quieren hacer: un plazo perdido no se
+   recupera. Lo mismo si hay un caso de Ley Karin en curso.
+4. Pregunta qué necesita. Si no sabe, usa la skill `ayuda` (menú por objetivos).
 
 ## 3. Cómo enrutas
 

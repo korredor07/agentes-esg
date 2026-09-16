@@ -1,0 +1,105 @@
+{
+  "actividades": [
+    {
+      "id": "ficha-de-trabajadores",
+      "creado_el": "2026-09-16",
+      "nombre": "Ficha de trabajadores",
+      "area": "Personas",
+      "titulares": "trabajadores y postulantes",
+      "categorias_datos": "identificacion, contacto, contrato, licencias medicas",
+      "finalidad": "administrar la relacion laboral",
+      "destinatarios": "jefatura de personas y contadora externa",
+      "donde_se_guarda": "servidor de la planta",
+      "conservacion": "mientras dure el contrato y el plazo legal posterior",
+      "base_licitud": "contrato",
+      "sale_del_pais": false,
+      "datos_sensibles": true,
+      "actualizado_el": "2026-09-16"
+    }
+  ],
+  "obligaciones": {
+    "deber_informacion": {
+      "estado": "no_cumple",
+      "actualizado_el": "2026-09-16"
+    },
+    "seguridad": {
+      "estado": "parcial",
+      "actualizado_el": "2026-09-16"
+    }
+  },
+  "ultima_evaluacion": {
+    "empresa": "Alimentos del Sur SpA",
+    "total_actividades": 1,
+    "con_evaluacion_de_impacto": [
+      {
+        "actividad": "Ficha de trabajadores",
+        "motivos": [
+          "Trata datos sensibles sin apoyarse en el consentimiento de la persona."
+        ]
+      }
+    ],
+    "cuando_se_exige_evaluacion_de_impacto": [
+      "Cuando se evalua de forma sistematica a las personas con decisiones automatizadas que tienen efectos juridicos o similares para ellas.",
+      "Cuando el tratamiento es masivo o a gran escala.",
+      "Cuando se observa o monitorea de forma sistematica una zona de acceso publico.",
+      "Cuando se tratan datos sensibles amparandose en alguna excepcion al consentimiento."
+    ],
+    "actividades_incompletas": [],
+    "con_datos_sensibles": [
+      "Ficha de trabajadores"
+    ],
+    "salen_del_pais": [],
+    "obligaciones": [
+      {
+        "id": "deber_informacion",
+        "titulo": "Deber de informacion",
+        "estado": "no_cumple",
+        "pregunta": "¿Hay una politica de tratamiento de datos publicada, con fecha y version, y facil de encontrar?",
+        "que_exige": "Mantener permanentemente disponible una politica con quien es el responsable, que datos trata, para que, con que base de licitud, quien los recibe, cuanto los conserva, si salen del pais, como se ejercen los derechos y si hay decisiones automatizadas.",
+        "que_hacer": "Redactar la politica, publicarla con fecha y version, y actualizarla cuando cambie algo.",
+        "base": "Ley 21.719, art. 14 ter.",
+        "nota": ""
+      },
+      {
+        "id": "seguridad",
+        "titulo": "Seguridad de los datos",
+        "estado": "parcial",
+        "pregunta": "¿Hay medidas de seguridad escritas: quien tiene acceso, claves, respaldos, cifrado?",
+        "que_exige": "Medidas tecnicas y organizativas acordes al riesgo, que aseguren confidencialidad, integridad, disponibilidad y resiliencia. La ley menciona seudonimizacion, cifrado, restauracion rapida y verificacion periodica de que funcionan.",
+        "que_hacer": "Listar quien accede a que, poner claves y respaldos, cerrar accesos de quien ya no trabaja, y dejarlo por escrito.",
+        "base": "Ley 21.719, art. 14 quinquies.",
+        "nota": ""
+      },
+      {
+        "id": "derechos",
+        "titulo": "Respuesta a los derechos de las personas",
+        "estado": "sin_responder",
+        "pregunta": "¿Esta definido quien responde si alguien pide ver, corregir o eliminar sus datos, y en que plazo?",
+        "que_exige": "Atender acceso, rectificacion, supresion, oposicion, portabilidad y bloqueo de forma expedita y gratuita. El acceso es gratuito al menos una vez por trimestre. El bloqueo temporal tiene un plazo de respuesta de 2 dias habiles.",
+        "que_hacer": "Definir un correo de contacto, un responsable, un formato de respuesta y un registro de solicitudes.",
+        "base": "Ley 21.719, arts. 4 a 10 (bloqueo temporal en el art. 8 ter).",
+        "nota": ""
+      },
+      {
+        "id": "vulneraciones",
+        "titulo": "Que hacer si hay una filtracion",
+        "estado": "sin_responder",
+        "pregunta": "¿Hay un procedimiento escrito para cuando se filtran, pierden o roban datos?",
+        "que_exige": "Registrar la vulneracion (naturaleza, efectos, categorias de datos, numero aproximado de personas afectadas y medidas tomadas) y notificarla por los medios mas expeditos y sin dilaciones indebidas. Hay que avisar tambien a las personas afectadas cuando se trata de datos sensibles, de datos de menores de 14 años o de datos financieros y bancarios.",
+        "que_hacer": "Escribir el procedimiento: quien se entera, a quien avisa, que se registra, quien notifica y como se avisa a las personas en lenguaje simple.",
+        "base": "Ley 21.719, art. 14 sexies. La ley no fija un plazo en horas: dice «sin dilaciones indebidas».",
+        "nota": ""
+      }
+    ],
+    "obligaciones_pendientes": 4,
+    "estados_validos": [
+      "cumple",
+      "parcial",
+      "no_cumple",
+      "no_aplica"
+    ],
+    "como_responder": "Guarda el estado de cada obligacion en la misma accion, por ejemplo: datos_personales evaluar --deber-informacion parcial --seguridad no_cumple.",
+    "guardado_en": "D:\\Programas Data\\Claude Code\\agentes-esg\\empresas\\ejemplo-alimentos-del-sur\\seguimiento\\datos_personales.json",
+    "evaluado_el": "2026-09-16 01:58:17"
+  }
+}

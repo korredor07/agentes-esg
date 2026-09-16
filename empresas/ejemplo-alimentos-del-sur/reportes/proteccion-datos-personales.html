@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Proteccion de datos personales</title>
+<style>
+:root { --primario: #1B4332; --secundario: #D8F3DC; --texto: #1B2A22; --suave: #5A6B62; --borde: #E3E6E3; --fondo: #F7F9F7; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto);
+       font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; line-height: 1.55; }
+.hoja { max-width: 960px; margin: 0 auto; padding: 32px 28px 64px; background: #FFFFFF; min-height: 100vh; }
+header.principal { border-bottom: 4px solid var(--primario); padding-bottom: 16px; margin-bottom: 28px; }
+.marca { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--primario); font-weight: 700; }
+h1 { font-size: 30px; margin: 6px 0 4px; }
+h2 { font-size: 21px; margin: 32px 0 10px; color: var(--primario); }
+h3 { font-size: 16px; margin: 20px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
+p { margin: 10px 0; }
+.subtitulo { color: var(--suave); margin: 0; }
+.tarjetas { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+.tarjeta { flex: 1 1 190px; border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; background: #FCFDFC; }
+.tarjeta-etiqueta { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); }
+.tarjeta-valor { font-size: 27px; font-weight: 700; margin-top: 4px; }
+.tarjeta-valor span { font-size: 14px; font-weight: 500; color: var(--suave); }
+.tarjeta-detalle { font-size: 13px; color: var(--suave); }
+.tabla-envoltura { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--borde); padding: 9px 10px; text-align: left; vertical-align: top; }
+th { background: var(--secundario); color: var(--primario); font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+.nota-tabla, .vacio { font-size: 13px; color: var(--suave); font-style: italic; }
+.panel { border: 1px solid var(--borde); border-radius: 12px; padding: 16px; margin: 16px 0; background: #FCFDFC; }
+.grafico { width: 100%; height: auto; }
+.grafico .eje { font-size: 12px; fill: var(--suave); }
+.grafico .valor { font-size: 12px; fill: var(--texto); font-weight: 600; }
+.dona-total { font-size: 22px; font-weight: 700; fill: var(--texto); }
+.leyendas { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--suave); margin-top: 8px; }
+.leyenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; }
+.semaforo-fila { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--borde); }
+.pastilla { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 11px; white-space: nowrap; }
+.aviso { border-left: 4px solid var(--primario); background: #F1F6F2; padding: 11px 14px; border-radius: 6px; margin: 14px 0; font-size: 14px; }
+.aviso.aviso-riesgo, .aviso.riesgo { border-color: #A4161A; background: #FBE3E4; }
+.aviso.aviso, .aviso.advertencia { border-color: #D9A441; background: #FFF6E0; }
+.aviso.exito { border-color: #2D6A4F; background: #D8F3DC; }
+footer { margin-top: 42px; border-top: 1px solid var(--borde); padding-top: 14px; font-size: 12.5px; color: var(--suave); }
+hr { border: none; border-top: 1px solid var(--borde); margin: 26px 0; }
+@media print {
+  body { background: #FFFFFF; }
+  .hoja { max-width: none; padding: 0; }
+  .panel, .tarjeta { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="hoja">
+<header class="principal">
+<div class="marca">Alimentos del Sur SpA</div>
+<h1>Proteccion de datos personales</h1>
+<p class="subtitulo">Alimentos del Sur SpA — revisado el 2026-09-16 01:58:17</p>
+</header>
+<div class="tarjetas"><div class="tarjeta"><div class="tarjeta-etiqueta">Tratamientos registrados</div><div class="tarjeta-valor" style="color:#1B4332">1 <span></span></div><div class="tarjeta-detalle"></div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Con evaluacion de impacto</div><div class="tarjeta-valor" style="color:#946200">1 <span></span></div><div class="tarjeta-detalle">Entran en los casos de alto riesgo</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Fichas incompletas</div><div class="tarjeta-valor" style="color:#1B4332">0 <span></span></div><div class="tarjeta-detalle">Les falta algun contenido minimo</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Obligaciones pendientes</div><div class="tarjeta-valor" style="color:#A4161A">4 <span>de 4</span></div><div class="tarjeta-detalle"></div></div></div>
+<h2>Las cuatro obligaciones que se revisan siempre</h2>
+<div class="semaforo"><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Falta</span><div><strong>Deber de informacion</strong><div class="tarjeta-detalle">Mantener permanentemente disponible una politica con quien es el responsable, que datos trata, para que, con que base de licitud, quien los recibe, cuanto los conserva, si salen del pais, como se ejercen los derechos y si hay decisiones automatizadas.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#946200;background:#FFF3CD">A medias</span><div><strong>Seguridad de los datos</strong><div class="tarjeta-detalle">Medidas tecnicas y organizativas acordes al riesgo, que aseguren confidencialidad, integridad, disponibilidad y resiliencia. La ley menciona seudonimizacion, cifrado, restauracion rapida y verificacion periodica de que funcionan.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#495057;background:#E9ECEF">Sin responder</span><div><strong>Respuesta a los derechos de las personas</strong><div class="tarjeta-detalle">Atender acceso, rectificacion, supresion, oposicion, portabilidad y bloqueo de forma expedita y gratuita. El acceso es gratuito al menos una vez por trimestre. El bloqueo temporal tiene un plazo de respuesta de 2 dias habiles.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#495057;background:#E9ECEF">Sin responder</span><div><strong>Que hacer si hay una filtracion</strong><div class="tarjeta-detalle">Registrar la vulneracion (naturaleza, efectos, categorias de datos, numero aproximado de personas afectadas y medidas tomadas) y notificarla por los medios mas expeditos y sin dilaciones indebidas. Hay que avisar tambien a las personas afectadas cuando se trata de datos sensibles, de datos de menores de 14 años o de datos financieros y bancarios.</div></div></div></div>
+<h2>Tratamientos que exigirian evaluacion de impacto</h2>
+<div class="tabla-envoltura"><table><thead><tr><th>Tratamiento</th><th>Por que</th></tr></thead><tbody><tr><td>Ficha de trabajadores</td><td>Trata datos sensibles sin apoyarse en el consentimiento de la persona.</td></tr></tbody></table></div>
+<h2>Tratamientos con datos sensibles</h2>
+<ul><li>Ficha de trabajadores</li></ul>
+<p>Son datos sensibles, entre otros, los de salud, origen etnico, afiliacion sindical, creencias, vida sexual, datos biometricos y la situacion socioeconomica. Como norma general necesitan consentimiento expreso y, si se filtran, hay que avisar siempre a las personas afectadas.</p>
+<h2>Que hacer si hay una filtracion</h2>
+<ol><li>Contener: cortar el acceso, cambiar claves, aislar el equipo o el sistema.</li><li>Registrar que paso: naturaleza del hecho, efectos, categorias de datos, numero aproximado de personas afectadas y medidas tomadas.</li><li>Notificar por los medios mas expeditos y sin dilaciones indebidas; la ley chilena no fija un plazo en horas.</li><li>Avisar a las personas afectadas, en lenguaje simple, cuando hay datos sensibles, datos de menores de 14 años o datos financieros y bancarios.</li><li>Dejar constancia de todo: es lo que despues acredita que se actuo.</li></ol>
+<div class="aviso aviso">La Ley 21.719 se publico el 13 de diciembre de 2024 y su regla de entrada en vigencia es el primer dia del mes 24 posterior a esa publicacion, es decir el 1 de diciembre de 2026. La regla esta verificada en el texto legal; la fecha de calendario es el resultado de aplicarla.</div>
+<div class="aviso aviso">Los criterios exactos que obligan a designar un delegado de proteccion de datos en el sector privado NO estan confirmados en la investigacion de este proyecto: hay que confirmarlos en el texto vigente y en las instrucciones de la Agencia antes de afirmar que la empresa esta o no obligada.</div>
+<div class="aviso aviso">Aqui se describe QUE datos se tratan, no se copian datos de personas. Nunca escribas nombres, RUT, correos, telefonos ni fichas medicas en este registro: basta con la categoria (por ejemplo «nombre, RUT y datos de contacto de trabajadores»).</div>
+<div class="aviso aviso">Orientacion de gestion, no asesoria legal. Antes de publicar una politica de privacidad o responder a la autoridad, revisala con la asesoria juridica de la empresa.</div>
+<footer>Generado por Agentes ESG el 16-09-2026 01:58. Documento de apoyo: revisa los datos antes de usarlo con fines regulatorios o publicos.</footer>
+</div>
+</body>
+</html>

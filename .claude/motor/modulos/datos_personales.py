@@ -760,9 +760,8 @@ def _bloques_informe(resultado, perfil):
 
 def informe_html(opciones):
     perfil, ruta, ruta_json = _contexto(opciones)
-    datos = _leer(ruta_json)
+    # Se recalcula siempre para que el informe no quede atras de lo ultimo registrado.
     resultado = evaluar(opciones).resultado
-    del datos
     destino = espacio.ruta_de(ruta, "reportes", "proteccion-datos-personales.html")
     informe.escribir_html(
         destino, "Proteccion de datos personales", _bloques_informe(resultado, perfil),

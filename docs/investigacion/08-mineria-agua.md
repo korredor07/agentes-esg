@@ -11,24 +11,57 @@ Fecha de investigación: 2026-09-16
 
 ## Resumen
 
-*(en construcción — se completará al cerrar todas las secciones)*
+Investigación normativa vigente al **16 de septiembre de 2026** para el módulo de minería y agua de
+**Agentes ESG**. Cubre ocho bloques y aporta los parámetros numéricos que alimentan el motor de cálculo
+en Python (evaluación de relaves, ventilación, exposición química, huella hídrica AWARE).
 
-Documento de investigación normativa para el módulo de minería y agua de **Agentes ESG**. Cubre:
+**Los seis hallazgos que cambian el diseño del motor:**
 
-1. **GISTM** (Estándar Global de Gestión de Relaves): 6 temas, 15 principios, 77 requisitos auditables;
-   matriz de clasificación por consecuencias de 5 niveles; plazos de conformidad ICMM (ago-2023 /
-   ago-2025); protocolos de conformidad ICMM con 219 criterios; creación del GTMI (2025) y su
-   avance hacia certificación (2026).
-2. **Chile — DS 248/2007** (depósitos de relaves): factor de seguridad pseudoestático mínimo **1,2**
-   (Art. 14 letra o), revancha mínima **1 m** (Art. 49), **prohibición del método aguas arriba**
-   (Art. 14 letra h), informe trimestral (Art. 30), Manual de Emergencias (Art. 34).
-3. **Chile — Ley 20.551** de cierre de faenas mineras y su reglamento DS 41/2012.
-4. **Chile — DS 594/1999**: límites permisibles ponderados/temporales, corrección por jornada y altitud,
-   ruido (PREXOR) y estrés térmico (TGBH).
-5. **Chile — DS 132/2002** (Reglamento de Seguridad Minera): ventilación en minería subterránea.
-6. **Huella hídrica**: ISO 14046 y método **AWARE**; licencia de los factores.
-7. **GRI 303 (2018)** y zonas de estrés hídrico (WRI Aqueduct).
-8. **Chile — Ley 21.435** (reforma del Código de Aguas) y monitoreo de extracciones efectivas ante la DGA.
+1. **El DS 594 ya no corrige por jornada semanal.** Desde el **Decreto 123/2015** la corrección del
+   Art. 62 es **diaria**: `Fj = (8/h) × ((24−h)/16)`, con `h` = horas trabajadas **por día**. La fórmula
+   semanal `(48/h)·((168−h)/120)` que circula en manuales y PDF de 1999 **está derogada**. La corrección
+   por altitud (`Fa = P/760`, Art. 63) se mantiene y **solo aplica a valores en mg/m³ y fibras/cc**,
+   nunca a ppm; y **nunca se aplica Fj a los LPT ni a los LPA** (Art. 64).
+2. **Los límites del DS 594 anteriores a 2015 son peligrosamente permisivos.** El arsénico pasó de
+   0,16 a **0,01 mg/m³**. Cualquier base de datos del "DS 594 versión 1999" debe descartarse.
+3. **El DS 594 se modificó el 16-ene-2026** (Decreto 40, MINSAL): nuevo **Art. 98 bis** con obligaciones
+   frente a altas temperaturas y alertas de la DMC y SENAPRED, adicionales al índice TGBH clásico.
+4. **Ni el DS 248 ni el DS 132 contienen niveles tipo TARP.** El TARP es una exigencia del **GISTM**
+   (voluntario), no de la ley chilena. El DS 132 solo tiene un esquema binario de detención de equipos
+   y retiro de personal; el DS 248 exige instrumentación y Manual de Emergencias, sin umbrales escalonados.
+5. **Los factores AWARE 2.0 son CC BY 4.0: SÍ se pueden redistribuir** en el repositorio público con
+   atribución. Pero AWARE 2.0 (abr-2025) **cambia todos los valores**, incluidos los promedios globales
+   (no agrícola: 20 → **17,9**). Para minería corresponde el factor **no agrícola**, no el "unspecified".
+6. **Hay tres reformas chilenas en curso** que el motor debe vigilar: el reemplazo del **DS 248** (consulta
+   pública cerrada en ago-2024, sin publicar), el **DS 15/2026** que introduce la declaración jurada de
+   cierre para faenas ≤ 5.000 t/mes (en toma de razón al 30-abr-2026), y la **Ley 21.770** (LMAS) que
+   modifica la Ley 20.551 con vigencia diferida.
+
+**Parámetros numéricos de referencia rápida:**
+
+| Ámbito | Parámetro | Valor | Fuente |
+|---|---|---|---|
+| Relaves CL | Factor de seguridad mínimo | **1,2** | DS 248, Art. 14 o) |
+| Relaves CL | Revancha mínima | **1 m** | DS 248, Art. 49 |
+| Relaves CL | Método aguas arriba | **Prohibido** | DS 248, Art. 14 h) |
+| Cierre CL | Umbral régimen general | **> 10.000 t brutas/mes** | Ley 20.551, Art. 10 |
+| Cierre CL | Umbral declaración simplificada | **≤ 5.000 t/mes** | Ley 20.551, Art. 16 |
+| Ventilación CL | Aire por persona | **3 m³/min** | DS 132, Art. 138 |
+| Ventilación CL | Aire por HP diésel | **2,83 m³/min·HP** | DS 132, Art. 132 |
+| Ventilación CL | Velocidad del aire | **15 – 150 m/min** | DS 132, Art. 138 |
+| Ventilación CL | Oxígeno mínimo | **19,5 % en peso** | DS 132, Art. 144 |
+| Ventilación CL | Detención por CO / NOx / HCHO | **40 / 20 / 1,6 ppm** | DS 132, Art. 135 |
+| Higiene CL | Sílice cuarzo respirable | **0,08 mg/m³** | DS 594, Art. 66 |
+| Higiene CL | Ruido, jornada 8 h | **85 dB(A)**, intercambio **3 dB** | DS 594, Arts. 74–75 |
+| Higiene CL | TGBH trabajo continuo, carga pesada | **25,0 °C** | DS 594, Art. 96 |
+| GISTM | Estructura | 6 temas · 15 principios · **77 requisitos** | Global Tailings Review |
+| Agua | AWARE 2.0 Chile, no agrícola, anual | **45,5** | Zenodo, CC BY 4.0 |
+| Agua | Zona con estrés hídrico (GRI 303) | *baseline water stress* **≥ 40 %** | GRI 303 · WRI Aqueduct 4.0 |
+| Agua CL | Plazo MEE estándar Mayor | **4 meses** medición / **5 meses** transmisión | Res. DGA 1238/2019 |
+
+Secciones: 1 GISTM · 2 DS 248/2007 · 3 Ley 20.551 y DS 41/2012 · 4 DS 594/1999 · 5 DS 132/2002 ·
+6 ISO 14046 y AWARE · 7 GRI 303 · 8 Ley 21.435 y monitoreo DGA · Fórmulas y métodos ·
+Cambios recientes · Pendientes y dudas · Fuentes.
 
 ---
 
@@ -1442,7 +1475,9 @@ Marcadas **[OF]** oficial / primaria y **[SEC]** secundaria.
 
 ### Chile — agua
 40. **[OF]** BCN / Ley Chile — **Ley 21.435** (reforma del Código de Aguas, D.O. 06-abr-2022). https://www.bcn.cl/leychile/navegar?idNorma=1174443
-41. **[OF]** BCN / Ley Chile — **Ley 21.740** (modifica el Código de Aguas en fiscalización y vigilancia de la DGA, D.O. 23-abr-2025). https://www.bcn.cl/leychile/navegar?idNorma=1215174
+41. **[OF]** BCN / Ley Chile — **Ley 21.740** (modifica el Código de Aguas en fiscalización y vigilancia de la DGA, D.O. 23-abr-2025). https://www.bcn.cl/leychile/navegar?idNorma=1212671
+41 bis. **[OF]** BCN / Ley Chile — **Ley 21.770**, Ley Marco de Autorizaciones Sectoriales (D.O. 29-sep-2025). https://www.bcn.cl/leychile/navegar?idNorma=1216930
+41 ter. **[OF]** BCN / Ley Chile — **Código de Aguas** (DFL 1.122 de 1981), arts. 67, 68 y 173. https://www.bcn.cl/leychile/navegar?idNorma=5605 · **Ley 21.064** (D.O. 27-ene-2018). https://www.bcn.cl/leychile/navegar?idNorma=1114175
 42. **[OF]** DGA — *Monitoreo de Extracciones Efectivas: preguntas frecuentes, aguas subterráneas* (diciembre 2021). https://dga.mop.gob.cl/uploads/sites/13/2024/08/preguntas_frecuentes_aguas_subterraneas.pdf
 43. **[OF]** DGA — *Tríptico MEE aguas subterráneas* (plazos por estándar). https://dga.mop.gob.cl/uploads/sites/13/2024/08/Triptico_MEE-Aguas-subterraneas.pdf
 44. **[OF]** DGA — *Nuevo Reglamento de Monitoreo de Extracciones Efectivas de Aguas Superficiales* (Decreto MOP N.º 53 de 2020). https://dga.mop.gob.cl/nuevo-reglamento-de-monitoreo-de-extracciones-efectivas-de-aguas-superficiales-dga/
