@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Indicadores sociales</title>
+<style>
+:root { --primario: #1B4332; --secundario: #D8F3DC; --texto: #1B2A22; --suave: #5A6B62; --borde: #E3E6E3; --fondo: #F7F9F7; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto);
+       font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; line-height: 1.55; }
+.hoja { max-width: 960px; margin: 0 auto; padding: 32px 28px 64px; background: #FFFFFF; min-height: 100vh; }
+header.principal { border-bottom: 4px solid var(--primario); padding-bottom: 16px; margin-bottom: 28px; }
+.marca { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--primario); font-weight: 700; }
+h1 { font-size: 30px; margin: 6px 0 4px; }
+h2 { font-size: 21px; margin: 32px 0 10px; color: var(--primario); }
+h3 { font-size: 16px; margin: 20px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
+p { margin: 10px 0; }
+.subtitulo { color: var(--suave); margin: 0; }
+.tarjetas { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+.tarjeta { flex: 1 1 190px; border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; background: #FCFDFC; }
+.tarjeta-etiqueta { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); }
+.tarjeta-valor { font-size: 27px; font-weight: 700; margin-top: 4px; }
+.tarjeta-valor span { font-size: 14px; font-weight: 500; color: var(--suave); }
+.tarjeta-detalle { font-size: 13px; color: var(--suave); }
+.tabla-envoltura { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--borde); padding: 9px 10px; text-align: left; vertical-align: top; }
+th { background: var(--secundario); color: var(--primario); font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+.nota-tabla, .vacio { font-size: 13px; color: var(--suave); font-style: italic; }
+.panel { border: 1px solid var(--borde); border-radius: 12px; padding: 16px; margin: 16px 0; background: #FCFDFC; }
+.grafico { width: 100%; height: auto; }
+.grafico .eje { font-size: 12px; fill: var(--suave); }
+.grafico .valor { font-size: 12px; fill: var(--texto); font-weight: 600; }
+.dona-total { font-size: 22px; font-weight: 700; fill: var(--texto); }
+.leyendas { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--suave); margin-top: 8px; }
+.leyenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; }
+.semaforo-fila { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--borde); }
+.pastilla { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 11px; white-space: nowrap; }
+.aviso { border-left: 4px solid var(--primario); background: #F1F6F2; padding: 11px 14px; border-radius: 6px; margin: 14px 0; font-size: 14px; }
+.aviso.aviso-riesgo, .aviso.riesgo { border-color: #A4161A; background: #FBE3E4; }
+.aviso.aviso, .aviso.advertencia { border-color: #D9A441; background: #FFF6E0; }
+.aviso.exito { border-color: #2D6A4F; background: #D8F3DC; }
+footer { margin-top: 42px; border-top: 1px solid var(--borde); padding-top: 14px; font-size: 12.5px; color: var(--suave); }
+hr { border: none; border-top: 1px solid var(--borde); margin: 26px 0; }
+@media print {
+  body { background: #FFFFFF; }
+  .hoja { max-width: none; padding: 0; }
+  .panel, .tarjeta { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="hoja">
+<header class="principal">
+<div class="marca">Alimentos del Sur SpA</div>
+<h1>Indicadores sociales</h1>
+<p class="subtitulo">Alimentos del Sur SpA - 2025</p>
+</header>
+<div class="tarjetas"><div class="tarjeta"><div class="tarjeta-etiqueta">Dotacion</div><div class="tarjeta-valor" style="color:#1B4332">126 <span>personas</span></div><div class="tarjeta-detalle">Periodo: 2025</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Mujeres</div><div class="tarjeta-valor" style="color:#1B4332">42,9 <span>%</span></div><div class="tarjeta-detalle"></div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Rotacion</div><div class="tarjeta-valor" style="color:#1B4332">10,3 <span>%</span></div><div class="tarjeta-detalle">13 desvinculaciones</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Accidentabilidad</div><div class="tarjeta-valor" style="color:#A4161A">3,2 <span>%</span></div><div class="tarjeta-detalle">4 accidentes con tiempo perdido</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Capacitacion</div><div class="tarjeta-valor" style="color:#1B4332">4,7 <span>h/persona</span></div><div class="tarjeta-detalle"></div></div></div>
+<h2>Composicion del equipo</h2>
+<div class="panel"><h3>Personas por categoria</h3><svg viewBox="0 0 720 180" class="grafico" role="img" xmlns="http://www.w3.org/2000/svg"><text x="0" y="21" class="eje">operario</text><rect x="190" y="6" width="410.0" height="20" rx="4" fill="#2D6A4F"/><text x="608.0" y="21" class="valor">85 personas</text><text x="0" y="55" class="eje">tecnico</text><rect x="190" y="40" width="91.6" height="20" rx="4" fill="#40916C"/><text x="289.6" y="55" class="valor">19 personas</text><text x="0" y="89" class="eje">administrativo</text><rect x="190" y="74" width="62.7" height="20" rx="4" fill="#74C69D"/><text x="260.7" y="89" class="valor">13 personas</text><text x="0" y="123" class="eje">jefatura</text><rect x="190" y="108" width="28.9" height="20" rx="4" fill="#B7E4C7"/><text x="226.9" y="123" class="valor">6 personas</text><text x="0" y="157" class="eje">direccion</text><rect x="190" y="142" width="14.5" height="20" rx="4" fill="#D9A441"/><text x="212.5" y="157" class="valor">3 personas</text></svg></div>
+<div class="tabla-envoltura"><table><thead><tr><th>Genero</th><th class="num">Personas</th></tr></thead><tbody><tr><td>hombre</td><td class="num">72</td></tr><tr><td>mujer</td><td class="num">54</td></tr></tbody></table></div>
+<h2>Brecha salarial por categoria</h2>
+<div class="tabla-envoltura"><table><thead><tr><th>Categoria</th><th class="num">Promedio mujeres</th><th class="num">Promedio hombres</th><th class="num">Razon mujer/hombre</th><th class="num">Brecha (%)</th></tr></thead><tbody><tr><td>administrativo</td><td class="num">1.050.000</td><td class="num">1.120.000</td><td class="num">0,938</td><td class="num">6,2</td></tr><tr><td>direccion</td><td class="num">4.200.000</td><td class="num">4.800.000</td><td class="num">0,875</td><td class="num">12,5</td></tr><tr><td>jefatura</td><td class="num">2.450.000</td><td class="num">2.900.000</td><td class="num">0,845</td><td class="num">15,5</td></tr><tr><td>operario</td><td class="num">780.000</td><td class="num">810.000</td><td class="num">0,963</td><td class="num">3,7</td></tr><tr><td>tecnico</td><td class="num">1.150.000</td><td class="num">1.240.000</td><td class="num">0,927</td><td class="num">7,3</td></tr></tbody></table><p class="nota-tabla">Una razon menor a 1 significa que las mujeres ganan menos en esa categoria.</p></div>
+<h2>Inclusion laboral</h2>
+<div class="semaforo"><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Critico</span><div><strong>Cuota del 1 % (Ley 21.015)</strong><div class="tarjeta-detalle">Exige 1.3 persona(s); hay 1 contratada(s).</div></div></div></div>
+<div class="aviso info">Tasas calculadas sobre la dotacion cargada en la planilla. Las cifras oficiales de accidentabilidad y siniestralidad las emite el organismo administrador del seguro de accidentes del trabajo; estas sirven para gestion interna.</div>
+<div class="aviso aviso">Los datos de personas son sensibles: este informe se queda en el computador de la empresa y se comparte solo de forma agregada.</div>
+<footer>Generado por Agentes ESG el 16-09-2026 01:43. Documento de apoyo: revisa los datos antes de usarlo con fines regulatorios o publicos.</footer>
+</div>
+</body>
+</html>

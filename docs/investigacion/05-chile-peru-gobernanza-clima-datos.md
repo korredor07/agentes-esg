@@ -2,7 +2,7 @@
 
 Fecha de investigación: 2026-09-15
 
-> **Estado del documento:** PARCIAL — en construcción. Secciones 1 a 4 completas; secciones 5 (laboral Chile) y 6 (Perú) pendientes.
+> **Estado del documento:** COMPLETO en su estructura (secciones 1 a 6 + cambios recientes + pendientes + fuentes). Varios datos puntuales quedaron sin verificar y están marcados como tales; ver "Pendientes y dudas".
 >
 > **Cómo leer las etiquetas**
 > - `[VERIFICADO]` — dato leído directamente en la fuente oficial (texto legal en BCN/LeyChile, sitio del regulador).
@@ -883,18 +883,183 @@ La plataforma ofrece: calculadora de emisiones, sistema de reconocimiento, regis
 
 ---
 
+### 6.4 Ley 29733 y DS 016-2024-JUS — protección de datos personales (Perú)
+
+**Normas**
+- **Ley 29733**, Ley de Protección de Datos Personales.
+- **Decreto Supremo N° 016-2024-JUS**, "Decreto Supremo que aprueba el Reglamento de la Ley N° 29733, Ley de Protección de Datos Personales", publicado como **Separata Especial** en El Peruano el **sábado 30 de noviembre de 2024** (24 páginas). `[VERIFICADO]` [24]
+
+**Entrada en vigencia (Primera Disposición Complementaria Final)** `[VERIFICADO]` [24]:
+
+> *"El presente Reglamento entra en vigencia a partir de los **120 días calendario** siguientes de su publicación en el diario oficial El Peruano."*
+
+→ Publicado el 30-11-2024, el Reglamento está **plenamente vigente desde finales de marzo de 2025**. `[VERIFICADO]` en cuanto a la regla de los 120 días; la fecha calendario es cálculo derivado `[SECUNDARIO]`.
+
+**Cronograma escalonado para designar al Oficial de Datos Personales** (supuestos 2 y 3 del párrafo 37.1) `[VERIFICADO]` [24]:
+
+| Tipo de organización | Obligación exigible |
+|---|---|
+| Empresas con **ventas anuales superiores a 2.300 UIT** | **1 año** después de la publicación del Reglamento |
+| **Medianas empresas**: ventas anuales **> 1.700 UIT y hasta 2.300 UIT** | **2 años** después de la publicación |
+| **Pequeñas empresas**: ventas anuales **> 150 UIT y hasta 1.700 UIT** | **3 años** después de la publicación |
+| **Microempresas**: ventas anuales **hasta 150 UIT** y equivalentes | **4 años** después de la publicación |
+
+> Tomando como base el 30-11-2024: gran empresa ≈ **30-11-2025** (ya exigible); mediana ≈ **30-11-2026** (a ~2 meses de la fecha de esta investigación); pequeña ≈ 30-11-2027; micro ≈ 30-11-2028.
+
+**Portabilidad de datos personales (art. 76):** surte efecto **a los 6 meses posteriores a la entrada en vigencia** del Reglamento. `[VERIFICADO]` [24]
+
+#### Oficial de Datos Personales (arts. 37 y 38)
+
+Debe designarse cuando `[VERIFICADO]` [24]:
+1. El tratamiento lo lleve a cabo una **entidad pública** (conforme al párrafo 68.6 del Reglamento del D. Leg. 1412, DS 029-2021-PCM).
+2. Se realicen tratamientos de **grandes volúmenes** de datos personales (en cantidad o tipo), **o que puedan afectar a un gran número de personas**, **o** se trate de **datos sensibles**, **o** se produzca un perjuicio evidente a otros derechos o libertades del titular.
+3. Las **actividades principales o el giro del negocio** comprendan el tratamiento de **datos sensibles**.
+
+Reglas adicionales `[VERIFICADO]` [24]:
+- Un **grupo empresarial puede nombrar un único Oficial**, siempre que sea fácil contactarlo desde cada establecimiento (art. 37.2).
+- Deben **publicarse los datos de contacto** del Oficial en lugar visible (art. 37.4).
+- Los datos de contacto y sus actualizaciones deben **comunicarse a la Autoridad Nacional dentro de los 15 días siguientes** a la designación o actualización (art. 37.5).
+- **Perfil** (art. 38): se designa atendiendo a cualidades profesionales, conocimientos y práctica en protección de datos **debidamente acreditados**.
+- Definición (art. 3, num. 17): persona designada "para la verificación, asesoramiento e implementación del cumplimiento del régimen jurídico sobre protección de datos personales".
+
+#### Incidentes de seguridad: plazo de 48 horas (art. 34)
+
+| Obligación | Plazo | Detalle |
+|---|---|---|
+| **Notificar a la Autoridad Nacional (ANPD)** | **máximo 48 horas** desde que se tomó conocimiento | Aplica cuando el incidente genere exposición de **grandes volúmenes** de datos (en cantidad o tipo), **pueda afectar a un gran número de personas**, se trate de **datos sensibles**, o se produzca **perjuicio evidente** a otros derechos. Si se notifica después de 48 h, debe acompañarse **la indicación de los motivos y/o sustento probatorio de la dilación**. La obligación **subsiste aunque el incidente se haya subsanado internamente** (art. 34.1) |
+| **Comunicar al titular afectado** | **dentro de las 48 horas**, "sin dilación indebida" | En lenguaje sencillo y claro, indicando las medidas adoptadas para mitigar efectos; si excede 48 h, con indicación de motivos (art. 34.3) |
+| **Excepción** | — | Si el incidente **no produjo la afectación descrita y fue superado totalmente** por las medidas adoptadas, **no subsiste** la obligación de comunicarlo al titular (art. 34.4) |
+| **Entorno digital** | — | Además de la ANPD, se notifica al **Centro Nacional de Seguridad Digital** para su incorporación al registro nacional de incidentes (art. 34.5) |
+
+**Contenido mínimo de la notificación (art. 34.2)** `[VERIFICADO]` [24]:
+1. Naturaleza del incidente, incluidos —cuando sea posible— los **tipos de datos** y el **número aproximado de titulares afectados**.
+2. Nombre y datos de contacto del **Oficial de Datos Personales** u otro punto de contacto.
+3. Posibles **consecuencias** del incidente.
+4. **Medidas adoptadas o propuestas** para remediar la violación, incluidas las de mitigación.
+
+> **Diferencia clave con Chile:** Perú fija un plazo numérico duro de **48 horas**; Chile (Ley 21.719, art. 14 sexies) exige notificar **"sin dilaciones indebidas"** sin plazo numérico.
+
+#### Otras obligaciones
+
+- **Evaluación de impacto relativa a la protección de datos personales (art. 40)** — especialmente cuando se traten **datos sensibles**, datos con fines de **crear perfiles**, datos de personas en especial situación de vulnerabilidad (**niños, niñas y adolescentes**, pueblos indígenas en aislamiento o contacto inicial, **personas con discapacidad**), o cuando se traten **grandes volúmenes** de datos. Puede elaborarse tomando como referencia la **NTP-ISO/IEC 27005** y la **NTP-ISO 31000**. `[VERIFICADO]` [24]
+- **Disociación y anonimización (art. 41)** — la disociación es un procedimiento **reversible**; la técnica se elige según el tipo de datos, el número de titulares y el factor de riesgo. `[VERIFICADO]` [24]
+- **Inscripción obligatoria (art. 42)** — quienes **creen, modifiquen o cancelen bancos de datos personales** están obligados a tramitar la inscripción de dichos actos en el **Registro Nacional de Protección de Datos Personales**. `[VERIFICADO]` [24]
+- **Flujo transfronterizo (art. 3, num. 15)** — definido como la transferencia de datos a un destinatario **situado en un país distinto al de origen**, sin importar el soporte, los medios ni el tratamiento que reciban. No comunicarlo para su inscripción en el Registro Nacional es **infracción leve** (art. 132.8). `[VERIFICADO]` [24]
+
+#### Infracciones (arts. 131 a 135)
+
+Las infracciones se califican como **leves, graves y muy graves** y **"se sancionan con multa de acuerdo con el artículo 39 de la citada Ley"** (Ley 29733). El Reglamento **no reproduce la escala en UIT**. `[VERIFICADO]` [24]
+
+> **Los montos exactos en UIT del artículo 39 de la Ley 29733 NO pudieron verificarse** en fuente oficial en esta sesión (el PDF del Congreso es un escaneo sin texto y `gob.pe` bloquea el acceso). **No se incluyen cifras para evitar inventarlas.** `[NO VERIFICADO]`
+
+**Infracciones leves (art. 132)** — entre otras `[VERIFICADO]` [24]: tratar datos no necesarios/pertinentes/adecuados; no rectificar datos inexactos; no suprimir datos que dejaron de ser necesarios; **no inscribir o actualizar** en el Registro Nacional; informar de forma incompleta dos o menos condiciones del art. 18 de la Ley; incumplir medidas de seguridad; **atender fuera de plazo** los derechos del titular; **no comunicar el flujo transfronterizo**; **no designar al Oficial de Datos Personales cuando corresponda**.
+
+**Infracciones graves (art. 133)** — entre otras `[VERIFICADO]` [24]: **no atender, impedir u obstaculizar** el ejercicio material de los derechos del titular; informar de forma incompleta **tres o más** condiciones del art. 18; **tratar datos sin consentimiento libre, expreso, inequívoco, previo e informado** cuando este sea necesario.
+
+**Infracciones muy graves (art. 134)** `[VERIFICADO]` [24]:
+1. Tratar datos personales mediante **medios fraudulentos, desleales o ilícitos**.
+2. **Suministrar documentos o información falsa o inexacta** a la Autoridad Nacional.
+3. **No cumplir medidas correctivas o cautelares** ordenadas en un procedimiento trilateral de tutela, pese al apercibimiento previo.
+4. Tratar **datos sensibles incumpliendo las medidas de seguridad** y generar con ello perjuicio al titular o exposición no autorizada de sus datos sensibles.
+
+**Multas coercitivas (art. 130)** — por incumplir medidas correctivas o cautelares, de manera **automática y sin requerimiento previo** `[VERIFICADO]` [24]:
+
+| Gravedad | Multa coercitiva |
+|---|---|
+| Leves | hasta **2 UIT** |
+| Graves | no menor de **2** hasta **6 UIT** |
+| Muy graves | no menor de **6** hasta **10 UIT** |
+
+- Si persiste el incumplimiento, se puede imponer una nueva multa coercitiva **duplicando sucesivamente** el monto de la última, **hasta el límite de 100 UIT** (art. 130.2).
+- La multa debe pagarse **dentro de 5 días**, vencidos los cuales se ordena cobranza coactiva (art. 130.3).
+- **Contra una multa coercitiva no procede recurso impugnativo** (art. 130.4).
+
+**Reincidencia (art. 135):** existe cuando se repiten los mismos actos u omisiones **dentro de 1 año** desde que quedó firme la resolución sancionadora anterior; es **factor agravante** de la multa. `[VERIFICADO]` [24]
+
+**Desarrollo 2025–2026:** la **Resolución Ministerial N° 476-2025-JUS/SG**, publicada el **31 de diciembre de 2025**, aprueba la **"Metodología para el cálculo de multas en materia de Protección de Datos Personales"**, con criterios técnicos y uniformes de graduación; en el mismo período se emitió una **Directiva del Oficial de Datos Personales (ODP)**. `[SECUNDARIO]` [25] — no se pudo abrir la norma en el portal oficial.
+
+#### Checklist — Ley 29733 / DS 016-2024-JUS
+
+1. [ ] Verificar el **tramo de ventas anuales en UIT** de la empresa y la fecha exacta en que le resulta exigible designar **Oficial de Datos Personales** (1, 2, 3 o 4 años desde el 30-11-2024).
+2. [ ] Evaluar si aplica alguno de los **3 supuestos del art. 37.1** (entidad pública; grandes volúmenes / datos sensibles / gran número de afectados; giro de negocio con datos sensibles).
+3. [ ] Designar al Oficial con **cualidades profesionales acreditadas**, **publicar sus datos de contacto** en lugar visible y **comunicarlos a la ANPD dentro de 15 días**.
+4. [ ] Inscribir en el **Registro Nacional de Protección de Datos Personales** la creación, modificación o cancelación de todo banco de datos (art. 42) — omitirlo es infracción leve.
+5. [ ] Comunicar el **flujo transfronterizo** de datos para su inscripción en el Registro Nacional (art. 132.8).
+6. [ ] Implantar un **procedimiento de respuesta a incidentes con reloj de 48 horas**: notificación a la ANPD y al titular afectado, con los 4 contenidos mínimos del art. 34.2.
+7. [ ] Prever la **notificación adicional al Centro Nacional de Seguridad Digital** para incidentes en entorno digital (art. 34.5).
+8. [ ] Documentar cuándo un incidente **no requiere** comunicación al titular (art. 34.4) — la excepción hay que poder probarla.
+9. [ ] Realizar **evaluación de impacto** (art. 40) para tratamientos con datos sensibles, perfiles, menores, personas con discapacidad, pueblos indígenas en aislamiento, o grandes volúmenes; usar NTP-ISO/IEC 27005 y NTP-ISO 31000 como referencia.
+10. [ ] Revisar los **plazos de atención de derechos** del titular: atenderlos fuera de plazo es infracción leve; no atenderlos u obstaculizarlos es **infracción grave**.
+11. [ ] Reforzar las **medidas de seguridad sobre datos sensibles** — su incumplimiento con perjuicio o exposición es **infracción muy grave**.
+12. [ ] Habilitar la **portabilidad** (art. 76), exigible desde los 6 meses posteriores a la entrada en vigencia del Reglamento.
+
+---
+
+### 6.5 SUNAFIL y OEFA (breve)
+
+**SUNAFIL — Superintendencia Nacional de Fiscalización Laboral**
+
+Es la autoridad inspectiva del trabajo en Perú. El régimen sancionador se rige por la **Ley 28806, Ley General de Inspección del Trabajo**, y su Reglamento, el **DS 019-2006-TR**, que clasifica las infracciones en **leves, graves y muy graves** y fija la escala de multas en **UIT** en función del **tipo de empresa** (microempresa / pequeña empresa / no MYPE) y del **número de trabajadores afectados**.
+
+`[VERIFICADO]` únicamente la existencia de la clasificación leve/grave/muy grave en materia de relaciones laborales del DS 019-2006-TR, a través de sus artículos 23, 24 y 25 tal como los cita y modifica el DS 014-2019-MIMP [21].
+
+> **Los montos concretos de las multas de SUNAFIL en UIT NO fueron verificados** en esta sesión: `sunafil.gob.pe` y `gob.pe` rechazaron el acceso automatizado. **No se incluyen cifras.** `[NO VERIFICADO]`
+
+Ejemplos de infracciones **directamente ligadas a métricas sociales ESG**, verificados (ver sección 6.3) `[VERIFICADO]` [21]:
+- **Leve:** no comunicar al MTPE la queja de hostigamiento sexual ni el resultado del procedimiento (art. 23.10).
+- **Grave:** no adoptar las medidas de prevención del art. 11 del Reglamento de la Ley 27942 — capacitaciones y difusión (art. 24.22).
+- **Muy grave:** no iniciar el procedimiento de investigación (art. 25.24); no otorgar u otorgar tardíamente las medidas de protección (art. 25.25); no emitir la decisión final (art. 25.26).
+
+**OEFA — Organismo de Evaluación y Fiscalización Ambiental**
+
+Es el ente rector del Sistema Nacional de Evaluación y Fiscalización Ambiental (SINEFA) en Perú y la autoridad que evalúa, supervisa, fiscaliza y sanciona el cumplimiento de la normativa ambiental en los sectores bajo su competencia.
+
+> **No pudimos acceder a `oefa.gob.pe`** (bloqueo de acceso automatizado del portal `gob.pe`). En consecuencia, **no se afirman aquí competencias sectoriales, tipologías de infracción, topes de multa en UIT ni plazos**. `[NO VERIFICADO]`
+
+**Punto de conexión ESG verificado:** el **Reporte de Sostenibilidad Corporativa de la SMV** pregunta expresamente si la sociedad *"ha sido objeto de alguna investigación, queja de la comunidad, controversia pública o se le ha impuesto alguna medida correctiva, medida cautelar, multa u otra sanción que involucre la violación de las normas ambientales"* durante el ejercicio, y exige informar el **estado o situación** de cada una al cierre, **incluidas las iniciadas en ejercicios anteriores**. Ahí es donde una sanción de OEFA se vuelve materia de reporte obligatorio. `[VERIFICADO]` [19]
+
+#### Checklist — SUNAFIL / OEFA
+
+1. [ ] Mantener un **registro único de procedimientos sancionadores** laborales (SUNAFIL) y ambientales (OEFA), con su estado al cierre de cada ejercicio.
+2. [ ] Verificar el cumplimiento de las obligaciones cuyo incumplimiento SUNAFIL califica como **muy grave** en hostigamiento sexual (iniciar el procedimiento, otorgar medidas de protección a tiempo, emitir la decisión final).
+3. [ ] Confirmar la clasificación de la empresa (**microempresa / pequeña empresa / no MYPE**) y su inscripción en el **REMYPE**, porque determina tanto la escala de multas como exenciones (por ejemplo, la capacitación anual especializada del art. 11.1 b).
+4. [ ] Consultar la escala de multas vigente del **DS 019-2006-TR** y el **valor de la UIT del año en curso** antes de cuantificar cualquier exposición.
+5. [ ] Documentar el **estado de cada procedimiento ambiental** (investigación, queja de la comunidad, controversia pública, medida correctiva, medida cautelar, multa) para el Reporte de Sostenibilidad Corporativa de la SMV.
+6. [ ] Incluir en el reporte las **controversias y conflictos materiales con grupos de interés** — el formato de la SMV los pregunta de forma separada de las sanciones formales.
+7. [ ] Contrastar con la fuente oficial cualquier monto de multa antes de comunicarlo a la dirección de la empresa.
+
+---
+
 ## Cambios recientes (2024–2026)
 
-*(sección en construcción — se completará tras el resto del bloque de Perú)*
+### Chile
 
-| Fecha | Jurisdicción | Cambio | Impacto |
+| Fecha | Cambio | Impacto | Etiqueta |
 |---|---|---|---|
-| 17-08-2023 (vigencia 2024) | Chile | **Ley 21.595** de Delitos Económicos reescribe la Ley 20.393 | Casi cualquier persona jurídica queda expuesta; MPD pasa a ser exigencia práctica universal |
-| 29-10-2024 | Chile | **NCG 519** de la CMF adopta NIIF S1 y S2 y exime a entidades bajo UF 1.000.000 | Define la hoja de ruta ISSB en Chile |
-| 13-12-2024 | Chile | **Ley 21.719** de datos personales, publicada | Vigencia diferida a diciembre de 2026 |
-| 16 a 30-06-2026 | Chile | Talleres participativos de la CMF sobre NIIF S1 y S2 | Diagnóstico de preparación del mercado |
-| 27-07-2026 | Chile | **NCG 572** amplía un año el plazo NIIF S1/S2 | Obligatorio desde ejercicio 2027 (reporte 2028); reporte voluntario 2026 durante 2027 |
-| ~01-12-2026 | Chile | **Entrada en vigencia de la Ley 21.719** | Ventana crítica: faltan <3 meses a la fecha de esta investigación |
+| 17-08-2023 (vigencia en 2024) | **Ley 21.595** de Delitos Económicos reescribe la Ley 20.393 y crea el Párrafo 13 de delitos ambientales en el Código Penal | Casi cualquier persona jurídica queda expuesta; el Modelo de Prevención de Delitos pasa a ser exigencia práctica universal | `[VERIFICADO]` salvo la fecha exacta de vigencia |
+| 26-04-2024 | **Ley 21.561**: primer escalón, jornada baja a **44 horas** | Recálculo de jornada y horas extra | `[VERIFICADO]` |
+| 24-08-2024 | Actualización del art. 4 de la **Ley 21.015** (inclusión laboral) | Ajuste del régimen de evaluación | `[VERIFICADO]` (fechaVersion LeyChile) |
+| 29-10-2024 | **NCG 519** de la CMF adopta **NIIF S1 y S2**, exime a entidades bajo **UF 1.000.000** y añade divulgación sobre cuota de género en el directorio | Define la hoja de ruta ISSB en Chile | `[VERIFICADO]` |
+| 13-12-2024 | Publicación de la **Ley 21.719** de protección de datos personales | Vigencia diferida a diciembre de 2026; crea la Agencia con multas de hasta 10.000 UTM o 3% de ingresos | `[VERIFICADO]` |
+| 26-04-2026 | **Ley 21.561**: segundo escalón, jornada baja a **42 horas** | **Jornada máxima vigente hoy en Chile** | `[VERIFICADO]` (tramo); fecha calendario calculada |
+| 16 a 30-06-2026 | Talleres participativos de la CMF sobre NIIF S1 y S2 (sesión inaugural con experto de la IFRS Foundation el 16-06-2026) | Diagnóstico de preparación del mercado que motivó la prórroga | `[VERIFICADO]` |
+| 27-07-2026 | **NCG 572** amplía **un año** el plazo NIIF S1/S2 | Obligatorio desde el **ejercicio 2027 (reporte 2028)**; se invita a reporte **voluntario** del ejercicio 2026 durante 2027 | `[VERIFICADO]` |
+| ~01-12-2026 | **Entrada en vigencia de la Ley 21.719** | Ventana crítica: faltan menos de 3 meses. Recordar la **transitoria sexta**: 12 meses de amonestación escrita en vez de multa para empresas de menor tamaño | `[VERIFICADO]` (regla); fecha calculada |
+| 26-04-2028 | **Ley 21.561**: tercer escalón, jornada baja a **40 horas** | Horizonte de planificación | `[VERIFICADO]` (tramo) |
+
+### Perú
+
+| Fecha | Cambio | Impacto | Etiqueta |
+|---|---|---|---|
+| 30-11-2024 | **DS 016-2024-JUS** aprueba el nuevo **Reglamento de la Ley 29733** (Separata Especial) | Introduce el **Oficial de Datos Personales**, la **notificación de incidentes en 48 horas**, la evaluación de impacto y un nuevo catálogo de infracciones | `[VERIFICADO]` |
+| ~30-03-2025 | **Entrada en vigencia** del Reglamento (120 días calendario desde su publicación) | Régimen plenamente exigible | `[VERIFICADO]` (regla); fecha calculada |
+| ~30-09-2025 | Exigibilidad de la **portabilidad** (art. 76): 6 meses tras la entrada en vigencia | Nuevo derecho operativo | `[VERIFICADO]` (regla); fecha calculada |
+| ~30-11-2025 | **Oficial de Datos Personales obligatorio** para empresas con ventas anuales **> 2.300 UIT** | Primer tramo del cronograma escalonado | `[VERIFICADO]` |
+| 31-12-2025 | **RM 476-2025-JUS/SG** aprueba la **Metodología para el cálculo de multas** en protección de datos; además se emite la **Directiva del Oficial de Datos Personales** | Mayor predictibilidad sancionatoria | `[SECUNDARIO]` |
+| ~30-11-2026 | **Oficial de Datos Personales obligatorio** para **medianas empresas** (ventas > 1.700 y hasta 2.300 UIT) | Siguiente hito, a ~2 meses de esta investigación | `[VERIFICADO]` |
+| ~30-11-2027 / ~30-11-2028 | Oficial de Datos Personales obligatorio para **pequeñas** y luego **microempresas** | Horizonte MYPE | `[VERIFICADO]` |
+
+> **Sin cambios detectados** en esta sesión para: Resolución SMV 018-2020-SMV/02 (sigue siendo la norma base del Reporte de Sostenibilidad Corporativa), DS 014-2019-MIMP (última modificación verificada: DS 021-2021-MIMP) y el sistema de reconocimiento de Huella de Carbono Perú. **No es prueba de que no existan**: es el alcance de lo que pudimos verificar.
 
 ---
 
@@ -908,9 +1073,20 @@ La plataforma ofrece: calculadora de emisiones, sistema de reconocimiento, regis
 6. **Ley 21.719 — numeración definitiva de artículos.** La ley opera insertando artículos en la Ley 19.628; conviene contrastar con el texto refundido una vez vigente.
 7. **Ley 21.719 — criterios de designación obligatoria del delegado de protección de datos en el sector privado.** No confirmados.
 8. **Ley 21.719 — base de cálculo del 3% de ingresos.** Debe contrastarse si es sobre ingresos totales o sobre la línea de negocio infractora.
-9. **Secciones 5 (normas laborales chilenas) y 6 (Perú) pendientes.**
+9. **Ley 20.348 — vigencia de los artículos del Código del Trabajo.** El texto consultado es la versión original de 2009. El umbral de **200 trabajadores** del registro de cargos (art. 154 N°6 CdT) y los arts. 62 bis, 154 N°13 y 511 **pueden haber sido modificados** por leyes posteriores. Contrastar con el texto vigente del Código del Trabajo. `[NO VERIFICADO]`
+10. **Ley 21.015 — montos de multa** por incumplir la cuota del 1% o la comunicación anual. `[NO VERIFICADO]`
+11. **Ley 16.744 — cotización extraordinaria.** El art. 15 fija la cotización básica en 0,90%, pero existe un componente extraordinario establecido por leyes posteriores que no se verificó. `[NO VERIFICADO]`
+12. **DS 67 — tramos intermedios de la tabla del art. 5°.** Solo se verificaron los extremos (0,00% / 0,34% / 0,68% … 6,80%). Consultar la tabla completa antes de usar valores intermedios. `[NO VERIFICADO]`
+13. **SMV — regímenes de emisores exceptuados** de presentar el Reporte de Sostenibilidad Corporativa (p. ej. los de la Resolución SMV N° 013-2023-SMV/01). `[NO VERIFICADO]`
+14. **Ley 30754 — articulado completo.** Verificamos que su Reglamento es el **DS 013-2019-MINAM** y que creó el Sistema para el Monitoreo de las Medidas de Adaptación y Mitigación (arts. 31 y 55 citados por la Guía del MINAM), pero **no** el articulado de la ley. `[NO VERIFICADO]`
+15. **RM 237-2020-MINAM y RM 185-2021-MINAM** — no se verificó su contenido dispositivo (PDF escaneado / portal bloqueado). `[NO VERIFICADO]`
+16. **Ley 29733, artículo 39 — escala de multas en UIT.** Es la norma a la que remite el art. 131 del DS 016-2024-JUS. **No verificada; no se incluyó ninguna cifra.** `[NO VERIFICADO]`
+17. **SUNAFIL — tabla de multas del DS 019-2006-TR** (UIT por tipo de empresa y número de trabajadores afectados) y **tope máximo por inspección**. `[NO VERIFICADO]`
+18. **OEFA — competencias, tipología de infracciones y topes de multa.** `[NO VERIFICADO]`
+19. **RM 476-2025-JUS/SG (Metodología para el cálculo de multas, Perú)** y **Directiva del Oficial de Datos Personales**: existencia constatada por resultados de búsqueda del portal oficial, pero **no se pudo abrir la norma**. `[SECUNDARIO]`
+20. **Ley 27942 — numeral 13.3 del artículo 13**, que fija el plazo máximo de la apelación. No se leyó el texto de la Ley (solo su Reglamento). `[NO VERIFICADO]`
 
-> **Limitación metodológica de esta sesión:** se agotó el presupuesto de búsquedas web (200/200), por lo que las secciones restantes se construyen con acceso directo a fuentes oficiales por URL. Los buscadores alternativos (DuckDuckGo, Mojeek, Bing) devolvieron CAPTCHA, 403 o resultados no relacionados. **No se resolvió ningún CAPTCHA.**
+> **Limitación metodológica de esta sesión.** (1) Se agotó el presupuesto de búsquedas web (200/200), por lo que el resto del trabajo se hizo con acceso directo por URL y con un navegador real. (2) Los portales peruanos **`gob.pe`, `smv.gob.pe`, `sunafil.gob.pe`, `oefa.gob.pe` y `repositorio.mimp.gob.pe` rechazaron el acceso automatizado** (HTTP 418 / "Acceso restringido" / conexión rechazada), incluso desde un navegador real. (3) Varios PDF oficiales son **escaneos sin capa de texto** (Ley 29733 del Congreso, guía del MINAM en su versión original). (4) Los buscadores DuckDuckGo, Mojeek y Bing devolvieron CAPTCHA, 403 o resultados no relacionados vía fetch directo; **no se resolvió ningún CAPTCHA**. (5) Donde el texto oficial se obtuvo (BCN/LeyChile en XML, El Peruano en HTML y PDF con capa de texto), la verificación es literal.
 
 ---
 
@@ -929,3 +1105,15 @@ La plataforma ofrece: calculadora de emisiones, sistema de reconocimiento, regis
 11. Pirani Risk — "Ley 21.595 de Delitos Económicos de Chile: qué es y a quién aplica". https://www.piranirisk.com/es/hub-regulatorio/ley-21595-delitos-economicos-chile-que-es-a-quien-aplica — **SECUNDARIA**
 12. BCN / LeyChile — Ley 20.780, artículo 8 (impuesto verde), texto vigente según Ley 21.210 (versión 2020-02-24). https://www.bcn.cl/leychile/Navegar?idLey=20780 — *Oficial*
 13. BCN / LeyChile — Ley 21.719, Regula la protección y el tratamiento de los datos personales y crea la Agencia de Protección de Datos Personales. https://www.bcn.cl/leychile/Navegar?idLey=21719 — *Oficial*
+14. BCN / LeyChile — Ley 21.015, Incentiva la inclusión de personas con discapacidad al mundo laboral. https://www.bcn.cl/leychile/Navegar?idLey=21015 — *Oficial*
+15. BCN / LeyChile — Ley 21.561, Reduce la jornada laboral (40 horas). https://www.bcn.cl/leychile/Navegar?idLey=21561 — *Oficial*
+16. BCN / LeyChile — Ley 16.744, Seguro social contra riesgos de accidentes del trabajo y enfermedades profesionales. https://www.bcn.cl/leychile/Navegar?idLey=16744 — *Oficial*
+17. BCN / LeyChile — Decreto Supremo N° 67 de 1999, Ministerio del Trabajo y Previsión Social (D.O. 07-03-2000), reglamento de exenciones, rebajas y recargos de la cotización adicional diferenciada. https://www.bcn.cl/leychile/navegar?idNorma=159800 — *Oficial*
+18. BCN / LeyChile — Ley 20.348, Resguarda el derecho a la igualdad en las remuneraciones. https://www.bcn.cl/leychile/Navegar?idLey=20348 — *Oficial*
+19. Diario Oficial El Peruano — Resolución de Superintendente N° 018-2020-SMV/02, "Sustituyen el Reporte de Sostenibilidad Corporativa…" (publicada el 08-02-2020). https://busquedas.elperuano.pe/ (buscador oficial de normas legales) — *Oficial*
+20. Ministerio del Ambiente del Perú — Plataforma Huella de Carbono Perú, "Sistema de reconocimiento". https://huellacarbonoperu.minam.gob.pe/huellaperu/#/reconocimiento — *Oficial*
+21. Diario Oficial El Peruano / MIMP — Decreto Supremo N° 014-2019-MIMP, Reglamento de la Ley N° 27942 (texto con la modificación del DS 021-2021-MIMP). Copia institucional consultada: https://facultad-derecho.pucp.edu.pe/wp-content/uploads/2022/08/h1240178.pdf — *Texto normativo oficial alojado por una institución académica; contrastar con El Peruano*
+22. Diario Oficial El Peruano — Decreto Supremo N° 021-2021-MIMP, que modifica el Reglamento de la Ley N° 27942 (publicado el 26-07-2021). https://busquedas.elperuano.pe/dispositivo/NL/1976374-2 — *Oficial*
+23. Ministerio del Ambiente del Perú (SINIA) — "Guía para el funcionamiento de la herramienta Huella de Carbono Perú" (noviembre de 2020), anexo de la RM 237-2020-MINAM. https://sinia.minam.gob.pe/sites/default/files/sinia/archivos/public/docs/anexo_rm._237-2020-minam.pdf — *Oficial*
+24. Diario Oficial El Peruano — Decreto Supremo N° 016-2024-JUS, Reglamento de la Ley N° 29733, Ley de Protección de Datos Personales (Separata Especial, 30-11-2024). https://busquedas.elperuano.pe/dispositivo/SE/2349653-1 — *Oficial*
+25. Plataforma del Estado Peruano — Resolución Ministerial N° 476-2025-JUS/SG, Metodología para el cálculo de multas en materia de Protección de Datos Personales (31-12-2025). https://www.gob.pe/institucion/anpd/normas-legales/7575999-476-2025-jus-sg — **SECUNDARIA en esta investigación** (URL oficial, pero el portal bloqueó el acceso; dato tomado del listado de resultados)

@@ -292,6 +292,15 @@ def _ficha(contenido, disponibles):
     return ficha
 
 
+def porcentaje_cubierto(fichas):
+    """Porcentaje de cobertura de un grupo de contenidos: cubierto suma 1, parcial 0,5."""
+    if not fichas:
+        return 0.0
+    listos = len([f for f in fichas if f["estado"] == "cubierto"])
+    medios = len([f for f in fichas if f["estado"] == "parcial"])
+    return round((listos + medios * 0.5) / float(len(fichas)) * 100, 1)
+
+
 def evaluar_cobertura(marco, datos_disponibles, ruta=None):
     """Revisa que contenidos del marco se pueden llenar con los datos que ya existen.
 
@@ -311,13 +320,6 @@ def evaluar_cobertura(marco, datos_disponibles, ruta=None):
     parciales = [f for f in fichas if f["estado"] == "parcial"]
     pendientes = [f for f in fichas if f["estado"] == "pendiente"]
     total = len(fichas)
-
-    def porcentaje(seleccion):
-        if not seleccion:
-            return 0.0
-        listos = len([f for f in seleccion if f["estado"] == "cubierto"])
-        medios = len([f for f in seleccion if f["estado"] == "parcial"])
-        return round((listos + medios * 0.5) / float(len(seleccion)) * 100, 1)
 
     faltantes = {}
     for ficha in fichas:

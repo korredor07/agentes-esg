@@ -1,0 +1,86 @@
+{
+  "periodo": "2025",
+  "dotacion_total": 126,
+  "por_genero": {
+    "mujer": 54,
+    "hombre": 72
+  },
+  "por_categoria": {
+    "operario": 85,
+    "tecnico": 19,
+    "administrativo": 13,
+    "jefatura": 6,
+    "direccion": 3
+  },
+  "por_tipo_de_contrato": {
+    "indefinido": 126
+  },
+  "por_jornada": {
+    "completa": 126
+  },
+  "por_sitio": {
+    "Planta Chillan": 104,
+    "Oficina central": 22
+  },
+  "contrataciones": 21,
+  "desvinculaciones": 13,
+  "tasa_contratacion_pct": 16.7,
+  "tasa_rotacion_pct": 10.3,
+  "mujeres_pct": 42.9,
+  "personas_con_discapacidad": 1,
+  "discapacidad_pct": 0.79,
+  "accidentes_con_tiempo_perdido": 4,
+  "dias_perdidos": 38,
+  "tasa_accidentabilidad_pct": 3.17,
+  "tasa_siniestralidad": 30.2,
+  "horas_capacitacion": 597.0,
+  "horas_capacitacion_por_persona": 4.7,
+  "horas_trabajadas": 226800.0,
+  "tasa_accidentes_registrables": 3.53,
+  "nota_tasa_registrable": "Accidentes por cada 200.000 horas trabajadas, la convencion del estandar GRI 403-9.",
+  "mujeres_en_direccion_pct": 33.3,
+  "brecha_salarial_por_categoria": {
+    "operario": {
+      "promedio_mujeres": 780000.0,
+      "promedio_hombres": 810000.0,
+      "razon_mujer_hombre": 0.963,
+      "brecha_pct": 3.7
+    },
+    "tecnico": {
+      "promedio_mujeres": 1150000.0,
+      "promedio_hombres": 1240000.0,
+      "razon_mujer_hombre": 0.927,
+      "brecha_pct": 7.3
+    },
+    "administrativo": {
+      "promedio_mujeres": 1050000.0,
+      "promedio_hombres": 1120000.0,
+      "razon_mujer_hombre": 0.938,
+      "brecha_pct": 6.2
+    },
+    "jefatura": {
+      "promedio_mujeres": 2450000.0,
+      "promedio_hombres": 2900000.0,
+      "razon_mujer_hombre": 0.845,
+      "brecha_pct": 15.5
+    },
+    "direccion": {
+      "promedio_mujeres": 4200000.0,
+      "promedio_hombres": 4800000.0,
+      "razon_mujer_hombre": 0.875,
+      "brecha_pct": 12.5
+    }
+  },
+  "advertencias": [],
+  "nota_metodologica": "Tasas calculadas sobre la dotacion cargada en la planilla. Las cifras oficiales de accidentabilidad y siniestralidad las emite el organismo administrador del seguro de accidentes del trabajo; estas sirven para gestion interna.",
+  "empresa": "Alimentos del Sur SpA",
+  "inclusion": {
+    "aplica": true,
+    "dotacion": 126,
+    "personas_exigidas": 1.3,
+    "personas_contratadas": 1,
+    "cumple": false,
+    "faltan": 1,
+    "nota": "La ley admite alternativas excepcionales y exige una comunicacion anual a la Direccion del Trabajo. Confirma el detalle con la asesoria laboral."
+  }
+}
