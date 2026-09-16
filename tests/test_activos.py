@@ -314,6 +314,48 @@ class PruebaCorreccionMonetaria(unittest.TestCase):
         self.assertIn("SII", contexto.exception.sugerencia)
 
 
+class PruebaPrimeroActualizarDespuesDepreciar(unittest.TestCase):
+    """Hallazgo de la prueba E2E: la cuota se calculaba sobre el valor historico.
+
+    Reproduce los dos ejemplos resueltos de docs/investigacion/09, seccion 8.3.
+    """
+
+    def test_bien_existente_al_inicio_del_ejercicio(self):
+        tabla = activos.depreciacion(32000000, 15, anio_inicio=2023, mes_inicio=1, valor_residual=0)
+        correccion = activos.correccion_monetaria(32000000, 2025, porcentaje=3.4)
+        rehecha = activos.depreciar_con_correccion(tabla, correccion)
+        fila = [f for f in rehecha["tabla"] if f["anio"] == 2025][0]
+        self.assertAlmostEqual(fila["cuota"], 2205867, delta=1)
+        self.assertAlmostEqual(fila["valor_libro"], 26470399, delta=2)
+        self.assertEqual(rehecha["valor_actualizado"], 33088000)
+
+    def test_bien_comprado_durante_el_ejercicio(self):
+        tabla = activos.depreciacion(5000000, 15, anio_inicio=2025, mes_inicio=7, valor_residual=0)
+        correccion = activos.correccion_monetaria(5000000, 2025, mes_adquisicion=7, anio_adquisicion=2025)
+        rehecha = activos.depreciar_con_correccion(tabla, correccion)
+        self.assertAlmostEqual(rehecha["tabla"][0]["cuota"], 169500, delta=0.5)
+
+    def test_los_ejercicios_anteriores_no_se_tocan(self):
+        tabla = activos.depreciacion(32000000, 15, anio_inicio=2023, mes_inicio=1, valor_residual=0)
+        correccion = activos.correccion_monetaria(32000000, 2025, porcentaje=3.4)
+        rehecha = activos.depreciar_con_correccion(tabla, correccion)
+        self.assertEqual(rehecha["tabla"][0], tabla["tabla"][0])
+        self.assertEqual(rehecha["tabla"][1], tabla["tabla"][1])
+
+    def test_avisa_que_los_anios_siguientes_necesitan_su_factor(self):
+        tabla = activos.depreciacion(32000000, 7, anio_inicio=2025, mes_inicio=3)
+        correccion = activos.correccion_monetaria(32000000, 2025, mes_adquisicion=3, anio_adquisicion=2025)
+        rehecha = activos.depreciar_con_correccion(tabla, correccion)
+        self.assertTrue(any("cada año hay que volver a actualizarlos" in a for a in rehecha["advertencias"]))
+        self.assertFalse(any(a.startswith("Esta tabla esta en pesos") for a in rehecha["advertencias"]))
+
+    def test_ejercicio_fuera_de_la_tabla_no_cambia_nada(self):
+        tabla = activos.depreciacion(1000000, 3, anio_inicio=2019, mes_inicio=1)
+        correccion = activos.correccion_monetaria(1000000, 2025, porcentaje=3.4)
+        rehecha = activos.depreciar_con_correccion(tabla, correccion)
+        self.assertEqual(rehecha["tabla"], tabla["tabla"])
+
+
 class PruebaCartera(unittest.TestCase):
     """Totales de la cartera para un ejercicio, resueltos a mano."""
 

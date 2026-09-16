@@ -254,11 +254,35 @@ class PruebaVentilacion(unittest.TestCase):
 
 class PruebaRelaves(unittest.TestCase):
     def test_revancha_justo_en_un_metro_cumple(self):
-        resultado = mineria.evaluar_relave(revancha_m=1.0, factor_seguridad=1.2, metodo="aguas_abajo")
+        resultado = mineria.evaluar_relave(revancha_m=1.0, factor_seguridad=1.2, metodo="aguas_abajo",
+                                           altura_muro_m=12)
         niveles = {h["tema"]: h["nivel"] for h in resultado["hallazgos"]}
         self.assertEqual(niveles["Revancha"], "conforme")
         self.assertEqual(niveles["Factor de seguridad (I)"], "conforme")
         self.assertEqual(resultado["nivel_riesgo"], "conforme")
+
+    def test_sin_altura_del_muro_no_dice_que_se_puede_omitir_la_fase_iii(self):
+        # Hallazgo de la prueba E2E: con solo el factor de seguridad, el motor marcaba
+        # la fase III como «se puede omitir» y el informe la pintaba en verde.
+        resultado = mineria.evaluar_relave(revancha_m=1.5, factor_seguridad=1.3, metodo="aguas_abajo")
+        fase = [h for h in resultado["hallazgos"] if h["tema"].startswith("Fase III")][0]
+        self.assertEqual(fase["nivel"], "sin_evaluar")
+        self.assertIsNone(resultado["exige_fase_iii"])
+        self.assertNotEqual(resultado["nivel_riesgo"], "conforme")
+
+    def test_muro_bajo_y_factor_suficiente_permite_omitir_la_fase_iii(self):
+        resultado = mineria.evaluar_relave(revancha_m=1.5, factor_seguridad=1.3, metodo="aguas_abajo",
+                                           altura_muro_m=12)
+        self.assertIs(resultado["exige_fase_iii"], False)
+
+    def test_muro_alto_exige_la_fase_iii_aunque_el_factor_cumpla(self):
+        resultado = mineria.evaluar_relave(revancha_m=1.5, factor_seguridad=1.3, metodo="aguas_abajo",
+                                           altura_muro_m=20)
+        self.assertIs(resultado["exige_fase_iii"], True)
+
+    def test_factor_insuficiente_exige_la_fase_iii_sin_saber_la_altura(self):
+        resultado = mineria.evaluar_relave(revancha_m=1.5, factor_seguridad=1.1, metodo="aguas_abajo")
+        self.assertIs(resultado["exige_fase_iii"], True)
 
     def test_revancha_bajo_el_minimo_es_critica(self):
         resultado = mineria.evaluar_relave(revancha_m=0.99, factor_seguridad=1.5, metodo="eje_central")

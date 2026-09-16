@@ -213,9 +213,44 @@ PLANTILLAS = {
 
 def listar():
     return [
-        {"tipo": clave, "titulo": definicion["titulo"], "para_que": definicion["para_que"]}
+        {"tipo": clave, "titulo": definicion["titulo"], "para_que": definicion["para_que"],
+         "columnas": [columna["titulo"] for columna in definicion["columnas"]]}
         for clave, definicion in sorted(PLANTILLAS.items())
     ]
+
+
+def _comparable(valor):
+    """Un valor escrito a mano y el mismo leido de Excel tienen que compararse igual."""
+    if valor is None:
+        return ""
+    texto = str(valor).strip().lower()
+    try:
+        numero = float(texto.replace(",", "."))
+        return ("%.6f" % numero).rstrip("0").rstrip(".")
+    except ValueError:
+        return texto
+
+
+def es_fila_de_ejemplo(definicion, fila):
+    """Si la fila es una de las filas de ejemplo que trae la plantilla nueva.
+
+    Acepta la fila como lista (en el orden de las columnas) o como diccionario con
+    los encabezados normalizados, que es como la devuelve nucleo.excel.leer_tabla.
+    """
+    if not definicion or not fila:
+        return False
+    if isinstance(fila, dict):
+        from nucleo import excel
+        valores = [fila.get(excel.normalizar_encabezado(c["titulo"])) for c in definicion["columnas"]]
+    else:
+        valores = list(fila)
+    valores = [_comparable(v) for v in valores]
+    for ejemplo in definicion.get("ejemplo") or []:
+        esperado = [_comparable(v) for v in ejemplo]
+        largo = max(len(esperado), len(valores))
+        if (esperado + [""] * (largo - len(esperado))) == (valores + [""] * (largo - len(valores))):
+            return True
+    return False
 
 
 def obtener(tipo):

@@ -117,11 +117,19 @@ def _opciones_de(funcion, modulo=None):
         except (OSError, TypeError):
             continue
         encontradas |= _leer_opciones(fuente)
-        for ayudante in set(re.findall(r"(_[a-z_0-9]+)\(\s*(?:dict\()?\s*opciones", fuente)):
-            destino = getattr(modulo, ayudante, None)
-            if destino is not None and destino not in vistas:
+        # Cualquier funcion del mismo modulo que reciba las opciones, en cualquier posicion:
+        # _contexto(opciones), _correccion_para(resultado, opciones, ...) o relaves(opciones).
+        for llamada in set(re.findall(r"\b([a-z_][a-z_0-9]*)\((?:[^()]|\([^()]*\))*?\bopciones\b", fuente)):
+            destino = getattr(modulo, llamada, None)
+            if (inspect.isfunction(destino) and destino.__module__ == getattr(modulo, "__name__", None)
+                    and destino not in vistas):
                 pendientes.append(destino)
     encontradas.discard("_extra")
+    # Opciones que el modulo lee recorriendo una lista (por ejemplo, las preguntas de europa aplica).
+    dinamicas = getattr(modulo, "OPCIONES_DINAMICAS", {}) or {}
+    for accion, funcion_accion in (getattr(modulo, "ACCIONES", {}) or {}).items():
+        if funcion_accion is funcion:
+            encontradas |= set(dinamicas.get(accion, []))
     return sorted(encontradas)
 
 

@@ -105,6 +105,11 @@ def _inclusion(perfil, r):
     if personas >= 100:
         return "aplica", "Tiene %d personas: la cuota de inclusion laboral aplica desde 100." % personas
     if personas == 0:
+        respuesta = _si(r.get("cien_o_mas_trabajadores"))
+        if respuesta is True:
+            return "aplica", "Tiene 100 o mas personas: la cuota de inclusion laboral aplica."
+        if respuesta is False:
+            return "no aplica", "Tiene menos de 100 personas; la obligacion parte en 100."
         return "revisar", "Falta saber cuantas personas trabajan en la empresa."
     return "no aplica", "Tiene %d personas; la obligacion parte en 100." % personas
 
@@ -276,6 +281,9 @@ PREGUNTAS = [
      "pregunta": "¿Venden productos envasados, importan articulos, o comercializan neumaticos, aceites, "
                  "aparatos electricos, pilas o baterias?",
      "para_que": "Define si le aplica la Ley REP."},
+    {"clave": "cien_o_mas_trabajadores", "paises": ["CL"],
+     "pregunta": "¿La empresa tiene 100 o mas trabajadores?",
+     "para_que": "Define si aplica la cuota de inclusion laboral (Ley 21.015). Se deduce solo si el perfil ya dice cuantas personas trabajan."},
     {"clave": "tiene_calderas", "paises": ["CL"], "pregunta": "¿Tienen calderas, hornos, grupos electrogenos u otras fuentes fijas?",
      "para_que": "Define obligaciones de declaracion de emisiones e impuesto verde."},
     {"clave": "genera_residuos_industriales", "paises": ["CL"],
@@ -302,6 +310,42 @@ PREGUNTAS = [
 ]
 
 
+def respuestas_efectivas(perfil, respuestas=None):
+    """Las respuestas guardadas, completadas con lo que ya se sabe por el perfil.
+
+    Asi el calendario y la revision de normativa usan exactamente la misma base, y no
+    se le pregunta a la persona algo que ya dijo al registrar la empresa.
+    Una respuesta explicita de la persona siempre gana sobre lo deducido.
+    """
+    efectivas = dict(respuestas or {})
+    personas = _trabajadores(perfil)
+    if "tiene_trabajadores" not in efectivas and personas > 0:
+        efectivas["tiene_trabajadores"] = "si"
+    if "cien_o_mas_trabajadores" not in efectivas and personas > 0:
+        efectivas["cien_o_mas_trabajadores"] = "si" if personas >= 100 else "no"
+    exporta = perfil.get("exporta_a_ue")
+    if "exporta_a_ue" not in efectivas and isinstance(exporta, bool):
+        efectivas["exporta_a_ue"] = "si" if exporta else "no"
+    if "fuente_fija_grande" not in efectivas and _si(efectivas.get("tiene_calderas")) is False:
+        # Sin fuentes fijas de combustion no puede haber una fuente fija grande.
+        efectivas["fuente_fija_grande"] = "no"
+    return efectivas
+
+
+# Preguntas que solo tienen sentido si otra se respondio que si. Primero se pregunta la
+# de arriba: a quien no exporta a Europa no se le pregunta que exporta a Europa.
+DEPENDENCIAS = {
+    "exporta_bienes_cbam": "exporta_a_ue",
+    "exporta_commodities_eudr": "exporta_a_ue",
+    "fuente_fija_grande": "tiene_calderas",
+}
+
+
+def _vale_la_pena_preguntar(pregunta, respuestas):
+    previa = DEPENDENCIAS.get(pregunta["clave"])
+    return previa is None or _si(respuestas.get(previa)) is True
+
+
 def preguntas_aplicables(perfil):
     """Solo las preguntas que tienen sentido para el pais de la empresa."""
     pais = (perfil.get("pais") or "").upper()
@@ -310,7 +354,7 @@ def preguntas_aplicables(perfil):
 
 def evaluar(perfil, respuestas=None):
     """Evalua todas las reglas y agrupa el resultado."""
-    respuestas = respuestas or {}
+    respuestas = respuestas_efectivas(perfil, respuestas)
     pais = (perfil.get("pais") or "").upper()
     aplican, revisar, fuera = [], [], []
     for regla in REGLAS:
@@ -323,7 +367,8 @@ def evaluar(perfil, respuestas=None):
 
     orden = {"alto": 0, "medio": 1, "bajo": 2}
     aplican.sort(key=lambda f: orden.get(f["riesgo"], 3))
-    pendientes = [p for p in preguntas_aplicables(perfil) if p["clave"] not in respuestas]
+    pendientes = [p for p in preguntas_aplicables(perfil)
+                  if p["clave"] not in respuestas and _vale_la_pena_preguntar(p, respuestas)]
     return {
         "pais": pais,
         "aplican": aplican,

@@ -588,11 +588,28 @@ def evaluar_relave(revancha_m=None, factor_seguridad=None, fase="i", metodo=None
             "Cumple el minimo de 1,2 del art. 14 letra o). %s" % datos_fase["nombre"], ""))
 
     # Exigencia de la fase III - art. 14 letra o)
+    # Solo se puede omitir si se sabe que se cumplen LAS DOS condiciones: muro bajo
+    # 15 m y factor de seguridad de al menos 1,2. Con un dato faltante no se puede
+    # concluir que se puede omitir: eso seria un «cumple» sin evidencia.
     exige_fase_iii = None
-    if altura_muro_m is not None or factor_seguridad is not None:
-        exige_fase_iii = bool(
-            (altura_muro_m is not None and altura_muro_m >= ALTURA_DEPOSITO_PEQUENO_M)
-            or (factor_seguridad is not None and fs_exigido is not None and factor_seguridad < fs_exigido))
+    muro_alto = altura_muro_m is not None and altura_muro_m >= ALTURA_DEPOSITO_PEQUENO_M
+    muro_bajo = altura_muro_m is not None and altura_muro_m < ALTURA_DEPOSITO_PEQUENO_M
+    fs_bajo = factor_seguridad is not None and fs_exigido is not None and factor_seguridad < fs_exigido
+    fs_ok = factor_seguridad is not None and fs_exigido is not None and factor_seguridad >= fs_exigido
+    if muro_alto or fs_bajo:
+        exige_fase_iii = True
+    elif muro_bajo and fs_ok:
+        exige_fase_iii = False
+    if exige_fase_iii is None and (altura_muro_m is not None or factor_seguridad is not None):
+        hallazgos.append(_hallazgo(
+            "Fase III (analisis dinamicos)", "sin_evaluar", "obligatoria salvo deposito pequeno",
+            "muro de %s m" % _texto_numero(altura_muro_m) if altura_muro_m is not None else "sin dato",
+            "Art. 14 letra o) del DS 248/2007",
+            "La fase III solo se puede omitir si el muro mide menos de 15 metros Y el factor de seguridad "
+            "de las fases I y II es de al menos 1,2. Falta un dato para saber si este deposito califica.",
+            "Pide la altura del muro%s al Ingeniero de Registro. Mientras no se sepa, trata la fase III como "
+            "obligatoria." % ("" if altura_muro_m is None else " y el factor de seguridad")))
+    elif exige_fase_iii is not None:
         if exige_fase_iii:
             hallazgos.append(_hallazgo(
                 "Fase III (analisis dinamicos)", "alerta", "obligatoria",

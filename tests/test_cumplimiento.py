@@ -85,8 +85,25 @@ class PruebaReglas(unittest.TestCase):
 
     def test_preguntas_pendientes_bajan_al_responder(self):
         sin = aplicabilidad.evaluar(PERFIL_CL)
-        con = aplicabilidad.evaluar(PERFIL_CL, {"tiene_calderas": "si", "exporta_a_ue": "no"})
+        con = aplicabilidad.evaluar(PERFIL_CL, {"descarga_riles": "no", "supervisada_cmf": "no"})
         self.assertEqual(len(con["preguntas_pendientes"]), len(sin["preguntas_pendientes"]) - 2)
+
+    def test_no_pregunta_lo_que_ya_dice_el_perfil(self):
+        # Hallazgo E2E: se preguntaba si tiene trabajadores y si exporta con el perfil ya lleno.
+        claves = {p["clave"] for p in aplicabilidad.evaluar(PERFIL_CL)["preguntas_pendientes"]}
+        self.assertNotIn("tiene_trabajadores", claves)
+        self.assertNotIn("exporta_a_ue", claves)
+        self.assertNotIn("cien_o_mas_trabajadores", claves)
+
+    def test_no_pregunta_lo_que_depende_de_un_no(self):
+        claves = {p["clave"] for p in aplicabilidad.evaluar(PERFIL_CL, {"tiene_calderas": "no"})["preguntas_pendientes"]}
+        self.assertNotIn("exporta_bienes_cbam", claves)
+        self.assertNotIn("exporta_commodities_eudr", claves)
+        self.assertNotIn("fuente_fija_grande", claves)
+
+    def test_sin_calderas_el_impuesto_verde_no_queda_por_confirmar(self):
+        fichas = _por_id(aplicabilidad.evaluar(PERFIL_CL, {"tiene_calderas": "no"}))
+        self.assertEqual(fichas["cl-impuesto-verde"]["estado"], "no aplica")
 
     def test_respuesta_no_se_deja_en_revisar(self):
         fichas = _por_id(aplicabilidad.evaluar(PERFIL_CL, {"pone_productos_prioritarios": "no se"}))
@@ -103,7 +120,9 @@ class PruebaModuloCumplimiento(PruebaConCarpeta):
 
     def test_flujo_completo(self):
         pendientes = self.cumplimiento.preguntas(self.opciones)
-        self.assertGreater(pendientes["total"], 5)
+        # Pocas y utiles: el perfil ya responde trabajadores y exportacion (hallazgo E2E).
+        self.assertGreaterEqual(pendientes["total"], 4)
+        self.assertNotIn("exporta_a_ue", [p["clave"] for p in pendientes["preguntas"]])
         self.cumplimiento.responder(dict(self.opciones, clave="pone_productos_prioritarios", respuesta="si"))
         revision = self.cumplimiento.revisar(self.opciones).resultado
         self.assertTrue(any("REP" in f["norma"] for f in revision["aplican"]))

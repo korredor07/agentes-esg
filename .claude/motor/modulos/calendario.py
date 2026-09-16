@@ -12,6 +12,7 @@ import datetime
 import json
 import os
 
+from calculos import aplicabilidad
 from nucleo import espacio, informe
 from nucleo.salida import Problema, Respuesta
 
@@ -94,7 +95,7 @@ def proximas(opciones):
     perfil, ruta = _contexto(opciones)
     hoy = opciones.get("hoy")
     hoy = datetime.date.fromisoformat(hoy) if hoy and hoy is not True else datetime.date.today()
-    respuestas = _respuestas(ruta)
+    respuestas = aplicabilidad.respuestas_efectivas(perfil, _respuestas(ruta))
     filas = cargar(perfil.get("pais") or "CL")
 
     aplican, por_confirmar, sin_fecha = [], [], []

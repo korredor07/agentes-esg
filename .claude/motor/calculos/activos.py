@@ -893,6 +893,72 @@ def correccion_monetaria(valor, anio_ejercicio, mes_adquisicion=None, anio_adqui
     }
 
 
+def depreciar_con_correccion(detalle, correccion):
+    """Rehace la cuota del ejercicio corregido: primero se actualiza, despues se deprecia.
+
+    Regla del art. 41 de la Ley de la Renta, verificada en la investigacion
+    (docs/investigacion/09, seccion 8.3):
+
+        valor bruto actualizado        = valor x factor
+        depreciacion previa actualizada = depreciacion acumulada al cierre anterior x factor
+        cuota del ejercicio            = (valor bruto actualizado - residual) / vida util x meses / 12
+
+    Los ejercicios siguientes necesitan su propio factor, que se publica cada
+    año: la tabla los deja en pesos del ejercicio corregido y lo advierte.
+    """
+    ejercicio = correccion["anio_ejercicio"]
+    tabla = detalle.get("tabla") or []
+    fila = next((f for f in tabla if f.get("anio") == ejercicio), None)
+    if fila is None:
+        return dict(detalle, advertencias=list(detalle.get("advertencias") or []) + [
+            "El ejercicio %d no esta dentro de la tabla de este bien, asi que la correccion monetaria no cambia "
+            "ninguna cuota." % ejercicio])
+
+    factor = correccion["factor"]
+    anios = detalle["vida_util_aplicada"]
+    residual = detalle["valor_residual"]
+    bruto = detalle["valor"] * factor
+    base = bruto - residual
+    cuota_completa = base / anios
+
+    anteriores = [f for f in tabla if f.get("anio") is not None and f["anio"] < ejercicio]
+    acumulada = (anteriores[-1]["depreciacion_acumulada"] if anteriores else 0.0) * factor
+
+    nueva_tabla = [dict(f) for f in anteriores]
+    for original in tabla:
+        if original.get("anio") is None or original["anio"] < ejercicio:
+            continue
+        if acumulada >= base - 0.005:
+            break
+        cuota = min(cuota_completa * original["meses"] / 12.0, base - acumulada)
+        acumulada += cuota
+        nueva_tabla.append({
+            "numero": original["numero"], "anio": original["anio"], "meses": original["meses"],
+            "cuota": redondear(cuota),
+            "depreciacion_acumulada": redondear(acumulada),
+            "valor_libro": redondear(bruto - acumulada),
+            "en_pesos_de": ejercicio,
+        })
+
+    fila_nueva = next(f for f in nueva_tabla if f["anio"] == ejercicio)
+    advertencias = [a for a in (detalle.get("advertencias") or []) if not a.startswith("Esta tabla esta en pesos")]
+    advertencias.append(
+        "Primero se actualizo el valor (%s x %s = %s) y recien sobre ese valor se calculo la cuota de %d: %s. "
+        "Los ejercicios siguientes quedan en pesos de %d: cada año hay que volver a actualizarlos con el factor "
+        "que publique el SII." % (redondear(detalle["valor"]), factor, redondear(bruto), ejercicio,
+                                   fila_nueva["cuota"], ejercicio))
+    resultado = dict(detalle)
+    resultado.update({
+        "tabla": nueva_tabla,
+        "valor_actualizado": redondear(bruto),
+        "cuota_del_ejercicio_corregido": fila_nueva["cuota"],
+        "valor_libro_al_cierre_corregido": fila_nueva["valor_libro"],
+        "total_depreciado": redondear(sum(f["cuota"] for f in nueva_tabla)),
+        "advertencias": advertencias,
+    })
+    return resultado
+
+
 def porcentaje_termino_giro(anio, mes):
     """Porcentaje de actualizacion para termino de giro publicado por el SII."""
     ejercicio = entero(anio, "el anio", "Escribe solo el anio, por ejemplo 2026.")

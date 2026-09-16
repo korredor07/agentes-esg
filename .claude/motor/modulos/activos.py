@@ -247,15 +247,15 @@ def _depreciar_uno(opciones):
     else:
         resultado["vida_util_segun"] = "anios indicados por ti"
 
-    advertencias = list(resultado.pop("advertencias", []))
     correccion = _correccion_para(resultado, opciones, resultado["valor"],
                                   resultado.get("anio_inicio"), resultado.get("mes_inicio"))
     if correccion:
-        advertencias.extend(correccion.pop("advertencias", []))
-        advertencias.append(
-            "La correccion monetaria se aplico al valor de compra. En la declaracion se actualiza cada anio "
-            "el valor neto del bien (valor menos depreciacion acumulada) y sobre ese valor se calcula la cuota.")
+        # Primero se actualiza el valor y recien sobre ese valor se calcula la cuota (art. 41 LIR).
+        resultado = motor_activos.depreciar_con_correccion(resultado, correccion)
         resultado["correccion_monetaria"] = correccion
+    advertencias = list(resultado.pop("advertencias", []))
+    if correccion:
+        advertencias.extend(correccion.pop("advertencias", []))
     advertencias.append(AVISO_LEGAL)
     return Respuesta(resultado, advertencias=advertencias,
                      fuentes=[motor_activos.FUENTE_VIDA_UTIL, motor_activos.FUENTE_CORRECCION])
@@ -340,8 +340,19 @@ def _agregar_correccion(resultado, porcentaje=None):
     """Actualiza el valor de compra de cada activo por correccion monetaria."""
     ejercicio = resultado["ejercicio"]
     total = 0.0
+    total_cuota = 0.0
+    total_libro = 0.0
     aviso = None
     for activo in resultado["activos"]:
+        if activo.get("metodo") == "propyme":
+            # El regimen Pro Pyme no aplica correccion monetaria.
+            activo["valor_actualizado"] = activo["valor"]
+            activo["depreciacion_del_ejercicio_actualizada"] = activo["depreciacion_del_ejercicio"]
+            activo["valor_libro_actualizado"] = activo["valor_libro"]
+            total += activo["valor"]
+            total_cuota += activo["depreciacion_del_ejercicio"]
+            total_libro += activo["valor_libro"]
+            continue
         try:
             correccion = motor_activos.correccion_monetaria(
                 activo["valor"], ejercicio,
@@ -353,17 +364,34 @@ def _agregar_correccion(resultado, porcentaje=None):
         activo["valor_actualizado"] = correccion["valor_actualizado"]
         activo["factor_correccion"] = correccion["factor"]
         total += correccion["valor_actualizado"]
+        # Primero se actualiza y recien despues se calcula la cuota del ejercicio (art. 41 LIR).
+        cuota = activo["depreciacion_del_ejercicio"]
+        libro = activo["valor_libro"]
+        if activo.get("anio_inicio"):
+            tabla = motor_activos.depreciacion(activo["valor"], activo["vida_util_aplicada"], metodo="normal",
+                                               anio_inicio=activo["anio_inicio"],
+                                               mes_inicio=activo.get("mes_inicio") or 1)
+            rehecha = motor_activos.depreciar_con_correccion(tabla, correccion)
+            fila = next((f for f in rehecha["tabla"] if f["anio"] == ejercicio), None)
+            if fila:
+                cuota, libro = fila["cuota"], fila["valor_libro"]
+        activo["depreciacion_del_ejercicio_actualizada"] = cuota
+        activo["valor_libro_actualizado"] = libro
+        total_cuota += cuota
+        total_libro += libro
     if aviso:
         resultado["advertencias"].append(aviso)
     else:
         resultado["totales"]["inversion_actualizada"] = motor_activos.redondear(total)
+        resultado["totales"]["depreciacion_del_ejercicio_actualizada"] = motor_activos.redondear(total_cuota)
+        resultado["totales"]["valor_libro_actualizado"] = motor_activos.redondear(total_libro)
         if porcentaje not in (None, ""):
             resultado["advertencias"].append(
                 "Use el %s %% de correccion monetaria que me indicaste para todos los activos. Confirmalo "
                 "con tu contador o con la tabla del SII antes de usarlo en una declaracion." % porcentaje)
         resultado["advertencias"].append(
-            "El valor de compra de cada activo quedo actualizado al 31 de diciembre de %d (%s). En la "
-            "declaracion se actualiza el valor neto y sobre ese valor se calcula la cuota del ejercicio."
+            "Cada activo se actualizo al 31 de diciembre de %d (%s) y la depreciacion del ejercicio se calculo "
+            "sobre el valor ya actualizado, como exige el art. 41 de la Ley de la Renta."
             % (ejercicio, motor_activos.FUENTE_CORRECCION))
 
 

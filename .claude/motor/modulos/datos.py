@@ -286,14 +286,25 @@ def escribir(opciones):
 
     destino = espacio.ruta_de(ruta, "datos", "%s.xlsx" % clave)
     existentes = []
+    ejemplos_quitados = 0
     if os.path.isfile(destino) and not opciones.get("reemplazar"):
         tabla = excel.leer_tabla(destino)
         for fila in tabla["filas"]:
+            # Una planilla recien creada trae filas de ejemplo de una empresa inventada:
+            # si se agregan datos reales debajo, esas filas entrarian al calculo.
+            if definiciones.es_fila_de_ejemplo(definicion, fila):
+                ejemplos_quitados += 1
+                continue
             existentes.append([fila.get(excel.normalizar_encabezado(c)) for c in columnas])
 
     hojas = definiciones.hojas_de(definicion, con_ejemplo=False)
     hojas[1]["filas"] = existentes + normalizadas
     excel.escribir_xlsx(destino, hojas)
+    advertencias = ["Muestrale a la persona lo que escribiste; puede ser en la misma respuesta en que "
+                    "le entregas el calculo."]
+    if ejemplos_quitados:
+        advertencias.insert(0, "Quite %d fila(s) de ejemplo que traia la plantilla, para que no se mezclen con "
+                               "los datos reales." % ejemplos_quitados)
     return Respuesta(
         {
             "mensaje": "%s %d fila(s) en la planilla de %s."
@@ -301,8 +312,9 @@ def escribir(opciones):
                           len(normalizadas), definicion["titulo"].lower()),
             "archivo": destino, "columnas": columnas,
             "filas_en_la_planilla": len(existentes) + len(normalizadas),
+            "filas_de_ejemplo_quitadas": ejemplos_quitados,
         },
-        advertencias=["Muestrale a la persona lo que escribiste antes de calcular nada con estos datos."])
+        advertencias=advertencias)
 
 
 ACCIONES = {"resumen": resumen, "leer": leer, "escribir": escribir, "anomalias": anomalias}

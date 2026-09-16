@@ -40,6 +40,9 @@ PREGUNTAS = [
 
 CLAVES_VALIDAS = {p["clave"] for p in PREGUNTAS}
 
+# La accion aplica lee sus respuestas recorriendo PREGUNTAS: se declaran para que la ayuda las muestre.
+OPCIONES_DINAMICAS = {"aplica": sorted(CLAVES_VALIDAS)}
+
 
 # --------------------------------------------------------------------------
 # Contexto y almacenamiento
@@ -260,12 +263,31 @@ def _evaluar(perfil, respuestas):
          "micro_y_pequenas": ue.FECHAS_EUDR["micro"]}))
 
     # 6. Diligencia debida del cliente (CSDDD).
+    # La directiva obliga al cliente europeo grande, no a su proveedor: decir «aplica»
+    # a un exportador de 85 personas seria un falso positivo. Lo que le llega a el son
+    # clausulas de contrato, y eso se marca como «por el cliente».
+    empleados = _trabajadores(perfil)
+    grande = (empleados is not None and empleados > ue.UMBRALES_CSDDD["empleados"])
+    if en_la_ue and grande:
+        estado_csddd = "revisar"
+        motivo_csddd = ("La empresa esta en la Union Europea y supera los %s empleados: falta confirmar si su "
+                        "volumen de negocios pasa los 1.500 millones de euros. Si los pasa, le aplica desde el "
+                        "26 de julio de 2029." % ue.UMBRALES_CSDDD["empleados"])
+    elif exporta is False:
+        estado_csddd = "no aplica"
+        motivo_csddd = "No vende a clientes de la Union Europea."
+    elif exporta is None:
+        estado_csddd = "revisar"
+        motivo_csddd = "Falta confirmar si venden a la Union Europea, directo o por intermediario."
+    else:
+        estado_csddd = "por el cliente"
+        motivo_csddd = ("No es una obligacion de la empresa: tras la reforma de 2026 solo obliga a empresas de "
+                        "mas de 5.000 empleados y 1.500 millones de euros, desde el 26 de julio de 2029. Lo que "
+                        "si llega son las clausulas de derechos humanos y ambiente que los grandes compradores "
+                        "ya ponen en sus contratos.")
     mecanismos.append(_mecanismo(
         "csddd", "CSDDD — diligencia debida del cliente europeo (Directiva (UE) 2024/1760 tras la 2026/470)",
-        "aplica" if exporta else ("revisar" if exporta is None else "no aplica"),
-        ("Tras la reforma de 2026 solo obliga a empresas de mas de 5.000 empleados y 1.500 millones de euros, "
-         "y se aplica desde el 26 de julio de 2029. Aun asi, las clausulas de derechos humanos y ambiente ya "
-         "estan en los contratos marco de los grandes compradores y no se van a retirar."),
+        estado_csddd, motivo_csddd,
         "Mantener al dia las politicas laborales, ambientales y de proveedores que piden esos contratos.",
         "union-europea", "medio", {"umbrales": ue.UMBRALES_CSDDD}))
 
@@ -286,6 +308,7 @@ def aplica(opciones):
 
     aplican = [m for m in mecanismos if m["estado"] == "aplica"]
     revisar = [m for m in mecanismos if m["estado"] == "revisar"]
+    por_el_cliente = [m for m in mecanismos if m["estado"] == "por el cliente"]
     pendientes = [p for p in PREGUNTAS if _si(respuestas.get(p["clave"])) is None]
 
     advertencias = [AVISO_LEGAL]
@@ -299,12 +322,13 @@ def aplica(opciones):
         "empresa": perfil.get("nombre"),
         "pais": (perfil.get("pais") or "").upper(),
         "exporta_a_ue": _si(respuestas.get("exporta_a_ue")),
-        "resumen": ("Le aplican %d mecanismos europeos; %d quedan por confirmar."
-                    % (len(aplican), len(revisar))),
+        "resumen": ("Le aplican %d mecanismos europeos; %d quedan por confirmar y %d le llegan solo por "
+                    "contrato con el cliente." % (len(aplican), len(revisar), len(por_el_cliente))),
         "mecanismos": mecanismos,
         "aplican": [m["norma"] for m in aplican],
         "por_revisar": [{"norma": m["norma"], "motivo": m["motivo"]} for m in revisar],
         "no_aplican": [m["norma"] for m in mecanismos if m["estado"] == "no aplica"],
+        "le_llegan_por_el_cliente": [{"norma": m["norma"], "motivo": m["motivo"]} for m in por_el_cliente],
         "preguntas_pendientes": pendientes,
         "respuestas_guardadas": nuevas or {},
         "siguiente_paso": ("Responde lo que falte con, por ejemplo: europa aplica --exporta-bienes-cbam si. "
@@ -348,6 +372,60 @@ def cbam(opciones):
              "aluminio e hidrogeno. Usa --sector acero (o el que corresponda)."),
         )
     anio = int(_valor(opciones, "anio", datetime.date.today().year))
+
+    # Sin datos de la planta no hay emisiones que calcular, pero si se puede decir si el
+    # producto esta cubierto y si el importador queda bajo el umbral de 50 t. Eso es lo
+    # primero que necesita saber la persona, y no depende de las emisiones.
+    tiene_datos_planta = any(_valor(opciones, clave, None) not in (None, "")
+                             for clave in ("see", "emisiones_directas"))
+    if not tiene_datos_planta:
+        ficha = ue.sector_cbam(sector)
+        # En acero y aluminio el Anexo I cubre solo algunas partidas de las manufacturas, y el
+        # detalle por subpartida no quedo verificado: hay que confirmar el codigo del producto.
+        cobertura_parcial = "determinad" in ficha["codigos_nc"]
+        salvedad = (" Ojo: en %s el CBAM cubre solo algunas partidas de las manufacturas; confirma que el codigo "
+                    "arancelario exacto del producto este en el Anexo I del Reglamento (UE) 2023/956."
+                    % ficha["nombre"].lower()) if cobertura_parcial else ""
+        masa = _valor(opciones, "masa_anual_importador", None)
+        umbral = ue.cbam_umbral_masa(masa, ficha["clave"]) if masa not in (None, "") else None
+        if umbral and umbral["exento"]:
+            conclusion = ("El producto esta cubierto por el CBAM, pero con %s t al año el importador queda bajo el "
+                          "umbral de 50 t y no tiene que declarar ni comprar certificados por estas compras."
+                          % umbral["masa_toneladas"])
+        elif umbral:
+            conclusion = ("El producto esta cubierto por el CBAM y el importador supera las 50 t al año: va a "
+                          "necesitar las emisiones incorporadas de cada envio.")
+        elif ficha["de_minimis"]:
+            conclusion = ("El producto esta cubierto por el CBAM. Si el importador europeo trae menos de 50 t al "
+                          "año sumando TODOS sus proveedores de estos productos, queda exento; si no, te va a pedir "
+                          "las emisiones incorporadas.")
+        else:
+            conclusion = ("El producto esta cubierto por el CBAM y este sector no tiene umbral de 50 t: entra "
+                          "desde el primer kilo.")
+        return Respuesta({
+            "empresa": perfil.get("nombre"),
+            "producto": ficha["nombre"],
+            "cubierto_por_el_cbam": "confirmar codigo arancelario" if cobertura_parcial else True,
+            "codigos_arancelarios": ficha["codigos_nc"],
+            "umbral_del_importador": umbral or {
+                "umbral_toneladas": ue.UMBRAL_MASA_CBAM_TONELADAS if ficha["de_minimis"] else None,
+                "como_saberlo": "Preguntale al importador cuantas toneladas de estos productos trae al año en total "
+                                "(--masa-anual-importador)."},
+            "en_una_frase": conclusion + salvedad,
+            "emisiones": None,
+            "que_pedirle_a_la_planta": [
+                "Emisiones especificas incorporadas por tonelada del producto (SEE), con su metodo y periodo.",
+                "O bien: emisiones directas de la instalacion y su nivel de actividad del periodo.",
+                "Si hay precursores (por ejemplo, el acero con que se fabrican los pernos), sus emisiones.",
+                "Si pagaron un precio del carbono en el pais de origen, el comprobante.",
+            ],
+            "siguiente_paso": ("Con esos datos: europa cbam --sector %s --cantidad <toneladas> --see <t CO2e por t> "
+                               "--precio-certificado <euros>." % ficha["clave"]),
+            "fuente": ue.FUENTE,
+        }, advertencias=[AVISO_LEGAL,
+                         "No calcule emisiones ni costo porque no hay datos de la planta. El motor no usa valores "
+                         "por defecto del CBAM definitivo porque no estan verificados."])
+
     emisiones = ue.cbam_emisiones_incorporadas(
         sector,
         _valor(opciones, "cantidad"),
@@ -570,7 +648,7 @@ def eudr(opciones):
 # Accion: informe
 # --------------------------------------------------------------------------
 
-_COLOR_ESTADO = {"aplica": "rojo", "revisar": "amarillo", "no aplica": "verde"}
+_COLOR_ESTADO = {"aplica": "rojo", "revisar": "amarillo", "no aplica": "verde", "por el cliente": "gris"}
 
 
 def _bloques_cbam(guardado):
@@ -685,7 +763,9 @@ def informe_html(opciones):
             {"etiqueta": "Mecanismos que le afectan", "valor": len(aplican), "unidad": "", "color": "rojo"},
             {"etiqueta": "Por confirmar", "valor": len(revisar), "unidad": "", "color": "amarillo",
              "detalle": "Falta un dato para decidir"},
-            {"etiqueta": "Fuera de alcance", "valor": len(mecanismos) - len(aplican) - len(revisar),
+            {"etiqueta": "Solo por contrato", "valor": len([m for m in mecanismos if m["estado"] == "por el cliente"]),
+             "unidad": "", "color": "gris", "detalle": "Obligacion del cliente europeo, no de la empresa"},
+            {"etiqueta": "Fuera de alcance", "valor": len([m for m in mecanismos if m["estado"] == "no aplica"]),
              "unidad": "", "color": "verde"},
         ]},
         {"tipo": "titulo", "texto": "Mapa de exigencias europeas", "nivel": 2},
