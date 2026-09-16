@@ -1,0 +1,10 @@
+{
+  "name": "esg",
+  "displayName": "Agentes ESG",
+  "version": "0.1.0",
+  "description": "Equipo de agentes de IA para huella de carbono, reportes de sostenibilidad y cumplimiento ESG en Chile, Perú y la Unión Europea. Pensado para personas sin conocimientos técnicos.",
+  "author": { "name": "Agentes ESG" },
+  "license": "MIT",
+  "keywords": ["esg", "sostenibilidad", "huella de carbono", "cumplimiento", "chile", "peru", "csrd"],
+  "skills": "./.claude/skills"
+}

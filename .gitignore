@@ -1,0 +1,10 @@
+# Datos de empresas: nunca se suben (pueden contener datos personales y sensibles)
+empresas/*
+!empresas/ejemplo-*/
+# Temporales
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+~$*
+*.tmp

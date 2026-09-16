@@ -1,0 +1,15 @@
+{
+  "name": "agentes-esg",
+  "description": "Agentes de IA en español para gestión ESG: huella de carbono, reportes regulatorios y cumplimiento en Chile, Perú y la Unión Europea.",
+  "owner": { "name": "Agentes ESG" },
+  "plugins": [
+    {
+      "name": "esg",
+      "source": "./",
+      "displayName": "Agentes ESG",
+      "description": "Huella de carbono (alcances 1, 2 y 3), reportes GRI/NIIF S1-S2/CSRD, Ley Karin, Ley REP, RETC, huella hídrica, logística, minería y más. Todo en español y guiado paso a paso.",
+      "category": "productivity",
+      "keywords": ["esg", "sostenibilidad", "carbono", "cumplimiento"]
+    }
+  ]
+}
