@@ -53,6 +53,19 @@ class PruebaEuropa(PruebaConCarpeta):
         self.assertEqual(csddd["estado"], "por el cliente")
         self.assertNotIn(csddd["norma"], resultado["aplican"])
 
+    def test_sin_saber_si_va_en_barco_el_recargo_queda_por_confirmar(self):
+        resultado = self.europa.aplica(dict(self.opciones)).resultado
+        maritimo = [m for m in resultado["mecanismos"] if m["id"] == "maritimo"][0]
+        self.assertEqual(maritimo["estado"], "revisar")
+        self.assertIn("envia_por_mar", [p["clave"] for p in resultado["preguntas_pendientes"]])
+
+    def test_lo_que_no_aplica_no_deja_tareas(self):
+        resultado = self.europa.aplica(dict(self.opciones, exporta_bienes_cbam="no",
+                                            exporta_commodities_eudr="no")).resultado
+        for mecanismo in resultado["mecanismos"]:
+            if mecanismo["estado"] == "no aplica":
+                self.assertTrue(mecanismo["que_hacer"].startswith("Nada"), mecanismo["id"])
+
     def test_cbam_sin_datos_de_planta_igual_orienta(self):
         resultado = self.europa.cbam(dict(self.opciones, sector="acero", cantidad="30",
                                           masa_anual_importador="30")).resultado

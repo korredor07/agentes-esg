@@ -143,6 +143,9 @@ def _trabajadores(perfil):
 # --------------------------------------------------------------------------
 
 def _mecanismo(identificador, norma, estado, motivo, que_hacer, skill, riesgo="medio", detalle=None):
+    # Lo que no aplica no deja tareas: una accion al lado de «no aplica» confunde.
+    if estado == "no aplica" and not str(que_hacer).startswith("Nada"):
+        que_hacer = "Nada por ahora."
     return {"id": identificador, "norma": norma, "estado": estado, "motivo": motivo,
             "que_hacer": que_hacer, "skill": skill, "riesgo": riesgo, "detalle": detalle or {}}
 
@@ -221,6 +224,9 @@ def _evaluar(perfil, respuestas):
         estado_mar, motivo_mar = "no aplica", "La carga no viaja por barco a Europa."
     elif exporta is None:
         estado_mar, motivo_mar = "revisar", "Falta confirmar si venden a Europa y si la carga viaja por barco."
+    elif por_mar is None:
+        # Sin saber si la carga va en barco no se puede decir que llega el recargo (hallazgo E2E).
+        estado_mar, motivo_mar = "revisar", "Falta confirmar si la carga viaja a Europa por barco."
     else:
         estado_mar = "aplica"
         motivo_mar = ("Desde 2026 la naviera entrega derechos por el 100 % de sus emisiones verificadas y en "

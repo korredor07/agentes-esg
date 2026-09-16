@@ -14,6 +14,10 @@ CAMPOS_SIMPLES = [
     "trabajadores", "ingresos_anuales", "moneda", "anio_base", "periodo_actual", "notas", "carpeta",
 ]
 
+# crear y actualizar leen estos campos recorriendo la lista: se declaran para que la ayuda los muestre.
+OPCIONES_DINAMICAS = {"crear": CAMPOS_SIMPLES + ["exporta_a_ue", "marcos"],
+                      "actualizar": CAMPOS_SIMPLES + ["exporta_a_ue", "marcos"]}
+
 
 def _datos_de(opciones):
     """Junta lo que viene por --datos archivo.json con las opciones sueltas."""
