@@ -458,6 +458,11 @@ def _sin_acentos(texto):
     return "".join(c for c in texto if not unicodedata.combining(c))
 
 
+def _vacio(valor):
+    """True si el dato no fue respondido. Ojo: en Python 1 == True, por eso se compara por identidad."""
+    return valor is None or isinstance(valor, bool) or (isinstance(valor, str) and not valor.strip())
+
+
 def familia_de_sector(sector):
     """Devuelve (clave, etiqueta) del tipo de actividad reconocido en el texto del sector."""
     texto = _sin_acentos(sector)
@@ -503,7 +508,7 @@ def asuntos_sugeridos(sector=None):
 # --------------------------------------------------------------------------
 
 def _umbral(valor):
-    if valor in (None, "", True):
+    if _vacio(valor):
         return UMBRAL_POR_DEFECTO
     try:
         numero = float(str(valor).replace(",", "."))
@@ -522,7 +527,7 @@ def _umbral(valor):
 
 def valor_escala(valor, criterio, asunto="este asunto"):
     """Convierte una nota de 1 a 5 a numero. Devuelve None si no fue respondida."""
-    if valor in (None, "", True) or isinstance(valor, bool):
+    if _vacio(valor):
         return None
     try:
         numero = float(str(valor).replace(",", "."))
@@ -546,7 +551,7 @@ def _leer_criterios(dato, nombre):
     valores = {}
     for criterio in CRITERIOS:
         crudo = dato.get(criterio)
-        if crudo in (None, "", True):
+        if _vacio(crudo):
             crudo = anidados.get(criterio)
         valores[criterio] = valor_escala(crudo, criterio, nombre)
     return valores

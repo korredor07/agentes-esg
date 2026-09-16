@@ -621,9 +621,10 @@ def _prorratear(clave_producto, anio, meta):
         return meta, False, ""
     efectiva = meta * meses / 12.0
     return efectiva, True, (
-        "Primer anio de metas: se aplica el prorrateo M1 = (Mi x MO)/12 con MO = %d meses, porque las "
-        "metas empezaron a regir el %s. La meta de tabla de %s%% queda en %s%% para este anio."
-        % (meses, info["metas_desde"], formatear_numero(meta), formatear_numero(efectiva)))
+        "Primer anio de metas: se aplica el prorrateo M1 = (Mi x MO)/12 del art. 1 transitorio del %s, "
+        "con MO = %d meses, porque las metas empezaron a regir el %s. La meta de tabla de %s%% queda en "
+        "%s%% para este anio."
+        % (info["decreto"], meses, info["metas_desde"], formatear_numero(meta), formatear_numero(efectiva)))
 
 
 def formatear_numero(valor):

@@ -26,9 +26,14 @@ def _contexto(opciones):
     return perfil, ruta, espacio.ruta_de(ruta, "seguimiento", ARCHIVO)
 
 
+def _vacio(valor):
+    """True si la opcion no trae dato. En Python 1 == True, por eso se compara por identidad."""
+    return valor is None or isinstance(valor, bool) or (isinstance(valor, str) and not valor.strip())
+
+
 def _valor(opciones, clave, por_defecto=None):
     valor = opciones.get(clave)
-    return valor if valor not in (None, True, "") else por_defecto
+    return por_defecto if _vacio(valor) else valor
 
 
 def _leer(ruta_json):
@@ -60,7 +65,7 @@ def _lista_de_asuntos(guardado):
 
 
 def _estado(evaluacion):
-    faltan = [c for c in motor_materialidad.CRITERIOS if evaluacion.get(c) in (None, "")]
+    faltan = [c for c in motor_materialidad.CRITERIOS if _vacio(evaluacion.get(c))]
     if not faltan:
         return "evaluado"
     if len(faltan) == len(motor_materialidad.CRITERIOS):
@@ -149,6 +154,7 @@ def registrar(opciones):
         entrada["derechos_humanos"] = bool(base.get("derechos_humanos")) if base else False
         entrada["origen"] = base.get("origen", "") if base else "agregado por la empresa"
 
+    cambios = 0
     dimension = _valor(opciones, "dimension")
     if dimension:
         if str(dimension).strip().lower() not in DIMENSIONES:
@@ -157,22 +163,30 @@ def registrar(opciones):
                 "Usa uno de estos: %s." % ", ".join(DIMENSIONES),
             )
         entrada["dimension"] = str(dimension).strip().lower()
+        cambios += 1
     if opciones.get("derechos_humanos"):
         entrada["derechos_humanos"] = True
+        cambios += 1
 
-    entregadas = 0
     for criterio in motor_materialidad.CRITERIOS:
-        crudo = _valor(opciones, criterio)
-        if crudo is None:
+        crudo = opciones.get(criterio)
+        if crudo is True:
+            raise Problema(
+                "Escribiste %s pero sin la nota al lado." % motor_materialidad.OPCIONES[criterio],
+                "Va seguido de un numero del 1 al 5, por ejemplo: %s 4." % motor_materialidad.OPCIONES[criterio],
+            )
+        if _vacio(crudo):
             continue
         entrada[criterio] = motor_materialidad.valor_escala(crudo, criterio, entrada["nombre"])
-        entregadas += 1
+        cambios += 1
     if _valor(opciones, "nota"):
         entrada["nota"] = _valor(opciones, "nota")
+        cambios += 1
     entrada["actualizado_el"] = datetime.datetime.now().replace(microsecond=0).isoformat(sep=" ")
 
-    if nuevo and not entregadas:
-        del guardado["asuntos"][clave]
+    if not cambios:
+        if nuevo:
+            del guardado["asuntos"][clave]
         raise Problema(
             "No me diste ninguna nota para «%s», asi que no guarde nada." % entrada["nombre"],
             "Cada asunto se evalua con seis notas del 1 al 5: --escala, --alcance, --irremediabilidad, "
@@ -181,7 +195,7 @@ def registrar(opciones):
 
     _guardar(ruta_json, guardado)
     faltan = [motor_materialidad.OPCIONES[c] for c in motor_materialidad.CRITERIOS
-              if entrada.get(c) in (None, "")]
+              if _vacio(entrada.get(c))]
     advertencias = []
     if faltan:
         advertencias.append("A «%s» todavia le faltan estas notas: %s. Mientras falten, el asunto no entra "

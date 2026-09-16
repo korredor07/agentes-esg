@@ -239,9 +239,10 @@ def _umbral_de_envases(filas, advertencias):
         if registro["producto"] != "envases":
             continue
         por_anio[registro["anio"]] = por_anio.get(registro["anio"], 0.0) + registro["puestas"]
-    if not por_anio:
+    con_toneladas = [a for a, valor in por_anio.items() if valor > 0]
+    if not con_toneladas:
         return None
-    anio = max(por_anio)
+    anio = max(con_toneladas)
     toneladas = por_anio[anio]
     bajo_umbral = toneladas < 0.3
     if bajo_umbral:
