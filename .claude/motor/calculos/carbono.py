@@ -110,6 +110,7 @@ def cargar_factores(ruta=None):
                 "id": (fila.get("id") or "").strip(),
                 "alcance": int(_numero(fila.get("alcance")) or 0),
                 "categoria": (fila.get("categoria") or "").strip(),
+                "uso": _clave(fila.get("uso")),
                 "recurso": normalizar_recurso(fila.get("recurso")),
                 "recurso_original": (fila.get("recurso") or "").strip(),
                 "pais": (fila.get("pais") or "*").strip().upper() or "*",
@@ -161,7 +162,8 @@ def _misma_unidad(una, otra):
     return unidades.misma_magnitud(una, otra)
 
 
-def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=None, categoria=None):
+def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=None,
+                  categoria=None, uso=None):
     """Elige el factor mas apropiado y explica por que."""
     clave = normalizar_recurso(recurso)
     candidatos = [f for f in factores if f["recurso"] == clave]
@@ -177,6 +179,22 @@ def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=
         )
 
     advertencias = []
+    usos = sorted({f["uso"] for f in candidatos if f.get("uso")})
+    if uso:
+        clave_uso = _clave(uso)
+        por_uso = [f for f in candidatos if f.get("uso") == clave_uso]
+        if por_uso:
+            candidatos = por_uso
+        elif usos:
+            advertencias.append("No tengo factor de «%s» para uso %s: use el de uso %s."
+                                % (recurso, uso, usos[0]))
+    elif len(usos) > 1 and "estacionaria" in usos:
+        candidatos = [f for f in candidatos if f.get("uso") == "estacionaria"]
+        advertencias.append(
+            "Asumi uso estacionario (calderas, generadores o calefaccion) para %s. "
+            "Si ese combustible es de vehiculos o maquinaria movil, dimelo y uso el factor movil."
+            % recurso)
+
     pais = (pais or "").upper()
     del_pais = [f for f in candidatos if f["pais"] == pais] if pais else []
     if del_pais:
@@ -212,9 +230,12 @@ def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=
         anteriores = [f for f in candidatos if f["anio"] and f["anio"] <= anio]
         elegido = max(anteriores, key=lambda f: f["anio"]) if anteriores else \
             min(candidatos, key=lambda f: abs((f["anio"] or 0) - anio))
-        if elegido["anio"] and elegido["anio"] != anio:
+        anios_disponibles = {f["anio"] for f in candidatos if f["anio"]}
+        serie_anual = len(anios_disponibles) > 1
+        brecha = abs((elegido["anio"] or anio) - anio)
+        if elegido["anio"] and elegido["anio"] != anio and (serie_anual or brecha >= 3):
             advertencias.append(
-                "Para %s use el factor de %d (el mas cercano disponible a %d)."
+                "Para %s use el factor de %d, que es el mas cercano que tengo a %d."
                 % (recurso, elegido["anio"], anio))
     else:
         elegido = max(candidatos, key=lambda f: f["anio"] or 0)
@@ -268,7 +289,8 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None):
     factor, advertencias = buscar_factor(
         factores, recurso, unidad=unidad,
         pais=(registro.get("pais") or pais), anio=anio,
-        alcance=registro.get("alcance"), categoria=registro.get("categoria"))
+        alcance=registro.get("alcance"), categoria=registro.get("categoria"),
+        uso=registro.get("uso"))
 
     if _clave(unidad) == _clave(factor["unidad"]):
         cantidad_convertida = cantidad
@@ -292,6 +314,7 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None):
         "anio": anio,
         "sitio": registro.get("sitio") or "",
         "recurso": recurso,
+        "uso": factor.get("uso", ""),
         "alcance": int(registro.get("alcance") or factor["alcance"] or 0),
         "categoria": str(registro.get("categoria") or factor["categoria"] or ""),
         "cantidad": cantidad,

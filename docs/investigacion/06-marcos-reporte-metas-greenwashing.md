@@ -652,6 +652,101 @@ Lista de trabajo derivada de los requisitos de ISAE 3000 (Revisada)/ISSA 5000, d
 
 ---
 
+## 7. SBTi: metas climáticas basadas en ciencia
+
+### 7.1 Estado de los estándares a septiembre de 2026
+
+| Documento | Versión vigente | Fecha | Estado |
+|---|---|---|---|
+| **Corporate Net-Zero Standard (CNZS)** | **V1.3.1** | Abril de 2026 (en vigor desde el 14 de abril de 2026) | Vigente para validaciones hasta el **31 de enero de 2028** [VERIFICADO] [53][54] |
+| **Corporate Net-Zero Standard** | **V2.0** | Publicada el **11 de junio de 2026** | **Entra en vigor el 31 de enero de 2027**. Validaciones contra V2.0 disponibles desde el **Q1 2027**; obligatoria para toda nueva presentación desde el **1 de febrero de 2028** [VERIFICADO] [54][55] |
+| **Corporate Near-Term Criteria** | **V5.3.1** | Abril de 2026 (en vigor desde el 14 de abril de 2026) | Vigente [VERIFICADO] [53] |
+| **FLAG Guidance** | **V1.2** | Marzo de 2026 | Vigente; alineada con el GHG Protocol Land Sector and Removals Standard [SECUNDARIO — página web de SBTi] [56] |
+
+**Cronología de V2.0** [VERIFICADO] [54]:
+- Revisión desarrollada entre **abril de 2024 y mayo de 2026**.
+- Primera consulta pública: **marzo–junio de 2025**. Segunda consulta: **noviembre–diciembre de 2025**.
+- Aprobada por el Consejo Técnico el **8 de mayo de 2026**; adoptada por el Consejo de Administración el **21 de mayo de 2026**.
+- Escala del cambio: **42 % de las secciones de V2.0 son enteramente nuevas**; 58 % son modificaciones o ampliaciones. No existe un mapeo criterio a criterio entre V1.3.1 y V2.0.
+
+### 7.2 Criterios clave de las metas de corto plazo (V1.3.1 / Near-Term Criteria V5.3.1)
+
+| Criterio | Contenido | Etiqueta |
+|---|---|---|
+| **C13 — Años base y meta** | Las metas absolutas y de intensidad deben cubrir **mínimo 5 años y máximo 10 años** desde la fecha de presentación a validación. El año base **no puede ser anterior a 2015**. Alcances 1 y 2 deben usar el mismo año base. No se aceptan años base promedio plurianuales (salvo que lo indique la guía sectorial) | [VERIFICADO] [53] |
+| **R7 — Año meta 2030** | Se recomienda elegir 2030 como año meta; si se aplica, la empresa queda **exenta del requisito de 5–10 años** de C13 | [VERIFICADO] [53] |
+| **C1 — Límite organizacional** | Presentar al nivel de matriz o grupo, no de filial; la matriz incluye las emisiones de todas las filiales dentro de su enfoque de consolidación | [VERIFICADO] [53] |
+| **C2 — Gases** | Los **siete** GEI del GHG Protocol: CO2, CH4, N2O, HFC, PFC, SF6 y NF3 | [VERIFICADO] [53] |
+| **C3 — Alcances 1 y 2** | Cobertura **de toda la empresa** | [VERIFICADO] [53] |
+| **C4 — Umbral de Alcance 3** | Si el Alcance 3 relevante representa **40 % o más** del total de Alcances 1+2+3, **debe** incluirse en las metas de corto plazo. Además, toda empresa que venda o distribuya gas natural u otros combustibles fósiles debe fijar metas separadas de Alcance 3 por uso de productos vendidos, **sin importar** el porcentaje | [VERIFICADO] [53] |
+| **C5 — Exclusiones** | No más del **5 %** de las emisiones combinadas de Alcances 1+2 y no más del **5 %** del inventario total de Alcance 3 | [VERIFICADO] [53] |
+| **C6 — Cobertura de Alcance 3** | Las metas de reducción y/o de involucramiento de proveedores o clientes deben cubrir en conjunto al menos el **67 %** del total de Alcance 3 reportado y excluido | [VERIFICADO] [53] |
+| **C11 — Créditos de carbono** | **No cuentan** como reducciones para el progreso de las metas de corto plazo. Solo sirven para neutralizar emisiones residuales o para financiar mitigación adicional fuera de la meta | [VERIFICADO] [53] |
+| **C12 — Emisiones evitadas** | Pertenecen a un sistema contable distinto; **no cuentan** para las metas | [VERIFICADO] [53] |
+| **C15–C17 — Ambición Alcances 1 y 2** | Como mínimo, consistentes con **1,5 °C**. Metas absolutas: al menos tan ambiciosas como el mínimo del rango aprobado de escenarios 1,5 °C. Metas de intensidad: solo si se modelan con una ruta sectorial 1,5 °C aprobada | [VERIFICADO] [53] |
+| **C18 — Ambición Alcance 3** | Como mínimo, **muy por debajo de 2 °C** (well-below 2 °C) | [VERIFICADO] [53] |
+| **C20 — Metas combinadas** | Al presentar una meta combinada, la porción de Alcance 1+2 debe cumplir al menos 1,5 °C y la porción de Alcance 3 al menos "muy por debajo de 2 °C" | [VERIFICADO] [53] |
+| **C21 — Electricidad renovable (solo Alcance 2)** | Alternativa aceptable a la meta de reducción de Alcance 2: contratación activa de electricidad renovable. Umbrales identificados por SBTi, en línea con RE100: **80 % al 2025 y 100 % al 2030**; para metas de largo plazo hay que mantener el 100 % más allá de 2030 | [VERIFICADO] [53] |
+
+### 7.3 Tasas de reducción: la "regla del 4,2 %" y la meta de largo plazo
+
+Con la **ruta transversal** (cross-sector pathway) del método de **contracción absoluta** [VERIFICADO] [54]:
+
+| Parámetro | Valor |
+|---|---|
+| Tasa lineal anual mínima, **Alcances 1 y 2**, corto plazo, 1,5 °C | **4,2 % anual** |
+| Tasa lineal anual mínima, **Alcance 3**, corto plazo, muy por debajo de 2 °C | **2,5 % anual** |
+| Reducción mínima de la **meta de largo plazo**, todos los alcances | **90 %** |
+| Año de referencia de la ruta transversal para el 90 % | **2050** (niveles de 2020) |
+
+> ⚠️ **Matiz crítico que suele omitirse y que el motor debe implementar bien:** desde V1.3/V1.3.1 la tasa **no es un 4,2 % fijo**. Es **dependiente del año base** y se ajusta dinámicamente según el tiempo que resta entre el año base de la empresa y el año net-zero de la ruta (o el año net-zero propio de la empresa, si es anterior). **La tasa aumenta cuando el plazo se acorta**: con años base más recientes y/o años net-zero más tempranos, la tasa exigida es mayor que 4,2 %. El 4,2 % corresponde al caso de referencia del año base 2020 con net-zero en 2050. [VERIFICADO] [54]
+
+> ⚠️ **Ajuste de Alcance 2:** para limitar emisiones acumuladas, en las metas de Alcance 2 de corto plazo y en las combinadas 1+2 se aplica un ajuste de cálculo que asume que el **Alcance 2 llega a cero en 2040** (siguiendo el supuesto de descarbonización del sistema eléctrico global). Los supuestos de Alcance 1 no cambian: 90 % de reducción a 2050 o antes. La ambición de una meta combinada 1+2 se calcula con una **tasa promedio ponderada** según el inventario 1+2 del año más reciente. [VERIFICADO] [54]
+
+### 7.4 Ruta pymes
+
+- Bajo **V1.3.1**, las pymes pueden elegir entre el **Corporate Net-Zero Standard completo** o la **ruta simplificada para pymes** (SME route), en la que parte del contenido del estándar no aplica. Los criterios corporativos de corto plazo (V5.3.1) **no aplican** a pymes ni a instituciones financieras: las pymes pueden usar la ruta SME o la ruta de validación regular. [VERIFICADO] [53][54]
+- Bajo **V2.0**, la ruta SME separada **desaparece**: se sustituye por una **categorización formal de empresas (Categoría A y Categoría B)** con obligaciones diferenciadas según **facturación, geografía, emisiones y número de empleados**. [VERIFICADO] [54]
+- Los umbrales numéricos exactos que separan Categoría A de Categoría B, y los requisitos concretos de la ruta SME de V1.3.1 (número de empleados, si se exige meta de Alcance 3, tarifas), **[NO VERIFICADO]** — están en el texto de CNZS V2.0, en la definición de pyme de SBTi y en las FAQ de pymes; requieren lectura directa.
+
+### 7.5 Guía FLAG (Forest, Land and Agriculture)
+
+| Aspecto | Contenido | Etiqueta |
+|---|---|---|
+| Quién **debe** fijar metas FLAG | (1) Empresas cuyas emisiones FLAG sumen **20 % o más** del total en todos los alcances; y (2) empresas de estos sectores: Forest and Paper Products (silvicultura, madera, pulpa y papel, caucho); Food Production – Agricultural Production; Food Production – Animal Source; Food and Beverage Processing; Food and Staples Retailing; Tobacco | [VERIFICADO] [53] |
+| Relación con las metas de energía/industria | Las metas FLAG son **complementarias y separadas** de las metas científicas que cubren emisiones no-FLAG | [VERIFICADO] [53] |
+| Cobertura mínima | Las metas FLAG de corto plazo deben cubrir al menos **95 % de las emisiones FLAG de Alcances 1 y 2** y al menos **67 % de las emisiones FLAG de Alcance 3** | [VERIFICADO] [53] |
+| Métodos | Reducción absoluta sectorial (corto plazo y largo plazo — este último solo agricultura) y **rutas por materia prima** para metas de intensidad de corto plazo | [VERIFICADO] [53] |
+| Rutas por materia prima disponibles (10) | Carne de vacuno, pollo, lácteos, cuero, maíz, aceite de palma, cerdo, arroz, soya y trigo. Una empresa cuyas emisiones de una de estas materias primas representen **10 % o más** de sus emisiones FLAG brutas totales **puede** usar esa ruta (no está obligada) | [VERIFICADO] [53] |
+| Madera y fibra de madera | Las empresas del sector forestal o con emisiones de madera/fibra ≥ 10 % de sus emisiones FLAG **deben** usar esa ruta. **No existe actualmente ruta de largo plazo** para madera y fibra: sus metas deben llevar una nota al pie indicando la exclusión, y deben (re)presentar la meta FLAG de largo plazo cuando la ruta esté disponible | [VERIFICADO] [53] |
+| Deforestación | Fecha de corte de deforestación **2020 o anterior**; no se admiten fechas posteriores a tres años antes de la primera presentación a validación. Compromiso de deforestación cero conforme al Accountability Framework | [SECUNDARIO — página web SBTi] [56] |
+| Meta FLAG de largo plazo | Reducción mínima del **72 %** a 2050 | [SECUNDARIO — página web SBTi; confirmar en la FLAG Guidance] [56] |
+
+### 7.6 Principales cambios de CNZS V2.0 (para planificar el roadmap del motor)
+
+[VERIFICADO — documento oficial "Main Changes"] [54]
+
+| Área | Cambio |
+|---|---|
+| Categorización | Se sustituye la ruta pyme separada por **Categorías A y B** con obligaciones diferenciadas (facturación, geografía, emisiones, empleados) |
+| Gobernanza | **Nuevo**: requisitos obligatorios de gobernanza de net-zero, rendición de cuentas del directorio, planificación de la transición y divulgación (CNZS-C1 y C2) |
+| Aseguramiento | **Nuevo**: modelo formal de aseguramiento con validación de metas y evaluaciones de fin de ciclo por organismos de validación reconocidos; **aseguramiento limitado obligatorio** para empresas Categoría A sobre inventarios y métricas de fijación de metas (CNZS-C7) |
+| Año base | Se reemplaza el año base histórico por un **año base de la meta** basado en los datos comprensivos más recientes; se permite seguir comunicando frente a años anteriores si se valida la equivalencia |
+| Actividades intensivas (EIA) | **Nuevo**: para Categoría A, identificación y cuantificación obligatoria de *emissions-intensive activities* y reporte de las que representen **≥ 5 % del Alcance 3** |
+| Alcance 1 | **Metas separadas** de Alcance 1 (antes iban combinadas con Alcance 2), cubriendo el **100 %** de las emisiones directas. Nueva opción de "transición de activos" para sectores con capital de larga vida |
+| Alcance 2 | **Metas separadas** de Alcance 2 cubriendo el **100 %** de electricidad, calor, vapor y frío comprados. Las metas de alineación pasan de "renovable" a **"electricidad baja en carbono"**. Se **elimina** la opción de metas de intensidad. Las metas de emisiones de Alcance 2 se basan **solo en el inventario físico (location-based)**. Las Categoría A que aumenten su demanda eléctrica **más de 20 % anual** deben fijar metas de emisiones |
+| Alcance 3 — límite | Se sustituye el umbral de porcentaje fijo por un enfoque **basado en significancia**: cubrir todas las categorías de Alcance 3 que representen **≥ 5 % de las emisiones de las categorías 1–14**, con exclusiones opcionales específicas en las categorías 3, 7, 8, 9, 10 y 14 cuando no haya capacidad práctica de influir, reportando y justificando cada exclusión |
+| Alcance 3 — métodos | Las metas de involucramiento de proveedores/clientes se amplían a **rutas de alineación** (porcentaje de proveedores/clientes "en transición" o "alineados a net-zero"). Nuevos métodos de alineación por **volumen, uso del producto y fin de vida**. Se **elimina** el método de intensidad económica y física de Alcance 3 (el del 7 % anual compuesto) por falta de rutas de referencia científicas. Las metas de largo plazo de Alcance 3 pasan a ser **opcionales** |
+| Ciclo de metas | Todas las metas se fijan sobre base de **5 años**; se retira la revisión obligatoria quinquenal y se pasa a evaluación continua |
+| Implementación | **Nuevo**: jerarquía de implementación que prioriza reducciones directas a nivel de actividad antes de acciones en "pools" de actividad o a nivel sectorial |
+| Instrumentos de mercado | **Nuevo**: criterios de integridad para acciones, proyectos e instrumentos (verificabilidad, alineación temporal, no doble contabilidad, adicionalidad, fugas). Para electricidad: PPA físicos y financieros, contratos de electricidad baja en carbono y certificados no empaquetados, con **coincidencia geográfica** y **límite de 15 años de antigüedad del generador**; medición horaria para grandes consumidores |
+| Bioenergía | **Nuevo**: los insumos de base biológica deben cumplir criterios mínimos de sostenibilidad de terceros y de SBTi, prohibiendo la asociación con deforestación o conversión de ecosistemas naturales |
+| Remociones | **Nuevo**: requisito prospectivo de apoyar remociones de carbono **a partir de 2035** para empresas Categoría A ("post-2035 responsibility requirement", CNZS-C45) |
+| Neutralización | Se integra en un marco más amplio de "ongoing emissions responsibility" (OER), con requisitos detallados de **durabilidad del almacenamiento**, responsabilidad sobre emisiones directas e indirectas, condiciones de doble contabilidad y reporte |
+| BVCM | La recomendación de "beyond value chain mitigation" se estandariza en el marco OER como programa de reconocimiento **opcional** |
+
+---
+
 ## Fórmulas y métodos
 
 (pendiente)
@@ -718,3 +813,7 @@ Lista de trabajo derivada de los requisitos de ISAE 3000 (Revisada)/ISSA 5000, d
 50. IAASB — International Standard on Sustainability Assurance 5000, General Requirements for Sustainability Assurance Engagements (publicación, 12 de noviembre de 2024). https://www.iaasb.org/publications/international-standard-sustainability-assurance-5000-general-requirements-sustainability-assurance
 51. IAASB/IESBA — "IAASB and IESBA Unveil New Standards and Guidance to Strengthen Sustainability Reporting and Assurance" (enero 2025). https://www.iaasb.org/news-events/2025-01/iaasb-iesba-unveil-new-standards-and-guidance-strengthen-sustainability-reporting-and-assurance
 52. MHRA (GOV.UK) — "MHRA GXP Data Integrity Guidance and Definitions", Revisión 1, marzo de 2018 (definición de ALCOA y ALCOA+). https://assets.publishing.service.gov.uk/media/5aa2b9ede5274a3e391e37f3/MHRA_GxP_data_integrity_guide_March_edited_Final.pdf
+53. SBTi — "SBTi Corporate Near-Term Criteria", Versión 5.3.1, abril de 2026 (criterios C1–C22, R5–R11 y requisitos sectoriales FLAG). https://files.sciencebasedtargets.org/production/files/SBTi-criteria.pdf
+54. SBTi — "SBTi Corporate Net-Zero Standard", Versión 1.3.1, abril de 2026 (secciones 1.3, 2.2, 2.3, 3.3, Anexo B.1). https://files.sciencebasedtargets.org/production/files/Net-Zero-Standard.pdf · y "Main Changes Document — Corporate Net-Zero Standard V2.0", Versión 1, junio de 2026. https://files.sciencebasedtargets.org/production/files/Corporate-Net-Zero-Standard-V2-Main-Changes-Document.pdf
+55. SBTi — "The Corporate Net-Zero Standard" y "The new Corporate Net-Zero Standard Version 2.0". https://sciencebasedtargets.org/net-zero · https://sciencebasedtargets.org/corporate-net-zero-standard-v2 · Texto V2.0: https://files.sciencebasedtargets.org/production/files/Corporate-Net-Zero-Standard-version-2.pdf
+56. SBTi — Sector Forest, Land and Agriculture (página oficial). https://sciencebasedtargets.org/sectors/forest-land-and-agriculture

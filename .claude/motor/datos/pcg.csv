@@ -1,0 +1,13 @@
+gas,ar5,ar6,fuente,url,verificado_el,notas
+co2,1,1,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Dioxido de carbono: referencia por definicion.
+ch4,28,27.0,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.15,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Metano no fosil. El GHG Protocol pide usar este valor para la combustion de combustibles (evita doble conteo del CO2 de oxidacion).
+ch4_fosil,30,29.8,IPCC AR5 Tabla 8.A.1 nota b / AR6 Tabla 7.15,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Metano fosil: solo para emisiones fugitivas de petroleo gas y carbon y procesos con carbono fosil.
+n2o,265,273,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.15,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Oxido nitroso. Valores sin retroalimentaciones clima-carbono.
+sf6,23500,24300,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Hexafluoruro de azufre. Ojo: el valor 25200 que circula viene de un borrador del AR6 y no es el final.
+nf3,16100,17400,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Trifluoruro de nitrogeno.
+hfc_32,677,771,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.15,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Refrigerante R-32.
+hfc_125,3170,3740,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Componente de mezclas R-410A y R-404A.
+hfc_134a,1300,1530,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Refrigerante de vehiculos y refrigeracion comercial.
+hfc_143a,4800,5810,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Componente de R-404A y R-507.
+hcfc_22,1760,1960,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,R-22. Fuera del alcance del Protocolo de Kioto pero se reporta igual en inventarios corporativos.
+pfc_14,6630,7380,IPCC AR5 Tabla 8.A.1 / AR6 Tabla 7.SM.7,https://www.ipcc.ch/report/ar6/wg1/,2026-09-15,Tetrafluoruro de carbono (CF4).
