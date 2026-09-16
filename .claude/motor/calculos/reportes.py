@@ -63,8 +63,6 @@ DATOS_CONOCIDOS = {
     "huella.calidad_datos": "Calidad de los datos de la huella",
     "huella.set_pcg": "Metodologia y potenciales de calentamiento global usados",
     "agua.indicadores": "Indicadores de agua calculados (resultados/agua_*.json)",
-    # Nunca esta disponible: marca los contenidos en que los datos responden solo una parte.
-    "texto_de_la_empresa": "La parte que no sale de ningun dato y tiene que escribir la empresa",
     "diagnostico": "Diagnostico ESG (seguimiento/diagnostico.json)",
     "metas": "Metas registradas (seguimiento/metas.json)",
 }
@@ -191,6 +189,7 @@ def cargar_contenidos(ruta=None):
                 "dimension": (fila.get("dimension") or "general").strip().lower(),
                 "obligatorio": (fila.get("obligatorio") or "").strip().lower(),
                 "dato_fuente": _lista(fila.get("dato_fuente")),
+                "responde": (fila.get("responde") or "").strip().lower(),
                 "descripcion": (fila.get("descripcion") or "").strip(),
                 "fuente": (fila.get("fuente") or "").strip(),
                 "url": (fila.get("url") or "").strip(),
@@ -274,15 +273,33 @@ def dato_sin_marca(dato):
     return dato[:-1] if dato.endswith("?") else dato
 
 
+# Marcas que pone quien reune los datos cuando un dato existe pero no esta completo:
+# los contenidos que lo usan quedan parciales, no cubiertos.
+DATOS_INCOMPLETOS = {
+    "huella.incompleta": ("huella.", "la huella de carbono tiene filas que no se pudieron calcular y el total "
+                                     "real es mayor"),
+}
+
+
 def _ficha(contenido, disponibles):
     todas = contenido["dato_fuente"]
     fuentes = [f for f in todas if not f.endswith("?")]
     opcionales = [dato_sin_marca(f) for f in todas if f.endswith("?")]
     encontrados = [f for f in fuentes if f in disponibles] + [f for f in opcionales if f in disponibles]
     faltan = [f for f in fuentes if f not in disponibles]
+    incompletos = sorted({motivo for marca, (prefijo, motivo) in DATOS_INCOMPLETOS.items()
+                          if marca in disponibles and any(f.startswith(prefijo) for f in encontrados)})
     if not fuentes:
         estado = "pendiente"
         motivo = "Lo escribe la empresa: no hay ningun dato que lo pueda responder solo."
+    elif not faltan and incompletos:
+        estado = "parcial"
+        motivo = "El dato existe pero esta incompleto: %s." % "; ".join(incompletos)
+    elif not faltan and contenido.get("responde", "parte") != "todo":
+        # Tener el archivo no es tener la respuesta: los datos responden solo una parte de lo que se pide.
+        estado = "parcial"
+        motivo = ("Los datos de la carpeta responden solo una parte de lo que pide este contenido; el resto lo "
+                  "redacta la empresa.")
     elif not faltan:
         estado = "cubierto"
         motivo = "Ya tienes el dato en la carpeta; falta redactarlo y darle contexto."

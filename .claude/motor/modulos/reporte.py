@@ -187,6 +187,17 @@ def _datos_de_huella(ruta_empresa, periodo, claves, detalle, avisos):
             informe.formatear_numero(calidad.get("reportado", 0)),
             informe.formatear_numero(calidad.get("estimado", 0)))
 
+    if resumen.get("completo") is False:
+        # Una huella incompleta no puede llegar a un tercero como si fuera el total.
+        filas = _plural(resumen.get("registros_con_problema") or 0, "fila", "filas")
+        claves.add("huella.incompleta")
+        for clave in [c for c in detalle if c == "huella.total_t_co2e" or c.startswith("huella.por_alcance.")]:
+            detalle[clave] = "%s INCOMPLETA: %s no se pudieron calcular, asi que el total real es mayor." % (
+                detalle[clave], filas)
+        avisos.append("La huella de carbono de %s esta incompleta: %s no se pudieron calcular. El borrador la "
+                      "muestra marcada como incompleta; corrige esas filas y vuelve a calcular antes de publicar."
+                      % (periodo_huella, filas))
+
     if resumen.get("set_pcg"):
         claves.add("huella.set_pcg")
         detalle["huella.set_pcg"] = (
@@ -338,7 +349,8 @@ def _vineta_para(clave, ficha, detalle):
                 if any(palabra in texto for palabra in palabras) and nombre in detalle]
     if elegidas:
         return " ".join(detalle[nombre] for nombre in elegidas)
-    return detalle.get("personas.dotacion") or detalle.get(clave, clave)
+    # Ningun dato de la planilla responde este contenido: no se rellena con la dotacion.
+    return "[La planilla de personas no tiene un dato que responda este contenido: lo redacta la empresa.]"
 
 
 def _clave_busqueda(ficha):
@@ -634,8 +646,10 @@ def _instruccion(ficha):
     """Que tiene que hacer la persona en esta seccion del borrador."""
     if ficha["estado"] == "cubierto":
         return "[Revisa la cifra, explica de donde sale y agrega el contexto del periodo.]"
-    if ficha["estado"] == "parcial":
+    if ficha["estado"] == "parcial" and ficha["faltan"]:
         return "[Escribe el texto con lo que ya tienes y completa lo que falta: %s]" % _faltantes(ficha)
+    if ficha["estado"] == "parcial":
+        return "[%s Completa lo que pide y no esta en la carpeta.]" % ficha["motivo"]
     if ficha["se_redacta"]:
         return "[Escribe aqui la respuesta de la empresa. Si el tema no aplica, dilo y explica por que.]"
     return "[Todavia no tienes este dato. Para llenarlo necesitas: %s]" % _faltantes(ficha)
@@ -653,7 +667,7 @@ def _datos_que_mas_suman(fichas):
         key=lambda x: (-x["contenidos_que_desbloquea"], x["dato"]))[:8]
 
 
-def _bloques_borrador(perfil, marco, periodo, fichas, detalle):
+def _bloques_borrador(perfil, marco, periodo, fichas, detalle, avisos=None):
     hoy = datetime.date.today().strftime("%d-%m-%Y")
     bloques = [
         {"tipo": "titulo", "texto": "Borrador de reporte de sostenibilidad", "nivel": 0},
@@ -669,6 +683,10 @@ def _bloques_borrador(perfil, marco, periodo, fichas, detalle):
         "- Borra las secciones que no correspondan a la empresa, pero deja dicho por que no corresponden.\n"
         "- Cuando termines, guarda el documento y respalda cada cifra con su evidencia.\n"
     ))
+    if avisos:
+        # Lo que el motor advirtio sobre los datos tiene que estar en el documento, no solo en la conversacion.
+        bloques.append({"tipo": "titulo", "texto": "Antes de publicar, revisa esto", "nivel": 1})
+        bloques.append({"tipo": "lista", "items": list(avisos)})
     bloques.append({"tipo": "salto_pagina"})
 
     for grupo in catalogo.agrupar_por_dimension(fichas):
@@ -740,7 +758,7 @@ def borrador(opciones):
         avisos.append("Ya habia un borrador con ese nombre: deje el nuevo como %s para no pisar cambios que "
                       "se hayan hecho en Word." % os.path.basename(destino))
     word.escribir_docx(destino,
-                       _bloques_borrador(perfil, marco, periodo or "sin indicar", fichas, detalle),
+                       _bloques_borrador(perfil, marco, periodo or "sin indicar", fichas, detalle, avisos),
                        titulo="Borrador de reporte %s - %s" % (marco, perfil.get("nombre", "")))
 
     if len(fichas) > 40:
@@ -768,7 +786,7 @@ _COLORES_ESTADO = {"cubierto": "verde", "parcial": "amarillo", "pendiente": "roj
 _PALABRA_ESTADO = {"cubierto": "Cubierto", "parcial": "Parcial", "pendiente": "Pendiente"}
 
 
-def _bloques_indice(perfil, marco, fichas, detalle):
+def _bloques_indice(perfil, marco, fichas, detalle, avisos=None):
     conteo = {estado: len([f for f in fichas if f["estado"] == estado]) for estado in catalogo.ESTADOS}
     bloques = [
         {"tipo": "kpi", "items": [
@@ -793,6 +811,9 @@ def _bloques_indice(perfil, marco, fichas, detalle):
                                    "; ".join(_vineta_para(c, f, detalle) for c in f["encontrados"])
                                    or f["motivo"]]
                                   for f in grupo["contenidos"]]})
+    if avisos:
+        bloques.append({"tipo": "titulo", "texto": "Antes de usar este indice, revisa esto", "nivel": 2})
+        bloques.append({"tipo": "lista", "items": list(avisos)})
     faltan = _datos_que_mas_suman(fichas)
     if faltan:
         bloques.append({"tipo": "titulo", "texto": "Que conviene cargar primero", "nivel": 2})
@@ -817,7 +838,7 @@ def indice(opciones):
     informe.escribir_html(
         destino,
         "Indice de contenidos %s" % marco,
-        _bloques_indice(perfil, marco, fichas, detalle),
+        _bloques_indice(perfil, marco, fichas, detalle, avisos),
         marca=perfil.get("marca") or {},
         subtitulo="%s - %s de %d contenidos con dato disponible" % (
             perfil.get("nombre", ""), len([f for f in fichas if f["estado"] == "cubierto"]), len(fichas)))

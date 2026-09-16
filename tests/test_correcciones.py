@@ -301,11 +301,13 @@ class PruebaBorradorSinRepetir(PruebaConCarpeta):
         self.assertIn("formacion", remuneracion)
         self.assertNotIn("accidente", remuneracion)
 
-    def test_sin_tema_reconocido_muestra_la_dotacion(self):
+    def test_sin_tema_reconocido_no_rellena_con_la_dotacion(self):
+        # Revision independiente: «Permiso parental» recibia la dotacion como si la respondiera.
         detalle = self.reporte._vinetas_de_personas(self.resumen)
         texto = self.reporte._vineta_para(
             "personas.xlsx", {"titulo": "Otra cosa", "descripcion": "Algo distinto."}, detalle)
-        self.assertIn("Dotacion", texto)
+        self.assertNotIn("Dotacion", texto)
+        self.assertIn("lo redacta la empresa", texto)
 
     def test_singular_y_plural(self):
         self.assertEqual(self.reporte._plural(1, "accidente", "accidentes"), "1 accidente")

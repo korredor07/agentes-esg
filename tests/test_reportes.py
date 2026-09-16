@@ -86,7 +86,8 @@ class PruebaCatalogoDeMarcos(unittest.TestCase):
         resultado = reportes.evaluar_cobertura("NIIF S2", datos)
         estados = {f["codigo"]: f["estado"] for f in resultado["contenidos"]}
         self.assertEqual(estados["S2-alcance-1"], "cubierto")
-        self.assertEqual(estados["S2-alcance-2"], "cubierto")
+        # Alcance 2 pide ademas la informacion de los contratos de energia, que no esta en la huella.
+        self.assertEqual(estados["S2-alcance-2"], "parcial")
         self.assertEqual(estados["S2-alcance-3"], "cubierto")
         self.assertGreater(resultado["porcentaje_cobertura"], 0.0)
         self.assertIn("huella.por_alcance.alcance_1", resultado["datos_usados"])

@@ -286,7 +286,9 @@ class PruebaBorradorDeReporte(unittest.TestCase):
                        "huella.total_t_co2e"}
         sin_a3 = reportes._ficha(b3, disponibles)
         con_a3 = reportes._ficha(b3, disponibles | {"huella.por_alcance.alcance_3"})
-        self.assertEqual(sin_a3["estado"], "cubierto")
+        # Sin alcance 3 no falta ningun dato; queda parcial porque B3 pide ademas energia en MWh e intensidad.
+        self.assertEqual(sin_a3["faltan"], [])
+        self.assertEqual(sin_a3["estado"], "parcial")
         self.assertIn("huella.por_alcance.alcance_3", con_a3["encontrados"])
 
     def test_el_agua_ya_calculada_responde_b6_y_gri_303(self):
@@ -654,6 +656,61 @@ class PruebaFilasDeEjemploFueraDeLosCalculos(PruebaConCarpeta):
         claves, _, avisos, _ = reporte.datos_disponibles(perfil, ruta, periodo="2025")
         self.assertNotIn("personas.xlsx", claves)
         self.assertTrue(any("no tiene filas del periodo 2025" in a for a in avisos))
+
+
+class PruebaCoberturaQueNoSeSobrestima(PruebaConCarpeta):
+    """Revision independiente: tener el archivo no es tener la respuesta, y una huella incompleta no es el total."""
+
+    def setUp(self):
+        super(PruebaCoberturaQueNoSeSobrestima, self).setUp()
+        from calculos import reportes
+        from modulos import reporte
+        self.reportes, self.reporte = reportes, reporte
+
+    def _ficha(self, marco, codigo, disponibles):
+        contenido = [c for c in self.reportes.contenidos_de(marco) if c["codigo"] == codigo][0]
+        return self.reportes._ficha(contenido, set(disponibles))
+
+    def test_cada_contenido_con_datos_declara_si_responden_todo_o_una_parte(self):
+        for contenido in self.reportes.cargar_contenidos():
+            nombre = "%s %s" % (contenido["marco"], contenido["codigo"])
+            if contenido["dato_fuente"]:
+                self.assertIn(contenido["responde"], ("todo", "parte"), nombre)
+            else:
+                self.assertEqual(contenido["responde"], "", nombre)
+
+    def test_lo_que_ningun_dato_responde_no_toma_un_dato_prestado(self):
+        for marco, codigo in (("GRI", "401-3"), ("GRI", "205-2"), ("GRI", "403-5"), ("GRI", "403-8"),
+                              ("GRI", "302-2"), ("GRI", "102-3"), ("NCG 519", "519-excepcion-tamano")):
+            self.assertEqual(self._ficha(marco, codigo, {"personas.xlsx", "alcance3.xlsx", "empresa.json"})["estado"],
+                             "pendiente", codigo)
+
+    def test_la_ficha_de_la_empresa_no_cubre_forma_juridica_ni_propiedad(self):
+        self.assertEqual(self._ficha("GRI", "2-1", {"empresa.json"})["estado"], "parcial")
+        self.assertEqual(self._ficha("NCG 461", "461-perfil", {"empresa.json"})["estado"], "parcial")
+        self.assertEqual(self._ficha("GRI", "404-1", {"personas.xlsx"})["estado"], "cubierto")
+
+    def test_no_recomienda_cargar_un_texto(self):
+        resultado = self.reportes.evaluar_cobertura("VSME", set())
+        self.assertFalse(any(d["dato"] == "texto_de_la_empresa" for d in resultado["datos_que_mas_suman"]))
+
+    def test_una_huella_incompleta_queda_parcial_y_marcada_en_el_word(self):
+        import zipfile
+        espacio.crear_empresa({"nombre": "Harinera SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        opciones = {"raiz": self.carpeta, "empresa": "Harinera SpA", "periodo": "2025", "marco": "GRI"}
+        ruta = espacio.cargar_empresa("Harinera SpA", raiz=self.carpeta)[1]
+        with io.open(espacio.ruta_de(ruta, "resultados", "huella_2025.json"), "w", encoding="utf-8") as archivo:
+            json.dump({"total_t_co2e": 12.3, "periodo": "2025", "completo": False, "registros_con_problema": 2,
+                       "por_alcance": {"alcance_1": {"kg_co2e": 12300.0}}}, archivo)
+        cobertura = self.reporte.cobertura(dict(opciones)).resultado
+        self.assertNotIn("305-1", [c["codigo"] for c in cobertura["ya_puedes_reportar"]])
+        self.assertIn("305-1", [c["codigo"] for c in cobertura["te_falta"]])
+        respuesta = self.reporte.borrador(dict(opciones))
+        self.assertTrue(any("esta incompleta" in a for a in respuesta.advertencias))
+        with zipfile.ZipFile(respuesta.resultado["archivo"]) as documento:
+            texto = documento.read("word/document.xml").decode("utf-8")
+        self.assertIn("INCOMPLETA", texto)
+        self.assertIn("Antes de publicar, revisa esto", texto)
 
 
 class PruebaSinCaracteresDeControl(unittest.TestCase):
