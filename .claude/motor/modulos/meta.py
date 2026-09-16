@@ -9,6 +9,7 @@ from calculos import macc as motor_macc
 from calculos import metas as motor_metas
 from nucleo import espacio, excel, informe
 from nucleo.salida import Problema, Respuesta
+from plantillas import definiciones
 
 AYUDA = "Define metas de reduccion, calcula su trayectoria, estima la probabilidad de cumplirlas y arma el plan."
 
@@ -228,15 +229,26 @@ OPCIONES_DINAMICAS = {
 
 
 def _leer_medidas(ruta_empresa):
-    ruta = espacio.ruta_de(ruta_empresa, "datos", "medidas_reduccion.xlsx")
+    # El mismo nombre que crea «plantilla crear --tipo medidas». Antes se buscaba otro
+    # (medidas_reduccion.xlsx) y el plan nunca encontraba la planilla: se sigue leyendo por si existe.
+    ruta = espacio.ruta_de(ruta_empresa, "datos", "medidas.xlsx")
+    anterior = espacio.ruta_de(ruta_empresa, "datos", "medidas_reduccion.xlsx")
+    if not os.path.isfile(ruta) and os.path.isfile(anterior):
+        ruta = anterior
     if not os.path.isfile(ruta):
         raise Problema(
             "No encontre la planilla de medidas de reduccion.",
             "Crea la planilla con: plantilla crear --tipo medidas, y anota que acciones evaluan.",
         )
     tabla = excel.leer_tabla(ruta)
+    _, definicion = definiciones.obtener("medidas")
     medidas = []
+    ejemplos = 0
     for fila in tabla["filas"]:
+        # Las filas de ejemplo son de una empresa inventada: no pueden entrar al plan.
+        if definiciones.es_fila_de_ejemplo(definicion, fila):
+            ejemplos += 1
+            continue
         medidas.append({
             "medida": fila.get("medida") or fila.get("accion") or fila.get("nombre"),
             "capex": fila.get("inversion_capex") or fila.get("inversion") or fila.get("capex"),
@@ -247,21 +259,31 @@ def _leer_medidas(ruta_empresa):
             "notas": fila.get("notas") or "",
             "_fila": fila.get("_fila"),
         })
-    return medidas, ruta
+    if ejemplos and not medidas:
+        raise Problema(
+            "La planilla de medidas solo tiene las filas de ejemplo que trae la plantilla.",
+            "Reemplazalas por las medidas que la empresa esta evaluando, con sus cotizaciones, y vuelve a intentarlo.",
+            {"archivo": ruta},
+        )
+    return medidas, ruta, ejemplos
 
 
 def plan(opciones):
     """Curva de costos de abatimiento con las medidas cargadas."""
     perfil, ruta, ruta_json = _contexto(opciones)
-    medidas, archivo = _leer_medidas(ruta)
+    medidas, archivo, ejemplos = _leer_medidas(ruta)
     datos = _leer_meta(ruta_json)
     brecha = _valor(opciones, "brecha") or (datos.get("ultima_probabilidad") or {}).get("brecha_mediana")
     tasa = float(_valor(opciones, "tasa_descuento") or 0.10)
     resultado = motor_macc.curva(medidas, tasa_descuento=tasa, brecha=brecha)
     resultado["archivo"] = archivo
-    return Respuesta(resultado, advertencias=[
+    advertencias = [
         "Los costos dependen de las cotizaciones que cargaste: revisalas antes de decidir una inversion.",
-        AVISO])
+        AVISO]
+    if ejemplos:
+        advertencias.insert(0, "Deje fuera %d fila(s) de ejemplo de la plantilla: no son medidas de la empresa. "
+                               "Borralas de la planilla cuando puedas." % ejemplos)
+    return Respuesta(resultado, advertencias=advertencias)
 
 
 def informe_html(opciones):

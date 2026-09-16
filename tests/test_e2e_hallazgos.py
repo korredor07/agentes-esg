@@ -170,6 +170,46 @@ class PruebaMetas(PruebaConCarpeta):
         self.assertTrue(os.path.isfile(informe["archivo"]))
 
 
+class PruebaPlanDeMedidas(PruebaConCarpeta):
+    """El plan lee la planilla que crea la plantilla (capa 1: buscaba otro nombre y nunca la encontraba)."""
+
+    def setUp(self):
+        super(PruebaPlanDeMedidas, self).setUp()
+        from modulos import datos, meta, plantilla
+        self.datos, self.meta, self.plantilla = datos, meta, plantilla
+        espacio.crear_empresa({"nombre": "Plan SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Plan SpA"}
+        self.plantilla.crear(dict(self.opciones, tipo="medidas"))
+
+    def test_el_flujo_de_la_skill_llega_al_plan(self):
+        self.datos.escribir(dict(self.opciones, tipo="medidas", filas=json.dumps(
+            [["Paneles solares", 80000, 1500, 12000, 20, 45, "Gerencia", ""]])))
+        respuesta = self.meta.plan(dict(self.opciones, brecha="30"))
+        self.assertTrue(respuesta.resultado["archivo"].endswith("medidas.xlsx"))
+        nombres = json.dumps(respuesta.resultado, ensure_ascii=False)
+        self.assertIn("Paneles solares", nombres)
+        self.assertNotIn("Iluminacion LED en planta", nombres)
+
+    def test_solo_con_los_ejemplos_no_arma_un_plan_inventado(self):
+        from nucleo.salida import Problema
+        with self.assertRaises(Problema) as contexto:
+            self.meta.plan(self.opciones)
+        self.assertIn("ejemplo", contexto.exception.mensaje)
+
+    def test_los_ejemplos_que_quedaron_en_excel_no_entran(self):
+        from nucleo import excel
+        from plantillas import definiciones
+        _, definicion = definiciones.obtener("medidas")
+        ruta = os.path.join(espacio.cargar_empresa("Plan SpA", raiz=self.carpeta)[1], "datos", "medidas.xlsx")
+        hojas = definiciones.hojas_de(definicion, con_ejemplo=True)
+        hojas[1]["filas"] = list(hojas[1]["filas"]) + [["Paneles solares", 80000, 1500, 12000, 20, 45, "", ""]]
+        excel.escribir_xlsx(ruta, hojas)
+        respuesta = self.meta.plan(dict(self.opciones, brecha="30"))
+        self.assertIn("Paneles solares", json.dumps(respuesta.resultado, ensure_ascii=False))
+        self.assertNotIn("Iluminacion LED en planta", json.dumps(respuesta.resultado, ensure_ascii=False))
+        self.assertTrue(any("fila(s) de ejemplo" in a for a in respuesta.advertencias))
+
+
 class PruebaInformeDeHuella(PruebaConCarpeta):
     """El informe va a un cliente: sin instrucciones para el asistente y diciendo lo que quedo fuera."""
 
