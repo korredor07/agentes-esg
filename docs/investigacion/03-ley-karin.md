@@ -2,11 +2,21 @@
 
 Fecha de investigación: 2026-09-15
 
-> **Estado del documento:** EN PROGRESO (archivo parcial, se actualiza por secciones).
+> **Alcance:** insumo normativo para un motor Python de cálculo de plazos legales en días hábiles. Todos los datos llevan artículo, vigencia, URL y etiqueta [VERIFICADO] / [SECUNDARIO] / [NO VERIFICADO].
 
 ## Resumen
 
-(pendiente — se completa al final)
+La **Ley N° 21.643 ("Ley Karin")** se publicó el **15-01-2024** y entró en vigencia el **1 de agosto de 2024** (art. primero transitorio: "el primer día del sexto mes subsiguiente a su publicación"). Modificó el **Código del Trabajo** (arts. 2°, 154 N° 12, 154 bis nuevo, y el Título IV del Libro II: **211-A, 211-B, 211-B bis, 211-C, 211-D y 211-E**) y, para el sector público, las leyes 18.575, 18.834, 18.883 y 18.695. Su cambio conceptual más relevante: el **acoso laboral ya no requiere reiteración** — basta **un solo acto**. Se suma la **violencia en el trabajo ejercida por terceros** (clientes, proveedores, usuarios).
+
+Ha sido modificada dos veces: por la **Ley 21.687** (31-07-2024, corrección de una referencia al Estatuto Municipal) y por la **Ley 21.724** (03-01-2025), que le **agregó el artículo 6** (reporte semestral de denuncias a la SUSESO).
+
+El procedimiento está desarrollado por el **Decreto Supremo N° 21, de 26-05-2024, del Ministerio del Trabajo y Previsión Social** (publicado el **03-07-2024**, vigente desde el 01-08-2024), y complementado por las **Circulares SUSESO N° 3.813 (07-06-2024), 3.819 y 3.825**, que incorporan el protocolo de prevención y el CEAL-SM al Compendio del Seguro de la Ley 16.744.
+
+**Para el motor de plazos, el dato crítico es el art. 1° inciso 2° del DS 21:** *"los plazos contemplados en el presente reglamento serán de días hábiles, entendiéndose que son inhábiles los días sábados, domingos y festivos"*. Los dictámenes **ORD.N°386/10 (03-06-2025)** y **ORD.N°57/04 (26-01-2026)** de la Dirección del Trabajo lo confirman ("30 días hábiles administrativos") y agregan que el plazo **no se suspende** por feriado legal (vacaciones) ni por licencia médica. **La única excepción son los 15 días para aplicar medidas o sanciones: el art. 19 del DS 21 dice expresamente "quince días corridos".**
+
+Cadena de plazos del procedimiento privado: medidas de resguardo **inmediatas** → **3 días hábiles** para informar a la DT o derivar → **30 días hábiles** para concluir la investigación → **2 días hábiles** para remitir el informe a la DT → **30 días hábiles** para el pronunciamiento de la DT (silencio = conclusiones válidas) → **15 días corridos** para aplicar medidas o sanciones.
+
+La sección de **feriados** entrega las tablas 2025-2027 (fecha, nombre, ley, irrenunciabilidad) y las reglas algorítmicas de traslado (Leyes 19.668, 20.299, 20.983) y de los feriados móviles y variables (Pascua, solsticio de invierno de la Ley 21.357), más el tratamiento de los feriados por elecciones (art. 169 Ley 18.700). **En 2026 y 2027 no hay elecciones.**
 
 ## 1. Ley 21.643 "Ley Karin": identificación y vigencia
 
@@ -89,7 +99,16 @@ Contenido mínimo (art. 211-A inciso 3°, literales a) a e)): [VERIFICADO] [1]
 - **Con RIOHS obligatorio:** el art. 154 N° 12 párrafo 1° pasa a exigir "El protocolo de prevención respecto del acoso sexual, laboral y la violencia en el trabajo, y el procedimiento al que se someterán las trabajadoras y los trabajadores, en conformidad a lo dispuesto en el Título IV del Libro II, el que considerará las medidas de resguardo que se adopten respecto de los involucrados y las sanciones que se aplicarán." [1] [VERIFICADO]
 - **Sin RIOHS obligatorio (art. 154 bis nuevo):** el empleador "deberá poner en conocimiento de las trabajadoras y de los trabajadores el protocolo de prevención (…) y el procedimiento de investigación y sanción (…) **al momento de la suscripción del contrato de trabajo**". Además: "Lo anterior deberá constar por escrito y **se incorporará en el Reglamento a que se refiere el artículo 67 de la ley N° 16.744**." Y: "el empleador podrá contar con la **asistencia técnica del organismo administrador** de la ley referida al que se encuentre afiliado." [1] [VERIFICADO]
 
-> **Diferencia por tamaño de empresa:** la Ley Karin NO distingue por número de trabajadores para la obligación sustantiva (todos los empleadores deben tener protocolo y procedimiento). La única diferencia es el **vehículo formal**: quien está obligado a RIOHS (según art. 153 CT: 10 o más trabajadores para el reglamento interno de orden, higiene y seguridad) lo incorpora al RIOHS; quien no lo está usa el art. 154 bis (entrega escrita al contratar + Reglamento del art. 67 Ley 16.744). [VERIFICADO en cuanto al art. 154 bis; el umbral de 10 trabajadores del art. 153 CT queda [NO VERIFICADO] en esta pasada — pendiente de confirmar contra el texto vigente del art. 153 CT.]
+> **Diferencia por tamaño de empresa:** la Ley Karin NO distingue por número de trabajadores para la obligación sustantiva — **todos** los empleadores deben tener protocolo de prevención y procedimiento de investigación. La diferencia es el **vehículo formal**:
+>
+> | Dotación | Instrumento | Norma |
+> |---|---|---|
+> | **10 o más trabajadores permanentes** → obligado a RIOHS | Protocolo + procedimiento **dentro del Reglamento Interno de Orden, Higiene y Seguridad** | Art. 153 inc. 1° CT ("que ocupen normalmente **diez o más trabajadores permanentes**") + art. 154 N° 12 CT |
+> | **Menos de 10** → no obligado a RIOHS | Entrega **por escrito al suscribir el contrato de trabajo** + incorporación al **Reglamento del art. 67 de la Ley 16.744**; puede pedir asistencia técnica al organismo administrador | Art. 154 bis CT |
+>
+> Además, el art. 153 inc. 2° CT obliga a remitir copia del reglamento **al Ministerio de Salud y a la Dirección del Trabajo dentro de los cinco días siguientes a su vigencia**. [VERIFICADO contra el texto vigente del Código del Trabajo en BCN] [27]
+>
+> La otra diferencia por tamaño está en la evaluación de riesgos psicosociales (ver sección 7): las empresas de **menos de 10 trabajadores no están obligadas a aplicar el CEAL-SM**.
 
 ## 5. El Reglamento: Decreto Supremo N° 21 de 2024 del Ministerio del Trabajo
 
@@ -209,15 +228,20 @@ Contenido del Compendio SUSESO, Libro IV, "Capítulo I. Elaboración e implement
 
 ### 8.1 Multas
 
-La Ley 21.643 **no creó un régimen sancionatorio propio**. Se aplica el régimen general del **artículo 506 del Código del Trabajo** (infracciones sin sanción específica), con escala según tamaño de empresa: [SECUNDARIO — texto del art. 506 no verificado directamente contra BCN en esta pasada]
+La Ley 21.643 **no creó un régimen sancionatorio propio**. Se aplica el régimen general del **artículo 506 del Código del Trabajo**: *"Las infracciones a este Código y sus leyes complementarias, que no tengan señalada una sanción especial, serán sancionadas de conformidad a lo dispuesto en los incisos siguientes, **según la gravedad de la infracción**."* [VERIFICADO contra el texto vigente en BCN] [27]
 
-| Tamaño de empresa | Multa (art. 506 CT) |
-|---|---|
-| Micro y pequeña empresa | 1 a 10 UTM |
-| Mediana empresa | 2 a 40 UTM |
-| Gran empresa | 3 a 60 UTM |
+| Tamaño de empresa (art. 505 bis CT) | N° de trabajadores | Multa (art. 506 CT) |
+|---|---|---|
+| Micro empresa | 1 a 9 | **1 a 5 UTM** |
+| Pequeña empresa | 10 a 49 | **1 a 10 UTM** |
+| Mediana empresa | 50 a 199 | **2 a 40 UTM** |
+| Gran empresa | 200 o más | **3 a 60 UTM** |
 
-La clasificación por tamaño del art. 505 bis CT se mide por número de trabajadores (micro 1-9; pequeña 10-49; mediana 50-199; grande 200 y más). [SECUNDARIO — pendiente de verificación directa]
+> **Corrección importante:** muchas guías comerciales agrupan "micro y pequeña: 1 a 10 UTM". El texto vigente del art. 506 CT **distingue** micro (1 a 5 UTM) de pequeña (1 a 10 UTM). Verificado literalmente. [VERIFICADO] [27]
+
+Texto literal del art. 505 bis CT: *"se entenderá por micro empresa aquella que tuviere contratados de 1 a 9 trabajadores, pequeña empresa aquella que tuviere contratados de 10 a 49 trabajadores, mediana empresa aquella que tuviere contratados de 50 a 199 trabajadores y gran empresa aquella que tuviere contratados 200 trabajadores o más."* [VERIFICADO] [27]
+
+**Sustitución de la multa (art. 506 ter CT):** tratándose de **micro y pequeñas empresas** que no hayan reclamado (arts. 503 y 511 CT), el inspector puede autorizar, a solicitud del sancionado y **sólo una vez al año respecto de la misma infracción**, sustituir la multa por (1) incorporación a un programa de asistencia al cumplimiento con asistencia técnica del organismo administrador de la Ley 16.744 (si la multa es por higiene y seguridad), o (2) asistencia obligatoria a programas de capacitación de la DT de hasta dos semanas. **La solicitud debe presentarse dentro del plazo de treinta días de notificada la resolución de multa administrativa.** [VERIFICADO] [27]
 
 La Dirección del Trabajo incorporó las infracciones a la Ley 21.643 a su **tipificador de infracciones**, graduando la multa según gravedad y número de trabajadores afectados. [SECUNDARIO] [7]
 
@@ -381,10 +405,138 @@ Fuente del calendario 2026-2027: [25] (secundaria, exhaustiva y con citas legale
 8. **Feriados regionales/comunales:** 07-06 (Arica y Parinacota) y 20-08 (Chillán y Chillán Viejo). Deben modelarse con ámbito territorial, no nacional.
 9. **No confundir:** el **feriado bancario** (todos los sábados y el 31 de diciembre) **no es feriado de ámbito general** y no debe usarse para contar días hábiles laborales/administrativos. El sábado es inhábil para la Ley Karin por el art. 1° del DS 21, no por ser feriado.
 
+## Tabla de plazos
+
+Leyenda del tipo de día: **H** = días hábiles (se excluyen sábados, domingos y festivos, art. 1° inc. 2° DS 21); **C** = días corridos; **INM** = inmediato, sin plazo numérico.
+
+| # | Hito | Plazo | Tipo | Desde cuándo se cuenta | Artículo | Etiqueta |
+|---|---|---|---|---|---|---|
+| 1 | Adopción de medidas de resguardo por el empleador | INM ("de manera inmediata") | — | Recepción de la denuncia | Art. 211-B bis inc. 2° CT; art. 13 DS 21 | [VERIFICADO] |
+| 2 | La Inspección del Trabajo solicita al empleador medidas de resguardo (denuncia hecha ante la IT) | **2** | H | Recepción de la denuncia por la IT | Art. 211-B bis inc. 3° CT; art. 20 inc. 1° DS 21 | [VERIFICADO] |
+| 3 | Notificación electrónica del art. 508 CT: se entiende notificado | **3** | H | Emisión del correo electrónico registrado en la DT | Art. 20 inc. 1° DS 21 | [VERIFICADO] |
+| 4 | Notificación por carta certificada: se entiende notificado | **6** | H | Recepción por la oficina de correos | Art. 20 inc. 1° DS 21 | [VERIFICADO] |
+| 5 | Empleador informa a la DT el inicio de la investigación interna + medidas de resguardo **o** deriva la denuncia | **3** | H | Recepción de la denuncia | Art. 211-C inc. 1° CT; art. 12 inc. 4° DS 21 | [VERIFICADO] |
+| 6 | Subcontratación/servicios transitorios: remitir la denuncia a quien debe investigar / informar a la empresa principal | **3** | H | Recepción de la denuncia | Art. 24 DS 21 | [VERIFICADO] |
+| 7 | **Conclusión de la investigación** | **30** | H | Presentación de la denuncia; o recepción de la derivación por quien debe investigar (DT o empresa principal) | Art. 211-C inc. 2° CT; art. 17 DS 21; ORD.N°57/04 N°5 | [VERIFICADO] |
+| 8 | Denuncia incompleta o incoherente: plazo para completarla | "plazo razonable" (sin número) | — | Requerimiento del investigador | Art. 15 inc. 2° DS 21; ORD.N°146/13 N°1 | [VERIFICADO] |
+| 9 | Remisión del informe y conclusiones a la DT (vía electrónica) | **2** | H | Finalización de la investigación interna | Art. 18 inc. 1° DS 21 | [VERIFICADO] |
+| 10 | **Pronunciamiento de la Dirección del Trabajo** sobre el informe | **30** | H | Recepción del informe por la DT (certificado de recepción) | Art. 211-C inc. 3° CT; art. 18 inc. 2° DS 21 | [VERIFICADO] |
+| 11 | Silencio de la DT → conclusiones del informe se consideran válidas | al vencer el plazo 10 | H | — | Art. 211-C inc. 3° CT | [VERIFICADO] |
+| 12a | Aplicación de medidas o sanciones — **con** pronunciamiento de la DT | **15** | **C (corridos)** | Notificación del pronunciamiento de la DT | Art. 19 inc. 1° DS 21 | [VERIFICADO] |
+| 12b | Aplicación de medidas o sanciones — **sin** pronunciamiento de la DT | **15** | **C (corridos)** | Vencimiento de los 30 días desde la remisión del informe a la DT | Art. 19 inc. 2° DS 21 | [VERIFICADO] |
+| 12c | (Texto legal, menos preciso) Aplicación de medidas o sanciones | **15** | no especificado en la ley | "desde su recepción" (del informe) | Art. 211-E inc. 1° CT | [VERIFICADO] |
+| 13 | Información de las medidas/sanciones al denunciante y al denunciado | dentro del mismo plazo 12 | C | — | Art. 211-E inc. 2° CT; art. 19 DS 21 | [VERIFICADO] |
+| 14 | Información semestral de canales de denuncia | **semestral** | — | — | Art. 211-A inc. 4° CT; art. 6 letra c) DS 21 | [VERIFICADO] |
+| 15 | Reporte de organismos administradores a la SUSESO | **semestral** | — | — | Art. 6 Ley 21.643 (agregado por Ley 21.724) | [VERIFICADO] |
+| 16 | Informe estadístico consolidado SUSESO → MINTRAB y Consejo Superior Laboral | **enero y julio** de cada año | — | — | Art. 6 inc. 3° Ley 21.643 | [VERIFICADO] |
+| 17 | Reporte estadístico web de la DT | **semestral** | — | — | Art. 26 DS 21 | [VERIFICADO] |
+| — | *Sector público:* notificar a la persona denunciante la resolución que desestima / sobresee / absuelve / sanciona | **5** | días (tipo no especificado) | Dictación del acto | Arts. 126, 137 y 140 Ley 18.834; arts. 124, 135 y 138 Ley 18.883 | [VERIFICADO el número; tipo de día NO VERIFICADO] |
+| — | *Sector público:* reclamo ante la Contraloría General de la República | **20** | días (tipo no especificado) | Desde que tomó conocimiento de la resolución | Arts. 137 y 140 Ley 18.834; arts. 135 y 138 Ley 18.883 | [VERIFICADO el número] |
+| — | *Sector público:* adopción de medidas disciplinarias | **20** | días (tipo no especificado) | Vencimiento de los plazos de instrucción | Art. 143 Ley 18.834; art. 141 Ley 18.883 | [VERIFICADO el número] |
+| — | *Municipal:* poner en conocimiento de la CGR cuando el involucrado es alcalde/concejal/jefatura directa | **3** | **hábiles** (la ley lo dice expresamente) | — | Art. 126 Ley 18.883 | [VERIFICADO] |
+
+> **Alerta para el motor**: los hitos 12a y 12b son los ÚNICOS plazos **en días corridos** del procedimiento Ley Karin. Todo lo demás es en días hábiles. Varias guías comerciales dicen erróneamente "15 días hábiles"; el art. 19 del DS 21 dice literalmente "quince días corridos".
+
+## Cómo contar días hábiles
+
+### Reglas
+
+1. **Regla base (Ley Karin):** art. 1° inciso 2° del DS N°21/2024: *"Salvo disposición en contrario, los plazos contemplados en el presente reglamento serán de días hábiles, entendiéndose que son inhábiles los días **sábados, domingos y festivos**, a menos que expresamente en este reglamento se establezca de otra forma."* [VERIFICADO] [2]
+2. **Confirmación por dictamen:** DT ORD.N°386/10, de 03-06-2025, conclusión 2: *"Los plazos establecidos para llevar a cabo los procedimientos de acoso sexual, laboral y violencia ejercida por terceros ajenos a la relación laboral, serán de días hábiles, entendiéndose que son inhábiles los días sábados, domingos y festivos, conforme a lo dispuesto en el artículo 1° del Reglamento contenido en el Decreto N°21 de 2024."* [VERIFICADO] [10]
+3. **Calificación como "hábiles administrativos":** DT ORD.N°57/04, de 26-01-2026, conclusión 1: *"El plazo establecido para llevar a cabo la investigación (…) es de **30 días hábiles administrativos**, conforme a lo dispuesto en el artículo 1° del Reglamento."* [VERIFICADO] [11]
+4. **NO se suspenden:** DT ORD.N°386/10, conclusión 1: *"La investigación (…) **no se suspende por el uso del feriado legal o la existencia de una licencia médica** de alguna de las personas involucradas en el procedimiento."* [VERIFICADO] [10]
+5. **Excepción:** art. 19 del DS 21 dice expresamente "quince días **corridos**" → ahí se cuentan todos los días del calendario, incluidos sábados, domingos y festivos.
+6. **Día inicial:** el reglamento no lo define. Al calificarse como plazo "hábil administrativo", la regla supletoria es el **art. 25 de la Ley 19.880**, que computa los plazos **desde el día siguiente** al de la notificación o del acto. Este documento asume esa regla. [NO VERIFICADO — el DS 21 no lo dice expresamente y no se encontró dictamen que lo resuelva de forma directa. Ver Pendientes.]
+7. **Feriados a usar:** los feriados nacionales de la sección 10, más los feriados regionales/comunales cuando el establecimiento esté en el territorio respectivo. **No** usar los feriados bancarios (sábados y 31 de diciembre) como festivos generales: los sábados ya son inhábiles por la regla 1, y el 31 de diciembre **no** es festivo para estos efectos.
+
+### Pseudocódigo
+
+```
+inhabil(d) = (d.weekday() in {SAB, DOM}) or (d in FERIADOS_NACIONALES) or (d in FERIADOS_LOCALES[territorio])
+
+sumar_habiles(inicio, n):
+    d = inicio          # día del hecho (denuncia, notificación, recepción)
+    c = 0
+    while c < n:
+        d = d + 1 día
+        if not inhabil(d): c += 1
+    return d            # fecha de vencimiento
+
+sumar_corridos(inicio, n):  return inicio + n días
+```
+
+### Ejemplo resuelto
+
+**Supuesto:** una trabajadora presenta denuncia de acoso laboral **ante su empleador** el **martes 15 de septiembre de 2026**. La empresa decide investigar internamente. Feriados relevantes: viernes **18-09-2026** (Independencia) y sábado **19-09-2026** (Glorias del Ejército); luego lunes **12-10-2026** (Encuentro de Dos Mundos); sábado 31-10 y domingo 01-11 (ya inhábiles por fin de semana).
+
+| Paso | Cálculo | Resultado |
+|---|---|---|
+| Medidas de resguardo | Inmediatas | martes **15-09-2026** |
+| Informar a la DT el inicio de la investigación (3 días hábiles) | 16-09 (1), 17-09 (2) — 18-09 feriado, 19-09 feriado/sábado, 20-09 domingo — 21-09 (3) | vence **lunes 21-09-2026** |
+| Conclusión de la investigación (30 días hábiles desde la denuncia) | día 1 = 16-09; día 10 = 30-09; día 20 = 15-10; día 30 = 29-10 | vence **jueves 29-10-2026** |
+| Remisión del informe a la DT (2 días hábiles) | 30-10 (1) — 31-10 sábado, 01-11 domingo — 02-11 (2) | vence **lunes 02-11-2026** |
+| Pronunciamiento de la DT (30 días hábiles) | desde el 03-11 | vence **martes 15-12-2026** |
+| Aplicar medidas/sanciones (**15 días CORRIDOS**) | 15-12 + 15 días de calendario | vence **miércoles 30-12-2026** |
+
+> Nota: si el empleador hubiera derivado la denuncia a la DT, el plazo de 30 días de investigación se contaría **desde la fecha de recepción de la derivación**, acreditada por el certificado de recepción de la DT (art. 17 DS 21 y ORD.N°57/04 N°5).
+
+## Cambios recientes (2024–2026)
+
+### Normativa
+
+| Fecha | Norma | Cambio | Etiqueta |
+|---|---|---|---|
+| 15-01-2024 | Ley 21.643 publicada | Crea el régimen completo | [VERIFICADO] [1] |
+| 03-07-2024 | DS N°21/2024 MINTRAB publicado | Reglamento de directrices de investigación | [VERIFICADO] [2] |
+| **31-07-2024** | **Ley 21.687** | **Primera modificación de la Ley 21.643**: corrige un error de referencia en el **artículo 4** de la Ley 21.643 — las conductas están en el **art. 82 letras l) y m)** de la Ley 18.883 (Estatuto Municipal), no en el art. 84 | [VERIFICADO en cuanto a que modificó la ley (BCN registra "Última modificación: 31-JUL-2024 - Ley 21687"); el contenido preciso de la corrección es [SECUNDARIO]] [3] |
+| 01-08-2024 | Entrada en vigencia | Ley 21.643 + DS 21 operativos | [VERIFICADO] [1][2] |
+| **03-01-2025** | **Ley 21.724** (reajuste del sector público, "modifica diversos cuerpos legales") | **Agrega el artículo 6 a la Ley 21.643**: reporte semestral de denuncias de los organismos administradores a la SUSESO, obligación del empleador de entregar la información, y envío del informe estadístico consolidado al MINTRAB y al Consejo Superior Laboral en enero y julio. **Verificado por comparación directa de las dos versiones del texto en BCN**: la versión "Texto Original — de 01-AGO-2024 a 02-ENE-2025" **no contiene** el artículo 6; la versión vigente desde el 03-01-2025 sí. | [VERIFICADO] [1][4] |
+| 07-06-2024 / 26-07-2024 / 19-08-2024 | Circulares SUSESO N° 3.813, 3.819 y 3.825 | Asistencia técnica de las mutualidades; modifican los Libros III, IV y V del Compendio | [VERIFICADO] [5] |
+| 03-07-2025 (fecha límite) | Art. 2° transitorio DS 21 | La DT debía tener operativa una plataforma electrónica de denuncias | [VERIFICADO el mandato; su cumplimiento efectivo es NO VERIFICADO] [2] |
+
+### Dictámenes de la Dirección del Trabajo (orden cronológico)
+
+| Dictamen | Fecha | Criterio principal | Etiqueta |
+|---|---|---|---|
+| ORD. N°362/19 | 07-06-2024 | Fija sentido y alcance de la Ley 21.643. La Inspección sólo verifica el cumplimiento procedimental y la **congruencia** entre informe y conclusiones; **no** emite pronunciamiento de fondo ni genera presunción legal (art. 23 DFL N°2 de 1967) | [VERIFICADO] [8][11] |
+| ORD. N°497/21 | 31-07-2024 | Medios idóneos para recibir denuncias | [VERIFICADO la existencia y fecha; contenido SECUNDARIO] [12] |
+| ORD. N°834 | 05-12-2024 | (ordinario concordante) | [NO VERIFICADO el contenido] |
+| **ORD.N°385/9** | **03-06-2025** | *"Para dar inicio al procedimiento de investigación (…) se requiere la **denuncia de la persona afectada, sin que el empleador pueda iniciarlo de oficio**."* Sin perjuicio del deber general de protección | [VERIFICADO] [9] |
+| **ORD.N°386/10** | **03-06-2025** | Plazos en **días hábiles** (sábados, domingos y festivos inhábiles); la investigación **no se suspende** por feriado legal ni licencia médica | [VERIFICADO] [10] |
+| **ORD.N°515/21** | **04-08-2025** | La persona investigadora debe elegirse priorizando a quien tenga formación en acoso/género/DDFF (acreditable por certificación de entidades reconocidas por el Estado); la ley no fija un estándar probatorio expreso, el informe debe exponer **indicios y razonamientos coherentes y congruentes** | [SECUNDARIO en cuanto al detalle; existencia y fecha VERIFICADAS] [12][13] |
+| **ORD.N°57/04** | **26-01-2026** | (1) 30 **días hábiles administrativos**; (2) el plazo del art. 486 CT es sólo para la tutela laboral y **no libera al empleador** de investigar denuncias por hechos antiguos; (3) a hechos anteriores al 01-08-2024 se aplica la **definición de acoso vigente a la fecha de los hechos** (aunque el procedimiento sea el nuevo); (4) ante observaciones de la DT al informe, el empleador debe ajustarse a derecho; (5) en derivación por subcontratación el plazo corre **desde que la empresa que debe investigar recibe la denuncia**; (6) la investigación **siempre** la lleva la empresa principal o usuaria; (7) confidencialidad alcanza a todas las empresas; (8) la DT no es competente si la denunciante es funcionaria pública | [VERIFICADO] [11] |
+| **ORD.N°146/13** | **24-02-2026** | Ante denuncias incompletas hay que dar **plazo razonable** para complementarlas y no se puede prescindir de ellas; las denuncias contra personas del art. 4 inc. 1° CT van **siempre** a la DT; **se requiere identificar a la persona denunciante** para iniciar el procedimiento (sin perjuicio del art. 184 CT) | [VERIFICADO] [14] |
+| **ORD.N°168/15** | **27-02-2026** | Materia relacionada con Ley Karin | [NO VERIFICADO — no se pudo abrir el texto] |
+| **ORD.N°196/17** | **06-03-2026** | Las medidas de resguardo **no pueden ser gravosas ni producir menoscabo**; si se modifica el puesto de trabajo de la denunciante, el empleador debe **garantizar al menos la misma remuneración, incluida la variable**, pagando la diferencia si es necesario | [VERIFICADO] [15] |
+| **ORD.N°214** | **12-03-2026** | La normativa no prohíbe organizar actividades de empresa con consumo de alcohol, pero rige el **deber de protección del art. 184 CT** y esas actividades **deben considerarse en el protocolo de prevención** | [VERIFICADO] [16] |
+
+### Feriados
+- **Ley 21.791** (diciembre 2025) repuso a nivel legal el feriado **bancario** de fin de año y el sabatino. No afecta a los feriados de ámbito general. [SECUNDARIO] [25]
+- **Pausa electoral 2026-2027**: no hay elecciones ni plebiscitos, por lo que no habrá feriados del art. 169 de la Ley 18.700 en esos años. Siguientes: primarias 09-07-2028, elecciones regionales y municipales 29-10-2028 (2ª vuelta regional 26-11-2028), presidenciales y parlamentarias 18-11-2029. [SECUNDARIO] [26]
+
+## Pendientes y dudas
+
+1. **Día inicial del cómputo.** Ni la Ley 21.643 ni el DS 21 dicen si el plazo empieza el mismo día del hecho o el siguiente. Se asumió el art. 25 de la Ley 19.880 ("desde el día siguiente"). **Conviene consultar a la DT o buscar un dictamen específico antes de dejarlo fijo en el motor.**
+2. **Contradicción ley/reglamento en el plazo de sanciones.** El art. 211-E inc. 1° CT dice "quince días contados desde su recepción" (del informe); el art. 19 DS 21 dice "quince días **corridos**" contados desde la **notificación del pronunciamiento de la DT** (o desde el vencimiento de los 30 días). Se recomienda usar la regla del reglamento (es la más específica y la que fiscaliza la DT), pero el punto no está zanjado por dictamen expreso encontrado en esta investigación.
+3. **Texto íntegro del Dictamen 362/19.** Sólo se obtuvo su sumario y las citas reproducidas en el ORD.N°57/04. El PDF completo está en la ficha de la DT y en previsionsocial.gob.cl; conviene leerlo entero antes de codificar reglas de detalle.
+4. **ORD.N°168/15 (27-02-2026)**: identificado en las concordancias de la DT pero no se logró abrir su texto.
+5. **Tipificador de infracciones de la DT para Ley Karin**: la graduación concreta de las multas por cada tipo de incumplimiento (qué conducta es "grave" y cuántas UTM implica) sólo se obtuvo de prensa especializada [SECUNDARIO]; falta la resolución o el tipificador oficial de la DT.
+6. **Números de ley de algunos feriados**: 12 de octubre (¿Ley 3.810?), Morro de Arica (¿Ley 20.663?), Chillán (¿Ley 20.768?), Día Nacional del Trabajo (¿art. 35 CT / Ley 2.200?). No verificados.
+7. **Ley 21.357** (Pueblos Indígenas): el texto del artículo único se tomó de fuentes secundarias; falta leerlo en BCN. Además, **falta definir la fuente astronómica oficial** para determinar el día del solsticio (¿SHOA? ¿decreto anual?) — esto es crítico para el motor.
+8. **Ley 19.668**: el artículo único se obtuvo citado por una fuente secundaria (la búsqueda reproduce el texto); falta confirmarlo leyendo la ficha BCN idNorma=160270.
+9. **Ley 18.700 art. 169**: citado por la DT; falta leerlo en BCN.
+10. **Plataforma electrónica de denuncias de la DT** y **portal/modelo de protocolo oficial de la DT**: no se confirmaron URLs ni si están operativos.
+11. **Periodicidad de reevaluación del riesgo psicosocial** (CEAL-SM) según el Compendio SUSESO: no se obtuvo un intervalo numérico.
+12. **Contraloría**: el Dictamen N° E516610 de 19-07-2024 y su aclaración de 2025 no se verificaron en contraloria.cl.
+13. **Tipo de día (hábil/corrido) de los plazos del sector público** (5 y 20 días): no determinado; probablemente días hábiles administrativos de la Ley 19.880, pero no se verificó.
+14. **Feriados regionales adicionales** (por ejemplo, posibles feriados locales creados en 2025-2026) no fueron barridos exhaustivamente.
+
 ## Fuentes
 
 1. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 21.643**, texto completo (versión 03-01-2025). https://www.bcn.cl/leychile/navegar?idNorma=1200096 — versión de impresión: https://www.bcn.cl/leychile/navegar/imprimir?idNorma=1200096 [OFICIAL]
 2. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Decreto 21, de 26-05-2024, Ministerio del Trabajo y Previsión Social** (publicado 03-07-2024), Reglamento de directrices de investigación. https://www.bcn.cl/leychile/navegar?idNorma=1204689 — impresión: https://www.bcn.cl/leychile/navegar/imprimir?idNorma=1204689 [OFICIAL]
+3. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 21.687**, de 31-07-2024 (primera modificación de la Ley 21.643). https://www.bcn.cl/leychile/navegar?idNorma=1205338 [OFICIAL]
+4. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 21.724**, de 03-01-2025 (reajuste del sector público; agrega el art. 6 a la Ley 21.643). https://www.bcn.cl/leychile/Navegar?idNorma=1209939 [OFICIAL] — verificación por comparación de versiones: https://www.bcn.cl/leychile/navegar/imprimir?idNorma=1200096&idVersion=2024-08-01 (texto original, sin art. 6) vs. https://www.bcn.cl/leychile/navegar/imprimir?idNorma=1200096 (versión vigente, con art. 6)
 5. Superintendencia de Seguridad Social — **Circular N° 3.813, de 07-06-2024**. https://www.suseso.gob.cl/612/w3-article-732037.html [OFICIAL]
 6. Superintendencia de Seguridad Social — **Compendio de Normas del Seguro Social de Accidentes del Trabajo y Enfermedades Profesionales**, Libro IV, "Capítulo I. Elaboración e implementación del protocolo de prevención del acoso sexual, laboral y la violencia en el trabajo". https://www.suseso.gob.cl/613/w3-propertyvalue-726761.html [OFICIAL]
 7. Diario Financiero — "Ya están claras las infracciones por las cuales las empresas podrían ser multadas por Ley Karin". https://www.df.cl/economia-y-politica/laboral-personas/ya-estan-claras-las-infracciones-por-las-cuales-las-empresas-podrian-ser [SECUNDARIO]
@@ -397,3 +549,13 @@ Fuente del calendario 2026-2027: [25] (secundaria, exhaustiva y con citas legale
 14. Dirección del Trabajo — **Dictamen ORD.N°146/13, de 24-02-2026** (denuncias incompletas, denuncia anónima, denuncias contra el art. 4 inc. 1° CT). https://www.dt.gob.cl/legislacion/1624/w3-article-129021.html [OFICIAL]
 15. Dirección del Trabajo — **Dictamen ORD.N°196/17, de 06-03-2026** (medidas de resguardo no pueden mermar la remuneración). https://www.dt.gob.cl/legislacion/1624/w3-article-129067.html [OFICIAL]
 16. Dirección del Trabajo — **ORD.N°214, de 12-03-2026** (actividades de la empresa con consumo de alcohol y deber de protección). https://www.dt.gob.cl/legislacion/1624/w3-article-129095.html [OFICIAL]
+17. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 2.977, de 01-02-1915**, "Fija los días feriados". https://www.bcn.cl/leychile/navegar?idNorma=23639 [OFICIAL]
+18. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 19.668, de 10-03-2000**, "Traslada a los días lunes los feriados que indica". https://www.bcn.cl/leychile/navegar?idNorma=160270&idVersion=2000-03-10 [OFICIAL — el texto del artículo único se obtuvo citado por búsqueda, no leído directamente en esta pasada]
+19. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 19.973, de 10-09-2004** (feriados irrenunciables), versión vigente 30-05-2016. https://www.bcn.cl/leychile/navegar?idNorma=230132 [OFICIAL]
+20. Biblioteca del Congreso Nacional de Chile — Ley Chile, Legislación Temática "FERIADOS" (índice de leyes de feriados). https://www.bcn.cl/leychile/Consulta/listado_n_sel?comp=&agr=2&_grupo_aporte=&sub=1151 [OFICIAL]
+21. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 20.299, de 11-10-2008** (Día Nacional de las Iglesias Evangélicas y Protestantes y su traslado). https://www.bcn.cl/leychile/navegar?idNorma=279294 [OFICIAL]
+22. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 20.983, de 30-12-2016** (feriados 17 de septiembre y 2 de enero). https://www.bcn.cl/leychile/navegar?idNorma=1098384 [OFICIAL]
+23. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 21.357, de 19-06-2021** (Día Nacional de los Pueblos Indígenas, solsticio de invierno). https://www.bcn.cl/leychile/navegar?idNorma=1161743 [OFICIAL — texto citado por fuentes secundarias, no leído directamente]
+24. Dirección del Trabajo — Normativa 3.0, referencia "ley 18.700, artículo 169" (día de elección o plebiscito es feriado legal). https://www.dt.gob.cl/legislacion/1624/w3-propertyvalue-146206.html [OFICIAL — el texto del art. 169 fue citado por fuente secundaria]
+25. feriadoschilenos.cl — "Días Feriados en Chile" (compendio actualizado hasta la Ley 21.791, con listados 2026 y 2027 y normativa asociada). https://www.feriadoschilenos.cl/ [SECUNDARIO — todos los días de la semana y las fechas trasladadas se recalcularon y verificaron algorítmicamente en esta investigación]
+26. El Mostrador — "Cuándo son las próximas elecciones en Chile: así queda el calendario electoral a partir del 2026" (21-12-2025). https://www.elmostrador.cl/datos-utiles/2025/12/21/cuando-son-las-proximas-elecciones-en-chile-asi-queda-el-calendario-electoral-a-partir-del-2026/ [SECUNDARIO]

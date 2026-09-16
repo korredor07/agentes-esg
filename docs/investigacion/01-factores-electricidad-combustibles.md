@@ -788,6 +788,21 @@ CO2e = 2 714,5332574466 kgCO2e/m³
 E = 3 500 L × 2,71453325744664 kgCO2e/L = 9 500,87 kgCO2e = 9,50 tCO2e  (Alcance 1)
 ```
 
+### 8.3-bis Ejemplo del caso trampa — GLP estacionario
+
+El GLP usa **CH4/N2O de la fila "gaseosa" del Cuadro 2.4** (5 / 0,1) pero **coeficiente PCI de LÍQUIDO (0,95)**:
+
+```
+PCI = 12 100 × 0,95 = 11 495 kcal/kg
+E   = 11 495 × 4,1868 × 0,55 × 1 000 ÷ 1e9 = 0,026469993 TJ/m³
+CO2e = 0,026469993 × (63 100×1 + 5×28 + 0,1×265)
+     = 0,026469993 × 63 266,5
+     = 1 674,6640209 kgCO2e/m³
+```
+✔ Coincide con el valor publicado **1 674,6640209139498** [VERIFICADO].
+
+> Si se aplicara erróneamente 0,90 (por tratarlo como gas), el resultado sería **1 586,52 kgCO2e/m³**, un **−5,3 % de subestimación**.
+
 ### 8.4 Alcance 2 — Electricidad, método por ubicación (location-based)
 
 ```
@@ -885,12 +900,32 @@ Cuatro cambios, según la hoja oficial `What's new` [VERIFICADO]:
 
 ### 10.1 Bloqueos de acceso encontrados
 
+**Chile**
+
 | Recurso | Problema | URL exacta |
 |---|---|---|
 | Ministerio de Energía — Indicadores ambientales FE del SEN | **HTTP 403 / conexión rechazada** en todos los intentos (WebFetch y navegador). No se pudo leer la página fuente primaria del Ministerio | https://energia.gob.cl/indicadores-ambientales-factor-de-emisiones-gei-del-sistema-electrico-nacional |
 | Coordinador Eléctrico Nacional | **HTTP 403 / navegación denegada** | https://www.coordinador.cl/novedades/sistema-electrico-redujo-21-sus-emisiones-en-2023-y-se-espera-que-siga-creciendo-participacion-de-energia-renovable-variable/ |
 | Energía Abierta — dataset descargable de FE | Redirige a un **XLSX en SharePoint de la CNE**; no leído | https://3b9x.short.gy/NbpSO1 → https://comisionenergia-my.sharepoint.com/:x:/g/personal/infoestadistica_cne_cl/IQCjzmz_JzmnRaMYs3v1mHVnAX7quhEFMVkcmz89F8UdvmA |
 | Energía Abierta — visualización FE | La página es un contenedor JS; los valores no están en el HTML | https://energiaabierta.cne.cl/visualizaciones/factor-de-emision-sic-sing/ |
+
+**Perú**
+
+| Recurso | Problema | URL exacta |
+|---|---|---|
+| **Calculadora HC-Perú (tabla oficial de factores)** | **Requiere credenciales.** Es la ÚNICA fuente primaria con los valores numéricos del SEIN | https://huellacarbonoperu.minam.gob.pe/huellaperu/#/login |
+| Anexo RM 185-2021 (Guía 2ª versión, texto íntegro) | **HTTP 403** (bloqueo anti-bot del CDN gob.pe) | https://cdn.www.gob.pe/uploads/document/file/2249723/ANEXO%20RM.%20185-2021-MINAM%20-%20Guia%20Funcionamiento%20HC-Peru.pdf.pdf |
+| Anexo RM 110-2020 | HTTP 403 | https://cdn.www.gob.pe/uploads/document/file/868713/ANEXO_RM._110-2020-MINAM__GUIA_PARA_EL_FUNCIONAMIENTO_DE_LA_HUELLA_DE_CARBONO_PERU.pdf |
+| Manuales y plantillas HC-Perú | Enlaces "Clic aquí" son handlers JavaScript sin `href`; destinos no resueltos | https://huellacarbonoperu.minam.gob.pe/huellaperu/#/metodoCalculo |
+
+**Internacional**
+
+| Recurso | Problema | URL exacta |
+|---|---|---|
+| DESNZ hoja `Fuel properties` (densidades oficiales UK) | Solo existe dentro del XLSX; no extraída | https://assets.publishing.service.gov.uk/media/6a29392bade52dc0882218a8/ghg-conversion-factors-2026-full-set.xlsx |
+| IEA Energy Statistics Manual, Anexo 3 (densidades + GCV) | Tabla no extraíble del PDF (196 pp., probablemente vectorizada) | https://iea.blob.core.windows.net/assets/67fb0049-ec99-470d-8412-1ed9201e576f/EnergyStatisticsManual.pdf |
+| SEAI (Irlanda) Conversion Factors | **HTTP 403 Forbidden** | https://www.seai.ie/data-and-insights/seai-statistics/conversion-factors |
+| EN 228 / EN 590 (texto normativo) | Norma CEN **de pago** | https://standards.iteh.ai/catalog/standards/cen/afae4da1-e17c-4def-9e92-19752938de62/en-590-2025 |
 
 > **Mitigación aplicada:** los factores del SEN se obtuvieron de la **base de datos oficial de HuellaChile (MMA)**, que reproduce los valores del Ministerio de Energía y **cita la URL de Energía Abierta como fuente**. Es fuente oficial primaria del MMA y secundaria respecto del Ministerio de Energía. **Queda pendiente el cotejo directo contra Energía Abierta.**
 
@@ -904,6 +939,15 @@ Cuatro cambios, según la hoja oficial `What's new` [VERIFICADO]:
 6. **[NO VERIFICADO] Metodología exacta de Energía Abierta**: no se pudo confirmar en la fuente del Ministerio si el promedio anual es ponderado por generación o por inyección, ni el tratamiento de las importaciones/exportaciones.
 7. **[NO VERIFICADO] Cambio de densidad del petrol 100% mineral en DESNZ** entre 2025 y 2026 (el factor por litro cambió pero el factor por tonelada no). Requiere leer la hoja `Fuel properties`.
 8. **⚠️ DESNZ 2026 — revisión de julio 2026.** El *flat file* fue corregido el 31-jul-2026 "para corregir valores que salían como 0". Los valores reportados aquí provienen del *full set* (Version 1) y son internamente consistentes, pero conviene cotejar contra el flat file revisado: https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx
+9. **[NO VERIFICADO] Factores SEIN 2025 y 2026 de Perú.** No hay fuente pública; requieren login en la plataforma MINAM.
+10. **[NO VERIFICADO] Base de la serie de pérdidas de T&D en Perú.** El valor 2022 es ~100× mayor que 2023–24 y parece aplicarse a MWh perdidos en vez de MWh consumidos. No reconciliado. **No usar la serie completa sin confirmar con MINAM.**
+11. **[NO VERIFICADO] Metodología del factor SEIN peruano** (promedio de red vs OM/BM/CM). No documentada explícitamente por MINAM.
+12. **[NO VERIFICADO] RAGEI Tabla 18, filas desalineadas.** Carbón vegetal, carbón mineral, gas de refinería, etanol, biocombustible y biogás: los valores existen (2,95E-02; 2,67E-02; 6,49E-05; 9,05E-05; 9,05E-05; 6,12E-05) pero no se pudieron asignar con certeza a cada fila. Requiere lectura visual de la pág. 46 del PDF.
+13. **[NO VERIFICADO] Fecha oficial de la Resolución 001-2026-EF/30 (Perú).** Fuentes secundarias dan tres fechas distintas.
+14. **[NO VERIFICADO] Densidades oficiales DESNZ** (hoja `Fuel properties`). Los valores de gasolina 0,750 / diésel 0,832 / kerosene 0,803 / GLP 0,530 kg/L circulan en recopiladores terciarios pero **no se verificaron** contra la hoja oficial.
+15. **[NO VERIFICADO] Cambio de densidad del petrol 100 % mineral en DESNZ** entre 2025 y 2026 (el factor por litro cambió pero el factor por tonelada no).
+
+**Recomendación operativa para Perú:** para un inventario auditable, solicitar a MINAM (huellacarbonoperu@minam.gob.pe) la tabla de factores del año de reporte, o extraerla de la calculadora con cuenta propia. Los valores de §3.1 son utilizables como referencia de trabajo, pero su trazabilidad documental es **indirecta**.
 
 ### 10.3 Archivos fuente para consulta directa (no procesados en su totalidad)
 
@@ -931,9 +975,17 @@ Cuatro cambios, según la hoja oficial `What's new` [VERIFICADO]:
 7. **IPCC (2006)** — *2006 IPCC Guidelines for National Greenhouse Gas Inventories, Volume 2: Energy*. Cap.1 (Tabla 1.2), Cap.2 (Cuadros 2.2, 2.3, 2.4), Cap.3 (Cuadros 3.2.1, 3.2.2, 3.3.1). — https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html
 8. **IPCC (2006)** — *2006 IPCC Guidelines, Volume 3: IPPU*, Cap.7, Cuadro 7.8 (refrigerantes y mezclas).
 9. **IPCC (2013)** — *AR5, WG1, Capítulo 8, Tabla 8.A.1* (PCG a 100 años). — https://www.ipcc.ch/report/ar5/wg1/
-10. **DESNZ (Reino Unido)** — *Greenhouse gas reporting: conversion factors 2026* (publicado 11-06-2026; act. 31-07-2026). — https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026
-11. **DESNZ (Reino Unido)** — *UK Government GHG Conversion Factors for Company Reporting 2026 — full set (XLSX)*. Hojas: `Introduction`, `What's new`, `Fuels`, `WTT- fuels`, `UK electricity`, `Transmission and distribution`, `Outside of scopes`. — https://assets.publishing.service.gov.uk/media/6a29392bade52dc0882218a8/ghg-conversion-factors-2026-full-set.xlsx
-12. **DESNZ (Reino Unido)** — *Government conversion factors for company reporting (colección)*. — https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
-13. **DESNZ (Reino Unido)** — *Greenhouse gas reporting: conversion factors 2025* (publicado 10-06-2025). — https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025
-14. **The National Archives (Reino Unido)** — *Open Government Licence v3.0*. — https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
-15. **CEPAL / Enerdata** — *Base de Información de Eficiencia Energética* (2018). Origen de la tasa de pérdidas T&D de 5,7 % usada por HuellaChile (citado en [1]).
+10. **MINEM / DGEE (Perú)** — *Informe del Reporte Anual de Gases de Efecto Invernadero (RAGEI) 2019, Sector Energía*, Lima 2023. Tablas 17 (factores por defecto), 18 (poderes caloríficos netos peruanos) y 33 (factor nacional de gas natural). — https://infocarbono.minam.gob.pe/wp-content/uploads/2023/05/Informe-RAGEI_2019_Energia_CE_EF_VF.pdf
+11. **MINAM (Perú)** — *RM N° 185-2021-MINAM, Guía para el funcionamiento de la herramienta Huella de Carbono Perú*, 2ª versión (13-10-2021). Deroga la RM N° 237-2020-MINAM.
+12. **MINAM (Perú)** — Plataforma *Huella de Carbono Perú* (requiere login para la calculadora de factores). — https://huellacarbonoperu.minam.gob.pe/
+13. **MINAM (Perú)** — *RD N° 00001-2025-MINAM/VMDERN/DGCCD* (30-01-2025), reconocimiento de estándares de carbono.
+14. **ISA CTM (Perú)** — Informes de Huella de Carbono Corporativa ISO 14064-1, ejercicios 2022, 2023 y 2024, verificados por tercera parte. **Fuente secundaria** de los factores SEIN, con atribución literal "Fuente: MINAM". — https://peru.isaenergia.com/DocumentosISACTM/Reporte%20Sostenibilidad/Informe%20Final%20-%20HC%202024%20CTM%20(VF).pdf
+15. **UNSD (Naciones Unidas)** — *Energy Statistics Yearbook 2009, Tabla IV: Selected conversion factors for crude petroleum and petroleum products* (densidades). — https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf
+16. **UPME / FECOC (Colombia)** — *Informe Final FECOC*, Tabla 2: caracterización de combustibles sólidos y líquidos (densidades, PCS, PCI). — https://app.upme.gov.co/Calculadora_Emisiones1/new/Informe_Final_FECOC_Correcciones_UPME_FunNatura.pdf
+17. **IPCC (2019)** — *2019 Refinement to the 2006 IPCC Guidelines, Volume 2*. Confirma "No refinement" en Cap.1, Cap.2 §2.3.2 y Cap.3. — https://www.ipcc-nggip.iges.or.jp/public/2019rf/vol2.html
+18. **DESNZ (Reino Unido)** — *Greenhouse gas reporting: conversion factors 2026* (publicado 11-06-2026; act. 31-07-2026). — https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026
+19. **DESNZ (Reino Unido)** — *UK Government GHG Conversion Factors for Company Reporting 2026 — full set (XLSX)*. Hojas: `Introduction`, `What's new`, `Fuels`, `WTT- fuels`, `UK electricity`, `Transmission and distribution`, `Outside of scopes`. — https://assets.publishing.service.gov.uk/media/6a29392bade52dc0882218a8/ghg-conversion-factors-2026-full-set.xlsx
+20. **DESNZ (Reino Unido)** — *Government conversion factors for company reporting (colección)*. — https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
+21. **DESNZ (Reino Unido)** — *Greenhouse gas reporting: conversion factors 2025* (publicado 10-06-2025). — https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025
+22. **The National Archives (Reino Unido)** — *Open Government Licence v3.0*. — https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+23. **CEPAL / Enerdata** — *Base de Información de Eficiencia Energética* (2018). Origen de la tasa de pérdidas T&D de 5,7 % usada por HuellaChile (citado en [1]).

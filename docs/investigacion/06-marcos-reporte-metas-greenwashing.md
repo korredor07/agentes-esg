@@ -433,6 +433,153 @@ Además existen las **General Issue Categories**, versión agnóstica de industr
 
 ---
 
+## 5. ESRS / CSRD y VSME (Unión Europea)
+
+### 5.1 El Set 1 de ESRS (Reglamento Delegado (UE) 2023/2772)
+
+**Reglamento Delegado (UE) 2023/2772 de la Comisión, de 31 de julio de 2023**, que completa la Directiva 2013/34/UE en lo relativo a las normas de información sobre sostenibilidad. Publicado en el DOUE el **22 de diciembre de 2023**; primera aplicación para ejercicios iniciados a partir del **1 de enero de 2024**. [VERIFICADO] [38]
+
+Estructura del Anexo I — **12 normas** [VERIFICADO] [38]:
+
+| Grupo | Norma | Título | Contenido (resumen propio) |
+|---|---|---|---|
+| **Transversales** | ESRS 1 | General requirements | Arquitectura general: doble materialidad, cadena de valor, horizontes temporales, debida diligencia, estructura de la declaración de sostenibilidad, incorporación por referencia y disposiciones transitorias. No contiene requisitos de divulgación propios. |
+| | ESRS 2 | General disclosures | Divulgaciones obligatorias **para todas** las empresas en ámbito, sea cual sea el resultado de la materialidad: base de preparación, gobernanza (GOV), estrategia (SBM), gestión de impactos/riesgos/oportunidades (IRO) y métricas y objetivos (MDR). |
+| **Ambientales** | ESRS E1 | Climate change | Plan de transición, políticas, acciones, metas, consumo de energía, emisiones brutas Alcances 1-2-3 y totales, remociones y proyectos de mitigación, créditos de carbono, precio interno del carbono, efectos financieros de riesgos físicos y de transición. |
+| | ESRS E2 | Pollution | Contaminación del aire, agua y suelo; sustancias preocupantes y de muy alta preocupación; microplásticos. |
+| | ESRS E3 | Water and marine resources | Consumo, extracción y vertido de agua; áreas de estrés hídrico; recursos marinos. |
+| | ESRS E4 | Biodiversity and ecosystems | Plan de transición para biodiversidad, sitios en o cerca de áreas sensibles, motores de pérdida, estado de especies y ecosistemas, servicios ecosistémicos. |
+| | ESRS E5 | Resource use and circular economy | Entradas y salidas de recursos, residuos, circularidad. |
+| **Sociales** | ESRS S1 | Own workforce | Trabajadores propios: condiciones laborales, igualdad, otros derechos; incluye métricas de plantilla, brecha salarial, negociación colectiva, salud y seguridad, formación. |
+| | ESRS S2 | Workers in the value chain | Trabajadores de la cadena de valor. |
+| | ESRS S3 | Affected communities | Comunidades afectadas, incluidos pueblos indígenas. |
+| | ESRS S4 | Consumers and end-users | Consumidores y usuarios finales. |
+| **Gobernanza** | ESRS G1 | Business conduct | Conducta empresarial: cultura corporativa, protección de denunciantes, anticorrupción y soborno, actividad de lobby, prácticas de pago a proveedores. |
+
+El Anexo II del Reglamento contiene el glosario/lista de acrónimos y definiciones. [VERIFICADO] [38]
+
+### 5.2 Doble materialidad explicada
+
+La doble materialidad es la regla de decisión que determina **qué** debe reportar la empresa. Un asunto de sostenibilidad es material si lo es por **cualquiera** de estas dos vías (basta con una) [VERIFICADO — concepto de ESRS 1; explicación propia] [38][39]:
+
+| Perspectiva | Pregunta que responde | Criterios típicos |
+|---|---|---|
+| **Materialidad de impacto** ("inside-out") | ¿Qué efectos tiene la empresa, a través de sus operaciones y de su cadena de valor, sobre las personas y el medio ambiente? | Gravedad del impacto (escala, alcance, carácter irremediable) y, para impactos potenciales, **probabilidad**. Para impactos negativos sobre derechos humanos, la gravedad prima sobre la probabilidad. |
+| **Materialidad financiera** ("outside-in") | ¿Qué riesgos y oportunidades de sostenibilidad pueden afectar los flujos de efectivo, el desempeño, la posición financiera, el costo de capital o el acceso a financiación de la empresa en el corto, mediano o largo plazo? | Magnitud potencial del efecto financiero × probabilidad de ocurrencia. |
+
+Puntos prácticos para el skill de materialidad:
+
+1. Las dos perspectivas están **conectadas**: un impacto material hoy suele convertirse en riesgo financiero mañana (vía regulación, reputación, litigio o costo de insumos).
+2. La evaluación debe cubrir **toda la cadena de valor**, no solo las operaciones propias.
+3. El resultado de la evaluación de doble materialidad determina qué ESRS temáticos se aplican; **ESRS 2 se reporta siempre**.
+4. A diferencia de NIIF S1/S2, que solo miran la materialidad financiera, ESRS obliga a las dos. Un mismo dato puede ser material bajo ESRS y no bajo NIIF S2, y viceversa.
+
+> Contraste rápido para el agente: **GRI** = materialidad de impacto; **NIIF S1/S2** = materialidad financiera; **ESRS** = ambas.
+
+### 5.3 Simplificación 2025–2026: Omnibus I y los ESRS revisados
+
+#### Directiva (UE) 2026/470 ("Omnibus I")
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Título | Directiva (UE) 2026/470 del Parlamento Europeo y del Consejo, de **24 de febrero de 2026**, por la que se modifican las Directivas 2006/43/CE, 2013/34/UE, (UE) 2022/2464 y (UE) 2024/1760 | [VERIFICADO] [40] |
+| Publicación en el DOUE | **26 de febrero de 2026** | [VERIFICADO] [40] |
+| Entrada en vigor | **18 de marzo de 2026** | [VERIFICADO] [41] |
+| Plazo de transposición | **19 de marzo de 2027** | [VERIFICADO] [41] |
+| Nuevo umbral CSRD | Empresas que superen **450.000.000 EUR de volumen de negocios neto** **y** una media de **1.000 empleados** en el ejercicio | [VERIFICADO] [40] |
+| Aplicación de los nuevos artículos 19a/29a | Ejercicios iniciados a partir del **1 de enero de 2027** (primeros informes en 2028) | [VERIFICADO] [40] |
+| Nuevo umbral CSDDD (Dir. 2024/1760) | **5.000 empleados** y **1.500.000.000 EUR** de volumen de negocios mundial neto | [VERIFICADO] [40] |
+| Aplicación CSDDD | **26 de julio de 2029** (fecha única para todas las empresas en ámbito); directrices de la Comisión antes del **26 de julio de 2027** | [VERIFICADO] [40] |
+| Responsabilidad civil CSDDD | Se elimina el régimen armonizado a nivel de la Unión; rigen las normas nacionales. Se suprimen las disposiciones sobre plan de transición climática. Tope de sanción: **3 % del volumen de negocios mundial neto** | [VERIFICADO] [40] |
+| **Aseguramiento** | La Comisión debe adoptar normas de **aseguramiento limitado** antes del **1 de julio de 2027** (aplazado desde el 1 de octubre de 2026). **Se elimina por completo** el mandato de adoptar normas de aseguramiento razonable | [VERIFICADO] [40] |
+| **Normas sectoriales** | Se **suprime** la facultad de la Comisión de adoptar normas sectoriales obligatorias; en su lugar, orientación y plantillas **no vinculantes** | [VERIFICADO] [40] |
+| **Tope de cadena de valor** ("value chain cap") | Se crean "empresas protegidas" (menos de 1.000 empleados) con derecho a **rechazar** solicitudes de información que excedan lo previsto en la norma voluntaria; la empresa que reporta debe informarles de ese derecho. Basta una autodeclaración para acreditar el tamaño | [VERIFICADO] [40] |
+| Omisiones permitidas | Información que perjudicaría gravemente la posición comercial, secretos comerciales (Dir. 2016/943), información clasificada o protegida, o cuya divulgación amenace la privacidad o la seguridad | [VERIFICADO] [40] |
+
+#### Reglamento Delegado de ESRS revisados ("ESRS 2026")
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Documento | **C(2026) 5010 final** — Reglamento Delegado de la Comisión por el que se modifica el Reglamento Delegado (UE) 2023/2772 en lo relativo a la simplificación de determinadas normas de información sobre sostenibilidad | [VERIFICADO] [41] |
+| Fecha de adopción | **3 de julio de 2026** | [VERIFICADO] [41] |
+| Asesoramiento técnico de EFRAG | Entregado el **2 de diciembre de 2025**; análisis costo-beneficio y documentos de apoyo el **23 de diciembre de 2025**. Consulta pública de EFRAG sobre los borradores simplificados: **29 de julio – 29 de septiembre de 2025** | [VERIFICADO] [41] |
+| Consulta pública de la Comisión sobre el borrador | Borrador publicado el **6 de mayo de 2026**; consulta cerrada el **3 de junio de 2026** | [SECUNDARIO] [42] |
+| Qué hace | Sustituye íntegramente el Anexo I y el Anexo II del Reglamento 2023/2772 | [VERIFICADO] [41] |
+| Aplicación obligatoria | Ejercicios iniciados a partir del **1 de enero de 2027** | [VERIFICADO] [41] |
+| Aplicación anticipada | Permitida para ejercicios iniciados entre el **1 de enero y el 31 de diciembre de 2026** | [VERIFICADO] [41] |
+| Entrada en vigor | Fecha de adopción + 4 meses + 1 semana (el texto adoptado deja la fecha exacta a la Oficina de Publicaciones). Está sujeto a un periodo de escrutinio del Parlamento y el Consejo de **2 meses, prorrogable 2 meses más**; si no hay objeción, se publica en el DOUE | [VERIFICADO texto del acto] [41] · [SECUNDARIO para el mecanismo de escrutinio] [42] |
+| Reducción de datapoints | **−61 % de datapoints obligatorios** frente al Set 1 de 2023 | [VERIFICADO] [41] |
+| Ahorro estimado (EFRAG) | Ahorro medio del **34 %** de los costos base en cinco años (28 % en 2027, 38 % en 2028, 33–36 % desde 2029); acumulado de **3.700 millones EUR**, hasta **~4.700 millones EUR** (≈44 %) incluyendo efectos de cadena de valor, 2027–2031 | [VERIFICADO] [41] |
+
+**Cambios de fondo más relevantes (resumen propio)** [VERIFICADO] [41]:
+
+- **Materialidad**: enfoque más proporcionado y basado en principios. El texto pasa de "no está obligada a reportar" a "**no deberá** reportar" información no material, salvo circunstancias definidas. Se refuerza el enfoque **descendente (top-down)** para evitar evaluar la materialidad de cada impacto, riesgo u oportunidad individual.
+- **Presentación fiel (fair presentation)**: se aclara que aplica a la declaración de sostenibilidad **en conjunto**, no a cada dato individual.
+- **Agregación/desagregación**: mayor discreción sobre contextos geográficos; el nivel de desagregación usado para evaluar materialidad no obliga a reportar a ese mismo nivel.
+- **Efectos financieros previstos**: se admite explícitamente que implican estimaciones actualizables sin que ello sea un "error"; un año adicional de introducción gradual para información cualitativa y cuantitativa.
+- **Emisiones de GEI**: se permite elegir entre el enfoque de **control financiero** o **control operacional** al definir el límite de reporte (mayor alineación con las normas globales).
+- **Planes de transición climática**: quien reporte un plan con metas no compatibles con 1,5 °C debe **declararlo expresamente**.
+- **Microplásticos**: la exigencia se limita a microplásticos **primarios**.
+- **Contaminantes**: la decisión sobre qué contaminantes son materiales se toma mediante evaluación de gestión según actividad y sector.
+- **Sustancias de muy alta preocupación**: nueva introducción gradual de un año para usuarios de artículos que las contengan.
+
+**Régimen transitorio para ejercicios que comiencen entre el 1-ene-2026 y el 31-dic-2026** — la empresa puede elegir [VERIFICADO] [41]:
+
+(a) los ESRS del Anexo I de 2023/2772 tal como fue modificado por última vez por el Reglamento Delegado (UE) **2025/1416** (de 11 de julio de 2025, sobre aplazamiento de la fecha de aplicación de ciertos requisitos), **o** los ESRS del nuevo Anexo I; **o**
+(b) los ESRS de 2023/2772 (versión 2025/1416) **con** determinados alivios del nuevo Anexo I, entre ellos: ESRS 1 §27 (enfoque descendente de la evaluación de doble materialidad), ESRS 1 §§32-33 (costo/esfuerzo indebido y limitación de cadena de valor) y ESRS 1 §§74-75 (nuevas adquisiciones y enajenaciones).
+
+En cualquier caso, la empresa debe **declarar expresamente en su declaración de sostenibilidad qué versión aplica**. [VERIFICADO] [41]
+
+> ⚠️ Implicación de diseño para el motor: hay que soportar **tres variantes** de ESRS para el ejercicio 2026 (2023/2772 original; 2023/2772 + alivios; ESRS 2026) y una sola desde 2027. Modelar la versión como un parámetro explícito del reporte.
+
+### 5.4 VSME: la norma voluntaria para pymes
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Origen | EFRAG desarrolla el VSME tras la **SME Relief Package** de la Comisión (12 de septiembre de 2023, Acción 14). Entrega la norma a la Comisión en **diciembre de 2024** | [VERIFICADO] [43] |
+| Instrumento vigente | **Recomendación de la Comisión C(2025) 4984 final, de 30 de julio de 2025**, sobre una norma voluntaria de información en materia de sostenibilidad para pequeñas y medianas empresas. Referencia como Recomendación (UE) 2025/1710 | [VERIFICADO el documento C(2025) 4984] [43] · [SECUNDARIO el número 2025/1710] [44] |
+| Naturaleza jurídica | **Recomendación** (art. 292 TFUE): **no vinculante**. Es una "solución intermedia" hasta que se adopte una norma voluntaria por acto delegado bajo el paquete Omnibus | [VERIFICADO] [43] |
+| Destinatarios | Pymes **no cotizadas** y microempresas que quieran reportar voluntariamente; y quienes les piden información (grandes empresas e intermediarios financieros), a quienes se les pide limitar sus peticiones a lo coherente con el VSME | [VERIFICADO] [43] |
+| Aseguramiento | **No se exige**: basta una **autodeclaración** de la pyme. Se considera proporcionado | [VERIFICADO] [43] |
+| Anexos | Anexo I: módulos básico y comprehensivo. Anexo II: guía práctica complementaria de EFRAG | [VERIFICADO] [43] |
+| Relación con Omnibus | El acto delegado que sustituirá esta Recomendación se basará en el VSME, pero su contenido **puede diferir**; define el "tope de cadena de valor" para empresas de hasta 1.000 empleados. La Comisión adoptó un acto delegado con una **norma voluntaria** el **3 de julio de 2026**, junto con los ESRS revisados | [VERIFICADO] [43][45] |
+
+**Regla de uso:** reportar el **módulo básico es prerrequisito** para reportar el módulo comprehensivo. Para microempresas el módulo básico es el "enfoque objetivo" (pueden usar solo partes de él); para pequeñas y medianas es el "requisito mínimo". [VERIFICADO] [43]
+
+#### Módulo básico — B1 a B11 [VERIFICADO — Anexo I de C(2025) 4984] [45]
+
+| Código | Título (original) | Contenido (resumen propio) |
+|---|---|---|
+| B1 | Basis for preparation | Base de preparación: si se usa solo el módulo básico o también el comprehensivo, base individual o consolidada, entidades incluidas, sector, países, sitios, certificaciones. |
+| B2 | Practices, policies and future initiatives for transitioning towards a more sustainable economy | Prácticas, políticas e iniciativas futuras para la transición a una economía más sostenible. |
+| B3 | Energy and greenhouse gas emissions | Consumo de energía y emisiones de GEI (Alcances 1 y 2; Alcance 3 si procede). |
+| B4 | Pollution of air, water and soil | Contaminación del aire, el agua y el suelo (cuando exista obligación legal de informarla). |
+| B5 | Biodiversity | Biodiversidad: sitios en o cerca de áreas sensibles y uso del suelo. |
+| B6 | Water | Captación y consumo de agua. |
+| B7 | Resource use, circular economy and waste management | Uso de recursos, economía circular y gestión de residuos. |
+| B8 | Workforce — General characteristics | Plantilla: características generales (número, tipo de contrato, país, género). |
+| B9 | Workforce — Health and safety | Salud y seguridad: accidentes y fatalidades. |
+| B10 | Workforce — Remuneration, collective bargaining and training | Remuneración (salario mínimo, brecha de género), negociación colectiva y formación. |
+| B11 | Convictions and fines for corruption and bribery | Condenas y multas por corrupción y soborno. |
+
+#### Módulo comprehensivo — C1 a C9 [VERIFICADO — Anexo I de C(2025) 4984] [45]
+
+| Código | Título (original) | Contenido (resumen propio) |
+|---|---|---|
+| C1 | Strategy: Business Model and Sustainability-Related Initiatives | Estrategia: modelo de negocio e iniciativas relacionadas con la sostenibilidad. |
+| C2 | Description of practices, policies and future initiatives for transitioning towards a more sustainable economy | Descripción ampliada de prácticas, políticas e iniciativas de transición. |
+| C3 | GHG reduction targets and climate transition | Metas de reducción de GEI y transición climática. |
+| C4 | Climate risks | Riesgos climáticos (físicos y de transición). |
+| C5 | Additional (general) workforce characteristics | Características adicionales de la plantilla. |
+| C6 | Additional own workforce information — Human rights policies and processes | Políticas y procesos de derechos humanos aplicados a la plantilla propia. |
+| C7 | Severe negative human rights incidents | Incidentes graves de derechos humanos (incluida la cadena de valor). |
+| C8 | Revenues from certain activities and exclusion from EU reference benchmarks | Ingresos de determinadas actividades controvertidas y exclusión de los índices de referencia de la UE. |
+| C9 | Gender diversity ratio in the governance body | Ratio de diversidad de género en el órgano de gobierno. |
+
+> Uso recomendado para "Agentes ESG": el VSME es el **punto de entrada natural** para pymes de Chile y Perú que reciben cuestionarios de bancos o de clientes grandes de la UE. No es obligatorio en LatAm, pero permite responder con una sola estructura y es compatible con el tope de cadena de valor europeo.
+
+---
+
 ## Fórmulas y métodos
 
 (pendiente)
@@ -484,3 +631,11 @@ Además existen las **General Issue Categories**, versión agnóstica de industr
 35. IFRS Foundation — "Understanding SASB Standards" (SICS, estructura de los estándares, relación con NIIF S1/S2). https://www.ifrs.org/issued-standards/sasb-standards/understanding-sasb-standards/
 36. IFRS Foundation — SASB Standards Navigator y Materiality Finder. https://navigator.sasb.ifrs.org/ · https://sasb.ifrs.org/standards/materiality-finder/
 37. IFRS Foundation — "IFRS Sustainability Licensing" y página de licenciamiento de SASB. https://www.ifrs.org/products-and-services/sustainability-products-and-services/ifrs-sustainability-licensing/ · https://sasb.ifrs.org/licensing-use/
+38. EUR-Lex — Reglamento Delegado (UE) 2023/2772 de la Comisión, de 31 de julio de 2023 (ESRS Set 1; Anexos I y II). http://data.europa.eu/eli/reg_del/2023/2772/oj
+39. EFRAG — Sustainability Reporting / ESRS Knowledge Hub. https://www.efrag.org/en/sustainability-reporting · https://knowledgehub.efrag.org/
+40. EUR-Lex — Directiva (UE) 2026/470 del Parlamento Europeo y del Consejo, de 24 de febrero de 2026 ("Omnibus I"). http://data.europa.eu/eli/dir/2026/470/oj
+41. Comisión Europea — C(2026) 5010 final, Reglamento Delegado de 3 de julio de 2026 que modifica el Reglamento Delegado (UE) 2023/2772 en cuanto a la simplificación de determinadas normas de información sobre sostenibilidad (exposición de motivos, considerandos y artículos 1 a 3). https://ec.europa.eu/finance/docs/level-2-measures/csrd-delegated-act-2026-5010_en.pdf · Documento de trabajo: SWD(2026) 500 final, https://ec.europa.eu/finance/docs/level-2-measures/csrd-staff-working-document-2026-500_en.pdf
+42. EFRAG — "European Commission Publishes Delegated Act on Revised ESRS and Voluntary Sustainability Reporting Standard" (noticia, julio 2026). https://www.efrag.org/en/news-and-calendar/news/european-commission-publishes-delegated-act-on-revised-esrs-and-voluntary-sustainability-reporting
+43. Comisión Europea — Recomendación de la Comisión C(2025) 4984 final, de 30 de julio de 2025, sobre una norma voluntaria de información en materia de sostenibilidad para pymes (considerandos 3, 7, 8, 10, 11, 13–16). https://ec.europa.eu/finance/docs/law/250730-recommendation-vsme_en.pdf
+44. [SECUNDARIO] Referencias al número de publicación Recomendación (UE) 2025/1710 en análisis de firmas profesionales (PwC, Linklaters, HSF Kramer).
+45. Comisión Europea — Anexo I de C(2025) 4984 final (norma VSME: módulos básico B1–B11 y comprehensivo C1–C9). https://ec.europa.eu/finance/docs/law/250730-recommendation-vsme-annex-1_en.pdf
