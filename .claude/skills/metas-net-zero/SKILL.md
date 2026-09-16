@@ -27,6 +27,13 @@ La tasa por defecto es **4,2 % anual lineal** (alineamiento con 1,5 °C para
 alcances 1 y 2); para alcance 3 la referencia es 2,5 % anual. Se puede cambiar
 con `--tasa`.
 
+Si la persona dice su meta como un porcentaje total («bajar 42 % al 2030»), no
+la conviertas tú: pásala tal cual y el motor calcula la tasa lineal.
+
+```bash
+python .claude/motor/esg.py meta definir --anio-base 2025 --anio-meta 2030 --reduccion 42
+```
+
 Explícale la diferencia que más confunde: la reducción es **lineal, no
 compuesta**. Bajar 42 % en 10 años equivale a un 5,3 % compuesto anual, no a un
 4,2 %.
@@ -63,6 +70,12 @@ Cómo se lee el resultado:
 | 80 % o más | La meta es creíble con el plan actual | Publicarla con sus supuestos |
 | 50–80 % | Alcanzable, pero sin seguridad | Sumar medidas antes de anunciarla |
 | Menos de 50 % | No es creíble hoy | **No anunciarla** hasta tener plan |
+| «sin estimar» | No hay supuestos: nada que simular | Armar primero el plan con `plan-descarbonizacion` |
+
+Si la persona todavía no tiene medidas ni sabe cuánto va a crecer, el motor
+**no inventa supuestos** y devuelve la probabilidad como «sin estimar»: solo
+muestra dónde quedan las emisiones si nada cambia. Dilo así, sin convertirlo en
+un «0 %», que suena a veredicto cuando en realidad falta información.
 
 La **brecha mediana** que entrega es el número clave: son las toneladas anuales
 que hay que cubrir con medidas concretas. Ese número pasa directo a la skill

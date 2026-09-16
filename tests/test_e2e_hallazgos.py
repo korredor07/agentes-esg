@@ -1,0 +1,182 @@
+# -*- coding: utf-8 -*-
+"""Pruebas de los hallazgos de la prueba E2E con agentes (docs/prueba-e2e.md).
+
+Seis conversaciones simuladas de personas reales encontraron resultados que
+decian algo que no era cierto o que no se podian obtener. Cada clase fija la
+correccion para que no vuelva a pasar.
+"""
+
+import io
+import json
+import os
+import unittest
+
+from ayuda_pruebas import PruebaConCarpeta  # noqa: E402
+
+from calculos import aplicabilidad  # noqa: E402
+from nucleo import espacio  # noqa: E402
+
+RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+class PruebaDesconocidoNoEsNo(unittest.TestCase):
+    """Si nadie dijo si la empresa vende a Europa, lo europeo queda por confirmar."""
+
+    PERFIL = {"nombre": "Duda SpA", "pais": "CL", "trabajadores": 40, "exporta_a_ue": None}
+
+    def test_ninguna_regla_europea_queda_fuera(self):
+        resultado = aplicabilidad.evaluar(self.PERFIL)
+        fuera = [f["id"] for f in resultado["no_aplican"]
+                 if "Union Europea" in f["motivo"] or "Union Europea" in f["norma"]]
+        self.assertEqual(fuera, [])
+        self.assertTrue(any("Union Europea" in f["motivo"] for f in resultado["por_revisar"]))
+
+    def test_la_respuesta_de_la_persona_gana_sobre_el_perfil(self):
+        perfil = dict(self.PERFIL, exporta_a_ue=False)
+        resultado = aplicabilidad.evaluar(perfil, {"exporta_a_ue": "si", "exporta_bienes_cbam": "si"})
+        self.assertTrue(any("frontera" in f["motivo"] for f in resultado["aplican"]))
+
+
+class PruebaEuropa(PruebaConCarpeta):
+
+    def setUp(self):
+        super(PruebaEuropa, self).setUp()
+        from modulos import europa
+        self.europa = europa
+        espacio.crear_empresa({"nombre": "Fruticola Prueba", "pais": "CL", "trabajadores": 85,
+                               "exporta_a_ue": True}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Fruticola Prueba"}
+
+    def test_la_csddd_es_del_cliente_no_del_exportador(self):
+        resultado = self.europa.aplica(dict(self.opciones)).resultado
+        csddd = [m for m in resultado["mecanismos"] if m["id"] == "csddd"][0]
+        self.assertEqual(csddd["estado"], "por el cliente")
+        self.assertNotIn(csddd["norma"], resultado["aplican"])
+
+    def test_cbam_sin_datos_de_planta_igual_orienta(self):
+        resultado = self.europa.cbam(dict(self.opciones, sector="acero", cantidad="30",
+                                          masa_anual_importador="30")).resultado
+        self.assertTrue(resultado["umbral_del_importador"]["exento"])
+        self.assertEqual(resultado["cubierto_por_el_cbam"], "confirmar codigo arancelario")
+        self.assertIn("Anexo I", resultado["en_una_frase"])
+        self.assertIsNone(resultado["emisiones"])
+
+    def test_cbam_sin_masa_explica_el_umbral(self):
+        resultado = self.europa.cbam(dict(self.opciones, sector="cemento", cantidad="100")).resultado
+        self.assertIn("50 t", resultado["en_una_frase"])
+        self.assertIs(resultado["cubierto_por_el_cbam"], True)
+
+
+class PruebaTableroSinAlertasFantasma(PruebaConCarpeta):
+    """Un archivo de alertas viejo no puede mostrar plazos de un caso que no existe."""
+
+    def test_quita_alertas_de_casos_inexistentes(self):
+        from modulos import tablero
+        _, ruta, _ = espacio.crear_empresa({"nombre": "Tablero SpA", "pais": "CL", "trabajadores": 20},
+                                           raiz=self.carpeta)
+        archivo = os.path.join(ruta, "seguimiento", "alertas.json")
+        with io.open(archivo, "w", encoding="utf-8") as destino:
+            json.dump([{"origen": "Ley Karin", "caso": "KARIN-2026-001", "titulo": "Plazo fantasma",
+                        "vence": "2026-09-15", "estado": "vencido", "por_vencer": False, "detalle": ""}],
+                      destino)
+        tablero.generar({"raiz": self.carpeta, "empresa": "Tablero SpA"})
+        with io.open(archivo, encoding="utf-8") as origen:
+            actuales = json.load(origen)
+        self.assertFalse([a for a in actuales if a.get("caso") == "KARIN-2026-001"])
+
+
+class PruebaPlantillaSinEjemplos(PruebaConCarpeta):
+    """Agregar datos a una planilla recien creada no puede arrastrar a la empresa de ejemplo."""
+
+    def test_las_filas_de_ejemplo_no_quedan_mezcladas(self):
+        from modulos import datos, plantilla
+        espacio.crear_empresa({"nombre": "Nueva SpA", "pais": "CL"}, raiz=self.carpeta)
+        opciones = {"raiz": self.carpeta, "empresa": "Nueva SpA"}
+        plantilla.crear(dict(opciones, tipo="consumos"))
+        respuesta = datos.escribir(dict(opciones, tipo="consumos", filas=json.dumps(
+            [["2025-01", "Local", "electricidad", "electricidad", 1000, "kWh", "reportado", "", ""]])))
+        self.assertGreater(respuesta.resultado["filas_de_ejemplo_quitadas"], 0)
+        self.assertEqual(respuesta.resultado["filas_en_la_planilla"], 1)
+        leido = datos.leer(dict(opciones, archivo="consumos.xlsx"))
+        self.assertEqual([f["sitio"] for f in leido["filas"]], ["Local"])
+
+    def test_listar_plantillas_trae_las_columnas(self):
+        from plantillas import definiciones
+        consumos = [p for p in definiciones.listar() if p["tipo"] == "consumos"][0]
+        self.assertIn("Calidad del dato", consumos["columnas"])
+
+
+class PruebaAyudaCompleta(unittest.TestCase):
+    """La ayuda tiene que mostrar las opciones que las skills le ensenan al asistente."""
+
+    def setUp(self):
+        import esg
+        self.esg = esg
+
+    def _opciones(self, modulo, accion):
+        return self.esg.ayuda_de_modulo(modulo)["acciones"][accion]["opciones"]
+
+    def test_opciones_leidas_en_otra_funcion(self):
+        self.assertIn("--correccion", self._opciones("activos", "depreciar"))
+        self.assertIn("--fase", self._opciones("mineria", "informe"))
+        self.assertIn("--anio-meta", self._opciones("meta", "definir"))
+
+    def test_opciones_leidas_de_una_lista(self):
+        self.assertIn("--exporta-bienes-cbam", self._opciones("europa", "aplica"))
+
+
+class PruebaMetas(PruebaConCarpeta):
+    """La meta se dice en porcentaje, y sin supuestos no hay probabilidad que mostrar."""
+
+    def setUp(self):
+        super(PruebaMetas, self).setUp()
+        from modulos import meta
+        self.meta = meta
+        espacio.crear_empresa({"nombre": "Metas SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Metas SpA"}
+
+    def test_reduccion_total_en_porcentaje(self):
+        resultado = self.meta.definir(dict(self.opciones, base="330.69", anio_base="2025", anio_meta="2030",
+                                           reduccion="42")).resultado
+        self.assertAlmostEqual(resultado["meta"]["emisiones_meta"], 191.8, delta=0.1)
+        self.assertEqual(resultado["meta"]["reduccion_pedida_pct"], 42.0)
+
+    def test_reduccion_imposible_se_rechaza(self):
+        from nucleo.salida import Problema
+        with self.assertRaises(Problema):
+            self.meta.definir(dict(self.opciones, base="100", anio_meta="2030", reduccion="150"))
+
+    def test_sin_supuestos_no_inventa_una_probabilidad(self):
+        self.meta.definir(dict(self.opciones, base="330.69", anio_base="2025", anio_meta="2030", reduccion="42"))
+        resultado = self.meta.probabilidad(dict(self.opciones, iteraciones="200")).resultado
+        self.assertIsNone(resultado["probabilidad_pct"])
+        self.assertFalse(resultado["es_una_estimacion"])
+        self.assertIn("no es una probabilidad", resultado["lectura"])
+        informe = self.meta.informe_html(dict(self.opciones))
+        informe = getattr(informe, "resultado", informe)
+        self.assertTrue(os.path.isfile(informe["archivo"]))
+
+
+class PruebaSinCaracteresDeControl(unittest.TestCase):
+    """Un caracter de control escrito por error rompe una expresion regular sin que se vea."""
+
+    def test_ningun_archivo_del_proyecto_los_tiene(self):
+        permitidos = {"\n", "\r", "\t"}
+        culpables = []
+        for carpeta in (".claude", "tests", "docs"):
+            for base, _, archivos in os.walk(os.path.join(RAIZ, carpeta)):
+                if "__pycache__" in base:
+                    continue
+                for nombre in archivos:
+                    if not nombre.endswith((".py", ".md", ".csv", ".json")):
+                        continue
+                    ruta = os.path.join(base, nombre)
+                    with io.open(ruta, encoding="utf-8", errors="replace") as origen:
+                        texto = origen.read()
+                    if any(ord(c) < 32 and c not in permitidos for c in texto):
+                        culpables.append(os.path.relpath(ruta, RAIZ))
+        self.assertFalse(culpables, "Archivos con caracteres de control: %s" % culpables)
+
+
+if __name__ == "__main__":
+    unittest.main()

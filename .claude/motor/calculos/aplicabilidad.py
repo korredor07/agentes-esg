@@ -42,6 +42,15 @@ def _trabajadores(perfil):
         return 0
 
 
+def _exporta_a_ue(perfil, r):
+    """True, False o None: lo que diga la persona gana sobre el perfil; si nadie lo dijo, no se sabe."""
+    respuesta = _si(r.get("exporta_a_ue"))
+    if respuesta is not None:
+        return respuesta
+    perfil_dice = perfil.get("exporta_a_ue")
+    return perfil_dice if isinstance(perfil_dice, bool) else None
+
+
 # --------------------------------------------------------------------------
 # Reglas
 # --------------------------------------------------------------------------
@@ -132,8 +141,11 @@ def _cmf(perfil, r):
 
 
 def _cbam(perfil, r):
-    if not (_si(perfil.get("exporta_a_ue")) or _si(r.get("exporta_a_ue"))):
+    exporta = _exporta_a_ue(perfil, r)
+    if exporta is False:
         return "no aplica", "No exporta a la Union Europea."
+    if exporta is None:
+        return "revisar", "Falta confirmar si venden a la Union Europea, directo o por intermediario."
     if _si(r.get("exporta_bienes_cbam")) is True:
         return "aplica", ("Exporta bienes cubiertos por el mecanismo de ajuste en frontera (hierro y acero, "
                           "aluminio, cemento, fertilizantes, hidrogeno o electricidad): el importador europeo "
@@ -145,8 +157,11 @@ def _cbam(perfil, r):
 
 
 def _eudr(perfil, r):
-    if not (_si(perfil.get("exporta_a_ue")) or _si(r.get("exporta_a_ue"))):
+    exporta = _exporta_a_ue(perfil, r)
+    if exporta is False:
         return "no aplica", "No exporta a la Union Europea."
+    if exporta is None:
+        return "revisar", "Falta confirmar si venden a la Union Europea, directo o por intermediario."
     if _si(r.get("exporta_commodities_eudr")) is True:
         return "aplica", ("Exporta productos cubiertos por el reglamento de deforestacion (ganado, cacao, cafe, "
                           "palma, caucho, soya o madera y sus derivados).")
@@ -157,8 +172,11 @@ def _eudr(perfil, r):
 
 
 def _cadena_valor_ue(perfil, r):
-    if not (_si(perfil.get("exporta_a_ue")) or _si(r.get("exporta_a_ue"))):
+    exporta = _exporta_a_ue(perfil, r)
+    if exporta is False:
         return "no aplica", "No vende a clientes de la Union Europea."
+    if exporta is None:
+        return "revisar", "Falta confirmar si venden a la Union Europea, directo o por intermediario."
     return "aplica", ("Los clientes europeos sujetos a la directiva de reporte de sostenibilidad piden datos a "
                       "sus proveedores. Para pymes fuera de la UE el tope de lo exigible es el estandar "
                       "voluntario VSME.")

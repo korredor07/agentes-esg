@@ -8,7 +8,7 @@ import os
 
 from calculos import puntaje as motor_puntaje
 from nucleo import espacio, evidencias, informe
-from nucleo.salida import Respuesta
+from nucleo.salida import Problema, Respuesta
 
 AYUDA = "Arma un tablero HTML con la huella, el diagnostico, las alertas y el estado de los datos."
 
@@ -48,6 +48,21 @@ def _estado_archivos(ruta_empresa):
     return filas
 
 
+def _refrescar_alertas(opciones):
+    """Rehace las alertas desde sus fuentes antes de mostrarlas.
+
+    El archivo de alertas es un resumen que escriben otros modulos: si quedo viejo,
+    el tablero mostraba plazos «criticos» de un caso de Ley Karin que ya no existe.
+    """
+    from modulos import calendario, karin
+    for rehacer in (karin.alertas, calendario.proximas):
+        try:
+            rehacer(dict(opciones))
+        except Problema:
+            # Un pais sin calendario todavia, por ejemplo: no impide armar el tablero.
+            continue
+
+
 def _alertas(ruta_empresa):
     """Alertas de plazos que dejan otros modulos en seguimiento/alertas.json."""
     datos = _leer_json(os.path.join(ruta_empresa, "seguimiento", "alertas.json")) or []
@@ -68,6 +83,7 @@ def generar(opciones):
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     identificador = opciones.get("empresa") if opciones.get("empresa") is not True else None
     perfil, ruta = espacio.cargar_empresa(identificador, raiz=raiz)
+    _refrescar_alertas(dict(opciones, empresa=perfil.get("carpeta") or identificador))
 
     huella = _ultima_huella(ruta)
     seguimiento = _leer_json(os.path.join(ruta, "seguimiento", "diagnostico.json")) or {}

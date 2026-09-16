@@ -229,7 +229,19 @@ def monte_carlo(configuracion, iteraciones=20000, semilla=20260915):
     media = sum(finales) / len(finales)
     varianza = sum((x - media) ** 2 for x in finales) / max(len(finales) - 1, 1)
     mediana = _percentil(finales, 0.5)
-    if probabilidad >= UMBRAL_CREDIBILIDAD:
+    def _sin_supuesto(definicion):
+        return (definicion.get("tipo", "fijo") == "fijo" and float(definicion.get("valor", 0.0) or 0.0) == 0.0)
+
+    # Sin crecimiento, eficiencia, red ni proyectos no hay nada que sortear: el resultado no es una
+    # probabilidad, es lo que pasa si nada cambia. Presentarlo como «0 % en 20.000 escenarios» engaña.
+    escenario_sin_cambios = (not proyectos and _sin_supuesto(crecimiento) and _sin_supuesto(descarbonizacion)
+                             and _sin_supuesto(eficiencia))
+    if escenario_sin_cambios:
+        lectura = ("Esto no es una probabilidad todavia: sin supuestos de crecimiento, eficiencia ni proyectos, "
+                   "solo muestra que si nada cambia las emisiones quedan en %s y la meta pide %s. Para estimar "
+                   "una probabilidad hacen falta las medidas de reduccion y sus supuestos."
+                   % (round(base, 1), round(objetivo, 1)))
+    elif probabilidad >= UMBRAL_CREDIBILIDAD:
         lectura = "La meta es creible con el plan actual."
     elif probabilidad >= 0.5:
         lectura = "La meta es alcanzable, pero el plan todavia no da seguridad suficiente."
@@ -240,7 +252,9 @@ def monte_carlo(configuracion, iteraciones=20000, semilla=20260915):
         "semilla": semilla,
         "anio_meta": anio_meta,
         "emisiones_meta": objetivo,
-        "probabilidad_pct": round(probabilidad * 100.0, 1),
+        "probabilidad_pct": None if escenario_sin_cambios else round(probabilidad * 100.0, 1),
+        "es_una_estimacion": not escenario_sin_cambios,
+        "cumple_si_nada_cambia": base <= objetivo,
         "media": round(media, 1),
         "desviacion_estandar": round(math.sqrt(varianza), 1),
         "percentiles": {clave: round(_percentil(finales, valor), 1) for clave, valor in

@@ -114,6 +114,19 @@ def definir(opciones):
         valor = _valor(opciones, clave)
         if valor not in (None, ""):
             datos[clave] = float(str(valor).replace(",", "."))
+    reduccion = _valor(opciones, "reduccion")
+    if reduccion not in (None, ""):
+        # La gente dice «bajar 42 % al 2030», no «8,4 % lineal al año».
+        porcentaje = float(str(reduccion).replace(",", ".").replace("%", ""))
+        if porcentaje <= 0 or porcentaje > 100:
+            raise Problema("La reduccion %s %% no tiene sentido." % reduccion,
+                           "Escribela como porcentaje entre 1 y 100, por ejemplo --reduccion 42.")
+        anio_base_reduccion = datos.get("anio_base") or perfil.get("anio_base")
+        if not datos.get("anio_meta") or not anio_base_reduccion:
+            raise Problema("Para convertir la reduccion en una trayectoria necesito el año base y el año meta.",
+                           "Por ejemplo: --reduccion 42 --anio-base 2025 --anio-meta 2030.")
+        datos["tasa"] = porcentaje / 100.0 / (int(datos["anio_meta"]) - int(anio_base_reduccion))
+        datos["reduccion_pedida_pct"] = porcentaje
     if _valor(opciones, "alcances"):
         datos["alcances"] = _valor(opciones, "alcances")
     if opciones.get("meta_alcance_3"):
@@ -202,9 +215,16 @@ def probabilidad(opciones):
                            ("crecimiento", "descarbonizacion_red", "eficiencia", "proyectos")
                            if clave in configuracion}
     datos["ultima_probabilidad"] = {"probabilidad_pct": resultado["probabilidad_pct"],
+                                    "lectura": resultado["lectura"],
                                     "brecha_mediana": resultado["brecha_mediana"]}
     _guardar_meta(ruta_json, datos)
     return Respuesta(resultado, advertencias=[resultado["aviso"], AVISO])
+
+
+# Opciones que definir y trayectoria leen recorriendo tuplas de claves: se declaran para la ayuda.
+OPCIONES_DINAMICAS = {
+    "definir": ["anio_base", "anio_meta", "tasa", "reduccion", "cobertura_alcance_3", "exclusiones_pct"],
+}
 
 
 def _leer_medidas(ruta_empresa):
@@ -273,9 +293,16 @@ def informe_html(opciones):
     probabilidad_guardada = datos.get("ultima_probabilidad")
     if probabilidad_guardada:
         bloques.append({"tipo": "titulo", "texto": "Probabilidad de cumplir", "nivel": 2})
+        pct = probabilidad_guardada.get("probabilidad_pct")
+        if pct is None:
+            bloques.append({"tipo": "nota", "estilo": "aviso",
+                            "texto": probabilidad_guardada.get("lectura") or
+                            "Todavia no hay supuestos para estimar una probabilidad: faltan las medidas de "
+                            "reduccion y cuanto se espera que crezca la empresa."})
         bloques.append({"tipo": "kpi", "items": [
-            {"etiqueta": "Probabilidad estimada", "valor": probabilidad_guardada["probabilidad_pct"],
-             "unidad": "%", "color": "verde" if probabilidad_guardada["probabilidad_pct"] >= 80 else "amarillo"},
+            {"etiqueta": "Probabilidad estimada", "valor": pct if pct is not None else "sin estimar",
+             "unidad": "%" if pct is not None else "",
+             "color": "gris" if pct is None else ("verde" if pct >= 80 else "amarillo")},
             {"etiqueta": "Brecha mediana", "valor": probabilidad_guardada["brecha_mediana"], "unidad": "tCO2e",
              "detalle": "Lo que falta cubrir con medidas"},
         ]})

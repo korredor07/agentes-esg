@@ -63,8 +63,23 @@ class PruebaEspacio(PruebaConCarpeta):
         self.assertEqual(guardado["nombre"], "Alimentos del Sur SpA")
         self.assertEqual(guardado["moneda"], "CLP")
         self.assertEqual(guardado["marca"]["color_primario"], "#1B4332")
-        self.assertEqual(advertencias, [])
+        # Solo avisa lo que de verdad no se sabe: si vende a la Union Europea.
+        self.assertEqual(len(advertencias), 1)
+        self.assertIn("Union Europea", advertencias[0])
+        self.assertIsNone(perfil["exporta_a_ue"])
         self.assertEqual(perfil["anio_base"], 2025)
+
+    def test_lo_que_no_se_sabe_no_se_guarda_como_no(self):
+        # Hallazgo E2E: «no se» terminaba guardado como «no exporta» y el año base se inventaba callado.
+        perfil, _, advertencias = espacio.crear_empresa({"nombre": "Duda SpA", "pais": "CL"}, raiz=self.carpeta)
+        self.assertIsNone(perfil["exporta_a_ue"])
+        self.assertTrue(any("año base provisorio" in a for a in advertencias))
+
+    def test_un_no_explicito_se_guarda_como_no(self):
+        perfil, _, advertencias = espacio.crear_empresa(
+            {"nombre": "Local SpA", "pais": "CL", "anio_base": 2024, "exporta_a_ue": False}, raiz=self.carpeta)
+        self.assertIs(perfil["exporta_a_ue"], False)
+        self.assertEqual(advertencias, [])
 
     def test_pais_por_defecto_avisa(self):
         _, _, advertencias = espacio.crear_empresa({"nombre": "Sin Pais"}, raiz=self.carpeta)

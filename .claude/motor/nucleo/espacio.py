@@ -58,6 +58,8 @@ PAISES.update(PAISES_OTROS)
 def es_de_la_union_europea(codigo):
     """Si la empresa esta en la UE le aplican CSRD, CBAM y EUDR como importadora."""
     return str(codigo or "").strip().upper() in PAISES_UE
+
+
 TAMANOS = ["micro", "pequena", "mediana", "grande"]
 MARCOS = ["GRI", "NIIF S1/S2", "CSRD/ESRS", "VSME", "TCFD", "SASB", "NCG 519", "HuellaChile", "ISO 14064"]
 
@@ -133,7 +135,7 @@ def perfil_nuevo(datos):
         "anio_base": int(anio) if anio not in (None, "") else datetime.date.today().year - 1,
         "periodo_actual": str(datos.get("periodo_actual", "") or datetime.date.today().year),
         "marcos": list(datos.get("marcos") or []),
-        "exporta_a_ue": bool(datos.get("exporta_a_ue", False)),
+        "exporta_a_ue": datos.get("exporta_a_ue") if isinstance(datos.get("exporta_a_ue"), bool) else None,
         "sitios": list(datos.get("sitios") or []),
         "entidades_legales": list(datos.get("entidades_legales") or []),
         "marca": {
@@ -147,6 +149,13 @@ def perfil_nuevo(datos):
     }
     if isinstance(datos.get("marca"), dict):
         perfil["marca"].update(datos["marca"])
+    if anio in (None, ""):
+        advertencias.append(
+            "No me dijiste desde que año quieres medir: deje %d como año base provisorio. Confirmalo con la "
+            "persona y cambialo con: empresa actualizar --anio-base <año>." % perfil["anio_base"])
+    if perfil["exporta_a_ue"] is None:
+        advertencias.append(
+            "No se sabe todavia si la empresa vende a la Union Europea: queda por confirmar, no como «no».")
     return perfil, advertencias
 
 

@@ -42,7 +42,15 @@ def _datos_de(opciones):
     if isinstance(datos.get("marcos"), str):
         datos["marcos"] = [m.strip() for m in datos["marcos"].split(",") if m.strip()]
     if isinstance(datos.get("exporta_a_ue"), str):
-        datos["exporta_a_ue"] = datos["exporta_a_ue"].strip().lower() in ("si", "sí", "true", "1", "y")
+        texto = datos["exporta_a_ue"].strip().lower()
+        # «no se» tiene que quedar como desconocido: guardarlo como «no» dejaba fuera
+        # a la Union Europea sin que nadie lo hubiera dicho.
+        if texto in ("si", "sí", "true", "1", "y", "yes"):
+            datos["exporta_a_ue"] = True
+        elif texto in ("no", "false", "0", "n"):
+            datos["exporta_a_ue"] = False
+        else:
+            datos["exporta_a_ue"] = None
     return datos
 
 
