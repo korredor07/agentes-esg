@@ -1,121 +1,219 @@
 # Guía de uso
 
-Para personas que **no** trabajan en tecnología. Si algo de esta guía no se
-entiende, escríbeselo al asistente: está hecho para explicar.
+Para personas que **no** trabajan en tecnología. Si algo no se entiende,
+escríbeselo al asistente: está hecho para explicar.
 
-## 1. Lo que necesitas la primera vez
+---
+
+## 1. Qué es, en una frase
+
+Un **asistente en español** que mide la huella de carbono de tu empresa, te dice
+qué leyes te aplican, calcula plazos legales y te arma los reportes. Tú
+conversas; él hace los cálculos y te deja los archivos listos en tu computador.
+
+---
+
+## 2. Cómo funciona por dentro (sin tecnicismos)
+
+Piensa en una oficina con tres tipos de trabajo:
+
+| Quién | Qué hace | Parecido a |
+|---|---|---|
+| **El asistente** | Conversa contigo, entiende lo que necesitas y decide cómo resolverlo | La persona que te atiende en la oficina |
+| **Las skills** (36) | Manuales paso a paso para cada tema: huella, Ley Karin, reportes, Europa… | Los procedimientos escritos de la oficina |
+| **Los agentes** (13) | Especialistas a los que el asistente les pasa trabajos largos | Los colegas expertos del segundo piso |
+| **El motor de cálculo** | Hace **todos** los números con datos oficiales, sin internet | La calculadora certificada |
+
+Lo que pasa cuando escribes algo:
+
+```mermaid
+flowchart LR
+    A["Tú escribes<br/>«quiero medir mi huella»"] --> B["El asistente<br/>entiende qué necesitas"]
+    B --> C["Elige el manual<br/>(skill huella-carbono)"]
+    C --> D["El motor calcula<br/>con factores oficiales"]
+    D --> E["Te explica el resultado<br/>en palabras simples"]
+    D --> F["Deja el informe<br/>en tu carpeta"]
+    B -.trabajo largo.-> G["Agente especialista<br/>(ej. agente-carbono)"]
+    G --> D
+```
+
+**Tres reglas que nunca rompe:**
+
+1. **Los números salen del motor**, no de la memoria del asistente. Cada factor
+   dice de dónde viene, de qué año es y con qué licencia se puede usar.
+2. **No inventa.** Si un dato no está verificado, lo dice. Si falta algo, te lo
+   pide o lo marca como pendiente.
+3. **Tus datos no salen de tu computador.** Todo queda en la carpeta `empresas/`.
+
+---
+
+## 3. Lo que necesitas la primera vez
 
 1. **Claude instalado** en tu computador (Windows, Mac o Linux), con cuenta de
-   pago: <https://claude.ai/download>
-2. **La carpeta de Agentes ESG** descargada y descomprimida.
-3. **Python**: si no lo tienes, el asistente te ofrece instalarlo en el primer
-   uso. Es gratis, oficial y no toca tus archivos.
+   pago: <https://claude.ai/download>. Claude Code viene incluido desde el plan
+   Pro.
+2. **La carpeta de Agentes ESG**: en <https://github.com/korredor07/agentes-esg>,
+   botón verde **Code** → **Download ZIP**, y descomprímela en una ruta corta,
+   por ejemplo `C:\agentes-esg` o `Documentos\agentes-esg`.
+3. **Python**: si no lo tienes, el asistente te ofrece instalarlo la primera vez.
+   Es gratis y oficial.
 
-Abre Claude → pestaña **Code** → elige la carpeta `agentes-esg` → escribe
-**hola**. Eso es todo.
+> **Ojo en Windows:** evita guardarla en carpetas muy profundas (por ejemplo,
+> dentro de varias subcarpetas de OneDrive). Windows no acepta rutas de más de
+> 260 caracteres y algunos informes no se podrían guardar. Si pasa, el
+> asistente te lo dice y te explica cómo moverla.
 
-## 2. Lo primero: registrar tu empresa
+---
 
-El asistente te hará unas ocho preguntas simples (nombre, país, a qué se
-dedican, cuántas personas trabajan, cuántos locales tienen, por qué necesitas
-esto, desde qué año quieres medir). Se demora unos diez minutos.
+## 4. Cómo empezar (3 pasos)
 
-Con eso queda creada tu carpeta:
+1. Abre **Claude** → pestaña **Code** → elige la carpeta `agentes-esg`.
+2. Escribe **hola**.
+3. Cuéntale a qué se dedica tu empresa. El asistente la registra con unas
+   pocas preguntas simples.
 
-```
-empresas/mi-empresa/
-├── datos/           tus planillas y documentos
-├── resultados/      los cálculos
-├── reportes/        lo que puedes enviar o imprimir
-├── evidencias/      los respaldos
-└── seguimiento/     lo que está en curso
-```
+> Hay una empresa de ejemplo, **Alimentos del Sur SpA**, con datos inventados,
+> para que veas cómo se ve todo. **No cargues tus datos reales ahí**: registra
+> tu propia empresa.
 
-## 3. Los caminos más comunes
+---
 
-### «Un cliente me pide la huella de carbono»
+## 5. Qué le puedes pedir
 
-1. Dile al asistente: **«quiero medir la huella de carbono del año pasado»**.
-2. Él crea una planilla Excel y te dice exactamente qué llenar.
-3. Si tienes las boletas de luz y las facturas de combustible en PDF o foto,
-   **pásaselas**: él las lee y llena la planilla por ti.
-4. Te entrega el total en toneladas de CO₂ y un informe listo para enviar.
+Escribe con tus palabras. Estos son ejemplos que **se probaron de punta a punta**
+con conversaciones simuladas (ver [prueba-e2e.md](prueba-e2e.md)).
 
-Lo que necesitas juntar: boletas de electricidad del año, litros de combustible
-(vehículos, calderas, generadores), gas, y si hubo recargas de refrigerante.
+### Medir
 
-### «Me llegó algo de la autoridad» o «no sé qué leyes me aplican»
+| Dile algo como… | Lo que obtienes |
+|---|---|
+| «Un cliente me pide la huella de carbono del 2025» | Te pide las boletas, llena las planillas por ti, calcula y te entrega el informe |
+| «Tengo las boletas: luz enero 4.200 kWh, febrero…» | Las carga y calcula. *En la prueba, una panadería de Arequipa: 107,6 toneladas de CO2 al año, el 85 % por la harina* |
+| «¿Cuánto emite mandar 12 toneladas de fruta a Rotterdam?» | Emisiones tramo por tramo. *En la prueba: 3.508 kg; el camión es el 3 % de los km pero el 19 % de las emisiones* |
+| «¿Cuánta agua usamos y en zonas de estrés?» | Indicadores de agua para reportes |
+| «Queremos bajar 42 % al 2030, ¿es creíble?» | Trayectoria año a año y qué falta para cumplirla |
 
-Dile: **«¿qué normas le aplican a mi empresa?»**. Te hará preguntas de sí o no
-(si venden productos envasados, si tienen caldera, si exportan) y te dirá qué
-le aplica, con qué plazos y qué arriesga.
+### Cumplir
 
-Si lo que llegó tiene plazo, dilo de inmediato: eso se atiende primero.
+| Dile algo como… | Lo que obtienes |
+|---|---|
+| «¿Qué leyes me aplican?» | Las normas que te aplican, con plazos y riesgos, y lo que queda por confirmar |
+| «Me llegó una denuncia de acoso el 1 de septiembre» | Todos los plazos legales exactos con feriados. *En la prueba avisó que dos plazos ya habían vencido el 4 de septiembre* |
+| «Vendemos productos envasados, ¿qué nos pide la Ley REP?» | Metas de recolección y valorización del año |
+| «¿Se rompió la cadena de frío?» + las temperaturas | Temperatura cinética media y excursiones. *En la prueba: 4 horas sobre −18 °C, máximo −13 °C* |
+| «¿Cumple nuestro tranque de relaves?» | Revisión contra el DS 248, diciendo qué falta saber |
+| «¿Cómo se deprecia esta camioneta para el SII?» | Vida útil, depreciación normal y acelerada |
 
-### «Me llegó una denuncia de acoso» (Chile)
+### Reportar y comunicar
 
-Dile la fecha exacta en que la empresa recibió la denuncia. El asistente
-calcula todos los plazos legales, te dice qué hay que hacer hoy y prepara los
-documentos. **Involucra desde el primer día a tu asesoría jurídica y a tu
-mutual**: el asistente ordena el proceso, no reemplaza a un abogado.
+| Dile algo como… | Lo que obtienes |
+|---|---|
+| «Necesito un reporte VSME / GRI para un cliente» | Un borrador en Word con lo que ya tienes y lo que falta |
+| «¿Podemos poner "100 % ecológicos" en el envase?» | Revisión anti-greenwashing, con alternativas que sí se pueden decir |
+| «Pídeles los datos de emisiones a mis proveedores» | Carta y cuestionario listos, y a quién perseguir primero |
+| «¿Qué nos va a pedir un verificador externo?» | Lista de revisión y brechas |
+| «¿Cómo vamos? Resumen para el directorio» | Tablero de una página |
 
-### «Necesito un reporte para una licitación o un banco»
+### Exportar a Europa
 
-Dile **«necesito un reporte de sostenibilidad»** y para quién es. Si faltan
-datos, te dirá cuáles y en qué orden conviene conseguirlos.
+| Dile algo como… | Lo que obtienes |
+|---|---|
+| «Mi cliente europeo me pide un montón de datos, ¿qué me aplica?» | Qué te obliga de verdad y qué es solo exigencia del cliente. *En la prueba: a una exportadora de 85 personas no le aplican ni la CSRD ni la CSDDD directamente* |
+| «¿Y si exportamos acero?» | Si el CBAM cubre el producto y si el importador queda bajo el umbral de 50 toneladas |
 
-### «Quiero saber cómo estamos en general»
+Si no sabes qué pedir, escribe **ayuda**.
 
-Dile **«hazme un diagnóstico»**. Obtienes un puntaje, las brechas ordenadas por
-riesgo y los tres primeros pasos concretos.
+---
 
-## 4. Cómo conversar con el asistente
+## 6. Los agentes especialistas
+
+No los tienes que llamar tú: el asistente los usa cuando el trabajo es largo o
+especializado. Conviene saber que existen:
+
+| Agente | Qué hace |
+|---|---|
+| `agente-datos` | Lee y ordena muchas boletas, facturas o planillas |
+| `agente-carbono` | Calcula una huella completa de un año |
+| `agente-auditor` | Revisa un reporte o una afirmación antes de que salga de la empresa |
+| `agente-cumplimiento` | Revisión normativa a fondo en Chile o Perú |
+| `agente-ley-karin` | Acompaña todo el procedimiento de una denuncia |
+| `agente-reportes` | Redacta el borrador de una memoria o reporte |
+| `agente-proveedores` | Pide y procesa los datos de la cadena de suministro |
+| `agente-union-europea` | Revisa todo lo que Europa le exige a un exportador |
+| `agente-mineria` | Seguridad y salud en faenas mineras |
+| `agente-finanzas` | Activos fijos, depreciación y recambio de equipos |
+| `agente-investigador` | Verifica un dato en la fuente oficial cuando puede haber cambiado |
+| `agente-academia` | Capacita a una persona o a un equipo |
+| `agente-crm` | Seguimiento comercial, si eres consultora |
+
+---
+
+## 7. Cómo conversar con el asistente
 
 - Escribe como le escribirías a una persona: «no entiendo qué me piden», «¿esto
   es caro?», «explícamelo más simple».
-- Si te pierdes, escribe **ayuda**.
-- Si algo salió mal, cuéntaselo: «esto no me cuadra, el mes de marzo se ve muy
-  alto».
+- **Si te pregunta algo que no sabes, dile «no sé».** Es mejor que adivinar: lo
+  deja como pendiente en vez de asumir un «no».
+- Si algo no te cuadra, cuéntaselo: «marzo se ve muy alto».
 - Puedes cerrar y volver mañana: todo queda guardado en tu carpeta.
 
-## 5. Dónde queda todo
+---
 
-Los archivos que puedes abrir y enviar están en `empresas/tu-empresa/reportes/`:
+## 8. Dónde queda todo
 
-- Los **.html** se abren con doble clic en el navegador. Para enviarlos por
-  correo, ábrelos y usa Ctrl+P → «Guardar como PDF».
-- Los **.docx** se abren en Word y se pueden editar.
+```
+empresas/tu-empresa/
+├── datos/           las planillas con tus datos
+├── resultados/      los cálculos
+├── reportes/        lo que puedes abrir, imprimir o enviar
+├── evidencias/      los respaldos
+└── seguimiento/     casos, metas y plazos en curso
+```
+
+- Los **.html** se abren con doble clic. Para enviarlos: ábrelos y usa
+  Ctrl+P → «Guardar como PDF».
+- Los **.docx** se abren en Word. Si pides un borrador nuevo, **no se pisa el
+  anterior**: el nuevo queda como `-v2`.
 - Los **.xlsx** se abren en Excel.
 
-## 6. Cuidados
+---
 
-- **Tus datos son tuyos**: se quedan en tu computador. No se suben a internet.
-- **Haz copias de seguridad** de la carpeta `empresas/` (en un disco externo o
-  en tu nube habitual). Si pierdes el computador, pierdes los datos.
-- **Datos de personas**: sueldos, licencias y denuncias son sensibles. Guarda
-  solo lo necesario y no compartas la carpeta completa.
-- **Esto es orientación, no asesoría legal ni una auditoría.** Antes de
-  presentar algo ante una autoridad, un cliente exigente o un auditor, que lo
-  revise un profesional.
-- Si el asistente dice que no tiene un dato verificado, **créele**: es
-  preferible a un número inventado.
+## 9. Lo que no hace y cuidados
 
-## 7. Preguntas frecuentes
+- **Es orientación, no asesoría legal ni una auditoría.** Antes de presentar
+  algo ante una autoridad o un cliente exigente, que lo revise un profesional.
+- **No envía nada por ti** a organismos (SII, RETC, Dirección del Trabajo):
+  prepara los archivos y el envío lo haces tú.
+- **No firma electrónicamente** ni pone sellos de tiempo acreditados.
+- **No trabaja con varias personas a la vez** sobre la misma empresa, ni se
+  conecta a tu ERP: los datos se cargan desde planillas y documentos.
+- **Haz copias de seguridad** de la carpeta `empresas/`.
+- **Datos de personas** (sueldos, denuncias) son sensibles: guarda solo lo
+  necesario y no compartas la carpeta completa.
+- Si dice que no tiene un dato verificado, **créele**: es mejor que un número
+  inventado.
 
-**¿Tengo que saber de computación?** No. Solo conversar y, a lo más, llenar una
+---
+
+## 10. Preguntas frecuentes
+
+**¿Tengo que saber de computación?** No. Conversar y, a lo más, abrir una
 planilla de Excel.
 
-**¿Sirve si soy una empresa chica?** Sí. De hecho está pensado para eso.
+**¿Sirve para una empresa chica?** Sí. Está pensado para eso.
 
-**¿Y si mis datos están incompletos?** Se calcula con lo que hay, se marca como
-estimación y se anota qué falta. Eso es lo correcto; inventar no.
+**¿Y si mis datos están incompletos?** Calcula con lo que hay, lo marca como
+incompleto o estimado y te dice qué falta.
 
-**¿Puedo usarlo para varias empresas?** Sí: cada una tiene su carpeta dentro de
-`empresas/`. Al empezar dile con cuál trabajan hoy.
+**¿Funciona para Perú?** Sí, con una salvedad que el asistente dice siempre:
+para algunos combustibles usa factores de referencia internacionales o
+chilenos, porque no hay uno oficial peruano cargado.
 
-**¿Esto reemplaza a mi consultora?** No. Hace el trabajo repetitivo de medir,
-ordenar y documentar. El criterio profesional y la firma de un especialista
-siguen siendo necesarios cuando hay una obligación formal.
+**¿Puedo usarlo para varias empresas?** Sí: cada una tiene su carpeta. Dile al
+empezar con cuál trabajan hoy.
 
-**¿Cómo lo actualizo?** Si lo bajaste como ZIP, descarga la versión nueva y
-reemplaza la carpeta, conservando tu carpeta `empresas/`.
+**¿Reemplaza a mi consultora?** No. Hace el trabajo repetitivo de medir, ordenar
+y documentar. El criterio profesional sigue siendo necesario.
+
+**¿Cómo lo actualizo?** Descarga la versión nueva y reemplaza la carpeta,
+**conservando tu carpeta `empresas/`**.
