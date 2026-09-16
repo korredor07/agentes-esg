@@ -396,6 +396,21 @@ class PruebaModuloEuropa(PruebaConCarpeta):
         self.assertAlmostEqual(fueleu["penalizacion_eur"], 622088.0, delta=1.0)
         self.assertEqual(fueleu["estado"], "deficit")
 
+    def test_maritimo_solo_fueleu_sin_viaje(self):
+        # Es el ejemplo de la skill maritimo-ets: quien pregunta por FuelEU no trae un viaje.
+        respuesta = self.modulo.maritimo(dict(self.opciones, anio="2025", consumo_anual="10000",
+                                              combustible="HFO", precio_eua="75",
+                                              gwp_ch4="25", gwp_n2o="298"))
+        resultado = respuesta.resultado
+        self.assertIsNone(resultado["ets"])
+        self.assertAlmostEqual(resultado["fueleu"]["penalizacion_eur"], 622088.0, delta=1.0)
+        self.assertIn("FuelEU", resultado["en_una_frase"])
+        self.assertTrue(any(a.startswith("ETS:") for a in respuesta.advertencias))
+
+    def test_maritimo_sin_ningun_dato_sigue_pidiendo_el_viaje(self):
+        with self.assertRaises(Problema):
+            self.modulo.maritimo(dict(self.opciones, anio="2026", precio_eua="75"))
+
     def test_eudr_entrega_la_lista_de_verificacion(self):
         respuesta = self.modulo.eudr(dict(self.opciones, producto="madera",
                                           tamano_operador="mediana"))

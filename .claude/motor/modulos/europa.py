@@ -429,17 +429,23 @@ def maritimo(opciones):
             ocupacion = ocupacion / 100.0
         teu = capacidad * ocupacion
 
-    ets = ue.ets_maritimo_obligacion(
-        anio,
-        tipo_viaje=_valor(opciones, "tipo_viaje", "tercer_pais_ue"),
-        emisiones_viaje_t=_valor(opciones, "emisiones_viaje", None),
-        consumo_toneladas=_valor(opciones, "consumo", None),
-        combustible=_valor(opciones, "combustible", "HFO"),
-        precio_eua_eur=_valor(opciones, "precio_eua", None),
-        teu=teu,
-        incluir_ch4_n2o=bool(incluir),
-        gwp=gwp,
-    )
+    # El ETS se mide por viaje y FuelEU por buque y año: quien pregunta solo por
+    # uno de los dos no tiene por que traer los datos del otro.
+    hay_viaje = _valor(opciones, "consumo", None) or _valor(opciones, "emisiones_viaje", None)
+    hay_buque = _valor(opciones, "consumo_anual", None) or _valor(opciones, "ghgie_actual", None)
+    ets = None
+    if hay_viaje or not hay_buque:
+        ets = ue.ets_maritimo_obligacion(
+            anio,
+            tipo_viaje=_valor(opciones, "tipo_viaje", "tercer_pais_ue"),
+            emisiones_viaje_t=_valor(opciones, "emisiones_viaje", None),
+            consumo_toneladas=_valor(opciones, "consumo", None),
+            combustible=_valor(opciones, "combustible", "HFO"),
+            precio_eua_eur=_valor(opciones, "precio_eua", None),
+            teu=teu,
+            incluir_ch4_n2o=bool(incluir),
+            gwp=gwp,
+        )
 
     # FuelEU se mide por buque y por año completo, no por viaje.
     fueleu = None
@@ -470,26 +476,37 @@ def maritimo(opciones):
                             "calculado_el": datetime.date.today().isoformat()}
     _guardar(ruta_json, guardado)
 
-    advertencias = [AVISO_LEGAL] + ets["advertencias"]
+    advertencias = [AVISO_LEGAL] + (ets["advertencias"] if ets else [])
+    if ets is None:
+        advertencias.append("ETS: no lo calcule porque no me diste un viaje. Para el recargo del mercado de "
+                            "carbono necesito el consumo del viaje en toneladas (--consumo) o sus emisiones "
+                            "(--emisiones-viaje).")
     if isinstance(fueleu, dict) and fueleu.get("no_se_pudo_calcular"):
         advertencias.append("FuelEU: %s %s" % (fueleu["no_se_pudo_calcular"], fueleu["que_necesito"]))
     elif fueleu:
         advertencias.extend(fueleu.get("advertencias") or [])
+
+    if ets:
+        frase = ("El viaje paga %s derechos de emision. Con el precio que indicaste son %s euros%s."
+                 % (round(ets["derechos_a_entregar_t"], 1), round(ets["costo_eur"], 2),
+                    (", o %s euros por contenedor de 20 pies"
+                     % round(ets["recargo_por_teu_eur"], 2)) if ets["recargo_por_teu_eur"] else ""))
+    elif isinstance(fueleu, dict) and fueleu.get("penalizacion_eur") is not None:
+        frase = "La penalizacion FuelEU del buque en %s es de %s euros." % (anio, round(fueleu["penalizacion_eur"], 2))
+    else:
+        frase = "Con estos datos no pude calcular ni el ETS ni FuelEU: revisa las advertencias."
 
     return Respuesta({
         "empresa": perfil.get("nombre"),
         "anio": anio,
         "ets": ets,
         "fueleu": fueleu,
-        "en_una_frase": (("El viaje paga %s derechos de emision. Con el precio que indicaste son %s euros%s."
-                          % (round(ets["derechos_a_entregar_t"], 1), round(ets["costo_eur"], 2),
-                             (", o %s euros por contenedor de 20 pies"
-                              % round(ets["recargo_por_teu_eur"], 2)) if ets["recargo_por_teu_eur"] else ""))),
+        "en_una_frase": frase,
         "son_dos_cosas_distintas": ("El mercado de carbono cobra por las toneladas emitidas y FuelEU castiga "
                                     "la intensidad del combustible. Se pagan los dos y no se compensan entre "
                                     "si: un recargo que los junte sin desglosar hay que cuestionarlo."),
         "fuente": ue.FUENTE,
-    }, advertencias=advertencias, fuentes=ets["articulos"])
+    }, advertencias=advertencias, fuentes=ets["articulos"] if ets else [])
 
 
 # --------------------------------------------------------------------------

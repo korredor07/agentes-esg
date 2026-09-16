@@ -115,7 +115,7 @@ Preguntas concretas que sirven para abrir el tema con una pyme:
 ### 1. Armar el inventario
 
 ```bash
-python .claude/motor/esg.py datos_personales inventario --empresa mi-empresa
+python .claude/motor/esg.py datos_personales inventario
 ```
 
 Entrega la guía, las preguntas en lenguaje cotidiano y la lista de tratamientos

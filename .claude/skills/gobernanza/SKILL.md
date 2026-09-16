@@ -62,7 +62,7 @@ el exigible a su realidad**.
 ### 1. Revisar dónde está parada la empresa
 
 ```bash
-python .claude/motor/esg.py gobernanza revisar --empresa mi-empresa
+python .claude/motor/esg.py gobernanza revisar
 ```
 
 Devuelve el cuestionario guiado (19 preguntas repartidas en políticas, canal de
