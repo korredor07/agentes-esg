@@ -159,6 +159,11 @@ python .claude/motor/esg.py huella calcular
 python .claude/motor/esg.py meta validar
 ```
 
+Si `meta validar` responde que no hay una meta definida, **eso ya es la
+respuesta**: sin una meta de reducción con año base y plan, decir «carbono
+neutral» descansa solo en compensaciones. No definas una meta para poder
+seguir; díselo a la persona y ofrécele trabajarla con `metas-net-zero`.
+
 **«Queremos anunciar nuestra meta».** Antes de publicarla, revisa con la skill
 `metas-net-zero` que tenga año base, alcance cubierto, metodología, supuestos y
 plan. Si la probabilidad de cumplirla es baja, dilo internamente antes de que se
