@@ -15,6 +15,7 @@ potencial de calentamiento global (PCG) del set elegido (AR5 o AR6):
 
 import csv
 import datetime
+import difflib
 import os
 import re
 import unicodedata
@@ -230,6 +231,69 @@ def _puente_por_densidad(una, otra):
     return magnitudes == {"masa", "volumen"}
 
 
+# Palabras que aparecen en muchos nombres y no ayudan a distinguir cual es cual.
+PALABRAS_VAGAS = {"gasto", "compra", "compras", "servicio", "servicios", "de", "del", "la", "el"}
+
+
+def parecidos(factores, recurso, limite=6):
+    """Nombres del catalogo que se parecen a lo que escribio la persona.
+
+    Busca en el nombre y tambien en la descripcion del factor, porque nadie
+    escribe «gasto agricultura» cuando lo que compra es harina. Sirve para que
+    un «no tengo ese factor» venga con alternativas concretas en vez de dejar a
+    la persona adivinando la palabra exacta.
+    """
+    clave = normalizar_recurso(recurso).replace("_", " ")
+    palabras = {p for p in clave.split() if len(p) > 2}
+    utiles = palabras - PALABRAS_VAGAS
+    unicos = {}
+    for factor in factores:
+        unicos.setdefault(factor["recurso"], factor)
+
+    puntuados = []
+    for nombre, factor in unicos.items():
+        del_nombre = set(nombre.replace("_", " ").split())
+        de_notas = set(_clave(factor["notas"]).replace("_", " ").split())
+        similitud = difflib.SequenceMatcher(None, clave, nombre.replace("_", " ")).ratio()
+        puntaje = similitud
+        puntaje += 4.0 * len(utiles & del_nombre)
+        puntaje += 3.0 * len(utiles & de_notas)
+        puntaje += 1.0 * len((palabras & PALABRAS_VAGAS) & del_nombre)
+        if puntaje < 0.7:
+            continue
+        puntuados.append((puntaje, nombre, factor))
+
+    puntuados.sort(key=lambda p: (-p[0], p[1]))
+    return [{"recurso": f["recurso_original"], "unidad": f["unidad"], "alcance": f["alcance"],
+             "uso": f["uso"], "notas": f["notas"]}
+            for _, _, f in puntuados[:limite]]
+
+
+def _sugerencia_sin_factor(factores, recurso):
+    opciones = parecidos(factores, recurso)
+    if not opciones:
+        return ("Mira que nombres existen con: huella factores --uso gasto, o busca por lo que se "
+                "compra: huella factores --recurso <palabra>. Si de verdad no esta, puedo buscar el "
+                "factor en una fuente oficial y agregarlo con su respaldo.")
+    utiles = {p for p in normalizar_recurso(recurso).replace("_", " ").split()
+              if len(p) > 2} - PALABRAS_VAGAS
+    coincide = any(utiles & set(o["recurso"].split()) or
+                   utiles & set(_clave(o["notas"]).replace("_", " ").split())
+                   for o in opciones)
+    listado = "; ".join("«%s» (%s%s)" % (o["recurso"], o["unidad"],
+                                         ", %s" % o["notas"] if o["notas"] else "")
+                        for o in opciones)
+    if not coincide:
+        return ("Ese nombre no existe en el catalogo y ninguno se le parece de verdad. Preguntale a la "
+                "persona que compra exactamente y busca la palabra concreta con: huella factores "
+                "--recurso <lo que compra>. La lista completa de los de gasto sale con: huella factores "
+                "--uso gasto. Algunos del mismo tipo: %s." % listado)
+    return ("En el catalogo hay nombres parecidos: %s. Preguntale a la persona cual describe mejor lo "
+            "que compra (la diferencia entre uno y otro puede ser varias veces el resultado), escribelo "
+            "tal cual en la planilla, y si ninguno calza dimelo para buscar el factor en una fuente "
+            "oficial." % listado)
+
+
 def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=None,
                   categoria=None, uso=None, permitir_densidad=False):
     """Elige el factor mas apropiado y explica por que."""
@@ -242,8 +306,8 @@ def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=
     if not candidatos:
         raise Problema(
             "No tengo un factor de emision para «%s»." % recurso,
-            "Puedo buscarlo en una fuente oficial y agregarlo con su respaldo, o puedes indicarme uno tu.",
-            {"recurso": recurso},
+            _sugerencia_sin_factor(factores, recurso),
+            {"recurso": recurso, "nombres_parecidos": parecidos(factores, recurso)},
         )
 
     advertencias = []

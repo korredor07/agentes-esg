@@ -75,8 +75,11 @@ def _contexto(opciones):
 
 
 def _valor(opciones, clave, por_defecto=None):
+    """Valor de una opcion. La marca True es una opcion escrita sin valor."""
     valor = opciones.get(clave)
-    return valor if valor not in (None, True) else por_defecto
+    if valor is None or valor is True or (isinstance(valor, str) and not valor.strip()):
+        return por_defecto
+    return valor
 
 
 def _crear_planilla(ruta):
@@ -208,11 +211,10 @@ def vida_util(opciones):
 
 def _correccion_para(resultado, opciones, valor, anio_inicio, mes_inicio):
     """Actualiza el valor del bien por correccion monetaria, si lo piden."""
-    anio = _valor(opciones, "correccion") or _valor(opciones, "corregir")
-    if anio in (None, "", False):
+    pedido = opciones.get("correccion", opciones.get("corregir"))
+    if pedido in (None, False, ""):
         return None
-    if anio is True:
-        anio = None
+    anio = pedido if pedido is not True else None
     ejercicio = anio or (resultado.get("anio_inicio") or None)
     if not ejercicio:
         raise Problema(
@@ -308,7 +310,7 @@ def _depreciar_planilla(opciones):
 
 def depreciar(opciones):
     """Tabla de depreciacion de un activo o de todos los de la planilla."""
-    if _valor(opciones, "valor") not in (None, ""):
+    if _valor(opciones, "valor") is not None:
         return _depreciar_uno(opciones)
     return _depreciar_planilla(opciones)
 
@@ -329,12 +331,12 @@ def _resumen(opciones):
     resultado["empresa"] = perfil.get("nombre")
     resultado["archivo"] = archivo
 
-    if opciones.get("corregir") or _valor(opciones, "correccion"):
-        _agregar_correccion(resultado)
+    if opciones.get("corregir") or opciones.get("correccion"):
+        _agregar_correccion(resultado, _valor(opciones, "porcentaje"))
     return perfil, ruta_empresa, resultado
 
 
-def _agregar_correccion(resultado):
+def _agregar_correccion(resultado, porcentaje=None):
     """Actualiza el valor de compra de cada activo por correccion monetaria."""
     ejercicio = resultado["ejercicio"]
     total = 0.0
@@ -343,7 +345,8 @@ def _agregar_correccion(resultado):
         try:
             correccion = motor_activos.correccion_monetaria(
                 activo["valor"], ejercicio,
-                mes_adquisicion=activo["mes_inicio"], anio_adquisicion=activo["anio_inicio"])
+                mes_adquisicion=activo["mes_inicio"], anio_adquisicion=activo["anio_inicio"],
+                porcentaje=porcentaje)
         except Problema as problema:
             aviso = "%s %s" % (problema.mensaje, problema.sugerencia)
             break
@@ -354,6 +357,10 @@ def _agregar_correccion(resultado):
         resultado["advertencias"].append(aviso)
     else:
         resultado["totales"]["inversion_actualizada"] = motor_activos.redondear(total)
+        if porcentaje not in (None, ""):
+            resultado["advertencias"].append(
+                "Use el %s %% de correccion monetaria que me indicaste para todos los activos. Confirmalo "
+                "con tu contador o con la tabla del SII antes de usarlo en una declaracion." % porcentaje)
         resultado["advertencias"].append(
             "El valor de compra de cada activo quedo actualizado al 31 de diciembre de %d (%s). En la "
             "declaracion se actualiza el valor neto y sobre ese valor se calcula la cuota del ejercicio."
@@ -450,7 +457,6 @@ def informe_html(opciones):
 
 ACCIONES = {
     "vida-util": vida_util,
-    "vida_util": vida_util,
     "depreciar": depreciar,
     "cartera": cartera,
     "informe": informe_html,

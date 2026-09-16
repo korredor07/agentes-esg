@@ -628,3 +628,255 @@ Reglas adicionales confirmadas [17] [SECUNDARIO]:
 Ver el desarrollo numérico completo en **§8.4 "Fórmulas y métodos"**.
 
 ---
+
+## 6. Cadena de frío
+
+### 6.1 Temperatura cinética media (MKT)
+
+**Norma de referencia:** USP General Chapter **⟨1079.2⟩ *Mean Kinetic Temperature in the Evaluation of Temperature Excursions During Storage and Transportation of Drug Products***. [SECUNDARIO] [18] — `usp.org` y `uspnf.com` devuelven HTTP 403 a peticiones automatizadas; la ecuación y los valores se obtuvieron de resultados de búsqueda que citan el capítulo, y coinciden con la formulación original de **Haynes (1971)** y con ICH Q1A(R2).
+
+**Ecuación** (derivada de Arrhenius):
+
+```
+        ΔH / R
+MKT = ─────────────────────────────────────────────────
+       − ln[ ( e^(−ΔH/(R·T₁)) + … + e^(−ΔH/(R·Tₙ)) ) / n ]
+```
+
+| Símbolo | Significado | Valor por defecto | Unidad |
+|---|---|---|---|
+| `ΔH` | Entalpía (calor) de activación. Se usa el valor por defecto **salvo que haya información experimental más precisa** del producto | **83,144** | kJ/mol |
+| `R` | Constante universal de los gases | **8,3144 × 10⁻³** (USP) · CODATA 2019: 8,314 462 618 × 10⁻³ | kJ/(mol·K) |
+| `n` | Número total de temperaturas registradas en el período de observación | — | — |
+| `Tᵢ` | Temperatura de cada período, **en kelvin** | — | K |
+| `MKT` | Resultado, convertible a °C restando 273,15 | — | K → °C |
+
+> **Detalle de implementación que ahorra errores:** con los valores por defecto de USP, `ΔH/R = 83,144 / 0,0083144 = 10 000 K` **exactamente**. Conviene documentar esa constante en el código. Si se usa la R de CODATA 2019 el cociente es 9 999,92 K y el resultado cambia en menos de 0,0001 °C — irrelevante en la práctica, pero hay que declarar cuál se usa.
+>
+> **Riesgo numérico:** `e^(−10000/T)` con T ≈ 280 K vale ≈ e⁻³⁵·⁷ ≈ 3 × 10⁻¹⁶. Está dentro del rango de `float64`, pero para series largas o temperaturas muy bajas conviene usar **log-sum-exp** en vez de sumar exponenciales directamente.
+>
+> **MKT ≥ media aritmética siempre** (desigualdad de Jensen sobre una función convexa). Si el motor devuelve una MKT menor que la media, hay un error.
+
+### 6.2 Casos de prueba resueltos (fixtures para el motor)
+
+Calculados con `ΔH = 83,144 kJ/mol`, `R = 8,3144×10⁻³ kJ/(mol·K)`, temperaturas en °C convertidas a K con +273,15.
+
+| Caso | Serie de temperaturas (°C) | n | Media aritmética (°C) | **MKT (°C)** | Δ (MKT − media) |
+|---|---|---:|---:|---:|---:|
+| **A** — Bodega a temperatura ambiente, 12 medias mensuales | 18,0 · 19,5 · 22,0 · 24,0 · 26,0 · 29,0 · 31,0 · 30,0 · 27,0 · 23,0 · 20,0 · 18,5 | 12 | 24,000000 | **25,017245** | +1,017245 |
+| **B** — Cadena de frío 2–8 °C con excursión | 4,0 · 4,5 · 5,0 · 5,2 · 4,8 · 6,0 · 12,0 · 14,0 · 9,0 · 5,5 · 4,2 · 4,0 | 12 | 6,516667 | **7,227880** | +0,711213 |
+| **C** — Serie didáctica de tres puntos | 20,0 · 25,0 · 30,0 | 3 | 25,000000 | **25,858208** | +0,858208 |
+
+**Lectura del caso A:** la media aritmética (24,0 °C) sugeriría cumplimiento holgado de un límite de 25 °C, pero la **MKT es 25,02 °C**, es decir, **incumple**. Este es exactamente el motivo por el que existe la MKT y por el que el motor no debe usar promedios simples.
+
+**Lectura del caso B:** una excursión de dos lecturas a 12 y 14 °C eleva la MKT a 7,23 °C, todavía por debajo de 8 °C. Ilustra que una excursión acotada puede ser tolerable según MKT — pero **eso no sustituye** la evaluación de estabilidad del producto ni las reglas de duración máxima de la excursión.
+
+**Sensibilidad a `ΔH`** (serie B): con 60 kJ/mol → 7,00 °C; con 83,144 → 7,23 °C; con 100 → 7,40 °C. La MKT **crece con `ΔH`**: usar un valor de activación menor al real subestima el daño térmico.
+
+**Reglas de uso** [SECUNDARIO]:
+- La MKT se calcula sobre **todas** las lecturas del período, a intervalos **regulares**; mezclar intervalos desiguales sin ponderar sesga el resultado (si los intervalos son desiguales, ponderar por duración).
+- La MKT **no reemplaza** los límites absolutos: una excursión puede violar un límite máximo aunque la MKT cumpla.
+- La MKT se usa para el **almacenamiento acumulado**, no para juzgar un pico instantáneo.
+
+### 6.3 Condiciones de almacenamiento — definiciones USP ⟨659⟩
+
+[SECUNDARIO] — `usp.org`/`uspnf.com` inaccesibles automáticamente; valores obtenidos de resúmenes que citan el capítulo. **Verificar contra el texto oficial antes de codificar.**
+
+| Condición | Rango | Excursiones permitidas |
+|---|---|---|
+| **Freezer** (congelador) | −25 °C a −10 °C | — |
+| **Cold** (frío) | No más de 8 °C | — |
+| **Refrigerator** (refrigerador) | **2 °C a 8 °C** | — |
+| **Controlled Cold Temperature** (frío controlado) | 2 °C a 8 °C | Hasta **15 °C**, siempre que la excursión no supere 24 h y la **MKT no exceda 8 °C** |
+| **Cool** (fresco) | 8 °C a 15 °C | — |
+| **Controlled Room Temperature (CRT)** — definición histórica | **20 °C a 25 °C** | Excursiones entre **15 °C y 30 °C** permitidas en farmacias, hospitales, bodegas y durante el transporte, **siempre que la MKT no exceda 25 °C**. Picos transitorios hasta **40 °C** admisibles si **no superan 24 h**. Por encima de 40 °C, solo si el fabricante lo instruye |
+| **Warm** | 30 °C a 40 °C | — |
+| **Excessive heat** | Por encima de 40 °C | — |
+
+> ⚠️ **Cambio en curso [NO VERIFICADO]:** USP propuso en *Pharmacopeial Forum* **PF 52(4)** redefinir la CRT como **15 °C a 25 °C** (bajando el límite inferior de 20 a 15 °C), alineándose con JP, Ph. Eur. y OMS, y manteniendo la MKT para evaluar excursiones sobre 25 °C. Circula una fecha de **1 de julio de 2026** asociada a un borrador revisado del capítulo ⟨659⟩, pero **no se pudo confirmar si ya es texto oficial o sigue siendo propuesta**. El motor debe **parametrizar** el rango CRT, no fijarlo en código.
+
+### 6.4 Excursiones de temperatura — definición operativa
+
+| Concepto | Definición operativa para el motor | Etiqueta |
+|---|---|---|
+| **Excursión** | Desviación de la temperatura fuera del rango de almacenamiento etiquetado del producto, durante un período acotado | [SECUNDARIO] |
+| Parámetros que hay que registrar | (1) temperatura máxima/mínima alcanzada; (2) **duración acumulada** fuera de rango; (3) número de excursiones; (4) MKT del período completo | [SECUNDARIO] |
+| Criterio de aceptación típico | Combinación de: MKT dentro del límite **Y** duración de la excursión dentro del tolerado **Y** ausencia de picos sobre el máximo absoluto | [SECUNDARIO] |
+| Decisión final | La aceptación o rechazo la determina el **titular del registro sanitario** con sus datos de estabilidad, no el software | [SECUNDARIO] |
+
+### 6.5 Vida útil dinámica (dynamic shelf life)
+
+Enfoques usados para reemplazar la fecha de vencimiento fija por una vida útil que consume el historial térmico real. [SECUNDARIO] — resumen conceptual, **sin valores por defecto verificados**.
+
+| Enfoque | Idea | Parámetros que exige |
+|---|---|---|
+| **Arrhenius / MKT acumulada** | La degradación depende de la temperatura según Arrhenius; se acumula "daño térmico" y se descuenta de la vida útil nominal | `Ea` del deterioro del producto (**no** el 83,144 por defecto: ese es para evaluar excursiones, no para modelar un producto concreto) |
+| **Q₁₀** | Regla empírica: la velocidad de deterioro se multiplica por `Q₁₀` por cada +10 °C. `vida_útil(T) = vida_útil(T_ref) · Q₁₀^((T_ref − T)/10)` | `Q₁₀` del producto (típicamente 2–3 en alimentos, pero **específico del producto**) |
+| **Modelos microbiológicos predictivos** | Crecimiento de patógenos/alterantes en función de T, pH y a_w (Baranyi–Roberts, Gompertz modificado, raíz cuadrada de Ratkowsky) | Parámetros cinéticos por microorganismo y matriz |
+| **TTI — Time-Temperature Indicators** | Etiquetas físico-químicas o enzimáticas cuya respuesta integra tiempo y temperatura; se calibran para imitar la cinética del producto | Calibración TTI ↔ producto |
+
+> **Recomendación para Agentes ESG:** implementar MKT y Q₁₀ como *utilidades* con parámetros que aporta el usuario, y **rechazar explícitamente** dar valores por defecto de `Ea` o `Q₁₀` por producto. Un valor inventado aquí puede liberar producto no apto.
+
+### 6.6 Chile — Reglamento Sanitario de los Alimentos (DS 977/96 MINSAL)
+
+Texto consolidado a **mayo de 2024** [19]. Todas las citas son literales del reglamento (normativa pública). [VERIFICADO]
+
+| Artículo | Materia | Temperatura |
+|---|---|---|
+| **67** | Almacenamiento y transporte de productos terminados | "condiciones adecuadas de temperatura y humedad que garantice su aptitud para el consumo humano" |
+| **68** | **Transporte de alimentos perecibles que requieren frío** (fresco, enfriado y/o congelado) | Solo en vehículos **con carrocería cerrada**, con equipos capaces de mantener la temperatura requerida, **provistos de termómetros que permitan su lectura desde el exterior**. Requiere **autorización sanitaria** válida por **3 años** |
+| **186** | Definición de alimento congelado | Proceso térmico hasta que el producto alcance **−18 °C en el centro térmico**. Rotulación obligatoria "PRODUCTO CONGELADO" (salvo helados del art. 243) |
+| **187** | Precocidos destinados a congelación rápida | Si no se pueden enfriar de inmediato, conservar a **más de 60 °C** medidos en el punto más frío del producto hasta poder enfriar y congelar |
+| **188** | Reenvasado de congelados | Sala con dispositivo que mantenga temperatura **no superior a 8 °C** y registro permanente |
+| **189** | Almacenamiento de congelados | Cámaras frigoríficas a **−18 °C o inferior**, con mínima fluctuación y **registro continuo** de temperatura |
+| **190** | **Transporte interurbano de congelados** | Equipos capaces de mantener el producto a **−18 °C o más baja**; termómetros legibles desde el exterior y **dispositivos de registro durante el transporte**. Se tolera aumento hasta **−15 °C**, que debe reducirse rápidamente |
+| **191** | **Transporte local de congelados** a minoristas | Todo aumento sobre −18 °C debe durar el mínimo tiempo y **en ningún caso superar −12 °C** |
+| **192** | Venta de congelados | Vitrinas congeladoras capaces de mantener **−18 °C**, con termómetros. Se tolera por períodos breves un aumento que **no sobrepase −12 °C**. Reglas de descongelación y rotulado "PRODUCTO DESCONGELADO. NO VOLVER A CONGELAR" |
+| **286** | Aves faenadas, trozadas, menudencias y despojos | Enfriados a **2 °C como máximo**; en punto de venta, hasta **6 °C** medidos en el interior de la masa muscular |
+| **287** | Aves refrigeradas | Entre **4 °C y −18 °C** |
+| **288** | Aves congeladas | **−18 °C como máxima**, medida en el centro de la masa muscular |
+| **302** | Cecinas crudas frescas, acidificadas y cocidas | Refrigeración **0 – 6 °C** tras elaboración y en locales de expendio. Cecinas maduradas: lugar fresco y seco, **máximo 12 °C** |
+| **303** | Transporte y distribución de cecinas | Vehículos autorizados, refrigeración **entre 0 y 6 °C** |
+| **466** | **Comidas y platos preparados** | Calientes: recipientes térmicos a temperatura **uniforme y permanente de 65 °C**. Fríos: conservación y transporte a **máximo 5 °C**. Aplica también a la distribución de alimentos en todo tipo de transporte de pasajeros |
+| Art. 4° (ferias libres), letra d) | Pescados, mariscos, carnes y subproductos en ferias | Sistema de frío que mantenga **0 °C – 5 °C** durante toda la jornada |
+| Art. 4° letra f) | Quesos y cecinas en puestos de venta | Refrigeración **máximo 5 °C**; cecinas crudas maduradas sin refrigeración en lugar seco y fresco, **máximo 12 °C** |
+
+> **Observación para el motor:** el RSA **no** define un único rango de "refrigeración": fija temperaturas **por tipo de producto** (0–5 °C, 0–6 °C, 2 °C, 4 °C, 5 °C, 8 °C, 12 °C). Modelar como **tabla producto → rango**, nunca como constante global. El único valor realmente transversal es **−18 °C para congelados**, con tolerancias de **−15 °C** (transporte interurbano) y **−12 °C** (transporte local y exhibición).
+
+### 6.7 Chile — Medicamentos: reglas del ISP y MINSAL
+
+| Norma | Contenido | Aprobación / vigencia | Etiqueta |
+|---|---|---|---|
+| **Norma Técnica N° 208** — *Almacenamiento y Transporte de Medicamentos Refrigerados y Congelados* | Requisitos técnicos para medicamentos que necesitan **cadena de frío**: cámaras de frío, refrigeradores, congeladores, vehículos de transporte, contenedores fríos y termos. Consta de **20 páginas** | **Decreto Exento N° 48 de 17.09.2019** (MINSAL, Subsecretaría de Salud Pública), publicado el **30.09.2019**. Modificado por **Decreto Exento N° 49**, publicado el **21.09.2020**. **Entró en vigencia 12 meses después de su publicación** | [VERIFICADO] [20] |
+| Ámbito de la NT 208 | Aplica a establecimientos sanitariamente autorizados de **almacenamiento y distribución**: laboratorios farmacéuticos, droguerías, depósitos de productos farmacéuticos de uso humano, **depósitos de vacunas e inmunoglobulinas**. **NO aplica a farmacias, botiquines ni recetarios magistrales** | Vigente | [VERIFICADO] [20] |
+| Rango de cadena de frío de la NT 208 | Refrigerados: **5 °C ± 3 °C**, es decir **+2 °C a +8 °C** | Vigente | [SECUNDARIO] — no se pudo leer el texto de la norma; confirmar en el PDF de MINSAL |
+| Rango de congelados de la NT 208 | No confirmado | — | **[NO VERIFICADO]** |
+| **Norma Técnica N° 147** — Buenas Prácticas de Almacenamiento y Distribución (BPAD) de productos farmacéuticos | Norma general de almacenamiento y distribución; la NT 208 la complementa | Vigente | [VERIFICADO] (referenciada en el Decreto Ex. 48) [20] |
+| **Norma Técnica N° 127** — Buenas Prácticas de Manufactura (BPM), anexos 4 y 5 | Condiciones generales de almacenamiento en manufactura | Vigente | [VERIFICADO] (referenciada) [20] |
+| **Resolución N° 399/2020** (ISP) | Aprueba la **guía de inspección** de BPAD | Vigente | [SECUNDARIO] |
+| Marco reglamentario superior | **DS N° 3 de 2010** (Reglamento del Sistema Nacional de Control de Productos Farmacéuticos de Uso Humano) y **DS N° 466 de 1984** (Reglamento de Farmacias, Droguerías, Almacenes Farmacéuticos, Botiquines y Depósitos) | Vigente | [VERIFICADO] (citados en el Decreto Ex. 48) [20] |
+| Alineación internacional | La NT 208 se desarrolló conforme a las directrices de **OMS**, en particular las *Good Distribution Practices* del **TRS 992, Anexo 5** | — | [SECUNDARIO] |
+| Fiscalización | El **ISP** vigila el cumplimiento; promueve autoevaluación con checklist y levanta actas de infracción | Vigente | [SECUNDARIO] [21] |
+
+---
+
+## 7. Trazabilidad y retiros de mercado
+
+### 7.1 Modelo de datos GS1 para lotes
+
+**Estado de los estándares** [SECUNDARIO] [22]:
+
+| Estándar | Versión / estado | Para qué sirve |
+|---|---|---|
+| **GS1 General Specifications** | **Release 26**, ratificada en **enero de 2026** | Define claves de identificación, atributos de datos y códigos de barras |
+| **EPCIS & CBV** | **2.0** | Modelo de eventos de la cadena de suministro (qué, cuándo, dónde, por qué) e intercambio de datos de trazabilidad. Acepta un subconjunto acotado de URIs GS1 Digital Link |
+| **GS1 Digital Link** | Vigente (verificar número de versión exacto) | Convierte el identificador en una URL web resoluble |
+| **GS1 Global Traceability Standard (GTS)** | Vigente | Marco de procesos de trazabilidad end-to-end |
+| **GDSN** | Vigente | Sincronización de datos maestros de producto |
+
+**Claves de identificación GS1 (las cuatro que importan para lotes)**
+
+| Clave | Qué identifica | AI |
+|---|---|---|
+| **GTIN** | El artículo comercial (producto + presentación) | `01` |
+| **SSCC** | La **unidad logística** (pallet, caja consolidada) — es la clave del movimiento físico | `00` |
+| **GLN** | La **parte** (empresa) y la **ubicación** física | `414` (ubicación), `410`–`417` (roles) |
+| **GTIN + lote** o **GTIN + serie** | La **instancia trazable**: GTIN + `10` (lote) o GTIN + `21` (serie) | `01`+`10` / `01`+`21` |
+
+**Application Identifiers verificados** contra la referencia oficial de GS1 (fichero `GS1_Application_Identifiers`, v1.2, última modificación **26 de enero de 2026**) [VERIFICADO] [23]:
+
+| AI | Título GS1 | Formato | Uso en el modelo de lotes |
+|---:|---|---|---|
+| `00` | SSCC | N2+N18 | Clave de la unidad logística |
+| `01` | GTIN | N2+N14 | Clave del producto |
+| `02` | CONTENT | N2+N14 | GTIN del contenido de una unidad logística |
+| `10` | BATCH/LOT | N2+X..20 | **Número de lote** — longitud variable hasta 20 caracteres alfanuméricos |
+| `11` | PROD DATE | N2+N6 | Fecha de producción (AAMMDD) |
+| `13` | PACK DATE | N2+N6 | Fecha de envasado |
+| `15` | BEST BEFORE / BEST BY | N2+N6 | Consumo preferente |
+| `16` | SELL BY | N2+N6 | Fecha límite de venta |
+| `17` | USE BY / EXPIRY | N2+N6 | **Fecha de vencimiento** |
+| `21` | SERIAL | N2+X..20 | Número de serie (unidad individual) |
+| `30` | VAR. COUNT | N2+N..8 | Cantidad variable |
+| `3103` | NET WEIGHT (kg) | N4+N6 | **Peso neto en kg con 3 decimales** — clave para t·km |
+
+> **AIs adicionales muy usados en logística y frío** (`37` COUNT, `400`/`401` referencias de pedido y envío, `410`–`417` GLN por rol, `422` país de origen, `7003` fecha y hora de vencimiento, `7006`–`7007` fechas de primera congelación y de sacrificio, `8003`/`8006`/`8018`/`8026` GRAI/ITIP/GSRN): **[NO VERIFICADO]** — no se pudieron leer del fichero oficial en esta sesión. Confirmar en `ref.gs1.org/ai/` antes de codificar el parser.
+
+**Modelo de datos mínimo recomendado para el motor** (redacción propia a partir de lo anterior):
+
+```
+Producto      : gtin (14)                         # AI 01
+Lote          : gtin + batch_lot (≤20 alfanum)    # AI 01 + 10
+Instancia     : gtin + serial                     # AI 01 + 21   (opcional)
+Unidad logíst.: sscc (18)                         # AI 00
+Fechas        : prod_date, pack_date, best_before, use_by   # AI 11,13,15,17
+Peso neto     : net_weight_kg (3 decimales)       # AI 3103
+Ubicaciones   : gln_origen, gln_destino           # AI 410/414/415/417
+Evento EPCIS  : what (epc/quantity) · when (eventTime, recordTime, tz)
+                where (readPoint, bizLocation) · why (bizStep, disposition)
+```
+
+Cuatro reglas que evitan los errores típicos [SECUNDARIO]:
+1. **El lote solo es trazable si viaja pegado al GTIN.** Un `batch_lot` sin GTIN no identifica nada: dos fabricantes pueden usar el mismo texto de lote.
+2. **El SSCC es lo que realmente se mueve.** Los eventos de transporte se registran sobre SSCC; el vínculo SSCC → (GTIN, lote, cantidad) es el que permite un retiro quirúrgico.
+3. **Las fechas GS1 son AAMMDD** (6 dígitos, sin siglo explícito). Hay que definir la ventana de siglo en el parser (regla habitual: ±50 años respecto del año actual) y aceptar `DD = 00` como "fin de mes", que GS1 permite.
+4. **Cada eslabón debe conservar "un paso atrás, un paso adelante"**: de quién recibió cada lote y a quién lo entregó. Ese es el mínimo legal en Chile y la UE, y el mínimo funcional para un recall.
+
+### 7.2 Chile — Alimentos: trazabilidad y alerta
+
+**Base reglamentaria de los registros (RSA, DS 977/96)** [VERIFICADO] [19]:
+
+> **Artículo 66.-** "Deberán existir registros de producción, distribución y control de los alimentos y materias primas y conservarse, como mínimo, durante **90 días posteriores a la fecha de vencimiento o plazo de duración del producto**. Los alimentos de duración indefinida deberán mantener el registro, al menos, **durante tres años**. En el registro deberá identificarse la procedencia del alimento y/o materia prima […]"
+
+(Artículo reemplazado por el N° 3 del art. 1° del **Decreto 60/18** del Ministerio de Salud, D.O. 07.07.2018.)
+
+**Definición de lote (RSA)**: "Cantidad determinada de un alimento producido en condiciones esencialmente [iguales]" — numeral 21 del artículo de definiciones. [VERIFICADO] [19]
+
+> ⚠️ El RSA **no contiene artículos específicos de "retiro de producto" ni de "alerta alimentaria"**: se buscó "retiro", "alerta", "trazabilidad" y "rastreabilidad" en el texto consolidado a mayo de 2024 y no aparecen con ese sentido. Las facultades de retiro derivan del **Código Sanitario** y de la Ley N° 19.937 sobre Autoridad Sanitaria, y se operan vía **SEREMI de Salud**. [VERIFICADO por ausencia + SECUNDARIO]
+
+**RIAL — Red de Información y Alertas Alimentarias (ACHIPIA)** [VERIFICADO] [24]
+
+| Aspecto | Detalle |
+|---|---|
+| Documento | *Procedimiento de Gestión de la Red de Información y Alertas Alimentarias (RIAL)*, **versión 11-12-2013** — el procedimiento publicado más reciente que se encontró |
+| Mandato legal | **DS N° 162 de 06.12.2010** (MINSEGPRES), que modifica el **DS N° 83 de 21.10.2005**: encarga a ACHIPIA proponer un sistema de información y alertas alimentarias. Todos los servicios del Estado están obligados a entregar la información que ACHIPIA les solicite oficialmente |
+| Servicios participantes | ACHIPIA + **SAG, SERNAPESCA, DIRECON, MINSAL, SUBPESCA y ODEPA**, mediante **puntos de contacto** designados |
+| Definición de evento | "Aquella situación en la cual se verifica la presencia de un peligro en un alimento para consumo humano o para consumo animal, cuando éste transgrede la normativa nacional o de un mercado de destino" |
+
+**Clasificación de eventos RIAL** — el criterio es la **disponibilidad del alimento para el consumidor final** [VERIFICADO] [24]:
+
+| Tipo | Cuándo aplica | Acción |
+|---|---|---|
+| **Alerta** | Peligro detectado en un alimento **presente en el mercado** (disponible para la venta al público) nacional, o en un producto chileno en el mercado internacional. *No* se considera presente en el mercado si no ha salido del establecimiento elaborador, sigue bajo su control o está en tránsito al mercado de destino | Los servicios competentes actúan **de forma inmediata** |
+| **Información** | Peligro detectado en alimento nacional o importado **que no está presente en el mercado** | Los servicios evalúan la adopción de medidas |
+| **Rechazo** | (a) Alimento elaborado en un tercer país cuyo ingreso a Chile fue rechazado por la autoridad sanitaria; (b) alimento chileno con peligro informado por la autoridad del país de destino que notifica prohibición de ingreso. **No se incluyen los rechazos por etiquetado** | Actuación de las autoridades nacionales con medidas preventivas y correctivas |
+
+**Retiro (recall) de alimentos** [SECUNDARIO] [25]: es el procedimiento por el cual una instalación de alimentos retira un producto del mercado cuando tiene certeza o sospecha de que incumple las exigencias reglamentarias, está produciendo o puede producir problemas de salud, o transgrede los estándares de calidad declarados. ACHIPIA, MINSAL y el Ministerio de Agricultura desarrollaron un **Manual de Buenas Prácticas de Recall dirigido a la industria de alimentos**, de descarga gratuita. La clasificación por clases (I = riesgo grave para la salud, II = riesgo moderado, III = incumplimiento sin riesgo apreciable, p. ej. problemas de etiquetado o de calidad declarada) aparece en ese manual. **[NO VERIFICADO]** el detalle de plazos y alcance de cada clase — leer el manual antes de programarlo.
+
+**En la práctica (caso Listeria, octubre de 2024)** [SECUNDARIO]: MINSAL notificó alerta alimentaria tras análisis de los laboratorios de las SEREMI de Salud (Región Metropolitana y Los Lagos), ordenó el **retiro inmediato**, fiscalizó puntos de venta, abrió sumarios sanitarios, aplicó prohibición sobre líneas de producción y reforzó la vigilancia. Es el flujo real a modelar: *hallazgo de laboratorio → notificación RIAL → alerta pública MINSAL → orden de retiro → fiscalización → medidas sobre el establecimiento*.
+
+### 7.3 Chile — Productos farmacéuticos: retiro de mercado (ISP/ANAMED)
+
+Fuente: *Instructivo para notificar retiros del mercado de productos farmacéuticos*, **ANAMED — Subdepartamento de Inspecciones**, ISP [VERIFICADO] [26].
+
+| Elemento | Regla |
+|---|---|
+| **Base legal** | **Artículo 71° N° 3 del DS N° 3 de 2010** (Reglamento del Sistema Nacional de Control de Productos Farmacéuticos de Uso Humano, MINSAL). También se invocan el art. 60 del mismo decreto, la **NT N° 127** (BPM, aprobada por Decreto Exento N° 159 de 2013) y la **NT N° 147** (BPAD, aprobada por Decreto Exento N° 57 de 2013) [SECUNDARIO para los números de decreto] |
+| **Quién notifica** | El **titular del registro sanitario farmacéutico** |
+| **Plazo** | "**De manera inmediata a su inicio**" |
+| **Cómo** | Completar el *Formulario Notificación de Retiro del Mercado Productos Farmacéuticos* (web del ISP) y presentarlo en **oficina de partes** del ISP |
+| **Adjuntos obligatorios** | (1) **Registro de distribución** de los lotes que se retirarán; (2) **investigación del defecto de calidad**, incluyendo las medidas adoptadas |
+| **Motivo** | Defecto de calidad **sospechado o confirmado** |
+| **Alcance obligatorio de la empresa** | Sistema de gestión de calidad para retiros; estrategia de retiro rápido y efectivo; procedimientos escritos que permitan iniciar en **el nivel de la cadena de distribución donde esté el producto**; personal responsable de ejecución y coordinación; **área segregada y segura** para almacenar lo retirado |
+| **Registros de distribución** | Deben estar **rápidamente disponibles** para la persona autorizada y para la autoridad reguladora, con información suficiente sobre mayoristas y clientes abastecidos directamente (incluidos, en exportación, quienes recibieron muestras para pruebas clínicas y médicas) |
+| **Seguimiento** | El progreso debe ser **monitoreado y registrado** |
+| **Informe final** | Reporte final con **conciliación entre cantidades entregadas y devueltas**, entregado a ANAMED (Subdepartamento de Inspecciones) |
+| **Destino del producto** | **Todos los productos retirados deben ser destruidos e inutilizados**, mediante vías y empresas autorizadas |
+| **Prueba de destrucción** | Documentos de respaldo: **acta notarial y guía de despacho** que individualice producto, series, lotes y cantidades |
+| **Mejora continua** | La **efectividad de la estrategia de retiro debe controlarse y evaluarse periódicamente** (mock recalls) |
+| **Ámbito** | Todos los establecimientos que fabriquen, importen, distribuyan y comercialicen productos **farmacéuticos o cosméticos** en Chile |
+| **Transparencia** | El ISP publica un **"Listado de Productos Retirados del Mercado"** en su sitio web |
+
+> **Implicación de diseño para Agentes ESG:** el informe final exige **conciliar unidades entregadas vs. devueltas**. Eso obliga a que el modelo de datos guarde cantidad por (GTIN, lote, destinatario) en cada despacho, no solo el total. Si el sistema no lo registra al despachar, el recall no se puede cerrar.
+
+---

@@ -249,15 +249,42 @@ def reporte(opciones):
 
 
 def factores(opciones):
+    """Consulta el catalogo: que nombres existen, con que unidad y de que fuente.
+
+    Es la forma de averiguar como hay que escribir una actividad en la planilla
+    antes de calcular, sobre todo en el alcance 3 por gasto.
+    """
     catalogo = carbono.cargar_factores()
     recurso = opciones.get("recurso") if opciones.get("recurso") is not True else None
     pais = (opciones.get("pais") if opciones.get("pais") is not True else None) or ""
+    uso = opciones.get("uso") if opciones.get("uso") is not True else None
+    alcance = opciones.get("alcance") if opciones.get("alcance") is not True else None
+
     seleccion = catalogo
+    por_descripcion = False
     if recurso:
         clave = carbono.normalizar_recurso(recurso)
-        seleccion = [f for f in seleccion if clave in f["recurso"]]
+        palabras = [p for p in clave.split("_") if p]
+        seleccion = [f for f in seleccion
+                     if clave in f["recurso"] or all(p in f["recurso"] for p in palabras)]
+        if not seleccion:
+            # Nadie escribe «gasto agricultura» para la harina: buscamos tambien
+            # en la descripcion del factor, que dice que cubre cada uno.
+            seleccion = [f for f in catalogo
+                         if all(p in carbono.normalizar_recurso(f["notas"]) for p in palabras)]
+            por_descripcion = bool(seleccion)
+    if uso:
+        clave_uso = carbono.normalizar_recurso(uso)
+        seleccion = [f for f in seleccion if f["uso"] == clave_uso]
+    if alcance:
+        try:
+            numero = int(str(alcance).strip())
+        except ValueError:
+            raise Problema("El alcance se escribe 1, 2 o 3.", "Por ejemplo: --alcance 3")
+        seleccion = [f for f in seleccion if f["alcance"] == numero]
     if pais:
         seleccion = [f for f in seleccion if f["pais"] in (pais.upper(), "*")]
+
     pcg = carbono.cargar_pcg()
     salida = []
     for factor in seleccion[:200]:
@@ -266,12 +293,35 @@ def factores(opciones):
             "id": factor["id"], "recurso": factor["recurso_original"], "uso": factor["uso"],
             "alcance": factor["alcance"], "pais": factor["pais"], "anio": factor["anio"],
             "kg_co2e_por": "%s %s" % (round(valor, 6), factor["unidad"]),
+            "que_cubre": factor["notas"],
             "fuente": factor["fuente"], "url": factor["url"], "calidad": factor["calidad"],
         })
+
+    usos = sorted({f["uso"] for f in catalogo if f["uso"]})
+    if not salida:
+        pedido = ", ".join(t for t in [recurso and "recurso «%s»" % recurso,
+                                       uso and "uso «%s»" % uso,
+                                       alcance and "alcance %s" % alcance,
+                                       pais and "pais %s" % pais] if t)
+        return {
+            "total": 0,
+            "factores": [],
+            "usos_disponibles": usos,
+            "nombres_parecidos": carbono.parecidos(catalogo, recurso) if recurso else [],
+            "mensaje": "No hay ningun factor con %s en el catalogo. Prueba con menos filtros, "
+                       "o mira los nombres parecidos. Usos disponibles: %s."
+                       % (pedido or "esos filtros", ", ".join(usos)),
+        }
     return {
         "total": len(salida),
+        "truncado": len(seleccion) > 200,
+        "coincidencia": "por descripcion" if por_descripcion else "por nombre",
         "factores": salida,
-        "mensaje": "Cada factor indica su fuente y año. Si falta uno, se puede agregar con respaldo.",
+        "usos_disponibles": usos,
+        "mensaje": ("Ninguno se llama «%s», pero estos lo mencionan en su descripcion. " % recurso
+                    if por_descripcion else "") +
+                   "Cada factor indica su fuente y año. El nombre de la columna «recurso» es el que "
+                   "hay que escribir tal cual en la planilla. Si falta uno, se puede agregar con respaldo.",
     }
 
 

@@ -112,6 +112,19 @@ reducción (`plan-descarbonizacion`) o preparar un reporte formal (`reportes`).
   muestra bien de dónde vienen las emisiones.
 - **No cambies factores a mano.** Si falta uno, regístralo como brecha y ofrece
   buscarlo en la fuente oficial con el agente `agente-investigador`.
+- **Consulta el catálogo antes de adivinar un nombre.** El motor solo reconoce
+  los nombres que tiene registrados:
+
+  ```bash
+  python .claude/motor/esg.py huella factores --recurso leña
+  ```
+
+  Busca por nombre y, si no hay, por la descripción del factor. Acepta también
+  `--uso` (`estacionaria`, `movil`, `gasto`, `carga`, `pasajeros`, `residuos`,
+  `fugitiva`, `electricidad`, `agua`, `alojamiento`), `--alcance` y `--pais`.
+  Cada resultado trae fuente, año, unidad y qué cubre. Si el nombre no existe,
+  el error te devuelve los parecidos: muéstraselos a la persona y que ella elija,
+  no decidas tú.
 
 ## Cierre
 

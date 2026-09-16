@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Huella hidrica y gestion del agua </title>
+<style>
+:root { --primario: #1B4332; --secundario: #D8F3DC; --texto: #1B2A22; --suave: #5A6B62; --borde: #E3E6E3; --fondo: #F7F9F7; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto);
+       font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; line-height: 1.55; }
+.hoja { max-width: 960px; margin: 0 auto; padding: 32px 28px 64px; background: #FFFFFF; min-height: 100vh; }
+header.principal { border-bottom: 4px solid var(--primario); padding-bottom: 16px; margin-bottom: 28px; }
+.marca { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--primario); font-weight: 700; }
+h1 { font-size: 30px; margin: 6px 0 4px; }
+h2 { font-size: 21px; margin: 32px 0 10px; color: var(--primario); }
+h3 { font-size: 16px; margin: 20px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
+p { margin: 10px 0; }
+.subtitulo { color: var(--suave); margin: 0; }
+.tarjetas { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+.tarjeta { flex: 1 1 190px; border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; background: #FCFDFC; }
+.tarjeta-etiqueta { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); }
+.tarjeta-valor { font-size: 27px; font-weight: 700; margin-top: 4px; }
+.tarjeta-valor span { font-size: 14px; font-weight: 500; color: var(--suave); }
+.tarjeta-detalle { font-size: 13px; color: var(--suave); }
+.tabla-envoltura { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--borde); padding: 9px 10px; text-align: left; vertical-align: top; }
+th { background: var(--secundario); color: var(--primario); font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+.nota-tabla, .vacio { font-size: 13px; color: var(--suave); font-style: italic; }
+.panel { border: 1px solid var(--borde); border-radius: 12px; padding: 16px; margin: 16px 0; background: #FCFDFC; }
+.grafico { width: 100%; height: auto; }
+.grafico .eje { font-size: 12px; fill: var(--suave); }
+.grafico .valor { font-size: 12px; fill: var(--texto); font-weight: 600; }
+.dona-total { font-size: 22px; font-weight: 700; fill: var(--texto); }
+.leyendas { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--suave); margin-top: 8px; }
+.leyenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; }
+.semaforo-fila { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--borde); }
+.pastilla { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 11px; white-space: nowrap; }
+.aviso { border-left: 4px solid var(--primario); background: #F1F6F2; padding: 11px 14px; border-radius: 6px; margin: 14px 0; font-size: 14px; }
+.aviso.aviso-riesgo, .aviso.riesgo { border-color: #A4161A; background: #FBE3E4; }
+.aviso.aviso, .aviso.advertencia { border-color: #D9A441; background: #FFF6E0; }
+.aviso.exito { border-color: #2D6A4F; background: #D8F3DC; }
+footer { margin-top: 42px; border-top: 1px solid var(--borde); padding-top: 14px; font-size: 12.5px; color: var(--suave); }
+hr { border: none; border-top: 1px solid var(--borde); margin: 26px 0; }
+@media print {
+  body { background: #FFFFFF; }
+  .hoja { max-width: none; padding: 0; }
+  .panel, .tarjeta { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="hoja">
+<header class="principal">
+<div class="marca">Alimentos del Sur SpA</div>
+<h1>Huella hidrica y gestion del agua </h1>
+<p class="subtitulo">Alimentos del Sur SpA - Agroindustria - conservas de fruta</p>
+</header>
+<div class="tarjetas"><div class="tarjeta"><div class="tarjeta-etiqueta">Extraccion</div><div class="tarjeta-valor" style="color:#2D6A4F">28,5 <span>ML</span></div><div class="tarjeta-detalle">Toda el agua que entro (GRI 303-3)</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Descarga</div><div class="tarjeta-valor" style="color:#1B4332">24 <span>ML</span></div><div class="tarjeta-detalle">Agua devuelta (GRI 303-4)</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Consumo</div><div class="tarjeta-valor" style="color:#1B4332">4,5 <span>ML</span></div><div class="tarjeta-detalle">Extraccion menos descarga (GRI 303-5)</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Consumo en zonas de estres</div><div class="tarjeta-valor" style="color:#A4161A">100 <span>%</span></div><div class="tarjeta-detalle">Es la parte que mas pesa</div></div></div>
+<p>Con el agua no basta el total: importa donde se usa. Un metro cubico consumido en una cuenca con poca agua disponible pesa mucho mas que el mismo metro cubico en una cuenca con agua de sobra. Por eso este informe separa siempre lo que ocurre en zonas con estres hidrico.</p>
+<p>Periodo: todos los periodos cargados. Metodo de calculo del consumo: Consumo (m3) = Extraccion (m3) - Descarga (m3).</p>
+<div class="panel"><h3>De donde sale el agua (GRI 303-3)</h3><svg viewBox="0 0 460 210" class="grafico" role="img" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="105" r="80" fill="none" stroke="#2D6A4F" stroke-width="34" stroke-dasharray="502.65 502.65" stroke-dashoffset="-0.00" transform="rotate(-90 100 105)"/><text x="100" y="108" text-anchor="middle" class="dona-total">28,5</text><text x="100" y="128" text-anchor="middle" class="eje">ML</text></svg><div class="leyendas"><span class="leyenda"><i style="background:#2D6A4F"></i>Agua de terceros (empresa sanitaria, APR, otra empresa) — 28,5 ML (100,0%)</span></div></div>
+<div class="panel"><h3>Consumo por sitio</h3><svg viewBox="0 0 720 44" class="grafico" role="img" xmlns="http://www.w3.org/2000/svg"><text x="0" y="21" class="eje">Planta Chillan</text><rect x="190" y="6" width="410.0" height="20" rx="4" fill="#2D6A4F"/><text x="608.0" y="21" class="valor">4,5 ML</text></svg></div>
+<div class="tabla-envoltura"><table><thead><tr><th>Sitio</th><th class="num">Extraccion (ML)</th><th class="num">Descarga (ML)</th><th class="num">Consumo (ML)</th><th>Zona de estres hidrico</th></tr></thead><tbody><tr><td>Planta Chillan</td><td class="num">28,5</td><td class="num">24</td><td class="num">4,5</td><td>si</td></tr></tbody></table><p class="nota-tabla">Los volumenes van en megalitros: 1 ML = 1.000 m3.</p></div>
+<div class="tabla-envoltura"><table><thead><tr><th>A donde va el agua devuelta</th><th class="num">Descarga (ML)</th></tr></thead><tbody><tr><td>A un tercero (alcantarillado, planta de tratamiento de otro, riego de otro)</td><td class="num">24</td></tr></tbody></table><p class="nota-tabla">Divulgacion 303-4: el estandar pide decir a donde se devuelve el agua.</p></div>
+<h2>Lo que pide el estandar de reporte (GRI 303)</h2>
+<div class="tabla-envoltura"><table><thead><tr><th>Divulgacion</th><th class="num">Total (ML)</th><th class="num">En zonas de estres (ML)</th><th class="num">Sin definir (ML)</th></tr></thead><tbody><tr><td>303-3 Extraccion de agua</td><td class="num">28,5</td><td class="num">28,5</td><td class="num">0</td></tr><tr><td>303-4 Descarga de agua</td><td class="num">24</td><td class="num">24</td><td class="num">0</td></tr><tr><td>303-5 Consumo de agua</td><td class="num">4,5</td><td class="num">4,5</td><td class="num">0</td></tr></tbody></table></div>
+<h3>Lo que todavia falta para reportar completo</h3>
+<ul><li>303-3: Separar agua dulce (hasta 1.000 mg/L de solidos disueltos totales) de otras aguas (mas de 1.000 mg/L). La planilla no trae ese dato.</li><li>303-4: Separar agua dulce (hasta 1.000 mg/L de solidos disueltos totales) de otras aguas (mas de 1.000 mg/L). La planilla no trae ese dato.</li><li>303-4: Declarar si se descargan sustancias prioritarias de preocupacion y, si las hay, cuales son, como se fijaron sus limites y cuanto se descargo. Ese dato viene del monitoreo de la descarga, no de esta planilla.</li><li>303-5: Revisar si hubo agua almacenada de un periodo a otro o agua devuelta tan contaminada que nadie mas puede usarla: GRI 303-5 las cuenta como consumo y la resta extraccion menos descarga no las incluye.</li><li>303-5: Declarar si los cambios en el almacenamiento de agua son un impacto significativo y, en ese caso, cuanto cambiaron.</li></ul>
+<h2>Calidad de los datos</h2>
+<p>Cuanto del agua extraida viene de un medidor o una boleta y cuanto de una estimacion. Para una auditoria conviene subir la parte medida.</p>
+<div class="panel"><svg viewBox="0 0 720 112" class="grafico" role="img" xmlns="http://www.w3.org/2000/svg"><text x="0" y="21" class="eje">Verificado</text><rect x="190" y="6" width="2.0" height="20" rx="4" fill="#2D6A4F"/><text x="200.0" y="21" class="valor">0 %</text><text x="0" y="55" class="eje">Reportado</text><rect x="190" y="40" width="410.0" height="20" rx="4" fill="#40916C"/><text x="608.0" y="55" class="valor">100 %</text><text x="0" y="89" class="eje">Estimado</text><rect x="190" y="74" width="2.0" height="20" rx="4" fill="#74C69D"/><text x="200.0" y="89" class="valor">0 %</text></svg></div>
+<h2>Metodologia y fuentes</h2>
+<ul><li>Definiciones y desgloses: GRI 303: Agua y efluentes 2018 (divulgaciones 303-3, 303-4 y 303-5).</li><li>Consumo: Consumo (m3) = Extraccion (m3) - Descarga (m3)</li><li>Volumenes en megalitros: 1 ML = 1.000 m3.</li><li>Zonas con estres hidrico: las marca la empresa en la planilla. GRI 303 reconoce el WRI Aqueduct Water Risk Atlas y el WWF Water Risk Filter, y considera zona con estres la que tiene estres hidrico de referencia alto (40-80%) o extremadamente alto (mas de 80%).</li><li>Huella de escasez (si se calculo aparte): metodo AWARE de WULCA, dentro del marco de ISO 14046:2014.</li></ul>
+<div class="aviso aviso">GRI 303-3 y 303-4 piden separar agua dulce (hasta 1.000 mg/L de solidos disueltos totales) de otras aguas (mas de 1.000 mg/L). Si la empresa reporta con GRI, pide el analisis de calidad del agua de cada fuente (o el informe del laboratorio) y anota el desglose a mano en el reporte.</div>
+<div class="aviso aviso">Esto es un apoyo de gestion, no una verificacion ni asesoria legal. Antes de publicar estas cifras o presentarlas a una autoridad, un cliente o una auditoria, revisa los datos de origen y sus respaldos.</div>
+<footer>Generado por Agentes ESG el 16-09-2026 06:25. Documento de apoyo: revisa los datos antes de usarlo con fines regulatorios o publicos.</footer>
+</div>
+</body>
+</html>

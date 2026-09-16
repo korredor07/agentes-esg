@@ -248,6 +248,17 @@ NO_DEPRECIABLES = [
 # Utilidades de texto y de numeros
 # --------------------------------------------------------------------------
 
+def _falta(valor):
+    """True si el dato no viene.
+
+    Ojo: en Python 1 == True, asi que la marca de opcion sin valor se compara por
+    identidad; de lo contrario el mes 1 (enero) se leeria como dato faltante.
+    """
+    if valor is None or valor is True:
+        return True
+    return isinstance(valor, str) and not valor.strip()
+
+
 def _clave(texto):
     """Deja el texto en minusculas, sin tildes y sin simbolos."""
     texto = str(texto or "").strip().lower()
@@ -285,7 +296,7 @@ def _contiene(firma, buscada):
 
 def numero(valor, nombre="el valor", detalle=""):
     """Lee un numero escrito como lo escribe la gente: 12.000.000 o 1.234,56."""
-    if valor in (None, "", True):
+    if _falta(valor):
         raise Problema(
             "Falta %s." % nombre,
             "Escribe solo el numero, sin signo peso ni letras. Por ejemplo: 12000000.%s"
@@ -332,7 +343,7 @@ def _entero_o_nada(valor):
 
 def _mes(valor, nombre="el mes"):
     """Acepta el numero del mes o su nombre."""
-    if valor in (None, "", True):
+    if _falta(valor):
         return None
     if isinstance(valor, str):
         clave = _clave(valor)
@@ -400,7 +411,7 @@ def _limpiar(bien):
 
 def normalizar_actividad(actividad):
     """Traduce como escribe la gente la actividad ('agro', 'campo') a la de la tabla."""
-    if actividad in (None, "", True):
+    if _falta(actividad):
         return None
     clave = _clave(actividad)
     if clave in ALIAS_ACTIVIDAD:
@@ -688,7 +699,7 @@ def depreciacion(valor, vida_util_normal=None, metodo="normal", anio_inicio=None
 
     advertencias = []
     residual = VALOR_RESIDUAL_TRIBUTARIO if metodo != "propyme" else 0.0
-    if valor_residual not in (None, "", True):
+    if not _falta(valor_residual):
         residual = numero(valor_residual, "el valor residual")
     if residual < 0:
         raise Problema("El valor residual no puede ser negativo.",
@@ -706,7 +717,7 @@ def depreciacion(valor, vida_util_normal=None, metodo="normal", anio_inicio=None
 
     mes = _mes(mes_inicio, "el mes en que se empezo a usar el bien") or 1
     anio = None
-    if anio_inicio not in (None, "", True):
+    if not _falta(anio_inicio):
         anio = entero(anio_inicio, "el anio en que se empezo a usar el bien",
                        "Escribe solo el anio, por ejemplo 2024.")
 
@@ -802,7 +813,7 @@ def correccion_monetaria(valor, anio_ejercicio, mes_adquisicion=None, anio_adqui
                         "Es el anio que estas cerrando, por ejemplo 2025.")
     mes = _mes(mes_adquisicion, "el mes de la compra")
     anio_compra = None
-    if anio_adquisicion not in (None, "", True):
+    if not _falta(anio_adquisicion):
         anio_compra = entero(anio_adquisicion, "el anio de la compra", "Escribe solo el anio, por ejemplo 2025.")
 
     advertencias = []
@@ -813,7 +824,7 @@ def correccion_monetaria(valor, anio_ejercicio, mes_adquisicion=None, anio_adqui
             "Revisa la fecha de compra o el anio del ejercicio.",
         )
 
-    if porcentaje not in (None, "", True):
+    if not _falta(porcentaje):
         pct = numero(porcentaje, "el porcentaje de correccion monetaria")
         regla = ("Porcentaje indicado por ti. Confirmalo con tu contador o con la tabla del SII antes de "
                  "usarlo en una declaracion.")
@@ -909,7 +920,7 @@ def anio_y_mes_de_uso(activo):
     """Saca el anio y el mes en que el bien empezo a usarse."""
     for clave in ("fecha_uso", "fecha_puesta_en_uso", "fecha_compra", "fecha"):
         crudo = activo.get(clave)
-        if crudo in (None, "", True):
+        if _falta(crudo):
             continue
         if isinstance(crudo, (datetime.date, datetime.datetime)):
             return crudo.year, crudo.month
@@ -922,7 +933,7 @@ def anio_y_mes_de_uso(activo):
             return int(coincidencia.group(3)), int(coincidencia.group(2))
         if re.match(r"^\d{4}$", texto):
             return int(texto), 1
-    if activo.get("anio_inicio") not in (None, "", True):
+    if not _falta(activo.get("anio_inicio")):
         return entero(activo["anio_inicio"], "el anio de inicio de uso", "Escribe solo el anio."), \
             (_mes(activo.get("mes_inicio")) or 1)
     return None, 1
@@ -931,7 +942,7 @@ def anio_y_mes_de_uso(activo):
 def vida_util_del_activo(activo, advertencias, ruta=None):
     """Resuelve la vida util: la que viene en la planilla o la de la tabla del SII."""
     indicada = activo.get("vida_util_normal") or activo.get("vida_util")
-    if indicada not in (None, "", True):
+    if not _falta(indicada):
         return entero(indicada, "la vida util", "Escribe los anios, por ejemplo 7."), "indicada por ti", None
     descripcion = activo.get("bien") or activo.get("nombre")
     if not descripcion:
@@ -974,7 +985,7 @@ def resumen_cartera(activos, anio=None, ruta=None, anios_para_renovar=2):
             "se usa.",
         )
     ejercicio = entero(anio, "el anio del ejercicio", "Escribe solo el anio, por ejemplo 2025.") \
-        if anio not in (None, "", True) else datetime.date.today().year
+        if not _falta(anio) else datetime.date.today().year
 
     advertencias = []
     calculados = []

@@ -71,6 +71,77 @@ economía de Estados Unidos. Entonces:
 - Adviértele que es una estimación gruesa: una empresa eficiente y una
   ineficiente que gastan lo mismo dan el mismo resultado.
 - Úsalo para descubrir dónde está el bulto, no para prometer reducciones.
+- **Escribe el nombre exacto del catálogo** en la columna «Recurso o actividad».
+  La tabla de abajo dice cuál usar; si dudas, consulta el catálogo antes de
+  calcular (ver «Cómo averiguar el nombre»).
+
+### Qué compro → qué nombre escribo
+
+El nombre se escribe **tal cual**, en minúsculas, en la columna «Recurso o
+actividad». Todos van en **USD** y son alcance 3.
+
+| Lo que compra la empresa | Nombre que se escribe | kg CO2e por USD |
+|---|---|---|
+| Harina, trigo, maíz, arroz, azúcar, papas, frutas y verduras frescas, semillas | `gasto agricultura` | 0,848 |
+| Pan, galletas, pastas, conservas, snacks, comida ya preparada | `gasto alimentos` | 0,253 |
+| Carne de vacuno | `gasto carne bovina` | 2,893 |
+| Leche, queso, mantequilla, crema, yogurt | `gasto lacteos` | 1,724 |
+| Bebidas, jugos, aguas envasadas | `gasto bebidas` | 0,214 |
+| Botellas, bolsas, potes, tapas, envases plásticos | `gasto envases plastico` | 0,579 |
+| Cajas de cartón, estuches, bandejas | `gasto envases carton` | 0,479 |
+| Resinas, film, polietileno a granel | `gasto plasticos` | 1,045 |
+| Cemento, hormigón, mortero | `gasto cemento` | 3,924 |
+| Acero, fierro, perfiles, estructuras metálicas | `gasto acero` | 0,787 |
+| Obras, ampliaciones, remodelaciones | `gasto construccion` | 0,224 |
+| Químicos, solventes, detergentes industriales, aditivos | `gasto quimicos` | 1,184 |
+| Fertilizantes, urea, salitre, abonos | `gasto fertilizantes` | 1,137 |
+| Medicamentos, insumos farmacéuticos | `gasto farmaceuticos` | 0,099 |
+| Telas, hilados, géneros | `gasto textiles` | 0,507 |
+| Ropa de trabajo, uniformes, calzado de seguridad | `gasto vestuario` | 0,120 |
+| Escritorios, sillas, estanterías, muebles | `gasto muebles` | 0,240 |
+| Resmas, cuadernos, artículos de oficina | `gasto papeleria` | 0,296 |
+| Impresión de etiquetas, folletos, catálogos | `gasto imprenta` | 0,236 |
+| Notebooks, servidores, impresoras, teléfonos | `gasto computadores` | 0,058 |
+| Licencias, suscripciones, ERP, antivirus | `gasto software` | 0,080 |
+| Soporte informático, desarrollo, hosting | `gasto servicios ti` | 0,089 |
+| Telefonía, internet, plan de datos | `gasto telecomunicaciones` | 0,075 |
+| Asesorías, auditorías, contabilidad externa, marketing | `gasto consultoria` | 0,078 |
+| Abogados, notaría, estudios jurídicos | `gasto legal` | 0,041 |
+| Seguros | `gasto seguros` | 0,051 |
+| Comisiones bancarias, mantención de cuentas | `gasto banca` | 0,059 |
+| Personal por faena, reemplazos, empresas de aseo | `gasto personal temporal` | 0,051 |
+| Arriendo de oficinas, locales, salas de venta | `gasto arriendo oficinas` | 0,246 |
+| Maquinaria, hornos, amasadoras, grúa horquilla | `gasto maquinaria` | 0,228 |
+| Motores, bombas, tableros, equipos eléctricos | `gasto equipos electricos` | 0,152 |
+| Pasajes de avión sin kilómetros conocidos | `gasto transporte aereo` | 0,644 |
+| Fletes por camión sin toneladas-kilómetro | `gasto transporte camion` | 0,595 |
+| Fletes marítimos sin toneladas-kilómetro | `gasto transporte maritimo` | 0,816 |
+| Bodegaje, arriendo de bodega, frío de terceros | `gasto almacenamiento` | 0,244 |
+| Retiro de basura, gestión de residuos | `gasto residuos` | 0,988 |
+| Cuenta del agua sin metros cúbicos | `gasto agua` | 0,578 |
+| Combustible del que solo se tiene el monto | `gasto combustibles` | 0,270 |
+
+**Ojo con estos dos**, que se confunden todo el tiempo y cambian el resultado
+más de tres veces: `gasto agricultura` es la **materia prima** (la harina que
+compra una panadería) y `gasto alimentos` es el **producto ya elaborado** (el
+pan que vende). Si la persona duda, pregúntale si lo que compra viene del campo
+o ya viene procesado.
+
+### Cómo averiguar el nombre
+
+```bash
+python .claude/motor/esg.py huella factores --recurso harina
+```
+
+Busca primero por nombre y, si no encuentra, por la descripción del factor: con
+`harina` devuelve `gasto agricultura`. También sirve `--uso gasto` para ver los
+38 nombres completos, `--alcance 3` y `--pais CL`. Cada resultado trae la fuente,
+el año, la unidad y qué cubre.
+
+Si escribes un nombre que no existe, el error te devuelve los nombres parecidos
+en vez de dejarte adivinando. **No inventes un nombre nuevo ni elijas por ti:**
+muéstrale las alternativas a la persona y que ella confirme cuál describe lo que
+compra.
 
 **6. Calcula y analiza el punto caliente.**
 

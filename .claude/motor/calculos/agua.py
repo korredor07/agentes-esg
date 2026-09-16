@@ -69,7 +69,7 @@ ARCHIVO_AWARE = os.path.join(CARPETA_DATOS, "aware_paises.csv")
 VERSION_AWARE = "AWARE 2.0"
 
 # Atribucion que exige la licencia CC BY 4.0 del conjunto de datos AWARE 2.0.
-# Debe acompañar a cualquier resultado que use estos factores.
+# Tiene que ir junto a cualquier resultado que use estos factores.
 ATRIBUCION_AWARE = (
     "Factores AWARE 2.0 bajo licencia CC BY 4.0. "
     "Conjunto de datos: Seitfudem, G., Berger, M., Muller Schmied, H. & Boulay, A.-M. (2025), "
@@ -220,7 +220,7 @@ ALIAS_AGREGACION = {
 # --------------------------------------------------------------------------
 
 def _clave(texto):
-    """Convierte 'Agua Subterránea ' en 'agua_subterranea'."""
+    """Convierte 'Agua Subterranea ' en 'agua_subterranea'."""
     texto = str(texto or "").strip().lower()
     texto = unicodedata.normalize("NFKD", texto)
     texto = "".join(c for c in texto if not unicodedata.combining(c))

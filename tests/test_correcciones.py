@@ -194,5 +194,58 @@ class PruebaEscrituraDePlanillas(PruebaConCarpeta):
         self.assertIn("JSON", contexto.exception.sugerencia)
 
 
+class PruebaNombresDescubribles(unittest.TestCase):
+    """H8: elegir mal el nombre del gasto cambia el resultado varias veces."""
+
+    def setUp(self):
+        self.factores = carbono.cargar_factores()
+
+    def test_busca_por_lo_que_se_compra(self):
+        from modulos import huella
+        resultado = huella.factores({"recurso": "harina"})
+        self.assertEqual(resultado["coincidencia"], "por descripcion")
+        self.assertEqual([f["recurso"] for f in resultado["factores"]], ["gasto agricultura"])
+
+    def test_filtra_por_uso(self):
+        from modulos import huella
+        resultado = huella.factores({"uso": "gasto"})
+        self.assertEqual(resultado["total"], 38)
+        self.assertTrue(all(f["uso"] == "gasto" for f in resultado["factores"]))
+
+    def test_filtra_por_alcance(self):
+        from modulos import huella
+        resultado = huella.factores({"alcance": "2"})
+        self.assertTrue(resultado["total"])
+        self.assertTrue(all(f["alcance"] == 2 for f in resultado["factores"]))
+
+    def test_alcance_invalido_avisa(self):
+        from modulos import huella
+        with self.assertRaises(Problema):
+            huella.factores({"alcance": "tres"})
+
+    def test_sin_resultados_lo_dice(self):
+        from modulos import huella
+        resultado = huella.factores({"recurso": "glp", "uso": "gasto"})
+        self.assertEqual(resultado["total"], 0)
+        self.assertIn("No hay ningun factor", resultado["mensaje"])
+        self.assertIn("gasto", resultado["usos_disponibles"])
+
+    def test_el_error_ofrece_nombres_parecidos(self):
+        with self.assertRaises(Problema) as contexto:
+            carbono.buscar_factor(self.factores, "sacos de harina", unidad="USD", pais="CL")
+        self.assertIn("gasto agricultura", contexto.exception.sugerencia)
+        self.assertIn("gasto agricultura",
+                      [o["recurso"] for o in contexto.exception.detalle["nombres_parecidos"]])
+
+    def test_parecidos_corrige_un_error_de_tipeo(self):
+        nombres = [o["recurso"] for o in carbono.parecidos(self.factores, "electricida")]
+        self.assertIn("electricidad", nombres)
+
+    def test_la_materia_prima_y_el_producto_no_se_confunden(self):
+        notas = {f["recurso"]: f["notas"] for f in self.factores}
+        self.assertIn("harina", notas["gasto_agricultura"])
+        self.assertIn("gasto agricultura", notas["gasto_alimentos"])
+
+
 if __name__ == "__main__":
     unittest.main()
