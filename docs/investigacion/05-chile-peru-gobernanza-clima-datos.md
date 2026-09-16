@@ -751,9 +751,29 @@ La plataforma ofrece: calculadora de emisiones, sistema de reconocimiento, regis
 - **Reducción en términos absolutos:** cuando se reducen las emisiones entre dos años consecutivos.
 - **Reducción en términos relativos:** cuando se reducen las emisiones en términos de indicadores. Los indicadores de la herramienta son: **a)** emisiones de CO₂eq por unidad de energía empleada; **b)** emisiones de CO₂eq por nuevo sol de ingreso; **c)** emisiones de CO₂eq por trabajador.
 
-**Marco normativo asociado**
-- **Ley 30754, Ley Marco sobre Cambio Climático** (Perú) y su Reglamento son el marco general de la política climática peruana. Los detalles de articulado (objeto, autoridad nacional, NDC, INFOCARBONO, obligaciones al sector privado) **no pudieron verificarse en fuente oficial** en esta sesión: los portales `gob.pe` y `leyes.congreso.gob.pe` devolvieron bloqueo o PDF no extraíble. `[NO VERIFICADO]`
-- La **Guía para el funcionamiento de la herramienta Huella de Carbono Perú** fue aprobada como anexo de una Resolución Ministerial del MINAM (el PDF oficial en SINIA corresponde al anexo de la **RM 237-2020-MINAM**), y existe además la **RM 185-2021-MINAM** relacionada. El contenido de ambas **no pudo extraerse** (PDF escaneado). `[NO VERIFICADO]`
+**Nombres oficiales de los niveles (Guía oficial del MINAM, noviembre de 2020)** `[VERIFICADO]` [23]:
+
+| Nivel | Nombre oficial | Definición literal de la Guía |
+|---|---|---|
+| 1° | **Medición** | *"se otorga a las organizaciones registradas en la plataforma digital de la HC-Perú, que han estimado y reportado sus emisiones de GEI mediante el uso de dicha herramienta"* |
+| 2° | **Verificación** | *"se otorga a las organizaciones que han logrado verificar la medición de sus emisiones de GEI a través de un Organismo de Evaluación de la Conformidad (OEC)"* |
+| 3° | **Reducción** | *"se otorga a las organizaciones que han obtenido el segundo nivel de reconocimiento y que evidencian una reducción en sus emisiones de GEI"* |
+| 4° | **Neutralización** | *"se otorga a las organizaciones que han obtenido el tercer nivel de reconocimiento, así como neutralizando sus emisiones de GEI a través de la adquisición de unidades de reducción de emisiones de GEI"* |
+
+**Marco normativo — VERIFICADO** `[VERIFICADO]` [23]:
+- La HC-Perú opera **"en el marco del Sistema para el Monitoreo de las Medidas de Adaptación y Mitigación, creado mediante el Reglamento de la Ley N° 30754, Ley Marco sobre Cambio Climático, aprobado por Decreto Supremo N° 013-2019-MINAM"**.
+- La Guía **"es de aplicación obligatoria para las organizaciones públicas y privadas que se inscriban de manera voluntaria"** en la plataforma — es decir: **adhesión voluntaria, pero una vez dentro las reglas son obligatorias**.
+- La HC-Perú es **"una herramienta de uso voluntario"** con un motor de cálculo y reporte **conforme a la Norma Técnica Peruana NTP ISO 14064-1**.
+- **Alcances**: la Guía adopta el **GHG Protocol** — emisiones directas = **Alcance 1**; emisiones indirectas = **Alcances 2 y 3**.
+- **Organizaciones privadas**: entidades con personería jurídica de derecho privado **o personas naturales con negocio**.
+- **Organizaciones públicas**: según el **art. 55 del Reglamento de la LMCC**, las entidades del art. I del TUO de la Ley 27444.
+- **Proyectos de medida de mitigación** (fuente de las unidades de reducción): conforme al **art. 31 del Reglamento de la LMCC**.
+- **Diploma de reconocimiento**: firmado por el/la **Director/a de la Dirección General de Cambio Climático y Desertificación** del MINAM.
+- **Indicadores de desempeño de GEI**: en términos absolutos (tCO₂eq) y/o relativos (tCO₂eq per cápita, tCO₂eq/ingresos brutos en S/, entre otros).
+
+> La **Ley 30754, Ley Marco sobre Cambio Climático**, y su **Reglamento (DS 013-2019-MINAM)** quedan así confirmados como el marco habilitante. El articulado completo de la Ley 30754 (objeto, autoridad nacional, NDC, INFOCARBONO, obligaciones directas al sector privado) **no pudo verificarse** en fuente oficial en esta sesión: `gob.pe` bloquea el acceso automatizado y el PDF de `leyes.congreso.gob.pe` es un escaneo sin texto. `[NO VERIFICADO]`
+>
+> La Guía consultada corresponde al anexo de la **RM 237-2020-MINAM** (noviembre de 2020) publicado en SINIA; existe además la **RM 185-2021-MINAM** relacionada, cuyo contenido **no fue verificado**. `[NO VERIFICADO]`
 
 #### Checklist — Huella de Carbono Perú
 
