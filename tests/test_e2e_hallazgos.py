@@ -223,6 +223,60 @@ class PruebaLogisticaDictada(PruebaConCarpeta):
         self.assertIn("--tramos", contexto.exception.sugerencia)
 
 
+class PruebaBorradorDeReporte(unittest.TestCase):
+    """El borrador VSME tiene que usar los datos que ya existen y no pisar el anterior."""
+
+    def test_el_alcance_3_es_opcional_en_b3(self):
+        from calculos import reportes
+        b3 = [c for c in reportes.contenidos_de("VSME") if c["codigo"] == "B3"][0]
+        disponibles = {"consumos.xlsx", "huella.por_alcance.alcance_1", "huella.por_alcance.alcance_2",
+                       "huella.total_t_co2e"}
+        sin_a3 = reportes._ficha(b3, disponibles)
+        con_a3 = reportes._ficha(b3, disponibles | {"huella.por_alcance.alcance_3"})
+        self.assertEqual(sin_a3["estado"], "cubierto")
+        self.assertIn("huella.por_alcance.alcance_3", con_a3["encontrados"])
+
+    def test_el_agua_ya_calculada_responde_b6_y_gri_303(self):
+        from calculos import reportes
+        for marco, codigo in (("VSME", "B6"), ("GRI", "303-3"), ("GRI", "303-5")):
+            contenido = [c for c in reportes.contenidos_de(marco) if c["codigo"] == codigo][0]
+            self.assertEqual(reportes._ficha(contenido, {"agua.indicadores"})["estado"], "cubierto", codigo)
+
+
+class PruebaBorradorEnCarpeta(PruebaConCarpeta):
+
+    def setUp(self):
+        super(PruebaBorradorEnCarpeta, self).setUp()
+        from modulos import reporte
+        self.reporte = reporte
+        espacio.crear_empresa({"nombre": "Reporte SpA", "pais": "CL", "periodo_actual": "2026",
+                               "trabajadores": 10, "exporta_a_ue": False}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Reporte SpA", "marco": "VSME", "periodo": "2025"}
+
+    def test_no_pisa_un_borrador_anterior(self):
+        primero = self.reporte.borrador(dict(self.opciones)).resultado["archivo"]
+        segundo = self.reporte.borrador(dict(self.opciones)).resultado["archivo"]
+        self.assertNotEqual(primero, segundo)
+        self.assertTrue(segundo.endswith("-v2.docx"))
+        self.assertTrue(os.path.isfile(primero))
+
+    def test_la_ficha_usa_el_periodo_del_reporte(self):
+        perfil, ruta = espacio.cargar_empresa("Reporte SpA", raiz=self.carpeta)
+        _, detalle, _, _ = self.reporte.datos_disponibles(perfil, ruta, "2025")
+        self.assertIn("periodo 2025", detalle["empresa.json"])
+
+
+class PruebaProductorRep(unittest.TestCase):
+    """En envases, el productor REP es quien vende el producto envasado, no quien fabrica el envase vacio."""
+
+    def test_la_regla_explica_la_definicion_verificada(self):
+        resultado = aplicabilidad.evaluar({"nombre": "Envases SpA", "pais": "CL", "trabajadores": 60,
+                                           "exporta_a_ue": False}, {"pone_productos_prioritarios": "si"})
+        rep = [f for f in resultado["aplican"] if f["id"] == "cl-rep"][0]
+        self.assertIn("envase vacio", rep["motivo"])
+        self.assertNotIn("sea fabricandolos", rep["motivo"])
+
+
 class PruebaSinCaracteresDeControl(unittest.TestCase):
     """Un caracter de control escrito por error rompe una expresion regular sin que se vea."""
 

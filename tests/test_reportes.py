@@ -52,6 +52,7 @@ class PruebaCatalogoDeMarcos(unittest.TestCase):
     def test_cada_dato_fuente_es_un_dato_que_el_motor_reconoce(self):
         for contenido in reportes.cargar_contenidos():
             for dato in contenido["dato_fuente"]:
+                dato = reportes.dato_sin_marca(dato)
                 self.assertIn(dato, reportes.DATOS_CONOCIDOS,
                               "%s usa un dato desconocido: %s" % (contenido["codigo"], dato))
 

@@ -371,6 +371,19 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
         if por_periodo:
             filas, fuera = _filas_del_periodo(filas, periodo)
         texto = plantilla % _plural(len(filas), singular, plural)
+        if nombre == "consumos.xlsx":
+            totales = {}
+            for fila in filas:
+                cantidad = _numero(fila.get("cantidad"))
+                if cantidad is None:
+                    continue
+                llave = (str(fila.get("recurso") or "sin recurso").strip().lower(),
+                         str(fila.get("unidad") or "").strip())
+                totales[llave] = totales.get(llave, 0.0) + cantidad
+            if totales:
+                partes = ["%s %s %s" % (recurso, informe.formatear_numero(round(valor, 1)), unidad)
+                          for (recurso, unidad), valor in sorted(totales.items(), key=lambda x: -x[1])]
+                texto = "Consumos registrados en el periodo: %s." % "; ".join(partes)
         if fuera:
             texto = texto[:-1] + " del periodo %s (la planilla tiene %s mas de otros periodos)." % (
                 periodo, informe.formatear_numero(fuera))
@@ -391,6 +404,52 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
                                                      "" if resumen["filas"] == 1 else "s"))
 
 
+def _datos_de_agua(ruta_empresa, periodo, claves, detalle, avisos):
+    """Indicadores de agua ya calculados por el modulo agua (GRI 303, VSME B6)."""
+    carpeta = espacio.ruta_de(ruta_empresa, "resultados")
+    candidatos = sorted(n for n in os.listdir(carpeta) if n.startswith("agua_") and n.endswith(".json"))
+    if not candidatos:
+        return
+    elegido = next((n for n in candidatos if periodo and str(periodo) in n), candidatos[-1])
+    try:
+        datos = _leer_json(os.path.join(carpeta, elegido))
+    except ValueError:
+        avisos.append("El archivo %s esta dañado y no lo pude leer. Vuelve a ejecutar: agua calcular." % elegido)
+        return
+    if datos.get("extraccion_m3") is None:
+        return
+    claves.add("agua.indicadores")
+    estres = ((datos.get("zonas_estres_hidrico") or {}).get("porcentaje") or {}).get("extraccion") or {}
+    texto = "Agua (%s): extraccion %s m3, descarga %s m3 y consumo %s m3." % (
+        datos.get("periodo") or "periodo calculado", informe.formatear_numero(datos.get("extraccion_m3")),
+        informe.formatear_numero(datos.get("descarga_m3")), informe.formatear_numero(datos.get("consumo_m3")))
+    if estres.get("si") is not None:
+        texto = texto[:-1] + ("; el %s %% de la extraccion ocurre en zonas con estres hidrico."
+                              % informe.formatear_numero(estres.get("si")))
+    detalle["agua.indicadores"] = texto
+    if periodo and str(periodo) not in str(datos.get("periodo") or ""):
+        avisos.append("Los indicadores de agua son de «%s», no solo del periodo %s: revisalos antes de "
+                      "reportarlos." % (datos.get("periodo"), periodo))
+
+
+def _revisar_dotacion(perfil, detalle, avisos):
+    """Si la ficha y la planilla de personas no dicen lo mismo, el reporte no puede elegir en silencio."""
+    texto = detalle.get("personas.dotacion") or ""
+    try:
+        en_ficha = int(perfil.get("trabajadores") or 0)
+    except (TypeError, ValueError):
+        en_ficha = 0
+    import re as _re
+    encontrado = _re.search(r"Dotacion: ([0-9\.]+) persona", texto)
+    if not en_ficha or not encontrado:
+        return
+    en_planilla = int(encontrado.group(1).replace(".", ""))
+    if en_planilla != en_ficha:
+        avisos.append("La ficha de la empresa dice %d trabajadores y la planilla de personas suma %d. El "
+                      "borrador usa la planilla: confirma cual es la cifra correcta antes de publicar."
+                      % (en_ficha, en_planilla))
+
+
 def datos_disponibles(perfil, ruta_empresa, periodo=None):
     """Revisa la carpeta de la empresa y devuelve (claves, detalle, avisos, huella_usada)."""
     claves = set()
@@ -401,10 +460,12 @@ def datos_disponibles(perfil, ruta_empresa, periodo=None):
     detalle["empresa.json"] = "Ficha de la empresa: %s, sector %s, pais %s, periodo %s." % (
         perfil.get("nombre", ""), perfil.get("sector") or "sin indicar",
         espacio.PAISES.get(perfil.get("pais", ""), perfil.get("pais", "")),
-        perfil.get("periodo_actual", ""))
+        periodo or perfil.get("periodo_actual", ""))
 
     huella = _datos_de_huella(ruta_empresa, periodo, claves, detalle, avisos)
     _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos)
+    _datos_de_agua(ruta_empresa, periodo, claves, detalle, avisos)
+    _revisar_dotacion(perfil, detalle, avisos)
 
     ruta_diagnostico = espacio.ruta_de(ruta_empresa, "seguimiento", "diagnostico.json")
     if os.path.isfile(ruta_diagnostico):
@@ -510,7 +571,7 @@ def cobertura(opciones):
         "ya_puedes_reportar": resumir(resultado["cubiertos"]),
         "te_falta": resumir(resultado["parciales"] + [f for f in resultado["pendientes"] if not f["se_redacta"]]),
         "datos_que_mas_suman": resultado["datos_que_mas_suman"],
-        "datos_encontrados": sorted(detalle.values()),
+        "datos_encontrados": sorted(set(detalle.values())),
         "huella_usada": os.path.basename(huella) if huella else None,
         "siguiente_paso": "Genera el borrador con: reporte borrador --marco %s. El indice de contenidos sale "
                           "con: reporte indice --marco %s." % (resultado["marco"], resultado["marco"]),
@@ -645,8 +706,16 @@ def borrador(opciones):
     resultado = catalogo.evaluar_cobertura(marco, claves)
     fichas = _seleccionar(resultado, opciones)
 
-    destino = espacio.ruta_de(ruta_empresa, "reportes", "borrador-%s-%s.docx" % (
-        espacio.texto_a_slug(marco), espacio.texto_a_slug(periodo or "sin-periodo")))
+    base_nombre = "borrador-%s-%s" % (espacio.texto_a_slug(marco), espacio.texto_a_slug(periodo or "sin-periodo"))
+    destino = espacio.ruta_de(ruta_empresa, "reportes", base_nombre + ".docx")
+    version = 2
+    # La persona puede haber editado el borrador anterior en Word: nunca se sobrescribe sin preguntar.
+    while os.path.exists(destino) and not opciones.get("sobrescribir"):
+        destino = espacio.ruta_de(ruta_empresa, "reportes", "%s-v%d.docx" % (base_nombre, version))
+        version += 1
+    if version > 2:
+        avisos.append("Ya habia un borrador con ese nombre: deje el nuevo como %s para no pisar cambios que "
+                      "se hayan hecho en Word." % os.path.basename(destino))
     word.escribir_docx(destino,
                        _bloques_borrador(perfil, marco, periodo or "sin indicar", fichas, detalle),
                        titulo="Borrador de reporte %s - %s" % (marco, perfil.get("nombre", "")))

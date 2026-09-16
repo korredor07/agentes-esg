@@ -62,6 +62,7 @@ DATOS_CONOCIDOS = {
     "huella.por_periodo": "Emisiones de mas de un periodo, para comparar",
     "huella.calidad_datos": "Calidad de los datos de la huella",
     "huella.set_pcg": "Metodologia y potenciales de calentamiento global usados",
+    "agua.indicadores": "Indicadores de agua calculados (resultados/agua_*.json)",
     "diagnostico": "Diagnostico ESG (seguimiento/diagnostico.json)",
     "metas": "Metas registradas (seguimiento/metas.json)",
 }
@@ -266,9 +267,16 @@ def contenidos_de(marco, ruta=None):
     return [c for c in cargar_contenidos(ruta) if c["marco"] == nombre]
 
 
+def dato_sin_marca(dato):
+    """Un dato terminado en «?» es opcional: se muestra si existe, pero no hace falta para cubrir."""
+    return dato[:-1] if dato.endswith("?") else dato
+
+
 def _ficha(contenido, disponibles):
-    fuentes = contenido["dato_fuente"]
-    encontrados = [f for f in fuentes if f in disponibles]
+    todas = contenido["dato_fuente"]
+    fuentes = [f for f in todas if not f.endswith("?")]
+    opcionales = [dato_sin_marca(f) for f in todas if f.endswith("?")]
+    encontrados = [f for f in fuentes if f in disponibles] + [f for f in opcionales if f in disponibles]
     faltan = [f for f in fuentes if f not in disponibles]
     if not fuentes:
         estado = "pendiente"

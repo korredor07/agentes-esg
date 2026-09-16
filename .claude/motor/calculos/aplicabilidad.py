@@ -68,8 +68,12 @@ def _rep(perfil, r):
         return "no aplica", "Es una ley chilena."
     respuesta = _si(r.get("pone_productos_prioritarios"))
     if respuesta is True:
-        return "aplica", ("La empresa introduce en el mercado chileno envases, neumaticos, aceites, "
-                          "aparatos electricos, pilas o baterias, sea fabricandolos o importandolos.")
+        return "aplica", ("La empresa introduce en el mercado chileno productos prioritarios (envases y "
+                          "embalajes, neumaticos, aceites, aparatos electricos, pilas o baterias), fabricandolos "
+                          "o importandolos. Ojo con los envases: el productor es quien pone en el mercado el "
+                          "producto envasado o embalado, no quien fabrica el envase vacio (Ley 20.920 art. 3 "
+                          "N 21 y DS 12/2020). Un fabricante de envases lo es por los embalajes con que "
+                          "despacha su propia mercaderia.")
     if respuesta is False:
         return "no aplica", "No introduce productos prioritarios en el mercado chileno."
     return "revisar", ("Hay que confirmar si vende productos envasados, importa articulos o comercializa "
@@ -296,8 +300,9 @@ PREGUNTAS = [
     {"clave": "tiene_trabajadores", "pregunta": "¿La empresa tiene personas contratadas?",
      "para_que": "Define casi todas las obligaciones laborales."},
     {"clave": "pone_productos_prioritarios", "paises": ["CL"],
-     "pregunta": "¿Venden productos envasados, importan articulos, o comercializan neumaticos, aceites, "
-                 "aparatos electricos, pilas o baterias?",
+     "pregunta": "¿Venden en Chile productos dentro de envases o embalajes (incluidas las cajas y el film "
+                 "con que despachan), o fabrican o importan neumaticos, aceites, aparatos electricos, pilas o "
+                 "baterias?",
      "para_que": "Define si le aplica la Ley REP."},
     {"clave": "cien_o_mas_trabajadores", "paises": ["CL"],
      "pregunta": "¿La empresa tiene 100 o mas trabajadores?",
