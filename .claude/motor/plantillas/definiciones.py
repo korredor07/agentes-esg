@@ -147,6 +147,67 @@ PLANTILLAS = {
             [2026, "neumaticos", "A", "", 1050, 700, 520, "colectivo", "", ""],
         ],
     },
+    "medidas": {
+        "titulo": "Medidas de reduccion de emisiones",
+        "para_que": "Comparar acciones posibles por lo que cuesta cada tonelada de CO2 evitada y decidir cuales hacer primero.",
+        "hoja": "Medidas",
+        "columnas": [
+            {"titulo": "Medida", "ancho": 32, "ayuda": "Que se haria. Ej: cambiar la iluminacion a LED."},
+            {"titulo": "Inversion (CAPEX)", "ancho": 20, "ayuda": "Cuanto cuesta implementarla, una sola vez."},
+            {"titulo": "Costo anual (OPEX)", "ancho": 20, "ayuda": "Cuanto cuesta mantenerla cada año."},
+            {"titulo": "Ahorro anual", "ancho": 18, "ayuda": "Cuanto ahorra al año en energia, combustible o insumos."},
+            {"titulo": "Vida util (años)", "ancho": 16, "ayuda": "Cuantos años dura la medida."},
+            {"titulo": "tCO2e evitadas al año", "ancho": 22, "ayuda": "Toneladas de CO2 equivalente que deja de emitir al año."},
+            {"titulo": "Responsable", "ancho": 20, "ayuda": "Quien la impulsaria. Opcional."},
+            {"titulo": "Notas", "ancho": 30, "ayuda": "Supuestos, cotizaciones o condiciones para hacerla."},
+        ],
+        "ejemplo": [
+            ["Iluminacion LED en planta", 45000, 1200, 14000, 10, 38, "Mantencion", "Cotizacion de marzo"],
+            ["Recuperador de calor en caldera", 210000, 8000, 22000, 15, 130, "Operaciones", ""],
+        ],
+    },
+    "agua": {
+        "titulo": "Agua: extraccion, consumo y descarga",
+        "para_que": "Base para la huella hidrica, los indicadores de agua de los reportes y las obligaciones de descarga.",
+        "hoja": "Agua",
+        "columnas": [
+            {"titulo": "Periodo", "ancho": 12, "ayuda": "Año (2025) o mes (2025-03)."},
+            {"titulo": "Sitio", "ancho": 22, "ayuda": "Nombre del sitio, igual que en la plantilla de sitios."},
+            {"titulo": "Origen", "ancho": 22, "ayuda": "red publica, pozo, rio, mar, agua de lluvia, agua reutilizada."},
+            {"titulo": "Extraccion (m3)", "ancho": 18, "ayuda": "Cuanta agua entro al sitio en el periodo."},
+            {"titulo": "Descarga (m3)", "ancho": 18, "ayuda": "Cuanta agua salio: alcantarillado, rio, mar o infiltracion."},
+            {"titulo": "Destino de la descarga", "ancho": 24, "ayuda": "alcantarillado, rio, mar, infiltracion, riego."},
+            {"titulo": "Zona de estres hidrico", "ancho": 22, "ayuda": "si / no / no se. Marca si el sitio esta en una zona con escasez."},
+            {"titulo": "Calidad del dato", "ancho": 18, "ayuda": "verificado, reportado o estimado."},
+            {"titulo": "Notas", "ancho": 28, "ayuda": "Medidor, boleta o supuesto usado."},
+        ],
+        "ejemplo": [
+            ["2025", "Planta Chillan", "red publica", 28500, 24000, "alcantarillado", "si", "reportado", "Boletas de la sanitaria"],
+            ["2025", "Planta Chillan", "pozo", 12000, 0, "riego", "si", "estimado", "Estimado por horas de bombeo"],
+        ],
+    },
+    "residuos": {
+        "titulo": "Residuos generados y su destino",
+        "para_que": "Base para el alcance 3 de residuos, las declaraciones ambientales y los indicadores de economia circular.",
+        "hoja": "Residuos",
+        "columnas": [
+            {"titulo": "Periodo", "ancho": 12, "ayuda": "Año (2025) o mes (2025-03)."},
+            {"titulo": "Sitio", "ancho": 22, "ayuda": "Donde se genero el residuo."},
+            {"titulo": "Tipo de residuo", "ancho": 26, "ayuda": "organico, papel y carton, plastico, vidrio, metal, madera, mixto, peligroso, otro."},
+            {"titulo": "Peligroso", "ancho": 14, "ayuda": "si / no. Los peligrosos tienen obligaciones propias."},
+            {"titulo": "Cantidad", "ancho": 14, "ayuda": "Solo el numero."},
+            {"titulo": "Unidad", "ancho": 12, "ayuda": "t (toneladas) o kg."},
+            {"titulo": "Destino", "ancho": 24, "ayuda": "relleno sanitario, reciclaje, compostaje, valorizacion energetica, tratamiento."},
+            {"titulo": "Quien lo retira", "ancho": 24, "ayuda": "Empresa de retiro o municipalidad. Opcional."},
+            {"titulo": "Calidad del dato", "ancho": 18, "ayuda": "verificado, reportado o estimado."},
+            {"titulo": "Notas", "ancho": 26, "ayuda": "Numero de guia de retiro u observaciones."},
+        ],
+        "ejemplo": [
+            ["2025", "Planta Chillan", "organico", "no", 320, "t", "compostaje", "Compostera regional", "reportado", "Descarte de fruta"],
+            ["2025", "Planta Chillan", "mixto", "no", 145, "t", "relleno sanitario", "Municipalidad", "reportado", ""],
+            ["2025", "Planta Chillan", "peligroso", "si", 1.2, "t", "tratamiento", "Gestor autorizado", "reportado", "Aceites usados"],
+        ],
+    },
 }
 
 

@@ -58,11 +58,13 @@ generar reportes confiables, porque no vas a inventar números.
 ## 3. Verificar
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" version mostrar
+python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" revision sistema
 ```
 
-Debe responder un JSON con `"ok": true`. Si responde eso, avísale que ya está
-todo listo y retoma lo que estaban haciendo.
+Revisa la versión de Python, que estén los archivos de factores y feriados, que
+el cálculo de prueba dé el resultado correcto y que se puedan guardar archivos
+en la carpeta. Si todo sale «ok», avísale que ya está listo y retoma lo que
+estaban haciendo. Si algo falla, el propio resultado dice qué hacer.
 
 ## 4. Si algo falla
 
