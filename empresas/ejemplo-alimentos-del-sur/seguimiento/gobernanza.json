@@ -9,18 +9,18 @@
   "ultima_revision": {
     "empresa": "Alimentos del Sur SpA",
     "pais": "CL",
-    "avance_pct": 0.0,
+    "avance_pct": 3.7,
     "estado": "sin gestion",
     "color": "rojo",
     "por_bloque": {
-      "politicas": 0.0,
+      "politicas": 15.0,
       "canal_denuncias": 0.0,
       "encargado": 0.0,
       "capacitacion": 0.0,
       "supervision": 0.0,
       "gobierno_corporativo": 0.0
     },
-    "respondidas": 0,
+    "respondidas": 1,
     "total_preguntas": 19,
     "detalle": [
       {
@@ -28,8 +28,8 @@
         "bloque": "politicas",
         "bloque_titulo": "Politicas y reglas escritas",
         "titulo": "Codigo de etica o de conducta vigente y difundido",
-        "estado": "sin_responder",
-        "nota": "",
+        "estado": "parcial",
+        "nota": "Existe pero no se difundio",
         "responsable": "",
         "fecha_compromiso": "",
         "prioridad": 9,
@@ -310,8 +310,8 @@
         "bloque": "politicas",
         "bloque_titulo": "Politicas y reglas escritas",
         "titulo": "Codigo de etica o de conducta vigente y difundido",
-        "estado": "sin_responder",
-        "nota": "",
+        "estado": "parcial",
+        "nota": "Existe pero no se difundio",
         "responsable": "",
         "fecha_compromiso": "",
         "prioridad": 9,
@@ -569,15 +569,6 @@
         "prioridad": 9
       },
       {
-        "id": "codigo-etica",
-        "bloque": "Politicas y reglas escritas",
-        "pregunta": "¿Tienen un codigo de etica o de conducta escrito, aprobado y entregado a todo el equipo?",
-        "porque_importa": "Es la base escrita del modelo y lo primero que piden un cliente grande, un banco o un fiscal.",
-        "si_no_lo_tiene": "Redactarlo, aprobarlo por la administracion, difundirlo y guardar el acuse de recibo.",
-        "base": "Ley 20.393, art. 4 N°2 (protocolos y procedimientos de prevencion).",
-        "prioridad": 9
-      },
-      {
         "id": "encargado",
         "bloque": "Encargado de prevencion",
         "pregunta": "¿Hay una persona designada por escrito como responsable de que esto funcione?",
@@ -733,6 +724,6 @@
         "prioridad": 1
       }
     ],
-    "revisado_el": "2026-09-16 01:53:17"
+    "revisado_el": "2026-09-16 02:01:06"
   }
 }

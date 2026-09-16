@@ -797,6 +797,7 @@ def fueleu_intensidad_real(consumos, gwp=None, energia_ops_mj=0.0, co2eq_ops=Non
         "combustibles": detalle,
         "articulos": ["Anexo I, ecuaciones 1 y 2, del Reglamento (UE) 2023/1805",
                       "Anexo II del Reglamento (UE) 2023/1805 (factores por defecto)"],
+        "advertencias": advertencias,
         "no_verificado": pendientes("gwp_fueleu"),
     }
 
@@ -840,6 +841,7 @@ def fueleu_balance(anio, consumos=None, ghgie_actual=None, energia_total_mj=None
         actual = detalle_intensidad["ghgie_gco2e_mj"]
         energia = (_numero(energia_total_mj, "la energia total", obligatorio=False, minimo=0)
                    or detalle_intensidad["energia_total_mj"])
+        advertencias.extend(detalle_intensidad["advertencias"])
 
     if actual <= 0:
         raise Problema("La intensidad de gases de efecto invernadero no puede ser cero o negativa.",
