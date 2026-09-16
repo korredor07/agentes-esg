@@ -98,7 +98,7 @@ entrega en las dos unidades.
 **2. Crea la planilla si no existe y explícale qué llenar.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo agua
+python .claude/motor/esg.py plantilla crear --tipo agua
 ```
 
 Queda en `datos/agua.xlsx`. Una fila por periodo, sitio y **origen del agua**:
@@ -119,7 +119,7 @@ skill `cargar-datos`.
 **3. Calcula la contabilidad.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" agua calcular --periodo 2025
+python .claude/motor/esg.py agua calcular --periodo 2025
 ```
 
 Lee con atención `advertencias` y `problemas`:
@@ -134,7 +134,7 @@ Lee con atención `advertencias` y `problemas`:
 **4. Pondera por la escasez del lugar.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" agua escasez --periodo 2025
+python .claude/motor/esg.py agua escasez --periodo 2025
 ```
 
 La primera vez **no calcula nada**: te propone el factor AWARE del país y te
@@ -153,10 +153,10 @@ Entonces:
 
 ```bash
 # si el promedio del país le sirve (por ejemplo, para una primera estimación)
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" agua escasez --periodo 2025 --confirmar
+python .claude/motor/esg.py agua escasez --periodo 2025 --confirmar
 
 # si ya tiene el factor de su cuenca, o el del mes que corresponde
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" agua escasez --periodo 2025 --factor 63.1
+python .claude/motor/esg.py agua escasez --periodo 2025 --factor 63.1
 ```
 
 Opciones útiles: `--agregacion agricola` si el agua va a riego (por defecto usa
@@ -179,7 +179,7 @@ que se lo pases con `--factor`.
 **6. Genera el informe.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" agua informe --periodo 2025
+python .claude/motor/esg.py agua informe --periodo 2025
 ```
 
 Queda en `reportes/` como HTML: se abre con doble clic y se imprime a PDF desde
@@ -189,13 +189,13 @@ el navegador (Ctrl+P). Dile dónde quedó.
 revisa la obligación con la DGA.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" agua dga
+python .claude/motor/esg.py agua dga
 ```
 
 **8. Respalda la evidencia** si el número se va a usar ante terceros:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/agua.xlsx --descripcion "Agua 2025"
+python .claude/motor/esg.py evidencia registrar --archivo datos/agua.xlsx --descripcion "Agua 2025"
 ```
 
 ## La obligación chilena: monitorear las extracciones (MEE)

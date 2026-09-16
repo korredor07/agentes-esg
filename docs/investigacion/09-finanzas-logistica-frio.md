@@ -14,8 +14,10 @@ Fecha de investigación: 2026-09-16
 3. El régimen **Pro Pyme del art. 14 letra D) N° 3** deprecia **instantánea e íntegramente** el activo fijo en el ejercicio de adquisición o fabricación, con la condición de que el bien **esté pagado** (base caja). Estas empresas **no aplican corrección monetaria**.
 4. Los regímenes **transitorios** de depreciación instantánea (Ley 21.210 arts. vigésimo primero y vigésimo segundo transitorios; ampliados por Ley 21.256) **ya no están vigentes** para nuevas adquisiciones: cubrían adquisiciones hasta el 31.12.2021 y 31.12.2022 respectivamente.
 5. La **corrección monetaria** del art. 41 LIR usa variación de IPC con **desfase de un mes** (y de dos meses para el arranque del ejercicio). Para el ejercicio 01.01.2025–31.12.2025 el capital propio inicial se reajusta **3,4 %** y los factores mensuales directos van de **1,036** (enero 2025) a **1,000** (diciembre 2025) — Circular SII N° 5 de 21.01.2026. Regla dura: **si el porcentaje es negativo, se iguala a cero**.
-6. En logística, **ISO 14083:2023** es la norma internacional de cuantificación de GEI de la cadena de transporte y el **GLEC Framework v3.1 (Smart Freight Centre)** es su implementación práctica; **los factores por defecto de GLEC no son redistribuibles**: para software abierto hay que usar alternativas públicas (DEFRA/BEIS, ADEME Base Empreinte, EPA SmartWay, EcoTransIT World público).
-7. En cadena de frío, la **temperatura cinética media (MKT)** es la fórmula de Haynes; el valor por defecto de energía de activación más usado es **83,144 kJ/mol** (equivale a `Ea/R = 10.000 K`), con `R = 8,314462618 J·mol⁻¹·K⁻¹`. En Chile, el **Reglamento Sanitario de los Alimentos (DS 977/1996)** fija los rangos de almacenamiento y el **ISP** regula el almacenamiento y las alertas de medicamentos.
+6. El **formato DTE vigente es la versión 2.5 (febrero de 2026)**. Su cambio del 16.02.2026 agrega a la guía de despacho electrónica **patente de remolque, fecha y hora de salida y fecha de llegada** (Res. Ex. SII N° 154 de 2025), lo que permite derivar tonelada-kilómetro directamente del DTE. En el **Registro de Compras**, el campo *Tipo Transacción = 4* junto con *Monto Activo Fijo* y *Monto IVA Activo Fijo* identifican automáticamente las **altas de activo fijo** del ejercicio.
+7. En trazabilidad, el modelo mínimo GS1 es **GTIN (AI 01) + lote (AI 10) + SSCC (AI 00) + GLN**, con fechas en AI 11/13/15/17 y peso neto en AI 3103. En Chile, el **RSA art. 66** obliga a conservar registros **90 días** tras el vencimiento (**3 años** si la duración es indefinida); las alertas alimentarias se gestionan por la **RIAL de ACHIPIA** y los retiros de medicamentos se notifican al **ISP de manera inmediata** conforme al art. 71° N° 3 del DS N° 3/2010.
+8. En logística, **ISO 14083:2023** es la norma internacional de cuantificación de GEI de la cadena de transporte y el **GLEC Framework v3.1 (Smart Freight Centre)** es su implementación práctica; **los factores por defecto de GLEC no son redistribuibles**: para software abierto hay que usar alternativas públicas (DEFRA/BEIS, ADEME Base Empreinte, EPA SmartWay, EcoTransIT World público).
+9. En cadena de frío, la **temperatura cinética media (MKT)** es la fórmula de Haynes; el valor por defecto de energía de activación más usado es **83,144 kJ/mol** (equivale a `Ea/R = 10.000 K`), con `R = 8,314462618 J·mol⁻¹·K⁻¹`. En Chile, el **Reglamento Sanitario de los Alimentos (DS 977/1996)** fija los rangos de almacenamiento y el **ISP** regula el almacenamiento y las alertas de medicamentos.
 
 ---
 
@@ -880,3 +882,314 @@ Fuente: *Instructivo para notificar retiros del mercado de productos farmacéuti
 > **Implicación de diseño para Agentes ESG:** el informe final exige **conciliar unidades entregadas vs. devueltas**. Eso obliga a que el modelo de datos guarde cantidad por (GTIN, lote, destinatario) en cada despacho, no solo el total. Si el sistema no lo registra al despachar, el recall no se puede cerrar.
 
 ---
+
+## 8. Fórmulas y métodos
+
+> Todos los importes en pesos chilenos, redondeados al peso con *half-up*. Los cálculos de esta sección fueron ejecutados numéricamente, no estimados.
+
+### 8.1 Depreciación tributaria — funciones base
+
+```python
+def vida_util_acelerada(vida_normal: int) -> int | None:
+    """Art. 31 N° 5 LIR. Solo bienes NUEVOS o IMPORTADOS con vida normal >= 3."""
+    if vida_normal < 3:
+        return None                      # no puede acogerse
+    return max(1, vida_normal // 3)      # floor, mínimo 1
+
+def vida_util_5bis(vida_normal: int, ingresos_prom_uf: float) -> int:
+    """Art. 31 N° 5 bis LIR."""
+    if ingresos_prom_uf <= 25_000:
+        return 1                         # vida útil de 1 año
+    if ingresos_prom_uf <= 100_000:
+        return max(1, vida_normal // 10) # 1/10, despreciando decimales
+    raise ValueError("Fuera del ámbito del N° 5 bis")
+
+def cuota_depreciacion(valor_actualizado: float, vida_util: int, meses_uso: int = 12) -> float:
+    """Cuota del ejercicio, prorrateada por meses efectivos de utilización."""
+    return valor_actualizado / vida_util * (meses_uso / 12)
+```
+
+El prorrateo por meses está **confirmado** con el ejemplo oficial de la Circular SII N° 31/2020 [8]: saldo actualizado $12.762.750, vida útil acelerada 1 año, 2 meses de uso (noviembre–diciembre) → `12.762.750 / 1 × 2/12 = $2.127.125`, que es exactamente la cifra de la circular. [VERIFICADO]
+
+### 8.2 Ejemplo resuelto — depreciación normal, acelerada, 5 bis y Pro Pyme
+
+**Datos.** Camión de uso general, **nuevo**, adquirido y puesto en uso en **abril de 2025** por **$60.000.000** netos. Ejercicio comercial 01.01.2025 – 31.12.2025. Vida útil normal según tabla SII: **7 años**.
+
+**Paso 1 — Corrección monetaria del bien adquirido en el ejercicio.**
+Factor de actualización directo de **abril 2025 = 1,016** (Circular SII N° 5/2026) [7].
+
+```
+Valor actualizado = 60.000.000 × 1,016 = $60.960.000
+Meses de utilización = abril … diciembre = 9 meses
+```
+
+**Paso 2 — Cuota del ejercicio según régimen.**
+
+| Régimen | Vida útil tributaria | Cuota anual | **Cuota 2025 (9/12)** |
+|---|---:|---:|---:|
+| **Normal** (art. 31 N° 5, inc. 1°) | 7 años | $8.708.571 | **$6.531.429** |
+| **Acelerada** (art. 31 N° 5) — `floor(7/3) = 2` | 2 años | $30.480.000 | **$22.860.000** |
+| **5 bis, tramo > 25.000 y ≤ 100.000 UF** — `floor(7/10) = 0 → mínimo 1` | 1 año | $60.960.000 | **$45.720.000** |
+| **5 bis, tramo ≤ 25.000 UF** | 1 año | $60.960.000 | **$45.720.000** |
+| **Pro Pyme art. 14 D) N° 3** (bien **pagado**, sin corrección monetaria) | — | — | **$60.000.000** (100 % instantáneo) |
+
+**Paso 3 — Control de la diferencia por depreciación acelerada.**
+
+```
+Diferencia = 22.860.000 − 6.531.429 = $16.328.571
+```
+
+Esta diferencia **no se considera** para los registros empresariales del art. 14 (solo se computa la depreciación normal); se controla en un registro separado y queda afecta a impuestos finales al retirarse. [VERIFICADO] [8]
+
+> **Observación de diseño:** el mismo bien produce un gasto del ejercicio entre **$6,5 M y $61,0 M** según el régimen. El motor **debe pedir explícitamente el régimen** y no asumir uno por defecto.
+
+### 8.3 Ejemplo resuelto — corrección monetaria del activo fijo (art. 41 LIR)
+
+**Datos al cierre anterior (31.12.2024)**, contribuyente del régimen general con contabilidad completa:
+
+| Concepto | Monto |
+|---|---:|
+| Maquinaria (vida útil normal 15 años), valor bruto tributario | $32.000.000 |
+| Depreciación acumulada | $4.266.667 |
+| Valor neto | $27.733.333 |
+
+**Ejercicio 2025.** Porcentaje de reajuste del capital propio inicial y de los bienes existentes al inicio: **3,4 %** → factor **1,034** (Circular SII N° 5/2026) [7].
+
+| Paso | Cálculo | Resultado |
+|---|---|---:|
+| 1. Actualizar valor bruto | 32.000.000 × 1,034 | **$33.088.000** |
+| 2. Actualizar depreciación acumulada | 4.266.667 × 1,034 | **$4.411.734** |
+| 3. Valor neto actualizado | 33.088.000 − 4.411.734 | **$28.676.266** |
+| 4. Cuota de depreciación 2025 (normal, 15 años) | 33.088.000 / 15 | **$2.205.867** |
+| 5. Valor neto al 31.12.2025 | 28.676.266 − 2.205.867 | **$26.470.399** |
+| 6. Efecto de la corrección monetaria en resultado | Abono por reajuste del activo bruto $1.088.000 − cargo por reajuste de la depreciación acumulada $145.067 | **+$942.933** |
+
+**Alta durante el ejercicio.** Equipo adquirido en **julio de 2025** por $5.000.000, vida útil 15 años:
+
+```
+Factor julio 2025 = 1,017  →  valor actualizado = $5.085.000
+Depreciación 2025 = 5.085.000 / 15 × 6/12 = $169.500
+```
+
+**Reglas que el motor debe respetar** [VERIFICADO]:
+1. **Primero actualizar, después depreciar.** La cuota se calcula sobre el valor **ya corregido**.
+2. Bienes existentes al inicio → factor **anual del capital propio**. Bienes adquiridos en el ejercicio → factor **del mes de adquisición**.
+3. Si el porcentaje resulta **negativo, se iguala a cero**.
+4. Los contribuyentes del **art. 14 D) N° 3 no aplican nada de esto**.
+5. La corrección monetaria del activo es un **abono** a resultado; hay que compensarla con el reajuste del capital propio y del pasivo exigible para obtener el efecto neto.
+
+### 8.4 Ejemplo resuelto — envío multimodal camión + barco (ISO 14083)
+
+**Escenario.** 12 toneladas de fruta refrigerada de Curicó (Chile) a Venlo (Países Bajos).
+
+**Paso 1 — Descomponer la cadena en TCE.**
+
+| TCE | Tipo | Descripción | Distancia |
+|---|---|---|---:|
+| TCE 1 | Transporte | Camión refrigerado, Curicó → Puerto de San Antonio | SFD 220 km |
+| TCE 2 | **Hub** | Terminal de contenedores, San Antonio | 0 km |
+| TCE 3 | Transporte | Buque portacontenedores, San Antonio → Rotterdam | SFD 12.000 km |
+| TCE 4 | **Hub** | Terminal de contenedores, Rotterdam | 0 km |
+| TCE 5 | Transporte | Camión refrigerado, Rotterdam → Venlo | SFD 150 km |
+
+**Paso 2 — Masa.** 12 t = mercancía + embalaje del expedidor. **Se excluyen palés y el contenedor** (portadores de carga). [VERIFICADO vía doc 02]
+
+**Paso 3 — Factores.** Se usan **DESNZ 2026** (Open Government Licence v3.0, redistribuibles), **no** valores GLEC. Unidad: kg CO2e por t·km. [VERIFICADO vía doc 02]
+
+| TOC | TTW (operación) | WTT (provisión de energía) | **WTW (total)** |
+|---|---:|---:|---:|
+| HGV refrigerado, promedio | 0,12122 | 0,02769 | **0,14891** |
+| Container ship, promedio | 0,01612 | 0,00365 | **0,01977** |
+
+**Paso 4 — Actividad y emisiones por TCE.**
+
+| TCE | t·km | TTW (kg CO2e) | WTT (kg CO2e) | **WTW (kg CO2e)** |
+|---|---:|---:|---:|---:|
+| TCE 1 — camión CL | 2.640 | 320,0208 | 73,1016 | **393,1224** |
+| TCE 3 — buque | 144.000 | 2.321,2800 | 525,6000 | **2.846,8800** |
+| TCE 5 — camión UE | 1.800 | 218,1960 | 49,8420 | **268,0380** |
+| TCE 2 y 4 — hubs | — | *(sin factor público verificado)* | — | **[NO VERIFICADO]** |
+| **TOTAL** | **148.440** | **2.859,4968** | **648,5436** | **3.508,0404** |
+
+**Paso 5 — Resultados de la cadena.**
+
+```
+G_TC  = 3.508,0404 kg CO2e  ≈  3,508 t CO2e     (WTW, hubs excluidos)
+T_TC  = 148.440 t·km
+g_TC  = 3.508,0404 / 148.440 × 1.000 = 23,63 g CO2e/t·km
+```
+
+**Lecturas del ejemplo:**
+- El **barco hace el 98,2 % de las t·km pero solo el 81,2 % de las emisiones**; los 370 km de camión (0,3 % de la distancia) aportan el 18,8 %. La palanca de reducción está en el tramo terrestre, no en el marítimo.
+- El **WTT es el 18,5 %** del total. Reportar solo TTW subestimaría casi un quinto de la huella y haría inválido el cumplimiento de ISO 14083.
+- **Los hubs faltan y eso es una omisión conocida, no un cero real.** ISO 14083 exige incluirlos. No se encontró un factor de hub público y redistribuible; el motor debe **marcar el resultado como incompleto** y permitir que el usuario cargue un factor propio.
+
+**Cómo entraría el DAF.** Si en vez de SFD solo se tuviera la distancia real del odómetro (235 km en el tramo chileno) y la intensidad del TOC estuviera expresada sobre SFD, la distancia de actividad sería `235 / 1,05 = 223,81 km`. Mezclar tipos de distancia entre numerador y denominador es el error más común. [SECUNDARIO] [17]
+
+### 8.5 Temperatura cinética media — implementación de referencia
+
+```python
+import math
+
+R_USP  = 8.3144e-3   # kJ/(mol·K), valor de USP <1079.2>
+DH_USP = 83.144      # kJ/mol, entalpía de activación por defecto
+# Nota: DH_USP / R_USP = 10 000 K exactamente.
+
+def mkt_celsius(temps_c, dh=DH_USP, r=R_USP):
+    """Temperatura cinética media. Entrada y salida en °C.
+    Usa log-sum-exp para estabilidad numérica en series largas."""
+    if not temps_c:
+        raise ValueError("serie vacía")
+    k = dh / r                                   # 10 000 K
+    exps = [-k / (t + 273.15) for t in temps_c]  # exponentes, todos negativos
+    m = max(exps)                                # log-sum-exp
+    log_mean = m + math.log(sum(math.exp(e - m) for e in exps) / len(exps))
+    return k / (-log_mean) - 273.15
+```
+
+**Invariante de test:** `mkt_celsius(s) >= sum(s)/len(s)` para toda serie `s`, con igualdad solo si todas las temperaturas son iguales.
+
+**Fixtures** — ver la tabla de §6.2: caso A → **25,017245 °C**; caso B → **7,227880 °C**; caso C → **25,858208 °C**.
+
+### 8.6 Otras fórmulas útiles
+
+```python
+# Vida útil dinámica por Q10 (parámetros SIEMPRE aportados por el usuario)
+def vida_util_q10(vida_ref_dias, t_ref_c, t_real_c, q10):
+    return vida_ref_dias * q10 ** ((t_ref_c - t_real_c) / 10.0)
+
+# Intensidad de una cadena de transporte
+def intensidad_cadena(emisiones_kg_co2e, actividad_tkm):
+    return emisiones_kg_co2e * 1000.0 / actividad_tkm      # g CO2e / t·km
+
+# Actualización por corrección monetaria
+def actualizar(monto, factor):
+    return monto * max(factor, 1.0)   # el reajuste negativo se iguala a cero
+```
+
+---
+
+## 9. Cambios recientes (2024–2026)
+
+| Fecha | Cambio | Impacto en el motor | Etiqueta |
+|---|---|---|---|
+| **07.07.2018** (vigente) | Decreto 60/18 MINSAL reemplaza el art. 66 del RSA: registros de producción y distribución por **90 días** tras el vencimiento, **3 años** para duración indefinida | Reglas de retención de datos de trazabilidad | [VERIFICADO] |
+| **24.10.2024** | **Ley N° 21.713**, "cumplimiento de obligaciones tributarias dentro de un pacto por el crecimiento económico". Reemplaza íntegramente el art. 64 del Código Tributario (tasación), vigente desde el **01.11.2024**. Instruida por la **Circular SII N° 23 de 2025** | **No modifica** las reglas de depreciación ni la tabla de vida útil | [SECUNDARIO] |
+| **2025** | **Ley N° 21.755**: rebaja transitoria del IDPC del régimen **Pro Pyme** de 25 % a **12,5 %** en los años comerciales 2025, 2026 y 2027, y **15 %** en 2028; además reduce a la mitad los **PPM** de las Pymes en 2025–2027. Condicionada a la tasa de cotización del art. cuarto transitorio de la Ley N° 21.735 | Tasa aplicable al ahorro tributario de la depreciación | [SECUNDARIO] — verificar texto en LeyChile |
+| **21.10.2025** | **GLEC Framework v3.2**: nuevo módulo anexo de contaminantes atmosféricos (NOx, SOx, PM10, PM2.5, black carbon) y actualización de factores de combustible | Metodología estable; los factores **siguen sin ser redistribuibles** | [VERIFICADO vía doc 02] |
+| **Noviembre 2025** | **CountEmissions EU**: acuerdo Consejo–Parlamento sobre el reglamento que fija un método único de cálculo de emisiones de transporte en la UE, basado en **EN ISO 14083** | Futura base de valores por defecto **pública y gratuita** — vigilar | [SECUNDARIO] |
+| **21.01.2026** | **Circular SII N° 5 de 2026**: capital propio inicial 2025 se reajusta **3,4 %**; tabla de factores mensuales 2025 (1,036 → 1,000); dólar al 31.12.2025 **$907,13**; UTA diciembre 2025 **$834.504** | **Datos duros del motor para el AT 2026** | [VERIFICADO] |
+| **26.01.2026** | **GS1 General Specifications Release 26** ratificada; fichero oficial de Application Identifiers actualizado (v1.2) | Modelo de datos de lotes | [SECUNDARIO] / [VERIFICADO] el fichero de AIs |
+| **16.02.2026** | **Formato DTE v2.5**: se agregan a la guía de despacho electrónica los campos **Patente de carro o remolque, Fecha de Salida, Hora de Salida y Fecha de Llegada** (Res. Ex. SII N° 154 de 2025); el traslado tipo 7 pasa a llamarse "Devolución de Mercaderías"; nuevos campos de georreferenciación en manejo de la madera | **Habilita calcular t·km de transporte propio directamente desde el DTE** | [VERIFICADO] |
+| **01.04.2026** | Última actualización de la pregunta frecuente del SII sobre requisitos de depreciación acelerada (contenido sin cambios de fondo) | — | [VERIFICADO] |
+| **22.04.2026** | Ingreso al Congreso del proyecto **"Plan de Reconstrucción Nacional"** (reforma tributaria) | Vigilar: podría cambiar depreciación y Pro Pyme | [SECUNDARIO] |
+| **~01.07.2026** | USP publica un borrador revisado del capítulo **⟨659⟩** con CRT redefinida como **15–25 °C** (propuesta en *Pharmacopeial Forum* **PF 52(4)**) | **Parametrizar** el rango CRT, no fijarlo | **[NO VERIFICADO]** — no se confirmó si ya es oficial |
+| **04.08.2026** | El Congreso **aprueba** el proyecto de Ley de Reconstrucción Nacional. Quedaría **pendiente la resolución del Tribunal Constitucional** sobre requerimientos de inconstitucionalidad antes de su promulgación y publicación | **No aplicar todavía**. Reglas de depreciación posiblemente afectadas | **[NO VERIFICADO]** — confirmar número de ley, texto final y vigencia |
+| **Sin cambios** | La **tabla de vida útil (Res. Ex. SII N° 43/2002)** no ha sido modificada desde la Res. Ex. N° 56 de 2021 | La tabla del motor sigue válida | [VERIFICADO] |
+| **Sin cambios** | **ISO 14083:2023** sigue en Stage 60.60, sin enmienda publicada detectada | — | [NO VERIFICADO] — `iso.org` bloquea el acceso automatizado |
+| **Cerrados** | Los regímenes transitorios de depreciación instantánea (Ley 21.210 arts. vigésimo primero y vigésimo segundo transitorios; Ley 21.256) **expiraron** el 31.12.2021 y el 31.12.2022 | No ofrecerlos para adquisiciones nuevas | [VERIFICADO] |
+
+---
+
+## 10. Pendientes y dudas
+
+### 10.1 Datos [NO VERIFICADO] que NO deben programarse sin confirmar
+
+| # | Ítem | Qué falta | Cómo cerrarlo |
+|---:|---|---|---|
+| 1 | **Nómina completa de activos genéricos de la Res. 43/2002** | Se leyeron 29 ítems + los 2 de vehículos eléctricos. La resolución puede tener ítems adicionales de detalle | Revisar manualmente la página del SII [1], fila por fila |
+| 2 | **Nóminas por actividad** (construcción, minería, transporte, energía, telecomunicaciones) | Cobertura **parcial**; solo se leyeron 2–3 ítems por actividad | Ídem [1] |
+| 3 | **Regla de redondeo de la depreciación acelerada** | Se dedujo `max(1, floor(n/3))` por consistencia integral con la tabla oficial, pero **no se leyó el texto legal** que la enuncia | Leer el art. 31 N° 5 en LeyChile o la Circular SII N° 132/1975 |
+| 4 | **Valor residual de $1 como regla general** | Verificado solo para la Ley 21.256 | Buscar la instrucción general del SII |
+| 5 | **Régimen de vida útil especial** del art. 31 N° 5 (bienes que se hacen inservibles, duplicación de cuota) | No se leyó el texto | Texto legal del art. 31 N° 5 |
+| 6 | **Ley N° 21.755** — número, fecha y texto exacto de las tasas Pro Pyme | Solo fuentes secundarias | LeyChile |
+| 7 | **"Ley de Reconstrucción Nacional" (2026)** | Número de ley, texto final, fallo del TC y vigencia; si toca depreciación | LeyChile / Diario Oficial |
+| 8 | **Campos 20, 28, 30, 32 y 38 del Registro de Ventas del RCV** | Nombres exactos en el archivo | PDF oficial *FormatoyValidacionesVentas* [14] |
+| 9 | **Codificación de los CSV del RCV** | Se asume Latin-1/CP1252 | Descargar un archivo real del SII |
+| 10 | **Tabla de códigos de documentos del Registro de Ventas** | La extracción del PDF salió desalineada; no se reproduce por riesgo de error | PDF oficial [14] |
+| 11 | **ISO 14083:2023 — enmiendas o revisión** | `iso.org` devuelve HTTP 403 | Consulta manual en iso.org/standard/78864.html |
+| 12 | **DAF de ISO 14083** | Los valores (+5 % carretera, +15 % marítimo, GCD + 95 km aéreo) provienen de la guía CLECAT y del GLEC v3.2, **no del texto ISO** | Adquirir la norma o confirmarlo con SFC |
+| 13 | **Factores de emisión de hubs públicos y redistribuibles** | No se encontró ninguno | Explorar Fraunhofer IML, ADEME, EcoTransIT |
+| 14 | **USP ⟨1079.2⟩ y ⟨659⟩ — texto oficial** | `usp.org` y `uspnf.com` devuelven HTTP 403; la ecuación y los rangos vienen de fuentes que los citan | Acceso institucional a USP-NF |
+| 15 | **Estado oficial de la CRT 15–25 °C** | ¿Propuesta o texto vigente? | USP-NF |
+| 16 | **Rangos de temperatura de la Norma Técnica N° 208** | "5 °C ± 3 °C" es secundario; el rango de **congelados no se pudo verificar** | PDF de la NT 208 en minsal.cl (devolvió 403) |
+| 17 | **Decretos que aprueban las NT 127 y 147** (Dto. Ex. 159/2013 y 57/2013) | Fuente secundaria | LeyChile |
+| 18 | **Clases I/II/III del recall de alimentos en Chile** | Definiciones, plazos y alcance | *Manual de Buenas Prácticas de Recall* de ACHIPIA |
+| 19 | **Vigencia del procedimiento RIAL** | El documento publicado es de **2013**; puede haber versión posterior no publicada | Consultar a ACHIPIA |
+| 20 | **AIs de GS1 más allá de los 12 verificados** (`37`, `400`, `401`, `410`–`417`, `422`, `7003`, `7006`, `7007`, `8003`, `8006`, `8018`, `8026`) | No se leyeron del fichero oficial | `ref.gs1.org/ai/` |
+| 21 | **Versión vigente de GS1 Digital Link** | No confirmada | gs1.org |
+| 22 | **Valores por defecto de `Ea` y `Q₁₀` por producto** | **No existen valores universales**: son específicos del producto | Deben venir del titular del registro / estudios de estabilidad |
+
+### 10.2 Dudas de diseño abiertas
+
+1. **¿Dónde vive la tabla de vida útil?** Recomendación: fichero YAML versionado con `vigencia_desde` / `vigencia_hasta` por ítem, para que la Res. 56/2021 (vehículos hasta el 14.02.2031) caduque sola.
+2. **¿Cómo se detecta el activo fijo?** Vía `Tipo Transaccion = 4` y campos `Monto Activo Fijo` / `Monto IVA Activo Fijo` del RCV. Pero eso da el **monto**, no el **tipo de bien**: el mapeo a vida útil sigue requiriendo intervención humana o un clasificador sobre `NmbItem` del DTE.
+3. **Alcance 3 categoría 2 (bienes de capital)**: el gasto en activo fijo **no** va a la categoría 1. Hay que segregarlo del RCV antes de aplicar factores por gasto.
+4. **Hubs sin factor**: ¿reportar la cadena incompleta con una advertencia visible, o negarse a calcular? Recomendación: calcular, marcar como **incompleto conforme a ISO 14083** y no permitir exportar el resultado como "conforme".
+5. **MKT y decisiones de liberación**: el motor **no debe** emitir un veredicto de apto/no apto. Debe calcular, comparar con el límite que el usuario declara y remitir la decisión al titular del registro sanitario.
+6. **Zona gris jurídica**: la NT 208 **no aplica a farmacias, botiquines ni recetarios magistrales**. Si el usuario es una farmacia, el motor debe decirlo en vez de aplicar reglas que no le rigen.
+7. **Falta de datos peruanos y europeos** en esta investigación: el alcance fue Chile. Para Perú (SUNAT, tasas de depreciación del art. 22 del Reglamento de la Ley del Impuesto a la Renta) y la UE hay que abrir investigaciones aparte.
+
+---
+
+## 11. Fuentes
+
+Consultadas el **16 de septiembre de 2026**. Salvo indicación, son fuentes **oficiales primarias**.
+
+**SII — activos fijos, depreciación y corrección monetaria**
+
+1. SII — *Nueva tabla de vida útil de los bienes físicos del activo inmovilizado* (Res. Ex. N° 43 de 26.12.2002). https://www.sii.cl/pagina/valores/bienes/tabla_vida_enero.htm
+2. SII — Circular N° 6 de 14.01.2003 (instrucciones sobre la Res. Ex. 43/2002). https://www.sii.cl/documentos/circulares/2003/circu06.pdf
+3. SII — **Resolución Exenta N° 56 de 09.06.2021** (vehículos eléctricos, híbridos enchufables y cero emisiones). https://www.sii.cl/normativa_legislacion/resoluciones/2021/reso56.pdf
+4. SII — *Tabla de vida útil de los bienes físicos del activo inmovilizado* (índice). https://www.sii.cl/valores_y_fechas/tabla_vida_util_activo_inmovilizado.html
+5. Texto de la Ley sobre Impuesto a la Renta, art. 31 N° 5 y 5 bis — *leyes-cl.com* (**[SECUNDARIO]**, última actualización declarada 14.09.2026). https://leyes-cl.com/ley_sobre_impuesto_a_la_renta/31.htm · Norma oficial: BCN LeyChile, DL 824, idNorma 6368. https://www.bcn.cl/leychile/navegar?idNorma=6368
+6. SII — Preguntas frecuentes: requisitos para acogerse a la depreciación acelerada (actualizada 01.04.2026). https://www.sii.cl/preguntas_frecuentes/declaracion_renta/001_140_2254.htm
+7. SII — **Circular N° 5 de 21.01.2026** (corrección monetaria y datos del AT 2026; ref. legal arts. 41, 52 y 52 bis LIR). https://www.sii.cl/normativa_legislacion/circulares/2026/circu5.pdf
+8. SII — **Circular N° 31 de 24.04.2020** (regímenes transitorios de depreciación instantánea, arts. vigésimo primero y vigésimo segundo transitorios de la Ley N° 21.210; modificada y complementada por la Circular N° 11 de 17.02.2021). https://www.sii.cl/normativa_legislacion/circulares/2020/circu31.pdf
+9. SII — **Circular N° 62 de 2020** (régimen Pro Pyme, art. 14 letra D LIR). https://www.sii.cl/normativa_legislacion/circulares/2020/circu62.pdf
+10. SII — Circular N° 53 de 2020 (gastos, art. 31 LIR; referencia a la Ley N° 21.256). https://www.sii.cl/normativa_legislacion/circulares/2020/circu53.pdf
+11. SII — *Corrección Monetaria Mensual* (porcentajes de actualización, término de giro), años 2025 y 2026. https://www.sii.cl/valores_y_fechas/correccion_monetaria/correccion2025.htm · https://www.sii.cl/valores_y_fechas/correccion_monetaria/correccion2026.htm
+
+**SII — documentos tributarios electrónicos y RCV**
+
+12. SII — *Formato Documentos Tributarios Electrónicos*, **versión 2.5, 2026-02**. https://www.sii.cl/factura_electronica/factura_mercado/formato_dte_202602.pdf
+13. SII — *Instrucciones de llenado de Información de Compras para informar en el Registro de Compras* (formato y validaciones). https://www.sii.cl/ayudas/ayudas_por_servicios/FormatoyValidacionesCompras.pdf
+14. SII — *Instrucciones de llenado de Información de Ventas para informar en el Registro de Ventas*. https://www.sii.cl/ayudas/ayudas_por_servicios/FormatoyValidacionesVentas.pdf
+15. SII — *Instrucciones para utilizar el Importador de libros de compra y venta*. https://www.sii.cl/declaraciones_juradas/ddjj_3327_3328/navegacion_importador_lcv.htm
+
+**Logística**
+
+16. CLECAT — *Smart Freight Centre publishes GLEC Framework 3.2* (**[SECUNDARIO]**). https://www.clecat.org/en/news/newsletters/smart-freight-centre-unveils-glec-framework-32
+17. CLECAT — *Guide to ISO 14083: Greenhouse Gas Emissions in the Transport Sector* (**[SECUNDARIO]**, cita expresamente a ISO 14083 como fuente de la Tabla 3 de distancias). https://www.clecat.org/media/clecat-guide-to-iso-14083---greenhouse-gas-emissions-in-the-transport-sector.pdf
+    · Smart Freight Centre — GLEC Framework v3.2 (21.10.2025): https://smart-freight-centre-media.s3.amazonaws.com/documents/GLEC_FRAMEWORK_v3.2_21_10_25_1.pdf
+    · ISO — ISO 14083:2023 (resumen del catálogo, HTTP 403 en acceso automatizado): https://www.iso.org/standard/78864.html
+    · **Documento hermano del proyecto**: `docs/investigacion/02-factores-alcance3-transporte-gasto.md`, §1 (DESNZ 2026) y §4 (GLEC e ISO 14083).
+
+**Cadena de frío**
+
+18. USP — General Chapter **⟨1079.2⟩** *Mean Kinetic Temperature in the Evaluation of Temperature Excursions During Storage and Transportation of Drug Products* (**[SECUNDARIO]**: `usp.org` y `uspnf.com` devuelven HTTP 403 a peticiones automatizadas). https://www.usp.org/sites/default/files/usp/document/supply-chain/apec-toolkit/USP%20GC1079.2.pdf · https://www.uspnf.com/notice/1079.2-preposting-20241202
+    · USP — General Chapter ⟨659⟩ *Packaging and Storage Requirements*: https://www.uspnf.com/sites/default/files/usp_pdf/EN/USPNF/revisions/659_rb_notice.pdf
+19. **Reglamento Sanitario de los Alimentos**, DS N° 977 de 1996 del Ministerio de Salud, texto consolidado a **mayo de 2024** (copia publicada por DINTA — Universidad de Chile del texto de BCN LeyChile, **[SECUNDARIO]** por el hospedaje; el texto es normativa pública). https://dinta.cl/wp-content/uploads/2024/06/DECRETO_977_96_actualizado_-mayo-2024_DINTA.pdf
+    · MINSAL — Reglamento Sanitario de los Alimentos: https://www.minsal.cl/reglamento-sanitario-de-los-alimentos/
+    · Decreto 23 de 28.06.2016 MINSAL (modifica arts. 186 y 192 del RSA): https://faolex.fao.org/docs/pdf/chi158984.pdf
+20. **Decreto Exento N° 48 de 17.09.2019** (MINSAL), que aprueba la **Norma Técnica N° 208** para el almacenamiento y transporte de medicamentos refrigerados y congelados; modificado por el Decreto Exento N° 49, D.O. 21.09.2020. https://www.ispch.cl/sites/default/files/normativa_anamed/medicamentos/Decreto%20Exento%2048.pdf · https://www.bcn.cl/leychile/Navegar?idNorma=1136838
+21. ISP — *Nueva Norma Técnica para almacenamiento y transporte de medicamentos que requieren cadena de frío: ISP vigilará el cumplimiento*. https://www.ispch.gob.cl/noticia/nueva-norma-tecnica-para-almacenamiento-y-transportes-de-medicamentos-que-requieren-cadena-de-frio-isp-vigilara-el-cumplimiento/
+    · ISP — *Buenas Prácticas de Almacenamiento y Distribución* (NT 147): https://www.ispch.cl/sites/default/files/BP%20Almacenamiento%20y%20Distribucion.pdf
+    · ISP — ANAMED, regulaciones: https://www.ispch.gob.cl/anamed/regulaciones/
+
+**Trazabilidad y retiros**
+
+22. GS1 — repositorio de estándares (General Specifications, EPCIS & CBV, Digital Link, Global Traceability Standard). https://ref.gs1.org/standards/ · https://www.gs1.org/standards/epcis · https://www.gs1.org/standards/gs1-global-traceability-standard/current-standard
+23. GS1 — **GS1 Application Identifiers** (referencia normativa; fichero v1.2, última modificación 26.01.2026). https://ref.gs1.org/ai/
+24. ACHIPIA — *Procedimiento de Gestión de la Red de Información y Alertas Alimentarias (RIAL)*, versión 11-12-2013. https://www.achipia.gob.cl/wp-content/uploads/2025/01/Procedimientos-de-Gestion-RIAL.pdf · Portal RIAL: https://www.achipia.gob.cl/portal-rial/ · Reportes: https://www.achipia.gob.cl/reportes_rial/
+25. ACHIPIA / MINSAL / MINAGRI — *Manual de Buenas Prácticas de Recall dirigido a la Industria de Alimentos* (**[SECUNDARIO]** — no leído en esta sesión). http://redcientifica.achipia.cl/contenido/manual-de-buenas-practicas-de-recall-dirigido-la-industria-de-alimentos
+26. ISP — ANAMED, Subdepartamento de Inspecciones: *Instructivo para notificar retiros del mercado de productos farmacéuticos* (base legal: art. 71° N° 3 del DS N° 3 de 2010). https://www.ispch.cl/sites/default/files/Instructivo%20para%20notificaci%C3%B3n%20de%20retiros.pdf
+    · ISP — *Listado de Productos Retirados del Mercado*: https://www.ispch.gob.cl/listado-de-productos-retirados-del-mercado/
+    · DS N° 3 de 2010 MINSAL (Reglamento del Sistema Nacional de Control de Productos Farmacéuticos de Uso Humano): https://ispch.cl/sites/default/files/decreto_3_0.pdf
+
+**Secundarias consultadas para contraste (no usadas como fuente de valores)**
+
+27. Carey — *Reforma Tributaria 2026 / Plan de Reconstrucción Nacional*: https://www.carey.cl/reforma-tributaria/p/regimen-pyme
+28. KPMG Chile — *Tax Alert: Aprobación de la Ley de Reconstrucción* (agosto 2026).
+29. Simplo — *Tabla de depreciación del SII* (actualizada 22.06.2026): https://simplo.cl/recursos/tabla-depreciacion/
+30. ECA Academy (gmp-compliance.org) — noticias sobre las revisiones de USP ⟨659⟩ y ⟨1079.2⟩.

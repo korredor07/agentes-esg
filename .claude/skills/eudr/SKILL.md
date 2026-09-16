@@ -20,7 +20,7 @@ tableros, pasta y papel).
 Fuera del reglamento: fruta, uva, vino, pesca, cobre, harina de pescado.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa eudr --producto cafe --pais PE --tamano-operador grande
+python .claude/motor/esg.py europa eudr --producto cafe --pais PE --tamano-operador grande
 ```
 
 ## Los tres requisitos, que son acumulativos

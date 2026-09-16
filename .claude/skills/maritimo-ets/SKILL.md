@@ -64,7 +64,7 @@ parada ahí no corta el viaje ni reduce la obligación.
 ## Calcular el recargo que le corresponde
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa maritimo --anio 2026 --tipo-viaje tercer_pais_ue --consumo 1500 --combustible HFO --precio-eua 75 --capacidad-teu 8000 --ocupacion 0.85
+python .claude/motor/esg.py europa maritimo --anio 2026 --tipo-viaje tercer_pais_ue --consumo 1500 --combustible HFO --precio-eua 75 --capacidad-teu 8000 --ocupacion 0.85
 ```
 
 La cuenta es:
@@ -127,7 +127,7 @@ Se mide **por buque y por año completo**, no por viaje. Igual que en el ETS, en
 rutas con un tercer país se computa el **50 %** de la energía.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa maritimo --anio 2025 --consumo-anual 10000 --combustible HFO --precio-eua 75 --gwp-ch4 25 --gwp-n2o 298
+python .claude/motor/esg.py europa maritimo --anio 2025 --consumo-anual 10000 --combustible HFO --precio-eua 75 --gwp-ch4 25 --gwp-n2o 298
 ```
 
 Regla práctica que vale la pena memorizar: **un buque que quema fueloil pesado

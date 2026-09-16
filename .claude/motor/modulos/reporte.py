@@ -6,6 +6,7 @@ import json
 import os
 
 from calculos import reportes as catalogo
+from calculos import social
 from nucleo import espacio, excel, informe, word
 from nucleo.salida import Problema, Respuesta
 
@@ -204,7 +205,7 @@ def _resumen_personas(ruta_archivo, periodo=None):
         genero = str(fila.get("genero") or "sin declarar").strip().lower() or "sin declarar"
         cantidad = _numero(fila.get("numero_de_personas")) or 0
         por_genero[genero] = por_genero.get(genero, 0) + cantidad
-    return {
+    resumen = {
         "filas": len(filas),
         "personas": _suma(filas, "numero_de_personas"),
         "por_genero": por_genero,
@@ -216,15 +217,146 @@ def _resumen_personas(ruta_archivo, periodo=None):
         "horas_trabajadas": _suma(filas, "horas_trabajadas"),
         "personas_con_discapacidad": _suma(filas, "personas_con_discapacidad"),
     }
+    try:
+        resumen["indicadores"] = social.calcular(filas, periodo)
+    except Problema:
+        resumen["indicadores"] = {}
+    return resumen
+
+
+def _plural(cantidad, singular, plural):
+    """«1 accidente» y no «1 accidentes»: el reporte lo lee un cliente."""
+    return "%s %s" % (informe.formatear_numero(cantidad), singular if cantidad == 1 else plural)
+
+
+def _vinetas_de_personas(resumen):
+    """Una viñeta por tema, para que cada seccion del reporte reciba lo suyo.
+
+    Sin esto, la seccion de remuneraciones y la de accidentes reciben el mismo
+    parrafo y el reporte parece armado sin leerlo.
+    """
+    indicadores = resumen.get("indicadores") or {}
+    vinetas = {}
+
+    if resumen["personas"]:
+        reparto = ", ".join("%s %s" % (genero, informe.formatear_numero(valor))
+                            for genero, valor in sorted(resumen["por_genero"].items()) if valor)
+        vinetas["personas.dotacion"] = (
+            "Dotacion: %s%s." % (_plural(resumen["personas"], "persona", "personas"),
+                                 " (%s)" % reparto if reparto else ""))
+
+    if resumen["contrataciones"] or resumen["desvinculaciones"]:
+        texto = "Movimiento de personal: %s y %s" % (
+            _plural(resumen["contrataciones"], "contratacion", "contrataciones"),
+            _plural(resumen["desvinculaciones"], "desvinculacion", "desvinculaciones"))
+        if indicadores.get("tasa_rotacion_pct") is not None:
+            texto += " (rotacion %s%%)" % informe.formatear_numero(indicadores["tasa_rotacion_pct"])
+        vinetas["personas.rotacion"] = texto + "."
+
+    if resumen["accidentes"] or resumen["dias_perdidos"]:
+        texto = "Seguridad y salud: %s y %s" % (
+            _plural(resumen["accidentes"], "accidente con tiempo perdido",
+                    "accidentes con tiempo perdido"),
+            _plural(resumen["dias_perdidos"], "dia perdido", "dias perdidos"))
+        if indicadores.get("tasa_accidentes_registrables") is not None:
+            texto += " (%s accidentes por cada 200.000 horas trabajadas, GRI 403-9)" % \
+                     informe.formatear_numero(indicadores["tasa_accidentes_registrables"])
+        elif indicadores.get("tasa_accidentabilidad_pct") is not None:
+            texto += " (accidentabilidad %s%% sobre la dotacion; faltan las horas trabajadas para la " \
+                     "tasa por 200.000 horas que pide GRI 403-9)" % \
+                     informe.formatear_numero(indicadores["tasa_accidentabilidad_pct"])
+        vinetas["personas.seguridad"] = texto + "."
+
+    brechas = indicadores.get("brecha_salarial_por_categoria") or {}
+    if brechas:
+        partes = ["%s: las mujeres ganan %s%% menos que los hombres (razon mujer/hombre %s)"
+                  % (categoria, informe.formatear_numero(datos["brecha_pct"]),
+                     informe.formatear_numero(datos["razon_mujer_hombre"]))
+                  for categoria, datos in sorted(brechas.items())]
+        vinetas["personas.remuneracion"] = "Brecha salarial por categoria: %s." % "; ".join(partes)
+    else:
+        vinetas["personas.remuneracion"] = (
+            "Brecha salarial: no se puede calcular todavia. Falta la columna «Remuneracion promedio» "
+            "en la planilla de personas, con hombres y mujeres de la misma categoria.")
+
+    if resumen["horas_capacitacion"]:
+        texto = "Capacitacion: %s de formacion" % _plural(resumen["horas_capacitacion"], "hora", "horas")
+        if indicadores.get("horas_capacitacion_por_persona"):
+            texto += " (%s por persona)" % informe.formatear_numero(
+                indicadores["horas_capacitacion_por_persona"])
+        vinetas["personas.formacion"] = texto + "."
+
+    if resumen["personas_con_discapacidad"] or indicadores.get("mujeres_pct") is not None:
+        partes = []
+        if indicadores.get("mujeres_pct") is not None:
+            partes.append("%s%% de mujeres en la dotacion" % informe.formatear_numero(indicadores["mujeres_pct"]))
+        if indicadores.get("mujeres_en_direccion_pct") is not None:
+            partes.append("%s%% de mujeres en cargos de direccion"
+                          % informe.formatear_numero(indicadores["mujeres_en_direccion_pct"]))
+        if resumen["personas_con_discapacidad"]:
+            partes.append("%s con discapacidad"
+                          % _plural(resumen["personas_con_discapacidad"], "persona", "personas"))
+        if partes:
+            vinetas["personas.diversidad"] = "Diversidad: %s." % "; ".join(partes)
+    return vinetas
+
+
+# Palabras del contenido del marco -> que viñeta de personas le corresponde.
+# El orden es el orden en que aparecen en el documento.
+TEMAS_DE_PERSONAS = (
+    (("plantilla", "dotacion", "trabajador", "empleado", "tipo de contrato", "personal",
+      "cuanta gente", "numero de personas"),
+     "personas.dotacion"),
+    (("accidente", "seguridad", "salud ocupacional", "salud y seguridad", "lesion", "siniestr",
+      "fatalidad"),
+     "personas.seguridad"),
+    (("remunerac", "salari", "sueldo", "brecha", "negociacion colectiva", "sindic"),
+     "personas.remuneracion"),
+    (("formacion", "capacitacion", "desarrollo de competencias", "entrenamiento"),
+     "personas.formacion"),
+    (("rotacion", "contratacion", "nuevas contrataciones", "desvinculac", "movimiento"),
+     "personas.rotacion"),
+    (("diversidad", "inclusion", "discapacidad", "igualdad de oportunidades",
+      "distribucion por genero", "por genero"),
+     "personas.diversidad"),
+)
+
+
+def _vineta_para(clave, ficha, detalle):
+    """Elige la viñeta que de verdad responde lo que pide esa seccion del marco."""
+    if clave != "personas.xlsx":
+        return detalle.get(clave, clave)
+    texto = _clave_busqueda(ficha)
+    elegidas = [nombre for palabras, nombre in TEMAS_DE_PERSONAS
+                if any(palabra in texto for palabra in palabras) and nombre in detalle]
+    if elegidas:
+        return " ".join(detalle[nombre] for nombre in elegidas)
+    return detalle.get("personas.dotacion") or detalle.get(clave, clave)
+
+
+def _clave_busqueda(ficha):
+    return ("%s %s" % (ficha.get("titulo", ""), ficha.get("descripcion", ""))).lower()
+
+
+def _filas_del_periodo(filas, periodo):
+    """Solo las filas del periodo del reporte, para no contar de mas."""
+    if not periodo:
+        return filas, 0
+    del_periodo = [f for f in filas if str(f.get("periodo") or "").startswith(str(periodo))]
+    if not del_periodo:
+        return filas, 0
+    return del_periodo, len(filas) - len(del_periodo)
 
 
 def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
     descripciones = {
-        "sitios.xlsx": "Planilla de sitios: %d lugares registrados.",
-        "consumos.xlsx": "Planilla de consumos: %d filas de energia y combustibles.",
-        "alcance3.xlsx": "Planilla de cadena de valor: %d filas de compras, fletes, viajes o residuos.",
+        "sitios.xlsx": ("Planilla de sitios: %s.", "lugar registrado", "lugares registrados", False),
+        "consumos.xlsx": ("Planilla de consumos: %s de energia y combustibles.",
+                          "fila", "filas", True),
+        "alcance3.xlsx": ("Planilla de cadena de valor: %s de compras, fletes, viajes o residuos.",
+                          "fila", "filas", True),
     }
-    for nombre, plantilla in descripciones.items():
+    for nombre, (plantilla, singular, plural, por_periodo) in descripciones.items():
         ruta = espacio.ruta_de(ruta_empresa, "datos", nombre)
         if not os.path.isfile(ruta):
             continue
@@ -234,7 +366,15 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
             avisos.append("No pude leer %s: %s" % (nombre, problema.mensaje))
             continue
         claves.add(nombre)
-        detalle[nombre] = plantilla % len(tabla["filas"])
+        filas = tabla["filas"]
+        fuera = 0
+        if por_periodo:
+            filas, fuera = _filas_del_periodo(filas, periodo)
+        texto = plantilla % _plural(len(filas), singular, plural)
+        if fuera:
+            texto = texto[:-1] + " del periodo %s (la planilla tiene %s mas de otros periodos)." % (
+                periodo, informe.formatear_numero(fuera))
+        detalle[nombre] = texto
 
     ruta_personas = espacio.ruta_de(ruta_empresa, "datos", "personas.xlsx")
     if os.path.isfile(ruta_personas):
@@ -244,21 +384,11 @@ def _datos_de_planillas(ruta_empresa, periodo, claves, detalle, avisos):
             avisos.append("No pude leer personas.xlsx: %s" % problema.mensaje)
             return
         claves.add("personas.xlsx")
-        partes = []
-        if resumen["personas"]:
-            reparto = ", ".join("%s %s" % (genero, informe.formatear_numero(valor))
-                                for genero, valor in sorted(resumen["por_genero"].items()) if valor)
-            partes.append("%s personas%s" % (informe.formatear_numero(resumen["personas"]),
-                                             " (%s)" % reparto if reparto else ""))
-        for etiqueta, clave in (("contrataciones", "contrataciones"),
-                                ("desvinculaciones", "desvinculaciones"),
-                                ("horas de capacitacion", "horas_capacitacion"),
-                                ("accidentes con tiempo perdido", "accidentes"),
-                                ("dias perdidos", "dias_perdidos")):
-            if resumen[clave]:
-                partes.append("%s %s" % (informe.formatear_numero(resumen[clave]), etiqueta))
-        detalle["personas.xlsx"] = "Planilla de personas: %s." % ("; ".join(partes) if partes
-                                                                  else "%d filas cargadas" % resumen["filas"])
+        vinetas = _vinetas_de_personas(resumen)
+        detalle.update(vinetas)
+        detalle["personas.xlsx"] = vinetas.get("personas.dotacion") or (
+            "Planilla de personas: %s cargada%s." % (_plural(resumen["filas"], "fila", "filas"),
+                                                     "" if resumen["filas"] == 1 else "s"))
 
 
 def datos_disponibles(perfil, ruta_empresa, periodo=None):
@@ -466,7 +596,8 @@ def _bloques_borrador(perfil, marco, periodo, fichas, detalle):
             if ficha["encontrados"]:
                 bloques.append({"tipo": "texto", "texto": "Con los datos de tu carpeta:", "negrita": True})
                 bloques.append({"tipo": "lista",
-                                "items": [detalle.get(clave, clave) for clave in ficha["encontrados"]]})
+                                "items": [_vineta_para(clave, ficha, detalle)
+                                          for clave in ficha["encontrados"]]})
             bloques.append({"tipo": "texto", "texto": _instruccion(ficha)})
             if ficha["notas"]:
                 bloques.append({"tipo": "nota", "texto": ficha["notas"]})
@@ -567,7 +698,8 @@ def _bloques_indice(perfil, marco, fichas, detalle):
         bloques.append({"tipo": "tabla",
                         "columnas": ["Codigo", "Contenido", "Estado", "De donde sale o que falta"],
                         "filas": [[f["codigo"], f["titulo"], _PALABRA_ESTADO[f["estado"]],
-                                   "; ".join(detalle.get(c, c) for c in f["encontrados"]) or f["motivo"]]
+                                   "; ".join(_vineta_para(c, f, detalle) for c in f["encontrados"])
+                                   or f["motivo"]]
                                   for f in grupo["contenidos"]]})
     faltan = _datos_que_mas_suman(fichas)
     if faltan:

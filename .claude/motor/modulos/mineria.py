@@ -2,7 +2,6 @@
 """Mineria: relaves, ventilacion, exposicion ocupacional, cierre de faenas y GISTM."""
 
 import datetime
-import os
 
 from calculos import mineria as motor_mineria
 from nucleo import espacio, informe
@@ -48,13 +47,6 @@ def _bandera(opciones, clave):
     if valor is None or valor is False:
         return False
     return str(valor).strip().lower() in _SI
-
-
-def _numero(opciones, clave, nombre):
-    valor = opciones.get(clave)
-    if valor is None or valor is True:
-        return None
-    return motor_mineria._numero(valor, nombre)
 
 
 def _contexto(opciones):

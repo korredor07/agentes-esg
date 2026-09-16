@@ -1001,7 +1001,7 @@ def corregir_limite(limite, unidad, tipo="ponderado", horas_diarias=None, horas_
     elif horas_diarias is None:
         fj = 1.0
         advertencias.append(
-            "No me dijiste cuantas horas dura el turno, asi que no apliqué la correccion por jornada del "
+            "No me dijiste cuantas horas dura el turno, asi que no aplique la correccion por jornada del "
             "art. 62. Si el turno pasa de 8 horas diarias, el limite real es MAS BAJO que el que ves aqui.")
         formulas.append("Fj = 1,00 (sin dato de jornada)")
     elif horas_diarias > JORNADA_ORDINARIA_H:
@@ -1067,7 +1067,7 @@ def corregir_limite(limite, unidad, tipo="ponderado", horas_diarias=None, horas_
         fa = 1.0
         formulas.append("Fa = 1,00 (sin dato de altitud)")
         advertencias.append(
-            "No me dijiste a que altitud esta la faena, asi que no apliqué la correccion del art. 63. Si "
+            "No me dijiste a que altitud esta la faena, asi que no aplique la correccion del art. 63. Si "
             "esta sobre 1.000 m, el limite real es MAS BAJO que el que ves aqui.")
 
     corregido = None if fa is None else limite * fj * fa
@@ -1478,8 +1478,9 @@ def evaluar_gistm(clasificacion=None, requisitos_conformes=None, poblacion_en_ri
                          "%s." % GISTM_PLAZO_CONFORMIDAD[clase])
     resultado["que_falta"] = que_falta
     resultado["mensaje"] = (
-        "Clasificacion %s: %s de conformidad sobre los 77 requisitos."
-        % (clase, ("%s %%" % _texto_numero(porcentaje)) if porcentaje is not None else "sin evaluar")
+        "Clasificacion %s: %s %% de conformidad sobre los 77 requisitos del GISTM."
+        % (clase, _texto_numero(porcentaje)) if porcentaje is not None else
+        "Clasificacion %s. Todavia no se cuantos de los 77 requisitos cumple la instalacion." % clase
     )
     return resultado
 

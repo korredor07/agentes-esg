@@ -19,7 +19,7 @@ que siempre salen más caros, o cambia de proveedor.
 ## 1. Empieza por el mapa
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa aplica
+python .claude/motor/esg.py europa aplica
 ```
 
 Entrega seis mecanismos con semáforo: le aplica, hay que confirmarlo, o queda
@@ -27,7 +27,7 @@ fuera. Si algo queda en «revisar», pregunta lo que falte —de a una pregunta�
 guárdalo:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa aplica --exporta-bienes-cbam si --envia-por-mar si
+python .claude/motor/esg.py europa aplica --exporta-bienes-cbam si --envia-por-mar si
 ```
 
 Preguntas que resuelven casi todo:
@@ -115,7 +115,7 @@ Qué contiene ese paquete, en la práctica:
 Para dejar todo en un documento que puedan mandarle al cliente o al directorio:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa informe
+python .claude/motor/esg.py europa informe
 ```
 
 ## 5. Taxonomía de la UE, en dos frases

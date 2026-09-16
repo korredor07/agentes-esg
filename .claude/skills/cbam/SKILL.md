@@ -62,7 +62,7 @@ Tres detalles que hay que decir siempre:
 3. **Electricidad e hidrógeno no tienen umbral**: entran desde el primer kilo.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa cbam --sector acero --cantidad 500 --see 1.80 --anio 2026 --precio-certificado 75 --masa-anual-importador 500
+python .claude/motor/esg.py europa cbam --sector acero --cantidad 500 --see 1.80 --anio 2026 --precio-certificado 75 --masa-anual-importador 500
 ```
 
 ## Qué datos hay que reunir
@@ -102,19 +102,19 @@ Costo                       = certificados × precio del certificado
 Con el SEE ya verificado por la planta:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa cbam --sector acero --cantidad 500 --see 1.80 --anio 2026 --precio-certificado 75
+python .claude/motor/esg.py europa cbam --sector acero --cantidad 500 --see 1.80 --anio 2026 --precio-certificado 75
 ```
 
 Con los datos brutos de la instalación:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa cbam --sector cemento --cantidad 200 --emisiones-directas 60000 --emisiones-indirectas 9000 --nivel-actividad 100000 --anio 2026 --precio-certificado 75
+python .claude/motor/esg.py europa cbam --sector cemento --cantidad 200 --emisiones-directas 60000 --emisiones-indirectas 9000 --nivel-actividad 100000 --anio 2026 --precio-certificado 75
 ```
 
 Con precursores (masa:emisiones por tonelada, separados por coma):
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa cbam --sector acero --cantidad 500 --emisiones-directas 700 --nivel-actividad 1000 --precursores "300:1.2, 80:0.4" --anio 2026 --precio-certificado 75
+python .claude/motor/esg.py europa cbam --sector acero --cantidad 500 --emisiones-directas 700 --nivel-actividad 1000 --precursores "300:1.2, 80:0.4" --anio 2026 --precio-certificado 75
 ```
 
 **El precio del certificado lo entregas tú.** Es de mercado y cambia todos los
@@ -144,7 +144,7 @@ europeas. Mientras exista, el importador paga solo la diferencia.
 El motor entrega la curva completa en cada cálculo, y el informe HTML la dibuja:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa informe
+python .claude/motor/esg.py europa informe
 ```
 
 ## Qué pasa si no entregan datos
@@ -172,7 +172,7 @@ precio explícito del carbono equiparable.
 El motor lo trata como parámetro abierto y marca el resultado como estimación:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" europa cbam --sector acero --cantidad 500 --see 1.80 --anio 2026 --precio-certificado 75 --precio-carbono-origen 6
+python .claude/motor/esg.py europa cbam --sector acero --cantidad 500 --see 1.80 --anio 2026 --precio-certificado 75 --precio-carbono-origen 6
 ```
 
 Lo que sí puedes decir con seguridad: **guarden la documentación de pago

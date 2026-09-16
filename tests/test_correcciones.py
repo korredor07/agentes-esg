@@ -247,5 +247,75 @@ class PruebaNombresDescubribles(unittest.TestCase):
         self.assertIn("gasto agricultura", notas["gasto_alimentos"])
 
 
+class PruebaBorradorSinRepetir(PruebaConCarpeta):
+    """H11: cada seccion del reporte tiene que recibir el dato que pide."""
+
+    def setUp(self):
+        super(PruebaBorradorSinRepetir, self).setUp()
+        from modulos import reporte
+        self.reporte = reporte
+        self.resumen = {
+            "filas": 6, "personas": 12,
+            "por_genero": {"hombre": 5, "mujer": 7},
+            "contrataciones": 3, "desvinculaciones": 2,
+            "horas_capacitacion": 48, "accidentes": 1, "dias_perdidos": 4,
+            "horas_trabajadas": 24000, "personas_con_discapacidad": 1,
+            "indicadores": {"tasa_rotacion_pct": 16.7, "tasa_accidentes_registrables": 8.33,
+                            "horas_capacitacion_por_persona": 4.0, "mujeres_pct": 58.3,
+                            "brecha_salarial_por_categoria": {
+                                "operario": {"brecha_pct": 5.3, "razon_mujer_hombre": 0.947,
+                                             "promedio_mujeres": 620000, "promedio_hombres": 655000}}},
+        }
+
+    def test_una_vineta_distinta_por_tema(self):
+        vinetas = self.reporte._vinetas_de_personas(self.resumen)
+        self.assertIn("accidente con tiempo perdido", vinetas["personas.seguridad"])
+        self.assertIn("5,3", vinetas["personas.remuneracion"])
+        self.assertIn("48 horas", vinetas["personas.formacion"])
+        self.assertEqual(len(set(vinetas.values())), len(vinetas))
+
+    def test_cada_seccion_recibe_lo_suyo(self):
+        detalle = self.reporte._vinetas_de_personas(self.resumen)
+        seguridad = self.reporte._vineta_para(
+            "personas.xlsx", {"titulo": "Salud y seguridad",
+                              "descripcion": "Accidentes y fatalidades del periodo."}, detalle)
+        remuneracion = self.reporte._vineta_para(
+            "personas.xlsx", {"titulo": "Remuneracion, negociacion colectiva y formacion",
+                              "descripcion": "Salario minimo, brecha de genero y horas de formacion."},
+            detalle)
+        self.assertNotEqual(seguridad, remuneracion)
+        self.assertIn("accidente", seguridad)
+        self.assertIn("Brecha salarial", remuneracion)
+        self.assertIn("formacion", remuneracion)
+        self.assertNotIn("accidente", remuneracion)
+
+    def test_sin_tema_reconocido_muestra_la_dotacion(self):
+        detalle = self.reporte._vinetas_de_personas(self.resumen)
+        texto = self.reporte._vineta_para(
+            "personas.xlsx", {"titulo": "Otra cosa", "descripcion": "Algo distinto."}, detalle)
+        self.assertIn("Dotacion", texto)
+
+    def test_singular_y_plural(self):
+        self.assertEqual(self.reporte._plural(1, "accidente", "accidentes"), "1 accidente")
+        self.assertEqual(self.reporte._plural(4, "accidente", "accidentes"), "4 accidentes")
+
+    def test_sin_remuneraciones_explica_que_falta(self):
+        resumen = dict(self.resumen, indicadores={})
+        vinetas = self.reporte._vinetas_de_personas(resumen)
+        self.assertIn("Remuneracion promedio", vinetas["personas.remuneracion"])
+
+    def test_solo_cuenta_las_filas_del_periodo(self):
+        filas = [{"periodo": "2025-01"}, {"periodo": "2025-02"}, {"periodo": "2024-11"}]
+        del_periodo, fuera = self.reporte._filas_del_periodo(filas, "2025")
+        self.assertEqual(len(del_periodo), 2)
+        self.assertEqual(fuera, 1)
+
+    def test_sin_filas_del_periodo_no_esconde_los_datos(self):
+        filas = [{"periodo": "2024-11"}]
+        del_periodo, fuera = self.reporte._filas_del_periodo(filas, "2025")
+        self.assertEqual(len(del_periodo), 1)
+        self.assertEqual(fuera, 0)
+
+
 if __name__ == "__main__":
     unittest.main()

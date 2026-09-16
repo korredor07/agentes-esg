@@ -45,8 +45,8 @@ evitada) y `huella-carbono` (dónde está el consumo grande).
 ## 1. Consultar en cuántos años se deprecia un bien
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos vida-util --bien camioneta
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos vida-util --bien camioneta --actividad agricola
+python .claude/motor/esg.py activos vida-util --bien camioneta
+python .claude/motor/esg.py activos vida-util --bien camioneta --actividad agricola
 ```
 
 Escríbelo como lo diría la persona: `camioneta`, `computador`, `galpón`,
@@ -58,13 +58,16 @@ opciones parecidas de la tabla del SII con su código, sus años y su fuente.
 - Si no encuentra nada, el motor lo dice. **No inventes una vida útil**: ofrece
   preguntarle al contador en qué ítem de la tabla clasifica ese bien.
 
+La tabla cargada está en `.claude/motor/datos/vida_util_sii.csv` y cada fila
+trae la resolución de la que sale y la fecha en que se verificó.
+
 ## 2. Llenar la planilla de activos
 
 El módulo lee `datos/activos_fijos.xlsx`. Si no existe, **el motor la crea vacía
 la primera vez que se la pide** y avisa dónde quedó:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos cartera
+python .claude/motor/esg.py activos cartera
 ```
 
 Columnas de la planilla (no cambies los títulos):
@@ -93,11 +96,11 @@ confirma los valores antes de guardar.
 
 ```bash
 # un activo suelto
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos depreciar --valor 18500000 --bien camioneta --anio-inicio 2024 --mes-inicio 5
+python .claude/motor/esg.py activos depreciar --valor 18500000 --bien camioneta --anio-inicio 2024 --mes-inicio 5
 # con depreciación acelerada
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos depreciar --valor 24000000 --bien "camara de frio" --metodo acelerada
+python .claude/motor/esg.py activos depreciar --valor 24000000 --bien "camara de frio" --metodo acelerada
 # todos los activos de la planilla
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos depreciar
+python .claude/motor/esg.py activos depreciar
 ```
 
 Devuelve la tabla año por año: cuánto se deprecia, cuánto se lleva acumulado y
@@ -138,8 +141,8 @@ el valor de los bienes con la variación del IPC** para que la contabilidad est�
 en pesos comparables. No es una ganancia: solo pone el valor al día.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos depreciar --valor 18500000 --bien camioneta --anio-inicio 2023 --correccion 2025
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos cartera --anio 2025 --corregir
+python .claude/motor/esg.py activos depreciar --valor 18500000 --bien camioneta --anio-inicio 2023 --correccion 2025
+python .claude/motor/esg.py activos cartera --anio 2025 --corregir
 ```
 
 Dos reglas, y el motor elige la que corresponde:
@@ -161,8 +164,8 @@ contador o lo busque en el sitio del SII.
 ## 5. Resumen de la cartera e informe
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos cartera --anio 2025
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" activos informe --anio 2025
+python .claude/motor/esg.py activos cartera --anio 2025
+python .claude/motor/esg.py activos informe --anio 2025
 ```
 
 El resumen entrega: cuánto se invirtió en total, cuánto se deprecia este
@@ -211,5 +214,5 @@ Y si el número se va a usar ante el SII, un banco o una auditoría, respalda lo
 documentos:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/activos_fijos.xlsx --descripcion "Activos fijos 2025"
+python .claude/motor/esg.py evidencia registrar --archivo datos/activos_fijos.xlsx --descripcion "Activos fijos 2025"
 ```
