@@ -954,6 +954,50 @@ class PruebaSegundaRevision(PruebaConCarpeta):
         self.assertIn("version anterior", contexto.exception.mensaje)
 
 
+class PruebaCasosKarinHeredados(PruebaConCarpeta):
+    """Un caso guardado por la version anterior se lee, dice que campo esta mal y se puede reparar."""
+
+    def setUp(self):
+        super(PruebaCasosKarinHeredados, self).setUp()
+        from modulos import karin
+        self.karin = karin
+        espacio.crear_empresa({"nombre": "Heredada SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Heredada SpA"}
+        ruta_json = karin._contexto(self.opciones)[2]
+        with io.open(ruta_json, "w", encoding="utf-8") as archivo:
+            json.dump({"casos": [
+                {"id": "KARIN-2026-001", "fecha_denuncia": "01-09-2026", "tipo": "acoso laboral",
+                 "via": "derivada a la DT", "estado": "en investigacion", "eventos": {"informar_dt": "ayer"},
+                 "bitacora": []},
+                {"id": "KARIN-2026-002", "fecha_denuncia": "2026-09-05", "tipo": "acoso laboral",
+                 "via": "mediacion", "estado": "en investigacion", "eventos": {}, "bitacora": []},
+            ]}, archivo)
+
+    def test_listar_nombra_el_campo_que_esta_mal(self):
+        listado = self.karin.listar(self.opciones)
+        errores = {c["id"]: c["error"] for c in listado["casos"] if c.get("error")}
+        self.assertIn("informar_dt", errores["KARIN-2026-001"])
+        self.assertIn("--via", errores["KARIN-2026-002"])
+
+    def test_la_fecha_ilegible_se_corrige_y_la_via_libre_se_interpreta_con_aviso(self):
+        caso = dict(self.opciones, caso="KARIN-2026-001")
+        corregido = self.karin.evento(dict(caso, hito="informar_dt", fecha="2026-09-02"))
+        self.assertTrue(any("se leyo como «derivada»" in a for a in corregido.advertencias))
+        visto = self.karin.ver(caso)
+        self.assertEqual(visto.resultado["camino"], "derivada")
+        plazos = {h["id"]: h for h in visto.resultado["plazos"]}
+        self.assertEqual(plazos["derivar_dt"]["cumplido_el"], "2026-09-02")
+
+    def test_la_via_que_no_se_entiende_se_corrige_con_actualizar(self):
+        caso = dict(self.opciones, caso="KARIN-2026-002")
+        respuesta = self.karin.actualizar(dict(caso, via="interna"))
+        self.assertEqual(respuesta.resultado["camino"], "interna")
+        with io.open(self.karin._contexto(self.opciones)[2], encoding="utf-8") as archivo:
+            guardado = json.load(archivo)
+        self.assertEqual(guardado["casos"][1]["via"], "interna")
+        self.assertFalse(any(clave.startswith("_avisos") for clave in guardado["casos"][0]))
+
+
 class PruebaSinCaracteresDeControl(unittest.TestCase):
     """Un caracter de control escrito por error rompe una expresion regular sin que se vea."""
 

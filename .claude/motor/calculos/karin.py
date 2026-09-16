@@ -230,6 +230,22 @@ def _titulo_de(clave):
     return "«%s»" % ficha.get("titulo", clave)
 
 
+titulo_de = _titulo_de
+
+
+def interpretar_via_guardada(valor):
+    """Una via escrita libremente por la version anterior («derivada a la DT»). Devuelve None si no se entiende."""
+    try:
+        return normalizar_via(valor)
+    except Problema:
+        texto = sin_tildes(str(valor or "").strip().lower())
+        if "deriv" in texto or "direccion del trabajo" in texto or "inspeccion" in texto or texto.split()[:1] == ["dt"]:
+            return "derivada"
+        if "intern" in texto:
+            return "interna"
+        return None
+
+
 def _fuera_de_orden(que, fecha, antes_de, fecha_anterior):
     return Problema(
         "La fecha de %s (%s) es anterior a la de %s (%s)." % (_titulo_de(que), fecha.isoformat(),

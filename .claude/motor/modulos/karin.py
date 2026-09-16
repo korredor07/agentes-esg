@@ -35,15 +35,50 @@ def _leer(ruta_json):
         return {"casos": []}
     with open(ruta_json, encoding="utf-8") as archivo:
         try:
-            return json.load(archivo)
+            datos = json.load(archivo)
         except ValueError:
             raise Problema("El archivo de casos Ley Karin esta dañado.",
                            "No lo edites a mano. Puedo ayudarte a reconstruirlo con los datos que tengas.")
+    for caso in datos.get("casos") or []:
+        _migrar(caso)
+    datos.setdefault("casos", [])
+    return datos
+
+
+def _migrar(caso):
+    """Pone al dia lo que guardo la version anterior, sin inventar: lo que no se entiende queda como error visible."""
+    avisos = []
+    caso.setdefault("eventos", {})
+    caso.setdefault("bitacora", [])
+    via = caso.get("via")
+    if via not in (None, "", "interna", "derivada"):
+        interpretada = motor_karin.interpretar_via_guardada(via)
+        if interpretada:
+            avisos.append("La via guardada «%s» se leyo como «%s». Si no es asi, corrigela con: karin actualizar "
+                          "--caso %s --via interna|derivada." % (via, interpretada, caso.get("id")))
+            caso["via"] = interpretada
+    for clave in ("fecha_denuncia",):
+        if caso.get(clave):
+            try:
+                caso[clave] = fechas.parsear_fecha(caso[clave]).isoformat()
+            except Problema:
+                pass  # _calcular lo informa con el nombre del campo
+    for clave, valor in list(caso["eventos"].items()):
+        if valor:
+            try:
+                caso["eventos"][clave] = fechas.parsear_fecha(valor).isoformat()
+            except Problema:
+                pass  # _calcular lo informa con el nombre del hito
+    if avisos:
+        caso["_avisos_de_lectura"] = avisos
 
 
 def _guardar(ruta_json, datos):
+    limpios = {"casos": [{clave: valor for clave, valor in caso.items() if not clave.startswith("_avisos")}
+                         for caso in datos.get("casos") or []]}
+    limpios.update({clave: valor for clave, valor in datos.items() if clave != "casos"})
     with open(ruta_json, "w", encoding="utf-8") as archivo:
-        json.dump(datos, archivo, ensure_ascii=False, indent=2)
+        json.dump(limpios, archivo, ensure_ascii=False, indent=2)
 
 
 def _buscar(datos, identificador):
@@ -92,9 +127,30 @@ def _si_no(opciones, clave):
 
 
 def _calcular(caso, hoy=None):
+    identificador = caso.get("id", "sin identificador")
     if not caso.get("fecha_denuncia"):
-        raise Problema("El caso %s no tiene la fecha de la denuncia." % caso.get("id", "sin identificador"),
+        raise Problema("El caso %s no tiene la fecha de la denuncia." % identificador,
                        "Es el dato del que salen todos los plazos: hay que reconstruir el caso con esa fecha.")
+    try:
+        fechas.parsear_fecha(caso["fecha_denuncia"])
+    except Problema:
+        raise Problema("En el caso %s, la fecha de la denuncia guardada no se entiende: «%s»."
+                       % (identificador, caso["fecha_denuncia"]),
+                       "Es el dato del que salen todos los plazos: hay que corregirla antes de seguir.")
+    for clave, valor in (caso.get("eventos") or {}).items():
+        if not valor:
+            continue
+        try:
+            fechas.parsear_fecha(valor)
+        except Problema:
+            raise Problema("En el caso %s, la fecha guardada de %s no se entiende: «%s»."
+                           % (identificador, motor_karin.titulo_de(clave), valor),
+                           "Corrigela con: karin evento --caso %s --hito %s --fecha <fecha>." % (identificador, clave))
+    try:
+        motor_karin.normalizar_via(caso.get("via"))
+    except Problema:
+        raise Problema("En el caso %s, la via guardada «%s» no se entiende." % (identificador, caso.get("via")),
+                       "Corrigela con: karin actualizar --caso %s --via interna|derivada." % identificador)
     return motor_karin.plazos(caso["fecha_denuncia"], caso.get("eventos") or {}, caso.get("region") or None, hoy=hoy,
                               via=caso.get("via"), reglamento_actualizado=caso.get("reglamento_actualizado"),
                               contra_representante=caso.get("contra_representante"))
@@ -182,16 +238,25 @@ def actualizar(opciones):
     caso = _buscar(datos, _valor(opciones, "caso"))
     cambios = {clave: _si_no(opciones, clave) for clave in ("reglamento_actualizado", "contra_representante")
                if clave in opciones}
+    if "via" in opciones:
+        via = motor_karin.normalizar_via(_valor(opciones, "via"))
+        if via == "interna" and (caso.get("eventos") or {}).get("derivacion_dt"):
+            raise Problema("El caso %s tiene registrada la derivacion a la Direccion del Trabajo." % caso["id"],
+                           "Si fue un error, la fecha de derivacion hay que corregirla; no se puede volver a "
+                           "investigacion interna con una derivacion registrada.")
+        cambios["via"] = via
     if not cambios:
-        raise Problema("No me dijiste que respuesta actualizar.",
-                       "Usa --reglamento-actualizado si|no|no se y --contra-representante si|no|no se.")
+        raise Problema("No me dijiste que actualizar.",
+                       "Usa --reglamento-actualizado si|no|no se, --contra-representante si|no|no se o "
+                       "--via interna|derivada.")
     calculo = _calcular(dict(caso, **cambios))
     caso.update(cambios)
     caso["derivacion_obligatoria"] = calculo["derivacion_obligatoria"]
     caso["bitacora"].append({
         "fecha": datetime.date.today().isoformat(),
         "nota": "Respuestas actualizadas: %s." % ", ".join(
-            "%s = %s" % (clave.replace("_", " "), {True: "si", False: "no", None: "no se"}[valor])
+            "%s = %s" % (clave.replace("_", " "),
+                         valor if clave == "via" else {True: "si", False: "no", None: "no se"}[valor])
             for clave, valor in sorted(cambios.items()))})
     _guardar(ruta_json, datos)
     return Respuesta(
@@ -199,7 +264,8 @@ def actualizar(opciones):
          "derivacion_obligatoria": calculo["derivacion_obligatoria"],
          "motivo_derivacion": calculo["motivo_derivacion"],
          "proximos_pasos": _proximos(calculo), "plazos": calculo["hitos"]},
-        advertencias=_avisos_de_derivacion(caso, calculo) + [AVISO_LEGAL])
+        advertencias=list(caso.get("_avisos_de_lectura") or []) + _avisos_de_derivacion(caso, calculo)
+        + [AVISO_LEGAL])
 
 
 def evento(opciones):
@@ -215,15 +281,18 @@ def evento(opciones):
         avisos_fecha.append("No indicaste --fecha: registre la de hoy. Si ocurrio otro dia, vuelve a registrarlo "
                             "con la fecha correcta.")
     fecha = fechas.parsear_fecha(_valor(opciones, "fecha") or datetime.date.today().isoformat()).isoformat()
-    antes = _calcular(caso)
-    if hito["id"] in motor_karin.SOLO_DERIVADA and not _derivada(caso):
+    # La fecha que se registra reemplaza a la guardada: asi se corrige una fecha que no se entendia.
+    correccion = hito["id"] in (caso.get("eventos") or {})
+    antes = _calcular(dict(caso, eventos={clave: valor for clave, valor in (caso.get("eventos") or {}).items()
+                                          if clave != hito["id"]}))
+    if not correccion and hito["id"] in motor_karin.SOLO_DERIVADA and not _derivada(caso):
         raise Problema(
             "«%s» solo existe si la denuncia se derivo a la Direccion del Trabajo, y el caso %s no figura derivado."
             % (hito["titulo"], caso["id"]),
             "Si la derivaste, registra primero: karin evento --caso %s --hito derivacion_dt --fecha <fecha en que "
             "la enviaste>. Si es el certificado de recepcion del informe de tu investigacion interna, registralo "
             "con --hito remision_informe." % caso["id"])
-    if hito["id"] in motor_karin.SOLO_INTERNA and antes["camino"] == "derivada":
+    if not correccion and hito["id"] in motor_karin.SOLO_INTERNA and antes["camino"] == "derivada":
         raise Problema(
             "«%s» no corresponde: la denuncia del caso %s %s." % (
                 hito["titulo"], caso["id"],
@@ -248,7 +317,8 @@ def evento(opciones):
          "caso": caso["id"], "estado_caso": caso["estado"], "camino": calculo["camino"],
          "siguiente": pendientes[0] if pendientes else None,
          "plazos": calculo["hitos"]},
-        advertencias=avisos_fecha + _avisos_de_derivacion(caso, calculo) + [AVISO_LEGAL])
+        advertencias=list(caso.get("_avisos_de_lectura") or []) + avisos_fecha + _avisos_de_derivacion(caso, calculo)
+        + [AVISO_LEGAL])
 
 
 def ver(opciones):
@@ -257,12 +327,15 @@ def ver(opciones):
     datos = _leer(ruta_json)
     caso = _buscar(datos, _valor(opciones, "caso"))
     calculo = _calcular(caso, hoy=_valor(opciones, "hoy") or None)
+    visible = {clave: valor for clave, valor in caso.items() if not clave.startswith("_avisos")}
+    visible["derivacion_obligatoria"] = calculo["derivacion_obligatoria"]
     return Respuesta(
-        {"caso": caso, "camino": calculo["camino"], "derivacion_obligatoria": calculo["derivacion_obligatoria"],
+        {"caso": visible, "camino": calculo["camino"], "derivacion_obligatoria": calculo["derivacion_obligatoria"],
          "motivo_derivacion": calculo["motivo_derivacion"], "plazos": calculo["hitos"],
          "vencidos": calculo["vencidos"], "por_vencer": calculo["por_vencer"], "supuesto": calculo["supuesto"],
          "nota_feriados": calculo["nota_feriados"]},
-        advertencias=_avisos_de_derivacion(caso, calculo) + [AVISO_PRIVACIDAD, AVISO_LEGAL])
+        advertencias=list(caso.get("_avisos_de_lectura") or []) + _avisos_de_derivacion(caso, calculo)
+        + [AVISO_PRIVACIDAD, AVISO_LEGAL])
 
 
 def listar(opciones):
