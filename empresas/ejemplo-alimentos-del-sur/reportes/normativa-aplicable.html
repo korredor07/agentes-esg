@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Normativa aplicable</title>
+<style>
+:root { --primario: #1B4332; --secundario: #D8F3DC; --texto: #1B2A22; --suave: #5A6B62; --borde: #E3E6E3; --fondo: #F7F9F7; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto);
+       font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; line-height: 1.55; }
+.hoja { max-width: 960px; margin: 0 auto; padding: 32px 28px 64px; background: #FFFFFF; min-height: 100vh; }
+header.principal { border-bottom: 4px solid var(--primario); padding-bottom: 16px; margin-bottom: 28px; }
+.marca { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--primario); font-weight: 700; }
+h1 { font-size: 30px; margin: 6px 0 4px; }
+h2 { font-size: 21px; margin: 32px 0 10px; color: var(--primario); }
+h3 { font-size: 16px; margin: 20px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
+p { margin: 10px 0; }
+.subtitulo { color: var(--suave); margin: 0; }
+.tarjetas { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+.tarjeta { flex: 1 1 190px; border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; background: #FCFDFC; }
+.tarjeta-etiqueta { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); }
+.tarjeta-valor { font-size: 27px; font-weight: 700; margin-top: 4px; }
+.tarjeta-valor span { font-size: 14px; font-weight: 500; color: var(--suave); }
+.tarjeta-detalle { font-size: 13px; color: var(--suave); }
+.tabla-envoltura { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--borde); padding: 9px 10px; text-align: left; vertical-align: top; }
+th { background: var(--secundario); color: var(--primario); font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+.nota-tabla, .vacio { font-size: 13px; color: var(--suave); font-style: italic; }
+.panel { border: 1px solid var(--borde); border-radius: 12px; padding: 16px; margin: 16px 0; background: #FCFDFC; }
+.grafico { width: 100%; height: auto; }
+.grafico .eje { font-size: 12px; fill: var(--suave); }
+.grafico .valor { font-size: 12px; fill: var(--texto); font-weight: 600; }
+.dona-total { font-size: 22px; font-weight: 700; fill: var(--texto); }
+.leyendas { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--suave); margin-top: 8px; }
+.leyenda i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; }
+.semaforo-fila { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--borde); }
+.pastilla { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 3px 11px; white-space: nowrap; }
+.aviso { border-left: 4px solid var(--primario); background: #F1F6F2; padding: 11px 14px; border-radius: 6px; margin: 14px 0; font-size: 14px; }
+.aviso.aviso-riesgo, .aviso.riesgo { border-color: #A4161A; background: #FBE3E4; }
+.aviso.aviso, .aviso.advertencia { border-color: #D9A441; background: #FFF6E0; }
+.aviso.exito { border-color: #2D6A4F; background: #D8F3DC; }
+footer { margin-top: 42px; border-top: 1px solid var(--borde); padding-top: 14px; font-size: 12.5px; color: var(--suave); }
+hr { border: none; border-top: 1px solid var(--borde); margin: 26px 0; }
+@media print {
+  body { background: #FFFFFF; }
+  .hoja { max-width: none; padding: 0; }
+  .panel, .tarjeta { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="hoja">
+<header class="principal">
+<div class="marca">Alimentos del Sur SpA</div>
+<h1>Normativa aplicable</h1>
+<p class="subtitulo">Alimentos del Sur SpA</p>
+</header>
+<div class="tarjetas"><div class="tarjeta"><div class="tarjeta-etiqueta">Normas que aplican</div><div class="tarjeta-valor" style="color:#1B4332">7 <span></span></div><div class="tarjeta-detalle">Identificadas con el perfil actual</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Por confirmar</div><div class="tarjeta-valor" style="color:#946200">3 <span></span></div><div class="tarjeta-detalle">Falta un dato para decidir</div></div><div class="tarjeta"><div class="tarjeta-etiqueta">Riesgo alto</div><div class="tarjeta-valor" style="color:#A4161A">5 <span></span></div><div class="tarjeta-detalle"></div></div></div>
+<h2>Normas que le aplican</h2>
+<div class="semaforo"><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Riesgo alto</span><div><strong>Ley 21.643 (Ley Karin)</strong><div class="tarjeta-detalle">Aplica a todo empleador en Chile, sin importar su tamaño. Ante una denuncia: medidas inmediatas, 3 dias habiles para informar a la DT, 30 dias habiles de investigacion.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Riesgo alto</span><div><strong>Ley 20.920 (Ley REP)</strong><div class="tarjeta-detalle">La empresa introduce en el mercado chileno envases, neumaticos, aceites, aparatos electricos, pilas o baterias, sea fabricandolos o importandolos. Declaracion anual en la Ventanilla Unica del RETC.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Riesgo alto</span><div><strong>RETC (DS 1/2013)</strong><div class="tarjeta-detalle">Tiene establecimientos con obligaciones sectoriales que se declaran en el RETC. Declaracion jurada anual del RETC entre el 1 y el 31 de octubre; el registro de emisiones de fuentes fijas entre el 1 de enero y el 30 de abril.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Riesgo alto</span><div><strong>Ley 21.719 (proteccion de datos personales)</strong><div class="tarjeta-detalle">Toda empresa que trate datos de trabajadores, clientes o proveedores queda sujeta a la nueva ley de proteccion de datos personales. La ley entra en plena vigencia el 1 de diciembre de 2026.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#A4161A;background:#FBE3E4">Riesgo alto</span><div><strong>Ley 21.595 y Ley 20.393 (modelo de prevencion de delitos)</strong><div class="tarjeta-detalle">Las personas juridicas responden penalmente por delitos economicos y ambientales; el modelo de prevencion es la principal defensa. Permanente.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#946200;background:#FFF3CD">Riesgo medio</span><div><strong>Ley 21.015 (inclusion laboral)</strong><div class="tarjeta-detalle">Tiene 120 personas: la cuota de inclusion laboral aplica desde 100. Comunicacion anual en enero.</div></div></div><div class="semaforo-fila"><span class="pastilla" style="color:#946200;background:#FFF3CD">Riesgo medio</span><div><strong>Exigencias de clientes europeos (CSRD y VSME)</strong><div class="tarjeta-detalle">Los clientes europeos sujetos a la directiva de reporte de sostenibilidad piden datos a sus proveedores. Para pymes fuera de la UE el tope de lo exigible es el estandar voluntario VSME. Cuando el cliente lo solicite, normalmente en su ciclo anual de reporte.</div></div></div></div>
+<h3>Ley 21.643 (Ley Karin)</h3>
+<ul><li>Protocolo de prevencion del acoso sexual, laboral y la violencia en el trabajo</li><li>Procedimiento de investigacion con plazos perentorios</li><li>Informar los canales de denuncia cada seis meses</li><li>Gestion de riesgos psicosociales con el organismo administrador de la Ley 16.744</li></ul>
+<p>Plazos: Ante una denuncia: medidas inmediatas, 3 dias habiles para informar a la DT, 30 dias habiles de investigacion. Riesgo si no se cumple: Multa administrativa de la Direccion del Trabajo, que varia segun el tamaño de la empresa.</p>
+<h3>Ley 20.920 (Ley REP)</h3>
+<ul><li>Inscribirse en el registro de productores</li><li>Integrarse a un sistema de gestion y financiar la recoleccion y valorizacion</li><li>Declarar anualmente las toneladas puestas en el mercado</li><li>Cumplir las metas del decreto de su producto prioritario</li></ul>
+<p>Plazos: Declaracion anual en la Ventanilla Unica del RETC. Riesgo si no se cumple: Sanciones de la Superintendencia del Medio Ambiente, de hasta 10.000 unidades tributarias anuales.</p>
+<h3>RETC (DS 1/2013)</h3>
+<ul><li>Declarar emisiones, residuos y transferencias en la Ventanilla Unica</li><li>Mantener los registros y mediciones que respaldan la declaracion</li></ul>
+<p>Plazos: Declaracion jurada anual del RETC entre el 1 y el 31 de octubre; el registro de emisiones de fuentes fijas entre el 1 de enero y el 30 de abril. Riesgo si no se cumple: Sanciones de la Superintendencia del Medio Ambiente y de la autoridad sanitaria.</p>
+<h3>Ley 21.719 (proteccion de datos personales)</h3>
+<ul><li>Tener base legal para tratar cada dato personal</li><li>Informar a las personas y atender sus derechos</li><li>Proteger los datos y notificar las vulneraciones</li><li>Evaluar el impacto cuando el tratamiento es de alto riesgo</li></ul>
+<p>Plazos: La ley entra en plena vigencia el 1 de diciembre de 2026. Riesgo si no se cumple: Multas que escalan segun la gravedad, con topes en unidades tributarias y en porcentaje de ingresos.</p>
+<h3>Ley 21.595 y Ley 20.393 (modelo de prevencion de delitos)</h3>
+<ul><li>Identificar los riesgos de delito del giro</li><li>Implementar un modelo de prevencion con encargado y canal de denuncias</li><li>Capacitar y supervisar su funcionamiento</li></ul>
+<p>Plazos: Permanente. Riesgo si no se cumple: Responsabilidad penal de la empresa: multas, prohibiciones y, en casos graves, disolucion.</p>
+<h3>Ley 21.015 (inclusion laboral)</h3>
+<ul><li>Contratar al menos un 1% de personas con discapacidad o pension de invalidez</li><li>Comunicar anualmente el cumplimiento a la Direccion del Trabajo</li></ul>
+<p>Plazos: Comunicacion anual en enero. Riesgo si no se cumple: Multa administrativa de la Direccion del Trabajo.</p>
+<h3>Exigencias de clientes europeos (CSRD y VSME)</h3>
+<ul><li>Responder cuestionarios de sostenibilidad de clientes europeos</li><li>Tener huella de carbono y datos sociales basicos con respaldo</li></ul>
+<p>Plazos: Cuando el cliente lo solicite, normalmente en su ciclo anual de reporte. Riesgo si no se cumple: No es una multa: es perder al cliente o quedar fuera de su lista de proveedores.</p>
+<h2>Falta confirmar</h2>
+<ul><li>Impuesto verde a fuentes fijas — Aplica a establecimientos cuyas fuentes fijas emiten 100 o mas toneladas de material particulado o 25.000 o mas toneladas de CO2 al año.</li><li>Reporte de sostenibilidad de la CMF (NCG 461 y siguientes) — Hay que confirmar si es sociedad anonima abierta o entidad supervisada por la CMF.</li><li>CBAM (mecanismo de ajuste en frontera de la UE) — Hay que confirmar si exporta hierro o acero, aluminio, cemento, fertilizantes, hidrogeno o electricidad a la Union Europea.</li></ul>
+<div class="aviso aviso">Orientacion basada en el perfil declarado y en normativa publica. No es asesoria legal: una revision con abogado es indispensable antes de tomar decisiones.</div>
+<footer>Generado por Agentes ESG el 16-09-2026 01:37. Documento de apoyo: revisa los datos antes de usarlo con fines regulatorios o publicos.</footer>
+</div>
+</body>
+</html>

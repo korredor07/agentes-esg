@@ -1,0 +1,271 @@
+{
+  "respuestas": {
+    "pone_productos_prioritarios": "si",
+    "tiene_calderas": "si",
+    "genera_residuos_industriales": "si",
+    "exporta_commodities_eudr": "no"
+  },
+  "ultima_revision": {
+    "pais": "CL",
+    "aplican": [
+      {
+        "id": "cl-karin",
+        "norma": "Ley 21.643 (Ley Karin)",
+        "dimension": "social",
+        "skill": "ley-karin",
+        "riesgo": "alto",
+        "que_exige": [
+          "Protocolo de prevencion del acoso sexual, laboral y la violencia en el trabajo",
+          "Procedimiento de investigacion con plazos perentorios",
+          "Informar los canales de denuncia cada seis meses",
+          "Gestion de riesgos psicosociales con el organismo administrador de la Ley 16.744"
+        ],
+        "plazos": "Ante una denuncia: medidas inmediatas, 3 dias habiles para informar a la DT, 30 dias habiles de investigacion.",
+        "sancion": "Multa administrativa de la Direccion del Trabajo, que varia segun el tamaño de la empresa.",
+        "fuente": "docs/investigacion/03-ley-karin.md",
+        "estado": "aplica",
+        "motivo": "Aplica a todo empleador en Chile, sin importar su tamaño."
+      },
+      {
+        "id": "cl-rep",
+        "norma": "Ley 20.920 (Ley REP)",
+        "dimension": "ambiental",
+        "skill": "ley-rep",
+        "riesgo": "alto",
+        "que_exige": [
+          "Inscribirse en el registro de productores",
+          "Integrarse a un sistema de gestion y financiar la recoleccion y valorizacion",
+          "Declarar anualmente las toneladas puestas en el mercado",
+          "Cumplir las metas del decreto de su producto prioritario"
+        ],
+        "plazos": "Declaracion anual en la Ventanilla Unica del RETC.",
+        "sancion": "Sanciones de la Superintendencia del Medio Ambiente, de hasta 10.000 unidades tributarias anuales.",
+        "fuente": "docs/investigacion/04-ley-rep-retc.md",
+        "estado": "aplica",
+        "motivo": "La empresa introduce en el mercado chileno envases, neumaticos, aceites, aparatos electricos, pilas o baterias, sea fabricandolos o importandolos."
+      },
+      {
+        "id": "cl-retc",
+        "norma": "RETC (DS 1/2013)",
+        "dimension": "ambiental",
+        "skill": "retc",
+        "riesgo": "alto",
+        "que_exige": [
+          "Declarar emisiones, residuos y transferencias en la Ventanilla Unica",
+          "Mantener los registros y mediciones que respaldan la declaracion"
+        ],
+        "plazos": "Declaracion jurada anual del RETC entre el 1 y el 31 de octubre; el registro de emisiones de fuentes fijas entre el 1 de enero y el 30 de abril.",
+        "sancion": "Sanciones de la Superintendencia del Medio Ambiente y de la autoridad sanitaria.",
+        "fuente": "docs/investigacion/04-ley-rep-retc.md",
+        "estado": "aplica",
+        "motivo": "Tiene establecimientos con obligaciones sectoriales que se declaran en el RETC."
+      },
+      {
+        "id": "cl-datos",
+        "norma": "Ley 21.719 (proteccion de datos personales)",
+        "dimension": "gobernanza",
+        "skill": "proteccion-datos",
+        "riesgo": "alto",
+        "que_exige": [
+          "Tener base legal para tratar cada dato personal",
+          "Informar a las personas y atender sus derechos",
+          "Proteger los datos y notificar las vulneraciones",
+          "Evaluar el impacto cuando el tratamiento es de alto riesgo"
+        ],
+        "plazos": "La ley entra en plena vigencia el 1 de diciembre de 2026.",
+        "sancion": "Multas que escalan segun la gravedad, con topes en unidades tributarias y en porcentaje de ingresos.",
+        "fuente": "docs/investigacion/05-chile-peru-gobernanza-clima-datos.md",
+        "estado": "aplica",
+        "motivo": "Toda empresa que trate datos de trabajadores, clientes o proveedores queda sujeta a la nueva ley de proteccion de datos personales."
+      },
+      {
+        "id": "cl-delitos",
+        "norma": "Ley 21.595 y Ley 20.393 (modelo de prevencion de delitos)",
+        "dimension": "gobernanza",
+        "skill": "gobernanza",
+        "riesgo": "alto",
+        "que_exige": [
+          "Identificar los riesgos de delito del giro",
+          "Implementar un modelo de prevencion con encargado y canal de denuncias",
+          "Capacitar y supervisar su funcionamiento"
+        ],
+        "plazos": "Permanente.",
+        "sancion": "Responsabilidad penal de la empresa: multas, prohibiciones y, en casos graves, disolucion.",
+        "fuente": "docs/investigacion/05-chile-peru-gobernanza-clima-datos.md",
+        "estado": "aplica",
+        "motivo": "Las personas juridicas responden penalmente por delitos economicos y ambientales; el modelo de prevencion es la principal defensa."
+      },
+      {
+        "id": "cl-inclusion",
+        "norma": "Ley 21.015 (inclusion laboral)",
+        "dimension": "social",
+        "skill": "social-personas",
+        "riesgo": "medio",
+        "que_exige": [
+          "Contratar al menos un 1% de personas con discapacidad o pension de invalidez",
+          "Comunicar anualmente el cumplimiento a la Direccion del Trabajo"
+        ],
+        "plazos": "Comunicacion anual en enero.",
+        "sancion": "Multa administrativa de la Direccion del Trabajo.",
+        "fuente": "docs/investigacion/05-chile-peru-gobernanza-clima-datos.md",
+        "estado": "aplica",
+        "motivo": "Tiene 120 personas: la cuota de inclusion laboral aplica desde 100."
+      },
+      {
+        "id": "ue-cadena",
+        "norma": "Exigencias de clientes europeos (CSRD y VSME)",
+        "dimension": "gobernanza",
+        "skill": "union-europea",
+        "riesgo": "medio",
+        "que_exige": [
+          "Responder cuestionarios de sostenibilidad de clientes europeos",
+          "Tener huella de carbono y datos sociales basicos con respaldo"
+        ],
+        "plazos": "Cuando el cliente lo solicite, normalmente en su ciclo anual de reporte.",
+        "sancion": "No es una multa: es perder al cliente o quedar fuera de su lista de proveedores.",
+        "fuente": "docs/investigacion/07-union-europea.md",
+        "estado": "aplica",
+        "motivo": "Los clientes europeos sujetos a la directiva de reporte de sostenibilidad piden datos a sus proveedores. Para pymes fuera de la UE el tope de lo exigible es el estandar voluntario VSME."
+      }
+    ],
+    "por_revisar": [
+      {
+        "id": "cl-impuesto-verde",
+        "norma": "Impuesto verde a fuentes fijas",
+        "dimension": "ambiental",
+        "skill": "retc",
+        "riesgo": "medio",
+        "que_exige": [
+          "Medir y reportar las emisiones de las fuentes fijas",
+          "Pagar el impuesto por tonelada de CO2 y de contaminantes locales"
+        ],
+        "plazos": "Declaracion anual asociada al RETC.",
+        "sancion": "Cobro del impuesto con intereses y multas tributarias.",
+        "fuente": "docs/investigacion/04-ley-rep-retc.md",
+        "estado": "revisar",
+        "motivo": "Aplica a establecimientos cuyas fuentes fijas emiten 100 o mas toneladas de material particulado o 25.000 o mas toneladas de CO2 al año."
+      },
+      {
+        "id": "cl-cmf",
+        "norma": "Reporte de sostenibilidad de la CMF (NCG 461 y siguientes)",
+        "dimension": "gobernanza",
+        "skill": "reportes",
+        "riesgo": "alto",
+        "que_exige": [
+          "Incluir informacion de sostenibilidad y gobierno corporativo en la memoria anual",
+          "Reportar indicadores ambientales, sociales y de gobernanza con trazabilidad"
+        ],
+        "plazos": "Junto con la memoria anual.",
+        "sancion": "Sanciones de la Comision para el Mercado Financiero.",
+        "fuente": "docs/investigacion/06-marcos-reporte-metas-greenwashing.md",
+        "estado": "revisar",
+        "motivo": "Hay que confirmar si es sociedad anonima abierta o entidad supervisada por la CMF."
+      },
+      {
+        "id": "ue-cbam",
+        "norma": "CBAM (mecanismo de ajuste en frontera de la UE)",
+        "dimension": "ambiental",
+        "skill": "cbam",
+        "riesgo": "alto",
+        "que_exige": [
+          "Calcular las emisiones incorporadas de los bienes exportados",
+          "Entregar esa informacion al importador europeo, que declara y compra certificados"
+        ],
+        "plazos": "Periodo definitivo desde 2026; la primera declaracion anual del importador es en septiembre de 2027.",
+        "sancion": "El costo se traslada al precio: quien no entrega datos pierde competitividad frente al valor por defecto.",
+        "fuente": "docs/investigacion/07-union-europea.md",
+        "estado": "revisar",
+        "motivo": "Hay que confirmar si exporta hierro o acero, aluminio, cemento, fertilizantes, hidrogeno o electricidad a la Union Europea."
+      }
+    ],
+    "no_aplican": [
+      {
+        "id": "ue-eudr",
+        "norma": "EUDR (reglamento de deforestacion de la UE)",
+        "dimension": "ambiental",
+        "skill": "eudr",
+        "riesgo": "alto",
+        "que_exige": [
+          "Demostrar que el producto no proviene de tierras deforestadas despues del 31-12-2020",
+          "Entregar la geolocalizacion de los predios de origen",
+          "Sostener un sistema de diligencia debida y trazabilidad"
+        ],
+        "plazos": "Segun el calendario vigente del reglamento y el tamaño del operador europeo.",
+        "sancion": "Para el operador europeo, multas de al menos el 4% de su facturacion en la UE y retiro del producto.",
+        "fuente": "docs/investigacion/07-union-europea.md",
+        "estado": "no aplica",
+        "motivo": "Sus productos no estan entre las materias primas cubiertas."
+      },
+      {
+        "id": "pe-smv",
+        "norma": "Reporte de Sostenibilidad Corporativa (SMV)",
+        "dimension": "gobernanza",
+        "skill": "reportes",
+        "riesgo": "medio",
+        "que_exige": [
+          "Presentar el reporte de sostenibilidad corporativa junto con la memoria anual"
+        ],
+        "plazos": "Anual, junto con la informacion financiera.",
+        "sancion": "Sanciones de la Superintendencia del Mercado de Valores.",
+        "fuente": "docs/investigacion/05-chile-peru-gobernanza-clima-datos.md",
+        "estado": "no aplica",
+        "motivo": "Es una obligacion peruana."
+      },
+      {
+        "id": "pe-hostigamiento",
+        "norma": "Ley 27942 (hostigamiento sexual laboral)",
+        "dimension": "social",
+        "skill": "social-personas",
+        "riesgo": "alto",
+        "que_exige": [
+          "Tener politica y procedimiento de prevencion y sancion del hostigamiento sexual",
+          "Capacitar al personal y atender las quejas en los plazos del reglamento"
+        ],
+        "plazos": "Plazos breves desde la queja: medidas de proteccion y resolucion del procedimiento.",
+        "sancion": "Multas de la SUNAFIL.",
+        "fuente": "docs/investigacion/05-chile-peru-gobernanza-clima-datos.md",
+        "estado": "no aplica",
+        "motivo": "Es una obligacion peruana."
+      }
+    ],
+    "preguntas_pendientes": [
+      {
+        "clave": "tiene_trabajadores",
+        "pregunta": "¿La empresa tiene personas contratadas?",
+        "para_que": "Define casi todas las obligaciones laborales."
+      },
+      {
+        "clave": "descarga_riles",
+        "pregunta": "¿Descargan aguas del proceso a un rio, al mar o al alcantarillado?",
+        "para_que": "Define obligaciones sobre residuos liquidos."
+      },
+      {
+        "clave": "fuente_fija_grande",
+        "pregunta": "¿Alguna instalacion emite mas de 100 toneladas de material particulado o mas de 25.000 toneladas de CO2 al año?",
+        "para_que": "Define si paga impuesto verde."
+      },
+      {
+        "clave": "supervisada_cmf",
+        "pregunta": "¿Es sociedad anonima abierta o esta supervisada por la CMF?",
+        "para_que": "Define si debe reportar sostenibilidad en su memoria anual."
+      },
+      {
+        "clave": "exporta_a_ue",
+        "pregunta": "¿Venden a la Union Europea, directo o a traves de otra empresa?",
+        "para_que": "Define las exigencias europeas."
+      },
+      {
+        "clave": "exporta_bienes_cbam",
+        "pregunta": "¿Exportan hierro o acero, aluminio, cemento, fertilizantes, hidrogeno o electricidad a la UE?",
+        "para_que": "Define si le aplica el CBAM."
+      },
+      {
+        "clave": "emisor_valores",
+        "pregunta": "¿La empresa tiene valores inscritos en el mercado de valores?",
+        "para_que": "Define obligaciones de reporte en Peru."
+      }
+    ],
+    "resumen": "Le aplican 7 normas identificadas; 3 quedan por confirmar.",
+    "aviso": "Orientacion basada en el perfil declarado y en normativa publica. No es asesoria legal: una revision con abogado es indispensable antes de tomar decisiones."
+  }
+}
