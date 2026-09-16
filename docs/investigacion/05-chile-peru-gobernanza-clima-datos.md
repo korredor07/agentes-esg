@@ -732,6 +732,137 @@ Reglamento para la aplicación de los **artículos 15 y 16 de la Ley 16.744**, s
 
 ---
 
+### 6.2 Huella de Carbono Perú (MINAM) y Ley 30754
+
+**Qué es** — herramienta **oficial del Estado peruano**, administrada por el Ministerio del Ambiente, que reconoce cómo las organizaciones **públicas y privadas** gestionan sus emisiones de GEI. Es de **adhesión voluntaria**. `[VERIFICADO]` [20]
+
+La plataforma ofrece: calculadora de emisiones, sistema de reconocimiento, registro de participantes, guía de neutralización, **lista de verificadores** y estadísticas. `[VERIFICADO]` [20]
+
+**Sistema de reconocimiento: cuatro estrellas** — texto oficial de la plataforma `[VERIFICADO]` [20]:
+
+| Nivel | Nombre | Qué exige |
+|---|---|---|
+| ★ | **Primera estrella** | *"La organización deberá calcular su huella de carbono usando esta herramienta"* |
+| ★★ | **Segunda estrella** | Además de calcular, **verificar la huella con una entidad acreditada en NTP ISO 14064** |
+| ★★★ | **Tercera estrella** | Haber **calculado y verificado por dos años consecutivos** y que la diferencia entre ambos presente **reducciones de emisiones en términos absolutos y/o relativos**. La herramienta **concede automáticamente** esta estrella al comprobar la reducción en el sistema |
+| ★★★★ | **Cuarta estrella** | **Adquirir créditos de carbono** para neutralizar las emisiones de CO₂eq calculadas. Se otorga **siempre y cuando** la organización haya **verificado** su huella, **reducido** emisiones y cuente con el **certificado de compra** de los créditos |
+
+**Definiciones oficiales de reducción** `[VERIFICADO]` [20]:
+- **Reducción en términos absolutos:** cuando se reducen las emisiones entre dos años consecutivos.
+- **Reducción en términos relativos:** cuando se reducen las emisiones en términos de indicadores. Los indicadores de la herramienta son: **a)** emisiones de CO₂eq por unidad de energía empleada; **b)** emisiones de CO₂eq por nuevo sol de ingreso; **c)** emisiones de CO₂eq por trabajador.
+
+**Marco normativo asociado**
+- **Ley 30754, Ley Marco sobre Cambio Climático** (Perú) y su Reglamento son el marco general de la política climática peruana. Los detalles de articulado (objeto, autoridad nacional, NDC, INFOCARBONO, obligaciones al sector privado) **no pudieron verificarse en fuente oficial** en esta sesión: los portales `gob.pe` y `leyes.congreso.gob.pe` devolvieron bloqueo o PDF no extraíble. `[NO VERIFICADO]`
+- La **Guía para el funcionamiento de la herramienta Huella de Carbono Perú** fue aprobada como anexo de una Resolución Ministerial del MINAM (el PDF oficial en SINIA corresponde al anexo de la **RM 237-2020-MINAM**), y existe además la **RM 185-2021-MINAM** relacionada. El contenido de ambas **no pudo extraerse** (PDF escaneado). `[NO VERIFICADO]`
+
+#### Checklist — Huella de Carbono Perú
+
+1. [ ] Registrar la organización en la plataforma **huellacarbonoperu.minam.gob.pe**.
+2. [ ] Calcular la huella con la **calculadora oficial de la herramienta** (requisito de la primera estrella).
+3. [ ] Definir el **año base** y mantener la metodología estable para poder demostrar reducciones año a año.
+4. [ ] Contratar un **verificador acreditado en NTP ISO 14064** (lista publicada en la plataforma) para obtener la segunda estrella.
+5. [ ] Repetir cálculo y verificación **dos años consecutivos** y demostrar reducción absoluta y/o relativa (tercera estrella).
+6. [ ] Si se busca la reducción relativa, medir y reportar los tres indicadores oficiales: **CO₂eq por unidad de energía**, **CO₂eq por nuevo sol de ingreso** y **CO₂eq por trabajador**.
+7. [ ] Para la cuarta estrella, adquirir **créditos de carbono elegibles** de la lista de la plataforma y conservar el **certificado de compra**.
+8. [ ] Usar el reconocimiento obtenido como respuesta documentada a la **pregunta de emisiones de GEI del Reporte de Sostenibilidad Corporativa de la SMV**.
+
+---
+
+### 6.3 Ley 27942 y DS 014-2019-MIMP — hostigamiento sexual: plazos exactos
+
+- **Ley 27942**, Ley de Prevención y Sanción del Hostigamiento Sexual.
+- **Reglamento: Decreto Supremo N° 014-2019-MIMP**, dado el **19 de julio de 2019** y publicado el **22 de julio de 2019**. **Deroga** el DS 010-2003-MIMDES. `[VERIFICADO]` [21]
+- **Modificado por el DS N° 021-2021-MIMP**, publicado el **26 de julio de 2021**, que modificó **nueve (9) artículos** (principalmente del ámbito educativo, además de los arts. 16, 17 y 27). `[VERIFICADO]` [22]
+
+**Ámbito privado (art. 25):** aplica a todas las relaciones del **régimen laboral privado**, e incluye a personas contratadas bajo **modalidades formativas** (Ley 28518), **contratistas** y trabajadores de **empresas especiales de servicios y de tercerización** que, con ocasión del trabajo, tienen contacto con el personal. `[VERIFICADO]` [21]
+
+**Órganos que intervienen (art. 28)** `[VERIFICADO]` [21]:
+- **Comité o Delegado/a de intervención frente al Hostigamiento Sexual:** desarrolla la investigación y propone la sanción y medidas complementarias.
+- **Oficina de Recursos Humanos** (o quien haga sus veces): recibe la queja, adopta las medidas de protección, impone la sanción y las medidas complementarias.
+
+**Comité vs. Delegado (art. 27.1)** `[VERIFICADO]` [21]:
+
+| Tamaño del centro de trabajo | Órgano exigido |
+|---|---|
+| **20 o más trabajadores/as** | **Comité de Intervención frente al Hostigamiento Sexual** |
+| **Menos de 20 trabajadores/as** | **Delegado/a contra el Hostigamiento Sexual** |
+
+**Composición del Comité (art. 27.2):** **4 miembros** — 2 representantes de los trabajadores y 2 del empleador, **garantizando paridad de género** en ambos casos. Los representantes del empleador son 1 de la Oficina de RR.HH. y 1 que el empleador designe. Los representantes de los trabajadores pueden elegirse junto con los del **Comité de Seguridad y Salud en el Trabajo** (art. 29 de la Ley 29783). `[VERIFICADO]` [21]
+
+**Acuerdos (art. 27.3):** por **mayoría simple**; el **voto dirimente** corresponde al representante de la Oficina de RR.HH. `[VERIFICADO]` [21]
+
+#### PLAZOS EXACTOS del procedimiento en el sector privado (artículo 29)
+
+| # | Actuación | Plazo exacto | Norma |
+|---|---|---|---|
+| 1 | El empleador que toma conocimiento por otras vías pone los hechos en conocimiento de **RR.HH.** | **no mayor a 1 día hábil** de conocidos | Art. 29.1 |
+| 2 | RR.HH. pone a disposición de la víctima los **canales de atención médica y psicológica** | **no mayor a 1 día hábil** | Art. 29.1 (remite al art. 17.1) |
+| 3 | RR.HH. dicta y ejecuta las **medidas de protección** | **no mayor a 3 días hábiles** contados desde que se interpuso la queja o denuncia | Art. 29.2 (remite al art. 18.2) |
+| 4 | RR.HH. **corre traslado al Comité** para el inicio de la investigación | **no mayor a 1 día hábil** de recibida la queja o denuncia | Art. 29.4 |
+| 5 | El empleador **comunica al Ministerio de Trabajo y Promoción del Empleo (MTPE)** que recibió la queja/inició investigación de oficio e informa las medidas de protección otorgadas | **no mayor a 6 días hábiles** de recibida | Art. 29.3 |
+| 6 | El **Comité emite su informe** de investigación (contenido del art. 19.3), otorgando antes plazo de descargos al denunciado | **no mayor a 15 días calendario** de recibida la queja o denuncia | Art. 29.5 |
+| 7 | El informe se **pone en conocimiento del órgano de sanción** | **máximo 1 día hábil** | Art. 29.5 |
+| 8 | RR.HH. **emite la decisión** (sanción y medidas adicionales), tras trasladar el informe a ambas partes para alegatos | **no mayor a 10 días calendario** de recibido el informe | Art. 29.6 |
+| 9 | La decisión se **informa al MTPE** | dentro de los **6 días hábiles siguientes** a su emisión | Art. 29.6 |
+| 10 | **Impugnación** de la resolución (si las normas de la institución la contemplan) | no puede superar el plazo del **numeral 13.3 del art. 13 de la Ley 27942** | Art. 20.3 |
+| 11 | **Caducidad** para demandar judicialmente el cese de hostilidad o la indemnización por despido arbitrario | **30 días calendario** desde el último acto de hostigamiento (art. 36 LPCL); si se inició el procedimiento interno, se computa desde el día siguiente a la resolución que lo termina — o desde la fecha en que debió emitirse | Arts. 26.3 y 26.4 |
+
+`[VERIFICADO]` [21]
+
+**Régimen general aplicable (Capítulo II)**, útil como referencia `[VERIFICADO]` [21]:
+- **Art. 17.1:** atención médica/psicológica en **no más de 1 día hábil**.
+- **Art. 18.1:** medidas de protección en **plazo máximo de 3 días hábiles** desde la queja, de oficio o a solicitud de parte, de **ejecución inmediata**. Medidas posibles: rotación o cambio de lugar del presunto hostigador; **suspensión temporal** del presunto hostigador; rotación de la víctima **solo si ella lo solicita**; impedimento de acercamiento; otras.
+- **Art. 18.4:** las medidas de protección se mantienen vigentes **hasta que se emita la resolución** que pone fin al procedimiento.
+- **Art. 19.2:** investigación e informe en **no más de 15 días calendario**.
+- **Art. 20.2:** resolución en **no más de 10 días calendario** desde que se recibe el informe.
+
+> **Prohibición expresa (art. 29.2):** *"En ningún caso se considera una medida de protección válida ofrecer a la víctima tomar vacaciones si la misma no lo ha solicitado."* Y el empleador **no puede aplicar como sanción una medida que favorezca laboralmente al hostigador** ni considerar la medida de protección previa como una forma de sanción (art. 29.6). `[VERIFICADO]` [21]
+
+**Tercerización e intermediación (art. 30.1):** si el presunto hostigador trabaja para una empresa de intermediación o tercerización y la víctima es de la empresa principal, la denuncia se formula ante la **empresa principal o usuaria**, que en **no más de 1 día hábil** informa a la empresa de intermediación/tercerización. La **empresa principal lleva a cabo la investigación** a través de su Comité. `[VERIFICADO]` [21]
+
+#### Obligaciones preventivas del empleador
+
+| Obligación | Contenido | Artículo |
+|---|---|---|
+| **Evaluación anual** | Realizar **evaluaciones anuales** para identificar posibles situaciones de hostigamiento sexual o riesgos de que ocurran; pueden integrarse en la evaluación de clima laboral | Art. 10.1 |
+| **Capacitación de inducción** | **Una (1) capacitación** en materia de hostigamiento sexual **al inicio** de la relación laboral, formativa o contractual | Art. 11.1 a) |
+| **Capacitación especializada anual** | **Una (1) capacitación anual especializada** para el área de RR.HH., el Comité y demás involucrados en la investigación y sanción. **No exigible a micro y pequeñas empresas acreditadas en el REMYPE** | Art. 11.1 b) |
+| **Difusión periódica** | Difundir periódicamente, por cualquier medio, la información que permita identificar las conductas de hostigamiento y las sanciones aplicables | Art. 11.2 |
+| **Canales de queja visibles** | Informar y difundir **de manera pública y visible** los canales de atención de quejas internos y externos; poner a disposición los **formatos** de queja y la información básica del procedimiento | Art. 12 |
+
+`[VERIFICADO]` [21]
+
+#### Consecuencias ante SUNAFIL (infracciones laborales tipificadas por el DS 014-2019-MIMP en el DS 019-2006-TR)
+
+| Gravedad | Conducta infractora | Numeral |
+|---|---|---|
+| **Leve** | No comunicar al MTPE la recepción de la queja / el conocimiento de los hechos / la decisión o resultado del procedimiento (numerales 29.3 y 29.6) | Art. 23.10 |
+| **Grave** | **No adoptar las medidas de prevención del artículo 11** del Reglamento (capacitaciones y difusión) | Art. 24.22 |
+| **Muy grave** | No adoptar las medidas necesarias para prevenir o cesar los actos de hostilidad o que afecten la dignidad del trabajador | Art. 25.15 |
+| **Muy grave** | **No iniciar el procedimiento** de investigación y sanción (numeral 29.1) | Art. 25.24 |
+| **Muy grave** | **No otorgar, u otorgar de forma inoportuna, las medidas de protección** (numeral 29.2) y no cumplir el deber de atención médica/psicológica (numeral 17.1) | Art. 25.25 |
+| **Muy grave** | **No emitir la decisión** que pone fin al procedimiento (numeral 29.6) | Art. 25.26 |
+
+`[VERIFICADO]` [21]
+
+> Los **montos** de multa asociados a estas infracciones se determinan por la escala del **Reglamento de la Ley General de Inspección del Trabajo (DS 019-2006-TR)** en función del tipo de empresa (microempresa / pequeña empresa / no MYPE) y del número de trabajadores afectados, expresada en **UIT**. Los valores concretos **no fueron verificados** en esta sesión. `[NO VERIFICADO]` — ver sección 6.4.
+
+#### Checklist — Ley 27942 / DS 014-2019-MIMP
+
+1. [ ] Determinar el órgano exigido según el tamaño del centro de trabajo: **Comité** (20 o más trabajadores) o **Delegado/a** (menos de 20).
+2. [ ] Constituir el Comité con **4 miembros paritarios en género** (2 del empleador — uno de RR.HH. — y 2 de los trabajadores) y dejar acta de elección.
+3. [ ] Aprobar y difundir el **procedimiento interno** de investigación y sanción, con los formatos de queja **públicos y visibles** (arts. 11.2 y 12).
+4. [ ] Realizar la **capacitación de inducción** a todo ingresante y la **capacitación anual especializada** a RR.HH., Comité e involucrados (exenta para MYPE acreditada en REMYPE).
+5. [ ] Ejecutar la **evaluación anual** de riesgos de hostigamiento sexual (puede integrarse al estudio de clima laboral) y documentarla.
+6. [ ] Implantar alertas de plazo en el flujo de la denuncia: **1 día hábil** (derivación a RR.HH., canales de salud, traslado al Comité), **3 días hábiles** (medidas de protección), **6 días hábiles** (aviso al MTPE), **15 días calendario** (informe del Comité), **10 días calendario** (decisión), **6 días hábiles** (informar la decisión al MTPE).
+7. [ ] Configurar las **comunicaciones al MTPE** como paso obligatorio del flujo: omitirlas es infracción leve (art. 23.10) y no iniciar el procedimiento o no resolver es **infracción muy grave**.
+8. [ ] Verificar que las medidas de protección no incluyan **vacaciones no solicitadas** por la víctima, ni que la sanción **favorezca laboralmente al hostigador**.
+9. [ ] Extender el procedimiento a **practicantes, contratistas y personal de tercerización/intermediación** que tengan contacto con el personal (art. 25).
+10. [ ] Definir el protocolo para casos que involucran **tercerización o intermediación**: la empresa principal recibe la denuncia, avisa en **1 día hábil** y **lleva ella misma la investigación** (art. 30.1).
+11. [ ] Registrar el indicador social "número de denuncias de hostigamiento sexual recibidas y resueltas" para el reporte ESG.
+
+---
+
 ## Cambios recientes (2024–2026)
 
 *(sección en construcción — se completará tras el resto del bloque de Perú)*
