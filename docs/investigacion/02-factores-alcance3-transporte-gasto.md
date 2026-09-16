@@ -2,7 +2,7 @@
 
 Fecha de investigación: 2026-09-15
 
-> **Estado del documento:** PARCIAL — en construcción. Secciones completadas: 1 (UK DESNZ/DEFRA).
+> **Estado del documento:** PARCIAL — en construcción. Secciones completadas: 1 (UK DESNZ/DEFRA), 2 (US EPA Supply Chain Factors).
 
 ## Resumen
 
@@ -202,13 +202,19 @@ Unidad: **kg CO2e por habitación-noche** ("Room per night"); no diferencia por 
 | China | Room per night | 53,5 | 35 |
 | India | Room per night | 58,9 | 46 |
 | Japón | Room per night | 39,0 | 51 |
-| EE. UU. | (revisar hoja, filas 75+) | — | — |
+| Estados Unidos | Room per night | 16,1 | 79 |
+| Turquía | Room per night | 32,1 | 77 |
+| Tailandia | Room per night | 43,4 | 76 |
+| Emiratos Árabes Unidos | Room per night | 63,8 | 78 |
+| Vietnam | Room per night | 38,5 | 80 |
 
 **Perú, Argentina, Austria, Chequia, Fiyi, Finlandia, Grecia, Irlanda, Israel, Kazajistán, Macao, Nueva Zelanda, Panamá, Polonia, Rumanía** aparecen listados **sin valor** en el set 2026. Guía oficial (fila 90): si falta el país, se puede seguir usando el factor del último set disponible, o consultar https://www.hotelfootprints.org (datos más granulares por ciudad y segmento).
 
 Origen metodológico (fila 86): los factores provienen del **Hotel Footprinting Tool** (International Tourism Partnership + Greenview), derivados del **Cornell Hotel Sustainability Benchmarking Index (CHSB)**.
 
-> **Decisión sugerida para el motor:** para Perú, usar el valor del set DESNZ más reciente que lo incluya (verificar 2025/2024 — ver Pendientes) o consultar directamente hotelfootprints.org y etiquetar **[SECUNDARIO]**.
+**Comprobación cruzada con el set 2025** [VERIFICADO]: se descargó y leyó también `ghg-conversion-factors-2025-full-set.xlsx` (publicado el 10 junio 2025, https://assets.publishing.service.gov.uk/media/6846a4f55e92539572806125/ghg-conversion-factors-2025-full-set.xlsx). **La hoja `Hotel stay` es idéntica en 2025 y 2026** (mismos países, mismos valores: Chile 27,6; España 7,0; UK 10,4; Perú también vacío). Es decir, los factores de hotel **no se actualizaron** en el ciclo 2026 y **Perú lleva al menos dos ediciones sin valor**.
+
+> **Decisión sugerida para el motor:** para Perú **no existe factor DESNZ**. Opciones: (a) consultar https://www.hotelfootprints.org y etiquetar el valor **[SECUNDARIO]**; (b) usar un país proxy de la región documentando el supuesto (p. ej. Colombia 14,7 o Chile 27,6 — diferencia de casi 2×, así que la elección es material); (c) dejar el cálculo en blanco y exigir dato primario del hotel. Recomendado: (a) con (c) como preferencia.
 
 ---
 
@@ -302,3 +308,169 @@ Suma "electricity consumption" (fuera del marco de alcances) = generación + T&D
 
 > **Aviso importante (2026):** el factor de electricidad UK bajó ~26 % respecto a 2025 por un **cambio de metodología** (el desfase de datos pasó de 2 años a 1 año), no solo por descarbonización. Este cambio afecta en cascada a EV, ferrocarril y teletrabajo. **No es comparable año contra año sin re-baselining.**
 
+
+---
+
+## 2. US EPA — Supply Chain GHG Emission Factors for US Industries and Commodities
+
+### 2.0 Qué es, versión vigente, licencia y unidades
+
+| Campo | Valor | Etiqueta |
+|---|---|---|
+| Título | *Supply Chain Greenhouse Gas Emission Factors v1.3 by NAICS-6* | [VERIFICADO] |
+| Versión vigente a 2026-09-15 | **v1.3.0** (no existe v1.4 publicada) | [VERIFICADO] |
+| Autor / editor | US EPA, Office of Research and Development (ORD) — autor: Wesley Ingwersen | [VERIFICADO] |
+| Fecha de publicación | 5 julio 2024 (registro Science Inventory: 10 julio 2024) | [VERIFICADO] |
+| Registro oficial | https://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=362515&Lab=CESER | [VERIFICADO] |
+| Nº de commodities | **1.016** commodities NAICS-2017 a 6 dígitos (353 conjuntos únicos de factores) | [VERIFICADO] |
+| Unidad | **kg CO2e / USD de 2022, a precios de comprador (purchaser price)** | [VERIFICADO] |
+| Año base monetario | **2022 USD** (v1.2 = 2021 USD; v1.1 = 2018 USD) | [VERIFICADO] |
+| Año de datos de emisiones | 2022 (US GHG Inventory 1990–2022, EPA 430-R-24-004) | [VERIFICADO] |
+| GWP | **IPCC AR5, horizonte 100 años** (v1.2 usaba AR4) | [VERIFICADO] |
+| Modelo subyacente | SAM-GHG (atribución sectorial) + **USEEIO v2.2.22-GHG**, tablas IO benchmark 2017 de BEA | [VERIFICADO] |
+| Licencia | **Dominio público** (17 U.S.C. § 105: obra del gobierno federal de EE. UU., sin protección de copyright doméstico). Redistribución comercial y en repositorios open source **permitida sin restricción**. Atribución no exigida legalmente, pero recomendada. Prohibido usar el sello de EPA o insinuar respaldo. | [VERIFICADO] |
+| URL licencia | https://pasteur.epa.gov/license/sciencehub-license.html | [VERIFICADO] |
+| CSV CO2e | https://pasteur.epa.gov/uploads/10.23719/1531143/SupplyChainGHGEmissionFactors_v1.3.0_NAICS_CO2e_USD2022.csv | [VERIFICADO] |
+| CSV por gas | https://pasteur.epa.gov/uploads/10.23719/1531143/SupplyChainGHGEmissionFactors_v1.3.0_NAICS_byGHG_USD2022.csv | [VERIFICADO] |
+| Documentación oficial | https://pasteur.epa.gov/uploads/10.23719/1531143/documents/Aboutv1.3SupplyChainGHGEmissionFactors.docx | [VERIFICADO] |
+| Código fuente | https://github.com/USEPA/supply-chain-factors | [VERIFICADO] |
+
+**Qué son.** Estiman las emisiones de GEI directas **e indirectas** asociadas a un bien o servicio estadounidense **por dólar gastado**, sobre las fases de ciclo de vida cubiertas por el modelo input-output ambientalmente extendido USEEIO. Se crearon a petición de la General Services Administration para estimar la huella de Alcance 3 de las agencias federales. Están **destinados a las categorías 1 (bienes y servicios adquiridos) y 2 (bienes de capital)** del GHG Protocol; su uso en otras categorías es posible pero queda a criterio del usuario. [VERIFICADO]
+
+**Los tres tipos de factor (con y sin márgenes):** [VERIFICADO]
+
+| Sigla | Nombre | Qué representa |
+|---|---|---|
+| SEF | Supply Chain Emission Factors **without Margins** | Emisiones directas + indirectas del bien/servicio, **sin** los márgenes de distribución |
+| MEF | **Margins** of Supply Chain Emission Factors | Emisiones de los márgenes: transporte, comercio mayorista y minorista incorporados al precio de comprador |
+| SEF+MEF | Supply Chain Emission Factors **with Margins** | **El que se debe usar con datos de gasto** (precio efectivamente pagado) |
+
+> **Regla oficial:** *no* sumar el resultado calculado con SEF y/o MEF al resultado calculado con SEF+MEF — sería doble contabilidad. [VERIFICADO]
+> Los MEF son distintos de cero sólo en el 45 % de las commodities y siempre son menores que su SEF correspondiente.
+
+**Distribución de valores (SEF+MEF, kg CO2e/USD 2022):** mín. 0,029 · 1er cuartil 0,108 · **mediana 0,173** · media 0,2819 · 3er cuartil 0,3292 · **máx. 3,924**. [VERIFICADO]
+
+**Exclusiones importantes:** [VERIFICADO]
+
+- **Electricidad (NAICS 221100) está EXCLUIDA a propósito**: EPA la eliminó porque la electricidad comprada corresponde al **Alcance 2**, no al 3. No existe factor de gasto en electricidad en este set.
+- Sectores de **gobierno** (G\*) y sectores especiales de balance IO (S\*) también eliminados.
+- En v1.3 **todos** los sectores de residuos `562*` comparten el mismo factor (0,988), porque no hubo datos para desagregar el sector de residuos con las tablas IO 2017. En v1.2 sí había desagregación (p. ej. relleno sanitario 562212 = 10,989 → 0,988 en v1.3, una caída del 91 %). Es el cambio más drástico entre versiones.
+
+---
+
+### 2.1 Factores representativos por código NAICS para cálculo por gasto
+
+Unidad en todas las filas: **kg CO2e por USD de 2022 a precio de comprador**. Columna a usar con datos de gasto: **SEF+MEF**.
+
+| # | NAICS 2017 | Título (EN) | Uso típico (ES) | SEF | MEF | **SEF+MEF** | Etiqueta |
+|---|---|---|---|---|---|---|---|
+| 1 | 322230 | Stationery Product Manufacturing | Papelería | 0,265 | 0,031 | **0,296** | [VERIFICADO] |
+| 2 | 334111 | Electronic Computer Manufacturing | TI — computadores | 0,030 | 0,028 | **0,058** | [VERIFICADO] |
+| 3 | 541512 | Computer Systems Design Services | TI — servicios | 0,089 | 0 | **0,089** | [VERIFICADO] |
+| 4 | 511210 | Software Publishers | Software / licencias | 0,036 | 0,045 | **0,080** | [VERIFICADO] |
+| 5 | 541611 | Administrative Management and General Management Consulting Services | Consultoría | 0,078 | 0 | **0,078** | [VERIFICADO] |
+| 6 | 541110 | Offices of Lawyers | Servicios legales | 0,041 | 0 | **0,041** | [VERIFICADO] |
+| 7 | 541810 | Advertising Agencies | Publicidad | — | — | **pendiente** | **[NO VERIFICADO]** |
+| 8 | 517311 | Wired Telecommunications Carriers | Telecomunicaciones | 0,075 | 0 | **0,075** | [VERIFICADO] |
+| 9 | 722511 | Full-Service Restaurants | Restaurantes | — | — | **pendiente** | **[NO VERIFICADO]** |
+| 10 | 721110 | Hotels (except Casino Hotels) and Motels | Hoteles | — | — | **pendiente** | **[NO VERIFICADO]** |
+| 11 | 481111 | Scheduled Passenger Air Transportation | Transporte aéreo | 0,644 | 0 | **0,644** | [VERIFICADO] |
+| 12 | 484121 | General Freight Trucking, Long-Distance, Truckload | Camión larga distancia | 0,595 | 0 | **0,595** | [VERIFICADO] |
+| 13 | 484110 | General Freight Trucking, Local | Camión local | 0,595 | 0 | **0,595** | [VERIFICADO] |
+| 14 | 483111 | Deep Sea Freight Transportation | Marítimo de altura | 0,816 | 0 | **0,816** | [VERIFICADO] |
+| 15 | 493110 | General Warehousing and Storage | Almacenamiento | 0,244 | 0 | **0,244** | [VERIFICADO] |
+| 16 | 236220 | Commercial and Institutional Building Construction | Construcción | 0,224 | 0 | **0,224** | [VERIFICADO] |
+| 17 | 327310 | Cement Manufacturing | Cemento — **el factor más alto del set** | 3,846 | 0,078 | **3,924** | [VERIFICADO] |
+| 18 | 327410 | Lime Manufacturing | Cal | 1,560 | 0,063 | **1,623** | [VERIFICADO] |
+| 19 | 331110 | Iron and Steel Mills and Ferroalloy Manufacturing | Acero | 0,769 | 0,018 | **0,787** | [VERIFICADO] |
+| 20 | 325211 | Plastics Material and Resin Manufacturing | Plásticos (resinas) | 1,022 | 0,024 | **1,045** | [VERIFICADO] |
+| 21 | 326160 | Plastics Bottle Manufacturing | Envases plásticos | 0,553 | 0,025 | **0,579** | [VERIFICADO] |
+| 22 | 325110 | Petrochemical Manufacturing | Petroquímica | 0,794 | 0,016 | **0,811** | [VERIFICADO] |
+| 23 | 325199 | All Other Basic Organic Chemical Manufacturing | Químicos orgánicos básicos | 1,166 | 0,018 | **1,184** | [VERIFICADO] |
+| 24 | 325120 | Industrial Gas Manufacturing | Gases industriales | 1,163 | 0,048 | **1,211** | [VERIFICADO] |
+| 25 | 325311 | Nitrogenous Fertilizer Manufacturing | Fertilizante nitrogenado | 1,114 | 0,023 | **1,137** | [VERIFICADO] |
+| 26 | 325312 | Phosphatic Fertilizer Manufacturing | Fertilizante fosfatado | 1,114 | 0,023 | **1,137** | [VERIFICADO] |
+| 27 | 111150 | Corn Farming | Agricultura — maíz (igual para trigo, arroz, oleaginosas) | 0,809 | 0,040 | **0,848** | [VERIFICADO] |
+| 28 | 112111 | Beef Cattle Ranching and Farming | Producción animal — bovino carne | 2,847 | 0,045 | **2,893** | [VERIFICADO] |
+| 29 | 112120 | Dairy Cattle and Milk Production | Producción animal — leche | 1,682 | 0,042 | **1,724** | [VERIFICADO] |
+| 30 | 112210 | Hog and Pig Farming | Producción animal — porcino | 1,077 | 0,051 | **1,128** | [VERIFICADO] |
+| 31 | 112310 | Chicken Egg Production | Producción animal — huevos / aves | — | — | **0,438** | [VERIFICADO] |
+| 32 | 311812 | Commercial Bakeries | Alimentos — panadería | 0,213 | 0,040 | **0,253** | [VERIFICADO] |
+| 33 | 312111 | Soft Drink Manufacturing | Bebidas — refrescos | 0,173 | 0,042 | **0,214** | [VERIFICADO] |
+| 34 | 312120 | Breweries | Bebidas — cerveza | 0,209 | 0,066 | **0,274** | [VERIFICADO] |
+| 35 | 313210 | Broadwoven Fabric Mills | Textiles | 0,480 | 0,027 | **0,507** | [VERIFICADO] |
+| 36 | 315990 | Apparel Accessories and Other Apparel Manufacturing | Vestuario | 0,060 | 0,060 | **0,120** | [VERIFICADO] |
+| 37 | 337214 | Office Furniture (except Wood) Manufacturing | Muebles de oficina | 0,184 | 0,056 | **0,240** | [VERIFICADO] |
+| 38 | 221100 | Electric Power Generation, Transmission and Distribution | Electricidad | — | — | **EXCLUIDO del set (es Alcance 2)** | [VERIFICADO] |
+| 39 | 221310 | Water Supply and Irrigation Systems | Agua | 0,578 | 0 | **0,578** | [VERIFICADO] |
+| 40 | 562111 y todo `562*` | Solid Waste Collection / Waste Management | Residuos | — | — | **0,988** | [VERIFICADO] |
+| 41 | 524113 | Direct Life Insurance Carriers | Seguros | — | 0 | **0,051** | [VERIFICADO] |
+| 42 | 522110 | Commercial Banking | Banca | 0,059 | 0 | **0,059** | [VERIFICADO] |
+| 43 | 531120 | Lessors of Nonresidential Buildings | Arriendo de oficinas / locales | 0,246 | 0 | **0,246** | [VERIFICADO] |
+| 44 | 531110 | Lessors of Residential Buildings and Dwellings | Inmobiliario residencial | 0,033 | 0 | **0,033** | [VERIFICADO] |
+| 45 | 333120 | Construction Machinery Manufacturing | Maquinaria | 0,201 | 0,027 | **0,228** | [VERIFICADO] |
+| 46 | 335312 | Motor and Generator Manufacturing | Equipos eléctricos | 0,133 | 0,019 | **0,152** | [VERIFICADO] |
+| 47 | 325412 | Pharmaceutical Preparation Manufacturing | Farmacéuticos | 0,045 | 0,053 | **0,099** | [VERIFICADO] |
+| 48 | 322211 | Corrugated and Solid Fiber Box Manufacturing | Envases de cartón | 0,449 | 0,030 | **0,479** | [VERIFICADO] |
+| 49 | 323110 | Commercial Printing (except Screen and Books) | Imprenta | 0,202 | 0,034 | **0,236** | [VERIFICADO] |
+| 50 | 324110 | Petroleum Refineries | Combustibles | 0,248 | 0,022 | **0,270** | [VERIFICADO] |
+| 51 | 486110 / 486210 / 486910 / 486990 | Pipeline Transportation | Ductos (crudo, gas, refinados) | 1,619 | 0 | **1,619** | [VERIFICADO] |
+| 52 | 561720 | Janitorial Services | Limpieza | — | — | **pendiente** | **[NO VERIFICADO]** |
+| 53 | 561612 / 561610 | Security Guards / Investigation and Security Services | Seguridad | — | — | **pendiente** | **[NO VERIFICADO]** |
+| 54 | 561311 / 561320 | Employment Placement / Temporary Help Services | RR. HH. y personal temporal | — | — | **0,051** | [VERIFICADO] |
+
+**Nota de verificación.** Los valores [VERIFICADO] se leyeron del CSV oficial de EPA y/o de las tablas 1, 2, 4 y 5 del documento oficial `Aboutv1.3SupplyChainGHGEmissionFactors.docx`. La lectura remota del CSV **se trunca en el codigo NAICS 541720** (y la del CSV de cambios relativos, en 524127). Se intentaron dos rutas independientes para los cinco codigos altos (541810, 722511, 721110, 561720, 561612) y **devolvieron valores contradictorios entre si**, senal inequivoca de lectura fuera del rango realmente recibido. Por eso **no se consignan cifras**: hay que abrir el CSV completo en local antes de cargarlos en el motor — ver «Pendientes y dudas».
+
+---
+
+### 2.2 Metodología oficial de uso (EPA) y adaptación fuera de EE. UU.
+
+#### 2.2.1 Procedimiento oficial EPA, 4 pasos [VERIFICADO]
+
+1. **Mapear** cada bien o servicio comprado al código NAICS más cercano, usando las descripciones NAICS.
+2. **(Opcional pero RECOMENDADO) Ajustar el año-dólar** del factor para que coincida con el año-dólar del dato de gasto, usando un **índice de precios anual específico de la commodity** (chain-type price index del BEA, transformado a forma de commodity con un enfoque de market shares). EPA advierte que, al momento de la publicación, los índices a nivel detallado no estaban disponibles después de 2022.
+3. **Multiplicar** el gasto (USD) por el factor → kg CO2e directos + indirectos.
+4. **No sumar** el resultado de SEF y/o MEF al resultado de SEF+MEF (duplicación).
+
+#### 2.2.2 Adaptación para Chile, Perú y la UE — procedimiento propuesto
+
+> **ADVERTENCIA:** la EPA **no publica** guía oficial para aplicar estos factores fuera de EE. UU. Lo siguiente es un procedimiento construido a partir de la práctica estándar con modelos EEIO; **[NO VERIFICADO] como guía oficial**. Debe documentarse como supuesto del motor y declararse en el reporte.
+
+**Fórmula completa:**
+
+```
+E_kgCO2e = Gasto_local(año t)
+           ÷ FX(moneda_local → USD, promedio año t)   (1) conversión de moneda
+           × (IPC_US_2022 / IPC_US_t)                  (2) deflactación al año base 2022
+           × FE_NAICS(SEF+MEF)                         (3) factor EPA
+           × k_pais                                    (4) ajuste país (opcional)
+```
+
+**(1) Conversión de moneda.** Convertir el gasto local a USD con el tipo de cambio **promedio del mismo año del gasto**, no el de hoy. Fuentes estables para el motor: dólar observado promedio anual del Banco Central de Chile, tipo de cambio del BCRP para Perú, tipo de cambio de referencia del BCE para el euro. Alternativa técnicamente superior pero más discutible ante auditores: **paridad de poder adquisitivo (PPA)** del Banco Mundial, que corrige la diferencia de nivel de precios — un mismo bien cuesta menos USD nominales en Chile o Perú que en EE. UU., de modo que usar sólo el tipo de cambio de mercado **subestima** las emisiones.
+
+**(2) Ajuste por inflación al año base.** El denominador de todos los factores v1.3 es el **USD de 2022**. Si el gasto es de 2025 o 2026, hay que **deflactarlo a USD 2022** antes de multiplicar (equivalentemente, envejecer el factor dividiéndolo por el índice de precios, que es como lo plantea EPA). Si no se hace, se introduce un error sistemático igual a la inflación acumulada entre ambos años que **SOBREESTIMA** las emisiones: el mismo bien físico cuesta más dólares nominales hoy, y esos dólares extra se cuentan como si fueran emisiones adicionales. Orden de preferencia:
+
+1. Índice de precios encadenado específico de la commodity del BEA (lo que EPA usa internamente) — lo más correcto, pero sólo disponible hasta 2022 a nivel detallado.
+2. **US CPI-U** o deflactor del PIB de EE. UU. — aproximación práctica y auditable.
+3. Regenerar los factores en el año-dólar deseado ejecutando el código `useeior` / `supply-chain-factors` de EPA, que soporta producir los factores en el año-dólar indicado por el usuario. [VERIFICADO]
+
+**(3) Factor EPA.** Usar siempre la columna **SEF+MEF** con datos de gasto (precios de comprador).
+
+**(4) Ajuste país (opcional y el más delicado).** Los factores reflejan la **estructura productiva y la matriz eléctrica de EE. UU.** Aplicarlos tal cual a Chile, Perú o España asume que un dólar gastado allí genera las mismas emisiones que en EE. UU. Opciones:
+
+- **k = 1** (sin ajuste): lo más simple, transparente y auditable; se declara como limitación. Es lo que hace la mayoría de las plataformas comerciales.
+- Ajustar por la **intensidad de carbono de la economía** (kg CO2e/USD de PIB) del país destino frente a EE. UU.: mejora el orden de magnitud, pero no es práctica estandarizada.
+- Sustituir por una base EEIO regional (EXIOBASE para la UE; no hay equivalente oficial abierto para Chile ni Perú) — ver «Pendientes y dudas».
+
+#### 2.2.3 Incertidumbre — qué debe advertir el motor
+
+| Fuente de incertidumbre | Efecto | Mitigación |
+|---|---|---|
+| **Agregación sectorial** | Los 1.016 NAICS se resuelven en sólo **353 conjuntos únicos** de factores; todos los `562*` comparten valor | Documentar el mapeo; priorizar datos de proveedor |
+| **Homogeneidad de precio** | El modelo asume misma intensidad por dólar dentro del sector: un producto premium parece más contaminante sólo por costar más | No usar gasto en categorías materiales; migrar a datos de actividad |
+| **Año-dólar / inflación** | **Sobreestimación** sistemática si no se deflacta el gasto al año base del factor (2022) | Paso (2) obligatorio en el motor |
+| **Tipo de cambio vs PPA** | Subestimación sistemática en países con menor nivel de precios | Declarar el criterio elegido; opción PPA configurable |
+| **Geografía** | Matriz eléctrica y tecnología de EE. UU. ≠ Chile / Perú / UE | Declarar como limitación; `k_pais` documentado |
+| **Deriva entre versiones** | La mediana de los SEF cayó **−18 %** de v1.2 a v1.3; 796 de 1.016 factores bajaron >5 % y 139 subieron >5 %; el relleno sanitario `562212` pasó de 10,989 a 0,988 | Fijar la versión del set en la configuración y **re-baselinear** al cambiar |
+
+> **Regla de oro para el motor:** el método por gasto es el **último recurso** en la jerarquía del GHG Protocol. Sirve para un primer barrido y para detectar dónde está la materialidad; identificadas las categorías materiales, hay que migrar a datos de proveedor o de actividad física.

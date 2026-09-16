@@ -186,7 +186,214 @@ Objetivo: "prevenir y controlar los riesgos identificados en los hechos que dier
 - **No revictimización** (art. 2° letra c) DS 21): evitar que la persona afectada "se vea expuesta a la continuidad de la lesión o vulneración sufrida como consecuencia de la conducta denunciada". [VERIFICADO] [2]
 - **No represalias**: la Ley 21.643 **no contiene una cláusula expresa** de prohibición de represalias con esa denominación. La protección se articula por tres vías: (i) art. 211-A letra e) CT — medidas "destinadas a resguardar la debida actuación de las trabajadoras y de los trabajadores, **independiente del resultado de la investigación**"; (ii) art. 20 inc. 3° DS 21 — las medidas de resguardo no pueden ser "gravosas o perjudiciales para la persona denunciante, ni producir algún tipo de menoscabo"; (iii) art. 211-D inc. final CT — si la DT toma conocimiento de una **vulneración de derechos fundamentales** debe dar cumplimiento al art. 486 CT (**procedimiento de tutela laboral**), con excepción del inciso sexto (mediación previa) respecto del acoso sexual. [VERIFICADO en cuanto a los textos; la calificación "no hay cláusula expresa de represalias" es una lectura del texto — ver Pendientes.]
 
+## 7. Gestión de riesgos psicosociales y organismo administrador Ley 16.744 (SUSESO)
+
+| Norma | Fecha | Contenido | Etiqueta |
+|---|---|---|---|
+| **Circular N° 3.813 SUSESO** | 07-06-2024 | Imparte instrucciones a los organismos administradores de la Ley 16.744 y a las empresas con administración delegada sobre la asistencia técnica para la prevención del acoso sexual, laboral y violencia en el trabajo (Ley 21.643). Modifica los **Libros III, IV y V del Compendio de Normas del Seguro de la Ley 16.744**. Fundamento: Ley 16.395 arts. 2, 3, 30 y 38; Ley 16.744 arts. 12 y 72. Vigencia: desde su publicación. | [VERIFICADO] [5] |
+| **Circular N° 3.819 SUSESO** | 26-07-2024 | Instrucciones complementarias sobre la misma materia | [VERIFICADO] [5] |
+| **Circular N° 3.825 SUSESO** | 19-08-2024 | Instrucciones complementarias sobre la misma materia | [VERIFICADO] [5] |
+
+Contenido del Compendio SUSESO, Libro IV, "Capítulo I. Elaboración e implementación del protocolo de prevención del acoso sexual, laboral y la violencia en el trabajo" [6]:
+
+- Alcance: **todas las entidades empleadoras, del sector público y privado**, incluidas municipalidades, organismos públicos e instituciones de educación superior. [VERIFICADO] [6]
+- El protocolo debe contener una política de prevención, los contenidos mínimos legales y **participación de trabajadores** (organizaciones sindicales y comités paritarios). [VERIFICADO] [6]
+- **Identificación de riesgos psicosociales**: usar el *Protocolo de Vigilancia de Riesgos Psicosociales en el Trabajo* del MINSAL y aplicar el **cuestionario CEAL-SM/SUSESO**, analizando específicamente las **7 preguntas de la dimensión "violencia y acoso"** (que identifican situaciones ocurridas en los últimos 12 meses). [VERIFICADO] [6]
+- **Diferencia por tamaño de empresa (la única explícita y relevante):** las empresas de **menos de 10 trabajadores NO están obligadas a aplicar el CEAL-SM**; pueden usar la *"Pauta sugerida para la evaluación de riesgos psicosociales"* (**Anexo N° 54** del Compendio). [VERIFICADO] [6]
+- Medidas de prevención: objetivos medibles y controlables, plazos de análisis periódicos, mejora continua, capacitación periódica. Los procesos "deberán ser revisados permanentemente". La **periodicidad exacta de reevaluación** del riesgo psicosocial no queda fijada en la fuente consultada. [NO VERIFICADO — ver Pendientes]
+- Capacitación y difusión: reconocimiento de conductas de acoso, efectos en salud y situaciones que **no** constituyen violencia laboral; publicación en medios disponibles (web u otros). [VERIFICADO] [6]
+
+**Reporte estadístico (art. 6 Ley 21.643):** los organismos administradores deben remitir **semestralmente** a la SUSESO la cantidad de denuncias presentadas y las acciones/medidas adoptadas; los empleadores deben proporcionar esa información. La SUSESO remite al MINTRAB y al Consejo Superior Laboral, **en enero y julio de cada año**, un informe estadístico consolidado. [VERIFICADO] [1]
+
+## 8. Sanciones, fiscalización y recursos oficiales
+
+### 8.1 Multas
+
+La Ley 21.643 **no creó un régimen sancionatorio propio**. Se aplica el régimen general del **artículo 506 del Código del Trabajo** (infracciones sin sanción específica), con escala según tamaño de empresa: [SECUNDARIO — texto del art. 506 no verificado directamente contra BCN en esta pasada]
+
+| Tamaño de empresa | Multa (art. 506 CT) |
+|---|---|
+| Micro y pequeña empresa | 1 a 10 UTM |
+| Mediana empresa | 2 a 40 UTM |
+| Gran empresa | 3 a 60 UTM |
+
+La clasificación por tamaño del art. 505 bis CT se mide por número de trabajadores (micro 1-9; pequeña 10-49; mediana 50-199; grande 200 y más). [SECUNDARIO — pendiente de verificación directa]
+
+La Dirección del Trabajo incorporó las infracciones a la Ley 21.643 a su **tipificador de infracciones**, graduando la multa según gravedad y número de trabajadores afectados. [SECUNDARIO] [7]
+
+### 8.2 Fiscalización
+
+- Órgano fiscalizador: **Dirección del Trabajo / Inspección del Trabajo** (sector privado). Facultades fiscalizadoras reiteradas en el dictamen ORD.N°57/04 (26-01-2026): "sin perjuicio de las facultades fiscalizadoras de este Servicio". [VERIFICADO] [11]
+- La revisión del informe por la Inspección **no genera presunción legal** respecto de los hechos investigados (art. 23 del DFL N° 2 de 1967 reserva la presunción a hechos constatados directamente por Inspectores). Dictamen 362/19, citado en ORD.N°57/04. [VERIFICADO] [11]
+- La Inspección sólo verifica **cumplimiento procedimental y congruencia** entre informe y conclusiones; no emite pronunciamiento de fondo. [VERIFICADO] [11]
+- **SUSESO** fiscaliza a los organismos administradores; **Contraloría General de la República** en el sector público.
+
+### 8.3 Recursos oficiales
+
+| Recurso | Ubicación | Etiqueta |
+|---|---|---|
+| Portal Ley Karin de la Dirección del Trabajo (modelo de protocolo, guías, preguntas frecuentes) | https://www.dt.gob.cl | [NO VERIFICADO — URL exacta de la sección Ley Karin no confirmada en esta pasada] |
+| Dictámenes y normativa DT (buscador "Normativa 3.0") | https://www.dt.gob.cl/legislacion/1624/w3-propertyvalue-194488.html (índice "Ley Karin") | [VERIFICADO] [12] |
+| Plataforma electrónica de denuncias de la DT (exigida por el art. 2° transitorio DS 21, plazo 03-07-2025) | — | [NO VERIFICADO — no se confirmó la URL ni la fecha efectiva de implementación] |
+| Reporte estadístico semestral de la DT (art. 26 DS 21) | Sitio web DT | [NO VERIFICADO — URL exacta] |
+| Compendio de Normas del Seguro de la Ley 16.744, SUSESO (Libro IV, Cap. I) | https://www.suseso.gob.cl/613/w3-propertyvalue-726761.html | [VERIFICADO] [6] |
+| Cuestionario CEAL-SM/SUSESO y Anexo N° 54 (pauta para <10 trabajadores) | Compendio SUSESO | [VERIFICADO] [6] |
+
+## 9. Sector público: diferencias principales (breve)
+
+| Aspecto | Sector privado | Sector público |
+|---|---|---|
+| Norma base | Código del Trabajo, Título IV Libro II | Ley 18.575 (art. 14 nuevo), Ley 18.834 (Estatuto Administrativo), Ley 18.883 (Estatuto Municipal) |
+| Instrumento de prevención | Protocolo art. 211-A CT (vía organismo administrador Ley 16.744) | Protocolo del **art. 14 de la Ley 18.575**, con contenido mínimo casi idéntico (letras a-e) pero con "enfoque inclusivo e integrado con perspectiva de género"; asistencia de organismos Ley 16.744 "en los casos que correspondan" |
+| Procedimiento | Investigación interna del empleador o de la DT | **Sumario administrativo / investigación sumaria** (arts. 90 A y 90 B Ley 18.834), sujetos a los principios de confidencialidad, imparcialidad, celeridad y perspectiva de género (arts. 46 Ley 18.575, 119 Ley 18.834, 118 Ley 18.883) |
+| Órgano de control | Dirección del Trabajo | **Contraloría General de la República** |
+| Fiscal/investigador | Trabajador con formación en acoso, género o DDFF (preferentemente) | Fiscal con formación en prevención, investigación y sanción de acoso, género o DDFF (preferentemente) — art. 129 Ley 18.834 / art. 127 Ley 18.883 |
+| Plazos propios | 3 / 30 / 2 / 30 / 15 días | **5 días** para notificar a la persona denunciante la resolución que desestima, sobresee, absuelve o aplica medida (arts. 126, 137 y 140 Ley 18.834; 124, 135 y 138 Ley 18.883); **20 días** para reclamar ante la CGR desde que tomó conocimiento; **20 días** para adoptar las medidas desde el vencimiento de los plazos de instrucción (art. 143 Ley 18.834 / art. 141 Ley 18.883); **3 días hábiles** para poner en conocimiento de la CGR cuando el denunciado o denunciante sea alcalde/alcaldesa, concejal o jefatura de dependencia directa del alcalde (art. 126 Ley 18.883) |
+| Derechos de la víctima | Ser oída, aportar antecedentes | Aportar antecedentes, **conocer el contenido desde la formulación de cargos**, ser notificada e interponer recursos "en los mismos términos que el funcionario inculpado" (art. 129 Ley 18.834 / art. 127 Ley 18.883) |
+| Sanción máxima | Despido art. 160 N°1 letras b) o f) CT | **Destitución**; el acoso pasa a ser prohibición funcionaria (art. 62 N° 10 Ley 18.575) y causal de destitución (art. 125 letra b) Ley 18.834) |
+| Municipal | — | El alcalde declarado responsable incurre en **contravención grave a la probidad** → causal de cesación en el cargo (arts. 60, 76 g) y 77 Ley 18.695) |
+
+Todos los datos de esta tabla provienen del texto de los artículos 2 a 5 de la Ley 21.643. [VERIFICADO] [1]
+
+> La DT **no es competente** cuando la persona denunciante es funcionaria pública; corresponde consultar a la Contraloría General de la República (ORD.N°57/04, conclusión 8). [VERIFICADO] [11]
+>
+> La Contraloría impartió instrucciones sobre estas modificaciones mediante el **Dictamen N° E516610 de 19-07-2024**, aclarado posteriormente (folio E30538/2025). [SECUNDARIO — no verificado directamente en contraloria.cl]
+
+## 10. Feriados legales de Chile
+
+### 10.1 Marco normativo de los feriados (leyes base)
+
+| Ley | Publicación | Qué establece (literal o sumario) | Etiqueta |
+|---|---|---|---|
+| **Ley 2.977** | 01-02-1915 | "FIJA LOS DIAS FERIADOS". Art. 1°: domingos; 1° de enero, 29 de junio, 15 de agosto, 1° de noviembre, 8 y 25 de diciembre y las fiestas movibles de la Ascensión y Corpus Christi; **Viernes y Sábado de Semana Santa**; 18 de septiembre; 19 de septiembre y 21 de mayo; y "el día que deba tener lugar la elección de electores de Presidente de la República". Nota BCN: el art. 144 de la Ley 16.840 suprimió el 29 de junio, la Ascensión y Corpus Christi (el 29 de junio fue luego repuesto). | [VERIFICADO] [17] |
+| **Ley 19.668** | 10-03-2000 | Artículo único: "Trasládanse los feriados correspondientes al 29 de junio, día de San Pedro y San Pablo; 12 de octubre, día del descubrimiento de dos mundos; y el día de la fiesta Corpus Christi, **a los días lunes de la semana en que ocurren, en caso de corresponder a día martes, miércoles o jueves, o los días lunes de la semana siguiente, en caso de corresponder a día viernes**." | [VERIFICADO — texto citado por fuente secundaria que reproduce el artículo único; ver Pendientes] [18] |
+| **Ley 19.973** | 10-09-2004 (últ. mod. 30-05-2016, Ley 20.918) | Art. 2°: "Los días **1 de mayo, 18 y 19 de septiembre, 25 de diciembre y 1 de enero** de cada año, serán feriados obligatorios e irrenunciables **para todos los dependientes del comercio**", con excepciones (clubes, restaurantes, cines, espectáculos, discotecas, pub, cabarets, locales en aeropuertos, casinos, expendio de combustibles, farmacias de urgencia y de turno, tiendas de conveniencia con elaboración de alimentos). Multa: 5 UTM por trabajador afectado; 10 UTM si el empleador tiene 50 o más trabajadores; 20 UTM si tiene 200 o más. Art. 3°: extiende el feriado del art. 169 de la Ley 18.700 a los trabajadores de centros o complejos comerciales. | [VERIFICADO] [19] |
+| **Ley 20.148** | 06-01-2007 | "DECLARA FERIADO EL DIA 16 DE JULIO DE CADA AÑO EN QUE SE CELEBRA Y HONRA A LA VIRGEN DEL CARMEN EN REEMPLAZO DEL FERIADO CORRESPONDIENTE A CORPUS CHRISTI" | [VERIFICADO — título según el índice temático oficial de BCN; texto íntegro no leído] [20] |
+| **Ley 20.299** | 11-10-2008 | Art. 1°: "Declárase feriado el día 31 de octubre, por conmemorarse el Día Nacional de las Iglesias Evangélicas y Protestantes." Art. 2°: "**Trasládase el feriado (…) al día viernes de la misma semana en caso de corresponder el 31 de octubre a día miércoles, y trasládase al día viernes de la semana inmediatamente anterior en caso de corresponder dicha fecha a día martes.**" | [VERIFICADO] [21] |
+| **Ley 20.983** | 30-12-2016 | Artículo único: "Declárase feriado el día **viernes 17 de septiembre**, cada vez que el 18 y el 19 de septiembre de aquel año coincidan con sábado y domingo, respectivamente. Del mismo modo, **al recaer el 1 de enero en día domingo, el lunes 2 siguiente será feriado**." | [VERIFICADO] [22] |
+| **Ley 21.357** | 19-06-2021 | Artículo único: "Declárase feriado legal el día del **solsticio de invierno** de cada año en el hemisferio sur, **Día Nacional de los Pueblos Indígenas**." (Art. transitorio: excepcionalmente, para 2021, el 21 de junio.) | [SECUNDARIO — texto citado por fuentes secundarias; no leído directamente en BCN en esta pasada] [23] |
+| **Ley 18.700, art. 169** | — | "El día que se fije para la realización de las elecciones y plebiscitos será feriado legal. Los plebiscitos comunales se efectuarán en día domingo." | [SECUNDARIO — citado por la DT; texto no leído directamente en BCN] [24] |
+| **Ley 21.791** | dic-2025 | Repone a nivel legal el **feriado bancario de fin de año** (31 de diciembre) y las normas del feriado bancario sabatino. | [SECUNDARIO] [25] |
+
+Feriados regionales/comunales vigentes: **7 de junio** (Asalto y Toma del Morro de Arica — solo Región de Arica y Parinacota) y **20 de agosto** (Nacimiento del Prócer de la Independencia — solo comunas de Chillán y Chillán Viejo). [SECUNDARIO] [25]
+
+### 10.2 Feriados 2025 (nacionales, salvo indicación)
+
+| Fecha | Día | Nombre | Ley | Irrenunciable |
+|---|---|---|---|---|
+| 01-01-2025 | miércoles | Año Nuevo | 2.977 | **Sí** (19.973) |
+| 18-04-2025 | viernes | Viernes Santo (móvil) | 2.977 | No |
+| 19-04-2025 | sábado | Sábado Santo (móvil) | 2.977 | No |
+| 01-05-2025 | jueves | Día Nacional del Trabajo | Cód. del Trabajo / 19.973 | **Sí** (19.973) |
+| 21-05-2025 | miércoles | Día de las Glorias Navales | 2.977 | No |
+| 07-06-2025 | sábado | Asalto y Toma del Morro de Arica *(solo Arica y Parinacota)* | 20.663 | No |
+| 20-06-2025 | viernes | Día Nacional de los Pueblos Indígenas (solsticio) | 21.357 | No |
+| 29-06-2025 | domingo | San Pedro y San Pablo (no se traslada: cae domingo) | 2.977 / 19.668 | No |
+| 16-07-2025 | miércoles | Virgen del Carmen | 20.148 | No |
+| 15-08-2025 | viernes | Asunción de la Virgen | 2.977 | No |
+| 20-08-2025 | miércoles | Nacimiento del Prócer *(solo Chillán y Chillán Viejo)* | 20.768 | No |
+| 18-09-2025 | jueves | Independencia Nacional | 2.977 | **Sí** (19.973) |
+| 19-09-2025 | viernes | Día de las Glorias del Ejército | 2.977 | **Sí** (19.973) |
+| 12-10-2025 | domingo | Encuentro de Dos Mundos (no se traslada: cae domingo) | 3.810 / 19.668 | No |
+| 31-10-2025 | viernes | Día Nacional de las Iglesias Evangélicas y Protestantes (no se traslada: cae viernes) | 20.299 | No |
+| 01-11-2025 | sábado | Día de Todos los Santos | 2.977 | No |
+| 16-11-2025 | domingo | **Elección presidencial y parlamentaria (1ª vuelta)** | 18.700 art. 169 | Sí para centros comerciales (19.973 art. 3°) |
+| 08-12-2025 | lunes | Inmaculada Concepción | 2.977 | No |
+| 14-12-2025 | domingo | **Elección presidencial (2ª vuelta)** | 18.700 art. 169 | Sí para centros comerciales |
+| 25-12-2025 | jueves | Navidad | 2.977 | **Sí** (19.973) |
+| *31-12-2025* | *miércoles* | *Feriado **bancario** de fin de año (NO es feriado general)* | 21.791 | No |
+
+Los números de ley de los feriados regionales (20.663 Arica; 20.768 Chillán) y del 12 de octubre (3.810) son **[NO VERIFICADO]** — ver Pendientes. Las fechas y días de semana fueron verificados por cálculo. [VERIFICADO el día de la semana]
+
+### 10.3 Feriados 2026
+
+| Fecha | Día | Nombre | Regla / Ley | Irrenunciable |
+|---|---|---|---|---|
+| 01-01-2026 | jueves | Año Nuevo | 2.977 | **Sí** |
+| 03-04-2026 | viernes | Viernes Santo (Pascua = 05-04-2026) | 2.977 | No |
+| 04-04-2026 | sábado | Sábado Santo | 2.977 | No |
+| 01-05-2026 | viernes | Día Nacional del Trabajo | 19.973 | **Sí** |
+| 21-05-2026 | jueves | Día de las Glorias Navales | 2.977 | No |
+| 07-06-2026 | domingo | Morro de Arica *(regional)* | — | No |
+| 21-06-2026 | domingo | Día Nacional de los Pueblos Indígenas (solsticio) | 21.357 | No |
+| 29-06-2026 | **lunes** | San Pedro y San Pablo (ya cae lunes: no hay traslado) | 19.668 | No |
+| 16-07-2026 | jueves | Virgen del Carmen | 20.148 | No |
+| 15-08-2026 | sábado | Asunción de la Virgen | 2.977 | No |
+| 20-08-2026 | jueves | Nacimiento del Prócer *(Chillán)* | — | No |
+| 18-09-2026 | viernes | Independencia Nacional | 2.977 | **Sí** |
+| 19-09-2026 | sábado | Glorias del Ejército | 2.977 | **Sí** |
+| 12-10-2026 | **lunes** | Encuentro de Dos Mundos (ya cae lunes) | 19.668 | No |
+| 31-10-2026 | sábado | Iglesias Evangélicas (cae sábado: no se traslada) | 20.299 | No |
+| 01-11-2026 | domingo | Todos los Santos | 2.977 | No |
+| 08-12-2026 | martes | Inmaculada Concepción | 2.977 | No |
+| 25-12-2026 | viernes | Navidad | 2.977 | **Sí** |
+| *31-12-2026* | *jueves* | *Feriado **bancario** de fin de año* | 21.791 | No |
+
+**No hay elecciones en 2026** (pausa electoral: las siguientes son primarias regionales/municipales el 09-07-2028 y elecciones regionales y municipales el 29-10-2028). [SECUNDARIO] [26]
+
+### 10.4 Feriados 2027
+
+| Fecha | Día | Nombre | Regla / Ley | Irrenunciable |
+|---|---|---|---|---|
+| 01-01-2027 | viernes | Año Nuevo | 2.977 | **Sí** |
+| 26-03-2027 | viernes | Viernes Santo (Pascua = 28-03-2027) | 2.977 | No |
+| 27-03-2027 | sábado | Sábado Santo | 2.977 | No |
+| 01-05-2027 | sábado | Día Nacional del Trabajo | 19.973 | **Sí** |
+| 21-05-2027 | viernes | Glorias Navales | 2.977 | No |
+| 07-06-2027 | lunes | Morro de Arica *(regional)* | — | No |
+| 21-06-2027 | lunes | Pueblos Indígenas (solsticio) | 21.357 | No |
+| **28-06-2027** | **lunes** | San Pedro y San Pablo — **TRASLADADO** (29-06-2027 cae martes → lunes de la misma semana) | 19.668 | No |
+| 16-07-2027 | viernes | Virgen del Carmen | 20.148 | No |
+| 15-08-2027 | domingo | Asunción de la Virgen | 2.977 | No |
+| 20-08-2027 | viernes | Nacimiento del Prócer *(Chillán)* | — | No |
+| **17-09-2027** | **viernes** | **"San Viernes"** — feriado adicional porque el 18 y 19 caen sábado y domingo | 20.983 | No |
+| 18-09-2027 | sábado | Independencia Nacional | 2.977 | **Sí** |
+| 19-09-2027 | domingo | Glorias del Ejército | 2.977 | **Sí** |
+| **11-10-2027** | **lunes** | Encuentro de Dos Mundos — **TRASLADADO** (12-10-2027 cae martes → lunes de la misma semana) | 19.668 | No |
+| 31-10-2027 | domingo | Iglesias Evangélicas (cae domingo: no se traslada) | 20.299 | No |
+| 01-11-2027 | lunes | Todos los Santos | 2.977 | No |
+| 08-12-2027 | miércoles | Inmaculada Concepción | 2.977 | No |
+| 25-12-2027 | sábado | Navidad | 2.977 | **Sí** |
+| *31-12-2027* | *viernes* | *Feriado **bancario** de fin de año* | 21.791 | No |
+
+**No hay elecciones en 2027.** [SECUNDARIO] [26]
+
+Fuente del calendario 2026-2027: [25] (secundaria, exhaustiva y con citas legales). **Todos los días de la semana y las fechas móviles (Pascua, traslados, San Viernes) fueron recalculados y verificados algorítmicamente en esta investigación.**
+
+### 10.5 Reglas para calcular años futuros (motor Python)
+
+1. **Fijos todos los años:** 01-01, 01-05, 21-05, 29-06 (trasladable), 16-07, 15-08, 18-09, 19-09, 12-10 (trasladable), 31-10 (trasladable), 01-11, 08-12, 25-12. Más todos los domingos.
+2. **Móviles pascuales:** Viernes Santo = Domingo de Pascua − 2 días; Sábado Santo = Pascua − 1 día. Pascua se calcula con el algoritmo gregoriano de Gauss/Meeus.
+3. **Traslado Ley 19.668** (aplica a **29 de junio** y **12 de octubre**):
+   - cae **martes, miércoles o jueves** → se traslada al **lunes de esa misma semana** (retrocede 1, 2 o 3 días);
+   - cae **viernes** → se traslada al **lunes de la semana siguiente** (avanza 3 días);
+   - cae **sábado, domingo o lunes** → **no se traslada**.
+4. **Traslado Ley 20.299** (31 de octubre, Iglesias Evangélicas):
+   - cae **martes** → se traslada al **viernes de la semana inmediatamente anterior** = 31-10 **menos 4 días** (27 de octubre). Ejemplo histórico: 2023 (31-10 martes → feriado el viernes 27-10-2023).
+   - cae **miércoles** → se traslada al **viernes de la misma semana** = 31-10 **más 2 días** (2 de noviembre). Ejemplo histórico: 2018 (31-10 miércoles → feriado el viernes 02-11-2018).
+   - cualquier otro día de la semana → **no se traslada**.
+   > Los dos ejemplos históricos son [SECUNDARIO]; la regla en sí es [VERIFICADO] contra el texto del art. 2° de la Ley 20.299.
+5. **Ley 20.983 (condicionales):**
+   - Si el **18-09 cae sábado** (y por tanto el 19 domingo) → el **viernes 17-09** es feriado;
+   - Si el **01-01 cae domingo** → el **lunes 02-01** es feriado.
+6. **Ley 21.357 (variable):** Día Nacional de los Pueblos Indígenas = **fecha del solsticio de invierno austral en hora de Chile continental**. Cae el 20 o el 21 de junio según el año. Requiere una tabla astronómica o una librería de efemérides; **no basta con fijar el 21 de junio**. (2025 → 20-jun; 2026 → 21-jun; 2027 → 21-jun.)
+7. **Elecciones y plebiscitos (Ley 18.700 art. 169):** son feriado legal el día que se fije. No son predecibles por regla: deben cargarse manualmente desde el calendario del SERVEL.
+8. **Feriados regionales/comunales:** 07-06 (Arica y Parinacota) y 20-08 (Chillán y Chillán Viejo). Deben modelarse con ámbito territorial, no nacional.
+9. **No confundir:** el **feriado bancario** (todos los sábados y el 31 de diciembre) **no es feriado de ámbito general** y no debe usarse para contar días hábiles laborales/administrativos. El sábado es inhábil para la Ley Karin por el art. 1° del DS 21, no por ser feriado.
+
 ## Fuentes
 
 1. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Ley 21.643**, texto completo (versión 03-01-2025). https://www.bcn.cl/leychile/navegar?idNorma=1200096 — versión de impresión: https://www.bcn.cl/leychile/navegar/imprimir?idNorma=1200096 [OFICIAL]
 2. Biblioteca del Congreso Nacional de Chile — Ley Chile. **Decreto 21, de 26-05-2024, Ministerio del Trabajo y Previsión Social** (publicado 03-07-2024), Reglamento de directrices de investigación. https://www.bcn.cl/leychile/navegar?idNorma=1204689 — impresión: https://www.bcn.cl/leychile/navegar/imprimir?idNorma=1204689 [OFICIAL]
+5. Superintendencia de Seguridad Social — **Circular N° 3.813, de 07-06-2024**. https://www.suseso.gob.cl/612/w3-article-732037.html [OFICIAL]
+6. Superintendencia de Seguridad Social — **Compendio de Normas del Seguro Social de Accidentes del Trabajo y Enfermedades Profesionales**, Libro IV, "Capítulo I. Elaboración e implementación del protocolo de prevención del acoso sexual, laboral y la violencia en el trabajo". https://www.suseso.gob.cl/613/w3-propertyvalue-726761.html [OFICIAL]
+7. Diario Financiero — "Ya están claras las infracciones por las cuales las empresas podrían ser multadas por Ley Karin". https://www.df.cl/economia-y-politica/laboral-personas/ya-estan-claras-las-infracciones-por-las-cuales-las-empresas-podrian-ser [SECUNDARIO]
+8. Dirección del Trabajo — **Dictamen ORD. N°362/19, de 07-06-2024**, "Fija sentido y alcance de las modificaciones introducidas por la Ley N°21.643 al Código del Trabajo". https://www.dt.gob.cl/legislacion/1624/w3-article-126267.html [OFICIAL]
+9. Dirección del Trabajo — **Dictamen ORD.N°385/9, de 03-06-2025** (no procede investigación de oficio). https://www.dt.gob.cl/legislacion/1624/w3-article-127874.html [OFICIAL]
+10. Dirección del Trabajo — **Dictamen ORD.N°386/10, de 03-06-2025** (plazos en días hábiles; no se suspenden por feriado legal ni licencia médica). https://www.dt.gob.cl/legislacion/1624/w3-article-127876.html [OFICIAL]
+11. Dirección del Trabajo — **Dictamen ORD.N°57/04, de 26-01-2026** (30 días hábiles administrativos; subcontratación; art. 486 CT; definición aplicable a hechos anteriores). https://www.dt.gob.cl/legislacion/1624/w3-article-128901.html [OFICIAL]
+12. Dirección del Trabajo — Índice de dictámenes "Ley Karin", Normativa 3.0. https://www.dt.gob.cl/legislacion/1624/w3-propertyvalue-194488.html [OFICIAL]
+13. Dirección del Trabajo — **Dictamen ORD.N°515/21, de 04-08-2025** (persona investigadora y estándar probatorio). https://www.dt.gob.cl/legislacion/1624/w3-article-128099.html [OFICIAL]
+14. Dirección del Trabajo — **Dictamen ORD.N°146/13, de 24-02-2026** (denuncias incompletas, denuncia anónima, denuncias contra el art. 4 inc. 1° CT). https://www.dt.gob.cl/legislacion/1624/w3-article-129021.html [OFICIAL]
+15. Dirección del Trabajo — **Dictamen ORD.N°196/17, de 06-03-2026** (medidas de resguardo no pueden mermar la remuneración). https://www.dt.gob.cl/legislacion/1624/w3-article-129067.html [OFICIAL]
+16. Dirección del Trabajo — **ORD.N°214, de 12-03-2026** (actividades de la empresa con consumo de alcohol y deber de protección). https://www.dt.gob.cl/legislacion/1624/w3-article-129095.html [OFICIAL]
