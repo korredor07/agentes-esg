@@ -30,6 +30,11 @@ ARCHIVO_DENSIDADES = os.path.join(CARPETA_DATOS, "densidades_combustibles.csv")
 
 CALIDADES = {"estimado": 1, "reportado": 2, "verificado": 3}
 
+# Solo para escribir avisos que se entiendan: «un factor de Chile» y no «de CL».
+PAISES_LARGOS = {"CL": "Chile", "PE": "Peru", "AR": "Argentina", "CO": "Colombia",
+                 "MX": "Mexico", "BR": "Brasil", "ES": "Espana", "US": "Estados Unidos",
+                 "*": "referencia internacional"}
+
 # Como escribe la gente cada recurso -> clave normalizada del catalogo de factores.
 ALIAS_RECURSO = {
     "electricidad": "electricidad", "energia electrica": "electricidad", "luz": "electricidad",
@@ -334,14 +339,25 @@ def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=
     else:
         globales = [f for f in candidatos if f["pais"] == "*"]
         if pais and globales:
-            advertencias.append(
-                "No tengo factor propio de %s para %s: use un factor internacional de referencia."
-                % (pais, recurso))
+            if "Tabla 8.A.1" not in (globales[0].get("fuente") or ""):
+                # El potencial de calentamiento de un gas es el mismo en todas partes:
+                # avisar de eso seria ruido, no informacion.
+                advertencias.append(
+                    "No tengo un factor propio de %s para %s: use una referencia internacional."
+                    % (PAISES_LARGOS.get(pais, pais), recurso))
             candidatos = globales
         elif pais:
-            advertencias.append(
-                "El factor disponible para %s es de %s, no de %s."
-                % (recurso, candidatos[0]["pais"], pais))
+            prestado = candidatos[0]
+            aviso = ("El factor de %s que use es de %s, no de %s: no hay uno oficial de %s en el "
+                     "catalogo." % (recurso, PAISES_LARGOS.get(prestado["pais"], prestado["pais"]),
+                                    PAISES_LARGOS.get(pais, pais), PAISES_LARGOS.get(pais, pais)))
+            if "IPCC" in prestado.get("fuente", ""):
+                aviso += (" Sale de los valores por defecto del IPCC, que son internacionales, asi "
+                          "que sirve como estimacion; lo que cambia de un pais a otro es la mezcla "
+                          "exacta del combustible. Escribelo como supuesto en el informe.")
+            else:
+                aviso += " Tratalo como una estimacion y dejalo escrito como supuesto en el informe."
+            advertencias.append(aviso)
 
     if unidad:
         compatibles = [f for f in candidatos if _misma_unidad(f["unidad"], unidad)

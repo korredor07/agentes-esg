@@ -454,5 +454,43 @@ class PruebaPaisesDelAlcance(unittest.TestCase):
             self.assertIn(codigo, espacio.PAISES)
 
 
+class PruebaFactoresPrestados(unittest.TestCase):
+    """El aviso de «use el factor de otro pais» tiene que servir para algo."""
+
+    def setUp(self):
+        self.factores = carbono.cargar_factores()
+        self.pcg = carbono.cargar_pcg()
+
+    def _calcular(self, **campos):
+        fila = dict({"_fila": 2, "periodo": "2025"}, **campos)
+        return carbono.calcular_registro(fila, self.factores, self.pcg, "AR5")
+
+    def test_el_gwp_de_un_refrigerante_no_depende_del_pais(self):
+        peru = self._calcular(recurso="r-404a", cantidad=4, unidad="kg", pais="PE")
+        chile = self._calcular(recurso="r-404a", cantidad=4, unidad="kg", pais="CL")
+        self.assertAlmostEqual(peru["kg_co2e"], chile["kg_co2e"])
+        self.assertEqual(peru["advertencias"], [])
+
+    def test_el_aviso_dice_el_nombre_del_pais_y_que_hacer(self):
+        resultado = self._calcular(recurso="glp", cantidad=100, unidad="litros",
+                                   uso="estacionaria", pais="PE")
+        aviso = [a for a in resultado["advertencias"] if "que use es de" in a]
+        self.assertTrue(aviso)
+        self.assertIn("Chile", aviso[0])
+        self.assertIn("Peru", aviso[0])
+        self.assertIn("supuesto", aviso[0])
+
+    def test_para_un_factor_del_ipcc_explica_por_que_sirve_igual(self):
+        resultado = self._calcular(recurso="diesel", cantidad=100, unidad="litros",
+                                   uso="movil", pais="PE")
+        aviso = [a for a in resultado["advertencias"] if "que use es de" in a]
+        self.assertIn("IPCC", aviso[0])
+
+    def test_en_su_propio_pais_no_avisa_nada(self):
+        resultado = self._calcular(recurso="glp", cantidad=100, unidad="litros",
+                                   uso="estacionaria", pais="CL")
+        self.assertFalse([a for a in resultado["advertencias"] if "que use es de" in a])
+
+
 if __name__ == "__main__":
     unittest.main()

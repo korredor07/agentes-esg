@@ -1,5 +1,9 @@
 # Prueba de uso — 16 de septiembre de 2026
 
+> **Estado: los 15 hallazgos están corregidos.** Este documento se deja tal como
+> se escribió, sin retocar, porque el valor está en lo que encontró. Lo que se
+> hizo con cada hallazgo está al final, en «Qué se corrigió».
+
 Prueba de recorrido completo sobre una **copia** del repositorio (carpeta temporal
 de la sesión). El repositorio original no se modificó salvo este documento.
 
@@ -651,3 +655,36 @@ mencionarla en el `README`.
 
 *Prueba realizada sobre una copia del repositorio. No se modificó código ni
 skills: este documento es el único entregable.*
+
+---
+
+## Qué se corrigió
+
+Cada corrección tiene pruebas automáticas que la sostienen, en
+`tests/test_correcciones.py` y `tests/test_consistencia.py`.
+
+| Hallazgo | Qué se hizo |
+|---|---|
+| H1 — Catálogo casi vacío | El catálogo del asistente lista las 33 skills y los 13 agentes, agrupados por necesidad. Una prueba falla si se agrega una skill y no se anota ahí. |
+| H2 — Total incompleto presentado como válido | El resultado trae `completo` y `aviso_principal`; el informe y el tablero encabezan con la alerta en rojo. Y la causa concreta se resolvió: un puente por densidad convierte kilos de GLP al litro del factor. |
+| H3 — Las advertencias no llegaban al documento | Los informes traen un bloque «Supuestos y limitaciones» con todas las advertencias del cálculo. |
+| H4 — No se leía «Calidad del dato» | Se lee la columna de la plantilla; una calidad que no se reconoce avisa en vez de degradar en silencio. |
+| H5 — `${CLAUDE_SKILL_DIR}` fallaba en PowerShell | Todas las skills usan la ruta relativa, y una prueba impide que vuelva a colarse. |
+| H6 — `--empresa` sin documentar y el ejemplo estorbando | La empresa real gana sobre la de ejemplo, y el error enseña a elegir con `--empresa`. |
+| H7 — No había forma de escribir datos | Nuevo `datos escribir`: el asistente llena la planilla por la persona y le muestra lo que escribió. |
+| H8 — Nombres del alcance 3 no descubribles | `huella factores` acepta `--uso` y `--alcance`, busca por lo que se compra («harina» encuentra `gasto agricultura`), y el error ofrece los nombres parecidos. La skill `alcance-3` trae la tabla completa de los 38 nombres. |
+| H9 — Preguntas chilenas a una empresa peruana | Las preguntas de aplicabilidad se filtran por país. |
+| H10 y H13 — Problemas del tablero | Alerta roja cuando la huella está incompleta, y la curva de evolución solo usa periodos mensuales. |
+| H11 — El borrador Word repetía la misma frase | Una viñeta por tema; B10 muestra la brecha salarial que el motor ya calculaba, B9 los accidentes con la tasa GRI 403-9. Singular y plural correctos. |
+| H12 — Referencias rotas | `tests/test_consistencia.py` verifica que toda skill, agente, comando y archivo de datos mencionado exista, y que todos los agentes estén en `plugin.json`. |
+| H14 — Saludo con la empresa de demostración | La skill `asistente` distingue la empresa de ejemplo de la real. |
+| H15 — Hallazgos menores | `datos anomalias` revisa todas las planillas; una celda vacía queda «sin dato» y no en cero; `esg.py <módulo> --ayuda` muestra las opciones de cada acción leídas del propio código; la lista de países cubre los 27 de la UE; el ejemplo de `diagnostico-esg` ya no usa un indicador chileno. |
+
+Sobre el punto 3 del resumen (Perú sin factores de alcance 1): sigue sin haber
+factores oficiales peruanos de combustión en el catálogo, y **eso no se puede
+inventar**. Lo que cambió es que ahora el aviso dice el nombre del país, explica
+que el factor viene de los valores por defecto del IPCC —que son
+internacionales— y pide dejarlo escrito como supuesto; y esa advertencia sí
+aparece en el informe. Los potenciales de calentamiento de los refrigerantes,
+que son constantes físicas, se marcaron como internacionales y ya no generan un
+aviso falso de «usé un factor chileno».
