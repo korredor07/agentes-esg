@@ -4,9 +4,13 @@
 > última ronda de conversaciones pasaron **53 de 57 chequeos** (nota medida
 > **4,7 de 5**). Los números y las normas salieron bien en todos los chequeos.
 > Fallaron cuatro chequeos de flujo: dos registros que no se hicieron
-> (capacitación y prospecto) y dos delegaciones en agentes (finanzas y CRM). La
-> nota que me pongo es **4 de 5**, más baja que la medida, por lo que la prueba
-> no alcanzó a cubrir (secciones 1 y 8).
+> (capacitación y prospecto) y dos delegaciones en agentes (finanzas y CRM).
+>
+> **Después, una revisión independiente del código** (sección 7) encontró en dos
+> pasadas cerca de 45 problemas que la prueba no vio, algunos graves: plazos de
+> la Ley Karin mal calculados en denuncias derivadas y filas de ejemplo de las
+> plantillas que podían entrar a la huella. Están corregidos, con pruebas. Por
+> eso la nota que me pongo baja a **3,5 de 5** (provisional, sección 1).
 
 Este documento dice qué se probó, cómo, qué salió, qué se corrigió y qué sigue
 abierto. Los números son los que entregaron los scripts de la prueba: no están
@@ -20,16 +24,23 @@ redondeados a favor.
 |---|---|---|
 | **Medida (ronda 2)** | **4,7 / 5** (93,9 / 100) | 53 de 57 chequeos automáticos, con la rúbrica de la sección 5 |
 | Medida (ronda 1, antes de corregir) | 3,8 / 5 (76,9 / 100) | 44 de 57 chequeos |
-| **La que me pongo** | ★★★★☆ **4 / 5** | La medida, menos lo que la prueba no cubrió |
+| Mi nota para la versión de la ronda 2, después de la revisión de código | 3 / 5 | Tenía plazos legales mal calculados y datos inventados que podían entrar a los cálculos |
+| **La que me pongo hoy** (versión `cc9868d`) | ★★★½ **3,5 / 5**, provisional | Lo encontrado está corregido, pero nada nuevo lo probó en conversaciones ni en una tercera revisión |
 
 Por qué no me pongo 4,7:
 
+- La revisión independiente del código (sección 7) encontró problemas graves
+  que los 57 chequeos no veían. La nota medida sobrestimaba la calidad.
+- Cada pasada de revisión encontró más de 20 problemas, también dentro de las
+  correcciones de la pasada anterior. No hubo una tercera pasada: es razonable
+  suponer que quedan más.
 - Después de la ronda 2 aparecieron **18 problemas más** (17 al revisar las
-  conversaciones y 1 al revisar la capa 1). Están corregidos y tienen pruebas
-  unitarias, pero **ninguna conversación nueva** los volvió a probar.
+  conversaciones y 1 al revisar la capa 1), y después la revisión de código.
+  Están corregidos y tienen pruebas unitarias, pero **ninguna conversación
+  nueva** los volvió a probar.
 - **Dos de los 13 agentes** (`agente-datos` y `agente-finanzas`) no se usaron en
   ninguna conversación, y `agente-crm` solo en la primera ronda.
-- No se probó la **selección automática de skills** de Claude Code (sección 8)
+- No se probó la **selección automática de skills** de Claude Code (sección 9)
   ni se probó con **una persona real** sin conocimientos técnicos.
 
 ---
@@ -65,7 +76,9 @@ conversaciones nuevas e independientes y los mismos chequeos.
 | 2 | `e8e6f1b` | 168 | 151 | 16 | 1 | 0 |
 | 3 | `fa9897d` | 169 | 152 | 16 | 1 | 0 |
 | 4 | `1eb0a95` | 169 | 152 | 16 | 1 | 0 |
-| 5 (final) | `9176293` | 169 | 152 | 16 | 1 | 0 |
+| 5 | `9176293` | 169 | 152 | 16 | 1 | 0 |
+| 6 | `59595c8` | 171 | 156 | 14 | 1 | 0 |
+| 7 (final) | `cc9868d` | 171 | 145 | 25 | 1 | 0 |
 
 - **Error controlado** quiere decir que el motor no se cayó y explicó qué falta
   y cómo seguir. **Omitido** es el comando genérico `<módulo> <acción>` de la
@@ -82,13 +95,18 @@ conversaciones nuevas e independientes y los mismos chequeos.
 - En la pasada 2, la primera corrida encontró **una caída**: el informe europeo
   fallaba después de calcular solo FuelEU (un error que metió una corrección
   anterior). Se corrigió y se repitió.
-- Los 16 errores controlados de la versión final están justificados: 5 son
-  planillas que la empresa de ejemplo ya tiene (el motor no las sobrescribe), 4
-  son archivos de ejemplo que no existen (`perfil.json`, respaldos), 5 necesitan
-  un paso previo (avance en un curso, una meta definida, crear la planilla de
-  activos) y 2 son el plan con la planilla que solo trae las filas de ejemplo.
+- En la pasada 7 hay **11 errores controlados más** que en la 6, y es a
+  propósito: esos comandos calculaban con las filas de ejemplo de una plantilla
+  recién creada (activos, cadena de frío, Ley REP, logística y plan de medidas).
+  Ahora el motor dice que la planilla solo tiene ejemplos y pide reemplazarlos.
+  Las skills ya decían que el ejemplo hay que reemplazarlo.
+- Los errores controlados de la versión final están justificados: planillas que
+  la empresa de ejemplo ya tiene (el motor no las sobrescribe), archivos de
+  ejemplo que no existen (`perfil.json`, respaldos), pasos previos (avance en un
+  curso, una meta definida, llenar la planilla recién creada).
 - La capa 1 solo comprueba que el comando **corre**, no que el resultado sea
-  correcto. Eso lo miden las pruebas unitarias (734, todas pasan) y la capa 2.
+  correcto. Eso lo miden las pruebas unitarias (786, todas pasan), la capa 2 y
+  la revisión de código.
 
 ---
 
@@ -134,7 +152,7 @@ vida útil normal y 2 acelerada.
 
 1. **E5 — no delegó en el agente de finanzas.** La depreciación de la camioneta
    salió bien (7 y 2 años de vida útil, cuota sobre el valor actualizado) y la
-   del cargador frontal quedó pendiente con aviso (sección 7), pero el
+   del cargador frontal quedó pendiente con aviso (sección 8), pero el
    asistente no siguió al agente que el catálogo asocia a la depreciación.
 2. **E6 — la capacitación del equipo no quedó registrada.** La skill `academia`
    registra el avance de quien responde en la conversación, y las 5 personas no
@@ -260,7 +278,54 @@ El detalle está en los commits `2c21f37` a `9176293`.
 
 ---
 
-## 7. Lo que sigue abierto
+## 7. Revisión independiente del código
+
+Después de la prueba, dos agentes revisores de IA revisaron el código sin
+participar en escribirlo: uno escéptico, que busca errores de lógica, y otro
+que busca **fallos silenciosos** (errores tragados, datos que faltan y se
+rellenan, avisos que no llegan al documento). Lo hicieron en dos pasadas y
+reprodujeron cada hallazgo en carpetas temporales. Cada hallazgo se verificó
+antes de corregirlo.
+
+**Pasada 1** (cambios posteriores a la ronda 2): 4 hallazgos del primer revisor
+y 20 del segundo. Los más serios:
+
+- **Ley Karin:** si la ley obligaba a derivar la denuncia y el caso se creó como
+  investigación interna, no había forma de registrar la derivación; una denuncia
+  derivada seguía mostrando plazos de la investigación interna; una respuesta
+  «sí/no» que no se entendía contaba como «no hay que derivar»; y una fecha mal
+  escrita se guardaba y rompía el listado y las alertas de todos los casos.
+- **Filas de ejemplo:** si la persona llenaba una plantilla en Excel sin borrar
+  los ejemplos, esas cifras inventadas entraban a la huella, agua, personas,
+  Ley REP, activos, logística y cadena de frío.
+- **Reportes:** el borrador daba como total una huella incompleta, sumaba
+  personas de otros años y marcaba «cubiertos» contenidos que los datos
+  responden solo en parte (por ejemplo, permiso parental con la dotación).
+
+Corregidos en `501d4af`, `c9a6a3d` y `59595c8`.
+
+**Pasada 2** (sobre esas correcciones): 1 hallazgo del primer revisor y 23 del
+segundo (1 crítico, 9 altos). Los más serios:
+
+- **Crítico:** `--contra-representante no se`, sin comillas, se leía como «no»:
+  la empresa quedaba investigando cuando quizá debía derivar.
+- Fechas de hitos de la Ley Karin fuera de orden que movían los plazos
+  siguientes; casos guardados por la versión anterior que no se podían reparar.
+- Una marca de «empresa de ejemplo» que una empresa real podía heredar y que
+  apagaba el filtro de ejemplos.
+- Informes que usaban la huella de otro periodo o resultados de una versión
+  anterior del motor sin avisar.
+
+Corregidos en `c26f0ac`, `47a3bbe` y `cc9868d`. Las pruebas pasaron de 734 a
+786, y cada corrección tiene la suya en `tests/test_e2e_hallazgos.py`.
+
+**Lo que esto dice de la prueba:** los 57 chequeos y la lectura de las
+conversaciones no vieron estos problemas. Una prueba de conversaciones mide si
+el flujo funciona en los casos elegidos; no reemplaza revisar el código.
+
+---
+
+## 8. Lo que sigue abierto
 
 No está corregido. Algunas cosas son falta de datos oficiales y otras son
 decisiones de diseño con costo:
@@ -276,33 +341,39 @@ decisiones de diseño con costo:
 | Informe de la meta | No incluye la revisión de criterios de `meta validar` | Adjuntar esa revisión |
 | Costos europeos | Sin datos del viaje, del precio EUA o de la planta no calcula costos marítimos ni de CBAM | Por diseño: no inventa valores |
 | Rutas largas en Windows | Si el proyecto está en una carpeta muy profunda, algunos archivos no se pueden guardar | El motor lo explica: mover la carpeta cerca de la raíz del disco (por ejemplo, `C:\agentes-esg`) |
+| Revisión de código | Dos pasadas encontraron más de 20 problemas cada una; no hubo tercera pasada | Hacer otra revisión y una ronda 3 de conversaciones antes de confiar en el resultado para algo legal |
+| Aplicar medidas en una denuncia derivada | La ley dice «15 días» desde que la empresa recibe las conclusiones de la DT; el reglamento fija días corridos solo para la investigación interna | El motor cuenta días corridos (la opción más corta) y lo avisa: confirmarlo con la asesoría jurídica |
+| Datos de la ficha | `empresa actualizar --datos` acepta cualquier clave del archivo | Revisar el archivo antes de cargarlo |
 | Verificación en línea | Algunas páginas oficiales bloquean la lectura automática (el Ministerio de Energía respondió 403) | El investigador cotejó con el archivo oficial de HuellaChile y el valor coincidió con el del motor; el cotejo directo con el Ministerio quedó pendiente |
 
 ---
 
-## 8. Límites de esta prueba
+## 9. Límites de esta prueba
 
 1. **Asistente simulado.** Las conversaciones las llevaron instancias de Claude
    que leyeron `CLAUDE.md`, las skills y los agentes y los siguieron al pie de la
    letra. **No** se probó cómo Claude Code elige y carga las skills por sí solo,
    porque la sesión de terminal (`claude -p`) no tenía la cuenta autenticada en
    este equipo.
-2. **Lo corregido después de la ronda 2** se verificó con pruebas unitarias
-   (734, todas pasan) y con la capa 1 (pasada 5: 0 caídas), **no** con una
-   tercera ronda de conversaciones.
-3. **Los chequeos son automáticos y acotados.** «Claro» tiene solo 5. Ninguna
+2. **Lo corregido después de la ronda 2** (incluida la revisión de código) se
+   verificó con pruebas unitarias (786, todas pasan) y con la capa 1 (pasada 7:
+   0 caídas), **no** con una tercera ronda de conversaciones.
+3. **La revisión de código la hicieron agentes de IA**, no personas, y en dos
+   pasadas. No reemplaza una auditoría de un especialista, sobre todo en la
+   Ley Karin.
+4. **Los chequeos son automáticos y acotados.** «Claro» tiene solo 5. Ninguna
    persona real sin conocimientos técnicos usó el sistema en esta prueba.
-4. **La referencia de E1 usa el factor de agricultura para la harina.** Después
+5. **La referencia de E1 usa el factor de agricultura para la harina.** Después
    se concluyó que es una aproximación que hay que declarar (sección 6). Ese
    chequeo confirma la aritmética del motor, no la elección del factor.
-5. **Los guiones estaban fijados de antemano.** Una persona real pregunta cosas
+6. **Los guiones estaban fijados de antemano.** Una persona real pregunta cosas
    distintas, se equivoca al dictar y cambia de tema.
-6. **Fecha.** Los plazos legales se calcularon con fecha 16-09-2026. Las normas
+7. **Fecha.** Los plazos legales se calcularon con fecha 16-09-2026. Las normas
    están verificadas a esa fecha en `docs/investigacion/`.
 
 ---
 
-## 9. Cómo repetirla
+## 10. Cómo repetirla
 
 **Capa 1** (no necesita Claude, solo Python 3):
 
