@@ -92,7 +92,10 @@ def _si_no(opciones, clave):
 
 
 def _calcular(caso, hoy=None):
-    return motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso.get("region") or None, hoy=hoy,
+    if not caso.get("fecha_denuncia"):
+        raise Problema("El caso %s no tiene la fecha de la denuncia." % caso.get("id", "sin identificador"),
+                       "Es el dato del que salen todos los plazos: hay que reconstruir el caso con esa fecha.")
+    return motor_karin.plazos(caso["fecha_denuncia"], caso.get("eventos") or {}, caso.get("region") or None, hoy=hoy,
                               via=caso.get("via"), reglamento_actualizado=caso.get("reglamento_actualizado"),
                               contra_representante=caso.get("contra_representante"))
 
@@ -103,13 +106,14 @@ URGENTES = ("pendiente: debe hacerse de inmediato", "vencido", "por vencer", "en
 def _proximos(calculo, cantidad=3):
     """Lo que sigue. Derivar, o confirmar si hay que derivar, va primero: decide todo lo demas."""
     pendientes = [h for h in calculo["hitos"]
-                  if h.get("aplica", True) and not h["cumplido_el"] and h["estado"] in URGENTES]
+                  if h.get("aplica", True) and not h["cumplido_el"]
+                  and (h["estado"] in URGENTES or h["estado"].startswith("pendiente"))]
     pendientes.sort(key=lambda h: 0 if h["id"] in ("derivar_dt", "confirmar_derivacion") else 1)
     return pendientes[:cantidad]
 
 
 def _derivada(caso):
-    return motor_karin.normalizar_via(caso.get("via")) == "derivada" or bool(caso["eventos"].get("derivacion_dt"))
+    return motor_karin.normalizar_via(caso.get("via")) == "derivada" or bool((caso.get("eventos") or {}).get("derivacion_dt"))
 
 
 def _avisos_de_derivacion(caso, calculo):
@@ -204,6 +208,12 @@ def evento(opciones):
     datos = _leer(ruta_json)
     caso = _buscar(datos, _valor(opciones, "caso"))
     hito = motor_karin.validar_evento(_valor(opciones, "hito"))
+    avisos_fecha = []
+    if opciones.get("fecha") is True:
+        raise Problema("Falta la fecha en que ocurrio el hito.", "Escribela asi: --fecha 17-09-2026.")
+    if opciones.get("fecha") in (None, ""):
+        avisos_fecha.append("No indicaste --fecha: registre la de hoy. Si ocurrio otro dia, vuelve a registrarlo "
+                            "con la fecha correcta.")
     fecha = fechas.parsear_fecha(_valor(opciones, "fecha") or datetime.date.today().isoformat()).isoformat()
     antes = _calcular(caso)
     if hito["id"] in motor_karin.SOLO_DERIVADA and not _derivada(caso):
@@ -220,7 +230,7 @@ def evento(opciones):
                 "se derivo a la Direccion del Trabajo, que es quien investiga" if _derivada(caso)
                 else "debe derivarse a la Direccion del Trabajo"),
             "En una denuncia derivada se registran: derivacion_dt, recepcion_dt, conclusiones_dt y aplicar_medidas.")
-    prueba = dict(caso, eventos=dict(caso["eventos"], **{hito["id"]: fecha}))
+    prueba = dict(caso, eventos=dict(caso.get("eventos") or {}, **{hito["id"]: fecha}))
     if hito["id"] == "derivacion_dt":
         prueba["via"] = "derivada"
     # Se calcula antes de guardar: una fecha que no se entiende no puede quedar grabada.
@@ -238,7 +248,7 @@ def evento(opciones):
          "caso": caso["id"], "estado_caso": caso["estado"], "camino": calculo["camino"],
          "siguiente": pendientes[0] if pendientes else None,
          "plazos": calculo["hitos"]},
-        advertencias=_avisos_de_derivacion(caso, calculo) + [AVISO_LEGAL])
+        advertencias=avisos_fecha + _avisos_de_derivacion(caso, calculo) + [AVISO_LEGAL])
 
 
 def ver(opciones):
@@ -269,10 +279,13 @@ def listar(opciones):
                             "tipo": caso.get("tipo"), "estado": caso.get("estado"),
                             "error": "%s %s" % (error.mensaje, error.sugerencia)})
             continue
+        cerrado = caso.get("estado") == "cerrado"
         resumen.append({
-            "id": caso["id"], "fecha_denuncia": caso["fecha_denuncia"], "tipo": caso["tipo"],
-            "estado": caso["estado"], "camino": calculo["camino"], "vencidos": len(calculo["vencidos"]),
-            "por_vencer": len(calculo["por_vencer"]),
+            "id": caso["id"], "fecha_denuncia": caso["fecha_denuncia"], "tipo": caso.get("tipo"),
+            "estado": caso.get("estado"), "camino": calculo["camino"],
+            # Un caso cerrado no tiene plazos que vencer, aunque se hayan saltado hitos al registrarlo.
+            "vencidos": 0 if cerrado else len(calculo["vencidos"]),
+            "por_vencer": 0 if cerrado else len(calculo["por_vencer"]),
             "siguiente": next((h["titulo"] for h in calculo["hitos"]
                                if h.get("aplica", True) and not h["cumplido_el"]), None),
         })
@@ -288,8 +301,9 @@ def alertas(opciones):
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     pendientes = []
+    hoy = datetime.date.today().isoformat()
     for caso in datos["casos"]:
-        if caso["estado"] == "cerrado":
+        if caso.get("estado") == "cerrado":
             continue
         try:
             calculo = _calcular(caso)
@@ -302,12 +316,26 @@ def alertas(opciones):
                 "articulo": "",
             })
             continue
+        # Si no se sabe si hay que derivar, los plazos de la investigacion interna son condicionales.
+        condicional = calculo["camino"] == "interna" and calculo["derivacion_obligatoria"] is None
         for hito in calculo["hitos"]:
-            if not hito.get("aplica", True) or not hito["vence"] or hito["cumplido_el"] or hito["proyectado"]:
+            if not hito.get("aplica", True) or hito["cumplido_el"] or hito["proyectado"]:
+                continue
+            if not hito["vence"]:
+                if hito["estado"].startswith("pendiente"):
+                    # Por ejemplo, una denuncia derivada que espera el certificado de la DT: no puede quedar invisible.
+                    pendientes.append({
+                        "origen": "Ley Karin", "caso": caso["id"], "titulo": "%s (%s)" % (hito["titulo"], caso["id"]),
+                        "vence": hoy, "estado": "pendiente", "por_vencer": True,
+                        "detalle": hito["que_hacer"], "articulo": hito["articulo"],
+                    })
                 continue
             if hito["estado"] in ("vencido", "por vencer", "pendiente: debe hacerse de inmediato"):
+                prefijo = ("Solo si no corresponde derivar: " if condicional
+                           and hito["id"] not in ("medidas_resguardo", "confirmar_derivacion") else "")
                 pendientes.append({
-                    "origen": "Ley Karin", "caso": caso["id"], "titulo": "%s (%s)" % (hito["titulo"], caso["id"]),
+                    "origen": "Ley Karin", "caso": caso["id"],
+                    "titulo": "%s%s (%s)" % (prefijo, hito["titulo"], caso["id"]),
                     "vence": hito["vence"], "estado": hito["estado"],
                     "por_vencer": hito["estado"] == "por vencer",
                     "detalle": hito["que_hacer"], "articulo": hito["articulo"],

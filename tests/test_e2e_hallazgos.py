@@ -581,8 +581,15 @@ class PruebaRevisionLeyKarin(PruebaConCarpeta):
         from unittest import mock
         from modulos import tablero
         with mock.patch.object(self.karin, "alertas", side_effect=self.Problema("Archivo dañado.", "Reconstruyelo.")):
-            errores = tablero._refrescar_alertas(dict(self.opciones))
+            errores, fallidas = tablero._refrescar_alertas(dict(self.opciones))
         self.assertTrue(any("Ley Karin" in e and "Archivo dañado." in e for e in errores))
+        self.assertEqual(fallidas, {"Ley Karin"})
+        ruta = espacio.cargar_empresa("Envases SpA", raiz=self.carpeta)[1]
+        with io.open(os.path.join(ruta, "seguimiento", "alertas.json"), "w", encoding="utf-8") as archivo:
+            json.dump([{"origen": "Ley Karin", "titulo": "Plazo viejo", "vence": "2026-09-04", "estado": "vencido"}],
+                      archivo)
+        vistas = tablero._alertas(ruta, fallidas)
+        self.assertTrue(vistas[0]["detalle"].startswith("[Puede estar desactualizada"))
 
 
 class PruebaFilasDeEjemploFueraDeLosCalculos(PruebaConCarpeta):
@@ -816,11 +823,135 @@ class PruebaAvisosQueNoSePierden(PruebaConCarpeta):
         with io.open(guardado, "w", encoding="utf-8") as archivo:
             json.dump(viejo, archivo)
         respuesta = huella.reporte(dict(self.opciones, periodo="2025"))
-        self.assertIn("se recalculo", respuesta["aviso"])
-        with io.open(respuesta["archivo"], encoding="utf-8") as origen:
+        self.assertTrue(any("se recalculo" in a for a in respuesta.advertencias))
+        with io.open(respuesta.resultado["archivo"], encoding="utf-8") as origen:
             html = origen.read()
         self.assertIn("Factores usados y lo que dice su fuente", html)
         self.assertIn("Aproximacion declarada: medidor compartido", html)
+
+
+class PruebaSegundaRevision(PruebaConCarpeta):
+    """Segunda revision independiente: lo que las correcciones anteriores dejaron pasar."""
+
+    def setUp(self):
+        super(PruebaSegundaRevision, self).setUp()
+        from calculos import karin as motor
+        from modulos import karin
+        from nucleo.salida import Problema
+        self.motor, self.karin, self.Problema = motor, karin, Problema
+        espacio.crear_empresa({"nombre": "Segunda SpA", "pais": "CL", "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Segunda SpA"}
+        self.caso = dict(self.opciones, caso="KARIN-2026-001")
+
+    def _plazos(self, respuesta):
+        return {h["id"]: h for h in respuesta.resultado["plazos"]}
+
+    def test_una_palabra_sin_comillas_no_se_pierde(self):
+        import esg
+        with self.assertRaises(self.Problema) as contexto:
+            esg.despachar(["karin", "crear", "--fecha-denuncia", "2026-09-10", "--reglamento-actualizado", "si",
+                           "--contra-representante", "no", "se"])
+        self.assertIn("comillas", contexto.exception.sugerencia)
+
+    def test_las_fechas_de_los_hitos_van_en_orden(self):
+        self.karin.crear(dict(self.opciones, fecha_denuncia="2026-09-01", reglamento_actualizado="si",
+                              contra_representante="no"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.caso, hito="informar_dt", fecha="2026-08-20"))
+        self.karin.evento(dict(self.caso, hito="conclusion_investigacion", fecha="2026-10-10"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.caso, hito="remision_informe", fecha="2026-09-02"))
+        eventos = self.karin.ver(self.caso).resultado["caso"]["eventos"]
+        self.assertEqual(eventos, {"conclusion_investigacion": "2026-10-10"})
+
+    def test_la_derivacion_tambien_va_en_orden(self):
+        self.karin.crear(dict(self.opciones, fecha_denuncia="2026-09-01", reglamento_actualizado="no",
+                              contra_representante="no"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.caso, hito="conclusiones_dt", fecha="2026-10-20"))
+        self.karin.evento(dict(self.caso, hito="derivacion_dt", fecha="2026-09-03"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.caso, hito="recepcion_dt", fecha="2026-09-02"))
+
+    def test_la_fecha_del_hito_no_se_supone_en_silencio(self):
+        self.karin.crear(dict(self.opciones, fecha_denuncia="2026-09-01", reglamento_actualizado="si",
+                              contra_representante="no"))
+        with self.assertRaises(self.Problema):
+            self.karin.evento(dict(self.caso, hito="informar_dt", fecha=True))
+        sin_fecha = self.karin.evento(dict(self.caso, hito="medidas_resguardo"))
+        self.assertTrue(sin_fecha.advertencias[0].startswith("No indicaste --fecha"))
+
+    def test_lo_registrado_antes_de_derivar_no_desaparece(self):
+        self.karin.crear(dict(self.opciones, fecha_denuncia="2026-09-01", reglamento_actualizado="si",
+                              contra_representante="no"))
+        self.karin.evento(dict(self.caso, hito="designar_investigador", fecha="2026-09-02"))
+        plazos = self._plazos(self.karin.actualizar(dict(self.caso, contra_representante="si")))
+        self.assertTrue(plazos["designar_investigador"]["estado"].startswith("no aplica"))
+        self.assertEqual(plazos["designar_investigador"]["cumplido_el"], "2026-09-02")
+        heredado = {h["id"]: h for h in self.motor.plazos("2026-09-01", {"informar_dt": "2026-09-02"},
+                                                          via="derivada")["hitos"]}
+        self.assertEqual(heredado["derivar_dt"]["cumplido_el"], "2026-09-02")
+
+    def test_las_alertas_muestran_la_espera_de_la_dt_y_lo_condicional(self):
+        self.karin.crear(dict(self.opciones, fecha_denuncia="2026-09-01", reglamento_actualizado="no",
+                              contra_representante="no"))
+        self.karin.evento(dict(self.caso, hito="derivacion_dt", fecha="2026-09-02"))
+        self.karin.crear(dict(self.opciones, fecha_denuncia="2026-09-10", contra_representante="no"))
+        alertas = self.karin.alertas(self.opciones).resultado["alertas"]
+        self.assertTrue(any(a["caso"] == "KARIN-2026-001" and a["estado"] == "pendiente" for a in alertas))
+        condicionales = [a for a in alertas if a["caso"] == "KARIN-2026-002" and "investigadora" in a["titulo"]]
+        self.assertTrue(condicionales and condicionales[0]["titulo"].startswith("Solo si no corresponde derivar"))
+
+    def test_la_carpeta_de_una_empresa_es_la_real(self):
+        ruta = espacio.cargar_empresa("Segunda SpA", raiz=self.carpeta)[1]
+        archivo = os.path.join(ruta, "empresa.json")
+        with io.open(archivo, encoding="utf-8") as origen:
+            perfil = json.load(origen)
+        perfil["carpeta"] = "ejemplo-alimentos-del-sur"
+        with io.open(archivo, "w", encoding="utf-8") as destino:
+            json.dump(perfil, destino)
+        self.assertEqual(espacio.cargar_empresa("Segunda SpA", raiz=self.carpeta)[0]["carpeta"],
+                         os.path.basename(ruta))
+
+    def test_ninguna_marca_apaga_el_filtro_de_ejemplos(self):
+        from nucleo import excel
+        from plantillas import definiciones
+        ruta = espacio.cargar_empresa("Segunda SpA", raiz=self.carpeta)[1]
+        archivo = os.path.join(ruta, "empresa.json")
+        with io.open(archivo, encoding="utf-8") as origen:
+            perfil = json.load(origen)
+        perfil["empresa_de_ejemplo"] = True
+        with io.open(archivo, "w", encoding="utf-8") as destino:
+            json.dump(perfil, destino)
+        planilla = os.path.join(ruta, "datos", "consumos.xlsx")
+        excel.escribir_xlsx(planilla, definiciones.hojas_de(definiciones.PLANTILLAS["consumos"]))
+        tabla, aviso = definiciones.leer_sin_ejemplos(planilla)
+        self.assertEqual(tabla["filas"], [])
+        self.assertIsNotNone(aviso)
+
+    def test_el_plan_no_concluye_con_medidas_fuera(self):
+        from calculos import macc
+        medidas = [
+            {"medida": "LED", "capex": 45000, "vida_util": 10, "opex": 1200, "ahorros": 14000, "tco2e_evitadas": 38},
+            {"medida": "Recuperador", "capex": 210000, "vida_util": "", "opex": 8000, "ahorros": 22000,
+             "tco2e_evitadas": 130},
+        ]
+        plan = macc.curva(medidas, brecha=150)["plan_para_la_brecha"]
+        self.assertIsNone(plan["alcanza"])
+        self.assertTrue(plan["incompleto"])
+        self.assertEqual(plan["medidas_fuera"], ["Recuperador"])
+        with self.assertRaises(self.Problema):
+            macc.costo_marginal(dict(medidas[0], capex="45.000"))
+
+    def test_el_informe_de_huella_no_se_arma_con_un_resultado_viejo_que_no_se_puede_rehacer(self):
+        from modulos import huella
+        ruta = espacio.cargar_empresa("Segunda SpA", raiz=self.carpeta)[1]
+        with io.open(os.path.join(ruta, "resultados", "huella_2025.json"), "w", encoding="utf-8") as archivo:
+            json.dump({"total_t_co2e": 31.4, "total_kg_co2e": 31400.0, "periodo": "2025", "completo": True,
+                       "por_alcance": {}, "calidad_datos": {"porcentaje": {}}, "detalle": []}, archivo)
+        with self.assertRaises(self.Problema) as contexto:
+            huella.reporte(dict(self.opciones, periodo="2025"))
+        self.assertIn("version anterior", contexto.exception.mensaje)
 
 
 class PruebaSinCaracteresDeControl(unittest.TestCase):

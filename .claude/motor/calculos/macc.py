@@ -11,6 +11,8 @@ La curva ordena las medidas de menor a mayor costo por tonelada y acumula el
 abatimiento: asi se ve hasta donde hay que llegar para cubrir una brecha.
 """
 
+import re
+
 from nucleo.salida import Problema
 
 
@@ -36,8 +38,17 @@ def _numero(valor, nombre, medida):
         # Una celda vacia puede ser «cero» o «falta la cotizacion»: no se adivina, porque cambia el orden de la curva.
         raise Problema("En la medida «%s» falta %s." % (medida, nombre),
                        "Si de verdad es cero, escribe 0. Si falta la cotizacion, la medida queda fuera hasta tenerla.")
+    if isinstance(valor, (int, float)):
+        return float(valor)
+    texto = str(valor).strip().replace(" ", "")
+    if re.match(r"^-?\d{1,3}(\.\d{3})+$", texto):
+        # «45.000» puede ser cuarenta y cinco mil o 45 con decimales: no se adivina.
+        raise Problema("En la medida «%s», no se si «%s» (%s) son miles o decimales." % (medida, texto, nombre),
+                       "Escribelo sin puntos de miles (45000) o con coma decimal (45,5).")
+    if "," in texto and "." in texto:
+        texto = texto.replace(".", "")
     try:
-        return float(str(valor).replace(",", "."))
+        return float(texto.replace(",", "."))
     except (TypeError, ValueError):
         raise Problema("En la medida «%s», el valor de %s no es un numero." % (medida, nombre),
                        "Escribe solo el numero, sin simbolos de moneda.")
@@ -140,4 +151,13 @@ def curva(medidas, tasa_descuento=0.10, brecha=None):
             "costo_anual_del_paquete": round(costo, 1),
             "costo_por_tonelada_del_paquete": round(costo / suma, 1) if suma else 0.0,
         }
+        if con_problema:
+            plan = resultado["plan_para_la_brecha"]
+            plan["incompleto"] = True
+            plan["medidas_fuera"] = [p["medida"] for p in con_problema]
+            if not plan["alcanza"]:
+                # Una medida que quedo fuera podria cerrar la brecha: no se puede concluir que no alcanza.
+                plan["alcanza"] = None
+            plan["nota"] = ("Quedaron fuera %d medida(s) por datos que faltan. Con ellas el paquete podria ser otro, "
+                            "mas barato o suficiente: completa esos datos antes de decidir." % len(con_problema))
     return resultado

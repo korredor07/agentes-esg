@@ -181,7 +181,8 @@ def _hitos_derivada(inmediata):
         {
             "id": "derivar_dt", "titulo": "Derivar la denuncia a la Direccion del Trabajo",
             "dias": 0 if inmediata else 3, "tipo": "inmediato" if inmediata else "habiles",
-            "desde": "denuncia", "eventos": ("derivacion_dt",),
+            # informar_dt: asi quedaba registrada la derivacion antes de existir derivacion_dt.
+            "desde": "denuncia", "eventos": ("derivacion_dt", "informar_dt"),
             "articulo": ("DS 21, art. primero transitorio inc. 3; art. 12 inc. 4 DS 21" if inmediata else
                          "Art. 211-C inc. 1 del Codigo del Trabajo; art. 12 inc. 4 y 5 DS 21"),
             "que_hacer": ("Remitir la denuncia con sus antecedentes a la Direccion del Trabajo e informarlo por "
@@ -222,10 +223,32 @@ def _hitos_derivada(inmediata):
     ]
 
 
-def _no_aplica(hito):
+def _titulo_de(clave):
+    if clave == "denuncia":
+        return "la denuncia"
+    ficha = EVENTOS_EXTRA.get(clave) or HITOS_POR_ID.get(clave) or {}
+    return "«%s»" % ficha.get("titulo", clave)
+
+
+def _fuera_de_orden(que, fecha, antes_de, fecha_anterior):
+    return Problema(
+        "La fecha de %s (%s) es anterior a la de %s (%s)." % (_titulo_de(que), fecha.isoformat(),
+                                                              _titulo_de(antes_de), fecha_anterior.isoformat()),
+        "Revisa las fechas: un hecho del procedimiento no puede ocurrir antes del que lo origina, y una fecha "
+        "equivocada movería los plazos que siguen.",
+    )
+
+
+def _no_aplica(hito, eventos=None):
+    registrado = (eventos or {}).get(hito["id"])
+    fecha = fechas.parsear_fecha(registrado).isoformat() if registrado else None
+    estado = hito["no_aplica"]
+    if fecha:
+        # Lo hecho cuando se investigaba internamente no desaparece del caso.
+        estado += " (quedo registrado el %s, de cuando la empresa investigaba)" % fecha
     return {"id": hito["id"], "titulo": hito["titulo"], "articulo": "", "que_hacer": "", "responsable": "",
-            "dias": None, "tipo_de_dias": None, "cuenta_desde": None, "vence": None, "cumplido_el": None,
-            "dias_restantes": None, "estado": hito["no_aplica"], "proyectado": False, "aplica": False}
+            "dias": None, "tipo_de_dias": None, "cuenta_desde": None, "vence": None, "cumplido_el": fecha,
+            "dias_restantes": None, "estado": estado, "proyectado": False, "aplica": False}
 
 
 def _pendiente(hito):
@@ -261,6 +284,14 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None,
     for clave in EVENTOS_EXTRA:
         if eventos.get(clave):
             calculados[clave] = {"fecha": fechas.parsear_fecha(eventos[clave]), "real": True}
+    # Cada hecho de la derivacion va despues del anterior: derivar, recibir el certificado, recibir las conclusiones.
+    anterior = "denuncia"
+    for clave in ("derivacion_dt", "recepcion_dt", "conclusiones_dt"):
+        if clave not in calculados:
+            continue
+        if calculados[clave]["fecha"] < calculados[anterior]["fecha"]:
+            raise _fuera_de_orden(clave, calculados[clave]["fecha"], anterior, calculados[anterior]["fecha"])
+        anterior = clave
 
     if derivada or obligatoria is True:
         camino = "derivada"
@@ -274,10 +305,17 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None,
     salida = []
     for hito in lista:
         if hito.get("no_aplica"):
-            salida.append(_no_aplica(hito))
+            salida.append(_no_aplica(hito, eventos))
             continue
         base = calculados.get(hito["desde"])
+        registrado = next((clave for clave in hito.get("eventos", (hito["id"],)) if eventos.get(clave)), None)
         if base is None:
+            if registrado:
+                # Sin el hecho desde el que se cuenta, la fecha registrada quedaria guardada y sin usar.
+                raise Problema(
+                    "Hay una fecha para %s (%s), pero falta %s, que es desde donde se cuenta ese plazo."
+                    % (_titulo_de(hito["id"]), eventos[registrado], _titulo_de(hito["desde"])),
+                    "Registra primero ese hecho con: karin evento --hito %s --fecha <fecha>." % hito["desde"])
             if hito.get("falta"):
                 salida.append(_pendiente(hito))
             continue
@@ -292,10 +330,14 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None,
             detalle = fechas.plazo(base["fecha"], hito["dias"], hito["tipo"], feriados, hoy=referencia)
             vence = fechas.parsear_fecha(detalle["vence"])
 
-        real = next((eventos[clave] for clave in hito.get("eventos", (hito["id"],)) if eventos.get(clave)), None)
+        real = eventos.get(registrado) if registrado else None
         cumplido = None
         if real:
             cumplido = fechas.parsear_fecha(real)
+            if cumplido < inicio:
+                raise _fuera_de_orden(hito["id"], cumplido, "denuncia", inicio)
+            if base["real"] and cumplido < base["fecha"]:
+                raise _fuera_de_orden(hito["id"], cumplido, hito["desde"], base["fecha"])
             estado = "cumplido a tiempo" if cumplido <= vence else "cumplido fuera de plazo"
             calculados[hito["id"]] = {"fecha": cumplido, "real": True}
         else:

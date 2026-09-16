@@ -91,7 +91,7 @@ def leer(opciones):
     }
     # Aqui se muestra la planilla tal cual, pero se dice si quedan ejemplos: los calculos no los usan.
     _, definicion = definiciones.obtener(os.path.splitext(os.path.basename(completa))[0])
-    if definicion and not definiciones.es_empresa_de_ejemplo(completa):
+    if definicion:
         ejemplos = len([f for f in filas if definiciones.es_fila_de_ejemplo(definicion, f)])
         resultado["filas_de_ejemplo"] = ejemplos
         if ejemplos:
@@ -303,7 +303,7 @@ def escribir(opciones):
         for fila in tabla["filas"]:
             # Una planilla recien creada trae filas de ejemplo de una empresa inventada:
             # si se agregan datos reales debajo, esas filas entrarian al calculo.
-            if definiciones.es_fila_de_ejemplo(definicion, fila) and not definiciones.es_empresa_de_ejemplo(destino):
+            if definiciones.es_fila_de_ejemplo(definicion, fila):
                 ejemplos_quitados += 1
                 continue
             existentes.append([fila.get(excel.normalizar_encabezado(c)) for c in columnas])

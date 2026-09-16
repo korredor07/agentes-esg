@@ -56,28 +56,35 @@ def _refrescar_alertas(opciones):
     """
     from modulos import calendario, karin
     errores = []
-    for nombre, rehacer in (("Ley Karin", karin.alertas), ("el calendario de obligaciones", calendario.proximas)):
+    fallidas = set()
+    for origen, nombre, rehacer in (("Ley Karin", "Ley Karin", karin.alertas),
+                                    ("Calendario", "el calendario de obligaciones", calendario.proximas)):
         try:
             rehacer(dict(opciones))
         except Problema as error:
-            # No impide armar el tablero, pero tampoco se esconde: las alertas de abajo pueden estar viejas.
+            # No impide armar el tablero, pero tampoco se esconde: las alertas de esa fuente pueden estar viejas.
             errores.append("No pude actualizar las alertas de %s: %s %s" % (nombre, error.mensaje, error.sugerencia))
-    return errores
+            fallidas.add(origen)
+    return errores, fallidas
 
 
-def _alertas(ruta_empresa):
+def _alertas(ruta_empresa, fallidas=()):
     """Alertas de plazos que dejan otros modulos en seguimiento/alertas.json."""
     datos = _leer_json(os.path.join(ruta_empresa, "seguimiento", "alertas.json")) or []
     hoy = datetime.date.today().isoformat()
     vigentes = []
     for alerta in datos:
         if alerta.get("vence") and alerta.get("estado") != "resuelta":
-            vigentes.append({
-                "etiqueta": alerta.get("titulo", "Plazo"),
-                "estado": "rojo" if alerta["vence"] <= hoy else ("amarillo" if alerta.get("por_vencer") else "verde"),
-                "detalle": (alerta.get("detalle", "") if alerta.get("estado") == "error" else
-                            "Vence el %s. %s" % (alerta["vence"], alerta.get("detalle", ""))),
-            })
+            if alerta.get("estado") == "error":
+                color, detalle = "rojo", alerta.get("detalle", "")
+            elif alerta.get("estado") == "pendiente":
+                color, detalle = "amarillo", alerta.get("detalle", "")
+            else:
+                color = "rojo" if alerta["vence"] <= hoy else ("amarillo" if alerta.get("por_vencer") else "verde")
+                detalle = "Vence el %s. %s" % (alerta["vence"], alerta.get("detalle", ""))
+            if alerta.get("origen") in fallidas:
+                detalle = "[Puede estar desactualizada: no se pudo revisar su fuente] " + detalle
+            vigentes.append({"etiqueta": alerta.get("titulo", "Plazo"), "estado": color, "detalle": detalle})
     return vigentes
 
 
@@ -86,7 +93,7 @@ def generar(opciones):
     raiz = opciones.get("raiz") if opciones.get("raiz") is not True else None
     identificador = opciones.get("empresa") if opciones.get("empresa") is not True else None
     perfil, ruta = espacio.cargar_empresa(identificador, raiz=raiz)
-    errores_alertas = _refrescar_alertas(dict(opciones, empresa=perfil.get("carpeta") or identificador))
+    errores_alertas, fuentes_fallidas = _refrescar_alertas(dict(opciones, empresa=perfil.get("carpeta") or identificador))
 
     huella = _ultima_huella(ruta)
     seguimiento = _leer_json(os.path.join(ruta, "seguimiento", "diagnostico.json")) or {}
@@ -122,7 +129,7 @@ def generar(opciones):
     for error in errores_alertas:
         bloques.append({"tipo": "nota", "estilo": "riesgo", "texto": error})
 
-    alertas = _alertas(ruta)
+    alertas = _alertas(ruta, fuentes_fallidas)
     if alertas:
         bloques.append({"tipo": "titulo", "texto": "Plazos que vencen", "nivel": 2})
         bloques.append({"tipo": "semaforo", "items": alertas})

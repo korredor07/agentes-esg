@@ -291,17 +291,21 @@ def reporte(opciones):
         resumen = json.load(archivo)
     aviso_version = None
     if resumen.get("version_calculo") != VERSION_CALCULO:
+        pcg = resumen.get("set_pcg") or opciones.get("pcg")
         try:
-            calcular(dict(opciones))
-            with open(origen, encoding="utf-8") as archivo:
-                resumen = json.load(archivo)
-            aviso_version = ("El calculo guardado era de una version anterior del motor: se recalculo con los datos "
-                             "actuales antes de armar el informe.")
+            # Con el mismo conjunto de potenciales que el calculo guardado, para no cambiar la cifra por eso.
+            calcular(dict(opciones, pcg=pcg))
         except Problema as problema:
-            aviso_version = ("El calculo guardado es de una version anterior del motor y no se pudo recalcular (%s). "
-                             "El informe puede omitir advertencias sobre los factores: vuelve a ejecutar huella "
-                             "calcular." % problema.mensaje)
-            resumen.setdefault("advertencias", []).insert(0, aviso_version)
+            raise Problema(
+                "El calculo guardado es de una version anterior del motor y no se pudo recalcular: %s"
+                % problema.mensaje,
+                "%s No armo el informe con un resultado viejo: corrige eso y ejecuta huella calcular."
+                % (problema.sugerencia or ""))
+        with open(origen, encoding="utf-8") as archivo:
+            resumen = json.load(archivo)
+        aviso_version = ("El calculo guardado era de una version anterior del motor: se recalculo con los datos "
+                         "actuales y los potenciales %s antes de armar el informe." % resumen.get("set_pcg"))
+        resumen.setdefault("advertencias", []).insert(0, aviso_version)
 
     marca = perfil.get("marca") or {}
     destino = espacio.ruta_de(ruta_empresa, "reportes",
@@ -313,13 +317,12 @@ def reporte(opciones):
         marca=marca,
         subtitulo="%s - %s" % (perfil.get("nombre", ""), perfil.get("sector", "") or "Informe de emisiones"),
     )
-    return {
+    return Respuesta({
         "mensaje": "Informe listo: abrelo con doble clic y, si lo necesitas en PDF, imprimelo desde el navegador.",
         "archivo": destino,
         "total_t_co2e": resumen.get("total_t_co2e"),
         "empresa": perfil.get("nombre"),
-        "aviso": aviso_version,
-    }
+    }, advertencias=[aviso_version] if aviso_version else [])
 
 
 def factores(opciones):

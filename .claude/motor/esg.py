@@ -179,6 +179,13 @@ def despachar(argumentos):
             "Acciones disponibles: %s. Para ver qué opciones acepta cada una: "
             "python esg.py %s --ayuda." % (", ".join(sorted(acciones)), modulo_nombre),
         )
+    sobrante = opciones.get("_extra") or []
+    if sobrante:
+        # --contra-representante no se, sin comillas, se leia como «no» y «se» se perdia sin aviso.
+        raise Problema(
+            "No entendi «%s»: sobra en el comando." % " ".join(str(p) for p in sobrante),
+            "Los valores con espacios van entre comillas, por ejemplo: --contra-representante \"no se\".",
+        )
     return acciones[accion_nombre](opciones)
 
 

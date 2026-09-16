@@ -256,7 +256,8 @@ def cargar_empresa(identificador=None, raiz=None):
                 "El archivo empresa.json de «%s» esta dañado." % os.path.basename(ruta),
                 "Puedo volver a crearlo contigo; solo necesito los datos basicos de la empresa.",
             )
-    perfil.setdefault("carpeta", os.path.basename(ruta))
+    # La carpeta real manda: si se copio la carpeta de otra empresa, el valor guardado apunta a esa otra.
+    perfil["carpeta"] = os.path.basename(ruta)
     return perfil, ruta
 
 

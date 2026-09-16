@@ -55,8 +55,8 @@ PLANTILLAS = {
             {"titulo": "Personas con discapacidad", "ancho": 26, "ayuda": "Para la Ley 21.015 (Chile)."},
         ],
         "ejemplo": [
-            ["2025", "Planta Chillan", "operario", "mujer", "indefinido", "completa", 34, 6, 3, 780000, 120, 1, 12, 61200, 1],
-            ["2025", "Planta Chillan", "operario", "hombre", "indefinido", "completa", 51, 9, 7, 810000, 180, 2, 21, 91800, 0],
+            ["2025", "Planta de ejemplo", "operario", "mujer", "indefinido", "completa", 34, 6, 3, 780000, 120, 1, 12, 61200, 1],
+            ["2025", "Planta de ejemplo", "operario", "hombre", "indefinido", "completa", 51, 9, 7, 810000, 180, 2, 21, 91800, 0],
         ],
     },
     "consumos": {
@@ -186,8 +186,8 @@ PLANTILLAS = {
             {"titulo": "Notas", "ancho": 28, "ayuda": "Medidor, boleta o supuesto usado."},
         ],
         "ejemplo": [
-            ["2025", "Planta Chillan", "red publica", 28500, 24000, "alcantarillado", "si", "reportado", "Boletas de la sanitaria"],
-            ["2025", "Planta Chillan", "pozo", 12000, 0, "riego", "si", "estimado", "Estimado por horas de bombeo"],
+            ["2025", "Planta de ejemplo", "red publica", 28500, 24000, "alcantarillado", "si", "reportado", "Boletas de la sanitaria"],
+            ["2025", "Planta de ejemplo", "pozo", 12000, 0, "riego", "si", "estimado", "Estimado por horas de bombeo"],
         ],
     },
     "residuos": {
@@ -265,20 +265,6 @@ def es_fila_de_ejemplo(definicion, fila):
     return any(clave(ejemplo) == buscada for ejemplo in definicion.get("ejemplo") or [])
 
 
-def es_empresa_de_ejemplo(ruta_planilla):
-    """La empresa de ejemplo del proyecto usa a proposito los mismos datos que las plantillas.
-
-    Se reconoce por la marca empresa_de_ejemplo de su empresa.json. Si ese archivo no
-    se puede leer, se trata como una empresa real: dejar fuera los ejemplos es lo seguro.
-    """
-    carpeta = os.path.dirname(os.path.dirname(os.path.abspath(ruta_planilla)))
-    try:
-        with open(os.path.join(carpeta, "empresa.json"), encoding="utf-8") as archivo:
-            return json.load(archivo).get("empresa_de_ejemplo") is True
-    except (OSError, ValueError, AttributeError):
-        return False
-
-
 def leer_sin_ejemplos(ruta, definicion=None, hoja=None):
     """Lee una planilla de datos dejando fuera las filas de ejemplo de la plantilla.
 
@@ -292,7 +278,7 @@ def leer_sin_ejemplos(ruta, definicion=None, hoja=None):
     if definicion is None:
         definicion = PLANTILLAS.get(os.path.splitext(os.path.basename(ruta))[0].lower())
     tabla["filas_de_ejemplo"] = 0
-    if not definicion or es_empresa_de_ejemplo(ruta):
+    if not definicion:
         return tabla, None
     reales = [fila for fila in tabla["filas"] if not es_fila_de_ejemplo(definicion, fila)]
     tabla["filas_de_ejemplo"] = len(tabla["filas"]) - len(reales)
