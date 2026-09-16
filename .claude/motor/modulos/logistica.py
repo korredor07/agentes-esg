@@ -88,6 +88,37 @@ def tramo(opciones):
                      fuentes=[resultado.get("fuente")] if resultado.get("fuente") else [])
 
 
+def _tramos_del_comando(opciones):
+    """Tramos pasados como JSON con --tramos: la persona dicto el viaje en la conversacion.
+
+    Cada tramo: {"tipo", "descripcion", "modo", "vehiculo", "toneladas", "teu", "km",
+    "tipo_distancia", "intensidad"}. Solo lo necesario: tipo, toneladas y km o intensidad.
+    """
+    crudo = _valor(opciones, "tramos")
+    if not crudo:
+        return None
+    if os.path.isfile(str(crudo)):
+        with open(crudo, encoding="utf-8") as archivo:
+            tramos = json.load(archivo)
+    else:
+        try:
+            tramos = json.loads(crudo)
+        except ValueError as error:
+            raise Problema("No pude leer los tramos: %s." % error,
+                           'Pasalos como lista JSON, por ejemplo: --tramos "[{\\"vehiculo\\": \\"camion\\", '
+                           '\\"toneladas\\": 12, \\"km\\": 220}]", o guardalos en un archivo y pasa su ruta.')
+    if isinstance(tramos, dict):
+        tramos = [tramos]
+    if not isinstance(tramos, list) or not tramos:
+        raise Problema("Los tramos deben venir como una lista.", "Un elemento por tramo del viaje.")
+    salida = []
+    for numero, tramo in enumerate(tramos, start=1):
+        ficha = dict(tramo)
+        ficha.setdefault("_fila", numero)
+        salida.append(ficha)
+    return salida
+
+
 def _leer_tramos(ruta_empresa, cadena=None):
     ruta = espacio.ruta_de(ruta_empresa, "datos", ARCHIVO_DATOS)
     if not os.path.isfile(ruta):
@@ -181,8 +212,12 @@ def calcular(opciones):
     """Calcula las emisiones de una cadena completa y guarda el resultado."""
     perfil, ruta_empresa = _contexto(opciones)
     cadena = _valor(opciones, "cadena")
-    filas, archivo = _leer_tramos(ruta_empresa, cadena)
-    nombre = filas[0].get("cadena") if cadena or len({f["cadena"] for f in filas}) == 1 else None
+    dictados = _tramos_del_comando(opciones)
+    if dictados:
+        filas, archivo, nombre = dictados, "tramos indicados en el comando", cadena or "Cadena de transporte"
+    else:
+        filas, archivo = _leer_tramos(ruta_empresa, cadena)
+        nombre = filas[0].get("cadena") if cadena or len({f["cadena"] for f in filas}) == 1 else None
 
     resultado = motor.calcular_cadena(filas, nombre)
     resultado["empresa"] = perfil.get("nombre")
@@ -273,10 +308,21 @@ def _bloques(resultado, perfil):
                                  "toneladas kilometro, ahi esta lo que conviene cambiar primero."})
 
     bloques.append({"tipo": "titulo", "texto": "Como se calculo", "nivel": 2})
+    ajustados = [t for t in tramos if t.get("tipo") == "transporte"
+                 and (abs((t.get("ajuste_de_distancia") or 1.0) - 1.0) > 1e-9 or t.get("modo") == "aereo")]
+    if ajustados:
+        texto_distancias = ("Se ajusto la distancia de %d tramo(s) para dejarla del mismo tipo que la intensidad: "
+                            "%s." % (len(ajustados), "; ".join(
+                                "%s: %s km declarados, %s km usados"
+                                % (t.get("descripcion") or "tramo %s" % t["tramo"],
+                                   informe.formatear_numero(t["distancia_declarada_km"]),
+                                   informe.formatear_numero(t["distancia_de_actividad_km"])) for t in ajustados)))
+    else:
+        texto_distancias = ("Las distancias se usaron tal como se declararon, porque ya eran la ruta mas corta "
+                            "practicable: no hizo falta ajustarlas.")
     bloques.append({"tipo": "lista", "items": [
         resultado["metodo"],
-        "Las distancias se ajustaron al tipo que usa cada intensidad: un 5 %% mas en carretera y un "
-        "15 %% mas en maritimo cuando se parte de la ruta mas corta; el aereo suma 95 km.",
+        texto_distancias,
         "La masa es la mercancia con el embalaje del vendedor, sin palets ni contenedor.",
     ] + [f for f in resultado["fuentes"]]})
     if resultado["advertencias"]:
@@ -289,8 +335,12 @@ def informe_html(opciones):
     """Arma el informe HTML de la cadena de transporte."""
     perfil, ruta_empresa = _contexto(opciones)
     cadena = _valor(opciones, "cadena")
-    filas, _ = _leer_tramos(ruta_empresa, cadena)
-    nombre = filas[0].get("cadena") if cadena or len({f["cadena"] for f in filas}) == 1 else None
+    dictados = _tramos_del_comando(opciones)
+    if dictados:
+        filas, nombre = dictados, cadena or "Cadena de transporte"
+    else:
+        filas, _ = _leer_tramos(ruta_empresa, cadena)
+        nombre = filas[0].get("cadena") if cadena or len({f["cadena"] for f in filas}) == 1 else None
     resultado = motor.calcular_cadena(filas, nombre)
 
     destino = espacio.ruta_de(ruta_empresa, "reportes",

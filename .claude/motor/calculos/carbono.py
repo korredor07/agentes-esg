@@ -354,9 +354,9 @@ def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=
             if "IPCC" in prestado.get("fuente", ""):
                 aviso += (" Sale de los valores por defecto del IPCC, que son internacionales, asi "
                           "que sirve como estimacion; lo que cambia de un pais a otro es la mezcla "
-                          "exacta del combustible. Escribelo como supuesto en el informe.")
+                          "exacta del combustible. Se usa como estimacion y queda declarado como supuesto.")
             else:
-                aviso += " Tratalo como una estimacion y dejalo escrito como supuesto en el informe."
+                aviso += " Se usa como estimacion y queda declarado como supuesto."
             advertencias.append(aviso)
 
     if unidad:
@@ -489,7 +489,7 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None, densid
         "factor": {
             "id": factor["id"], "valor": por_unidad, "unidad": factor["unidad"],
             "pais": factor["pais"], "anio": factor["anio"], "fuente": factor["fuente"],
-            "url": factor["url"],
+            "url": factor["url"], "uso": factor.get("uso", ""), "calidad": factor.get("calidad", ""),
         },
         "kg_co2e": cantidad_convertida * por_unidad,
         "calidad_dato": calidad,
@@ -528,10 +528,13 @@ def calcular(registros, factores=None, pcg=None, conjunto="AR6", pais=None, cont
 
     por_alcance, por_sitio, por_recurso, por_periodo, por_categoria = {}, {}, {}, {}, {}
     por_calidad = {"estimado": 0.0, "reportado": 0.0, "verificado": 0.0}
+    por_gasto = 0.0
     total = 0.0
     for fila in detalle:
         kg = fila["kg_co2e"]
         total += kg
+        if (fila.get("factor") or {}).get("uso") == "gasto":
+            por_gasto += kg
         _sumar(por_alcance, "alcance_%d" % fila["alcance"], kg)
         etiqueta_sitio = fila["sitio"] or ("Cadena de valor" if fila["alcance"] == 3 else "Sin sitio asignado")
         _sumar(por_sitio, etiqueta_sitio, kg)
@@ -563,7 +566,11 @@ def calcular(registros, factores=None, pcg=None, conjunto="AR6", pais=None, cont
         "por_recurso": por_recurso,
         "por_periodo": por_periodo,
         "por_categoria_alcance3": por_categoria,
-        "calidad_datos": {"kg_co2e": por_calidad, "porcentaje": calidad_pct},
+        "calidad_datos": {"kg_co2e": por_calidad, "porcentaje": calidad_pct,
+                          # La calidad del dato dice si el monto esta respaldado; el metodo dice que tan
+                          # fino es el factor. Un gasto bien reportado sigue siendo una estimacion gruesa.
+                          "estimado_por_gasto_kg": por_gasto,
+                          "estimado_por_gasto_pct": (por_gasto / total * 100.0) if total else 0.0},
         "set_pcg": conjunto,
         "detalle": detalle,
         "problemas": problemas,

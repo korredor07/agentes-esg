@@ -157,6 +157,72 @@ class PruebaMetas(PruebaConCarpeta):
         self.assertTrue(os.path.isfile(informe["archivo"]))
 
 
+class PruebaInformeDeHuella(PruebaConCarpeta):
+    """El informe va a un cliente: sin instrucciones para el asistente y diciendo lo que quedo fuera."""
+
+    FILAS = [{"_fila": 2, "periodo": "2025-01", "recurso": "glp", "uso": "estacionaria", "cantidad": 45,
+              "unidad": "kg", "pais": "PE"},
+             {"_fila": 3, "periodo": "2025-01", "recurso": "gasto agricultura", "cantidad": 9000,
+              "unidad": "USD", "alcance": 3, "categoria": "1"}]
+
+    def test_los_avisos_no_le_hablan_al_asistente(self):
+        from calculos import carbono
+        resumen = carbono.calcular(self.FILAS, pais="PE", conjunto="AR5")
+        for aviso in resumen["advertencias"]:
+            self.assertNotIn("en el informe", aviso)
+
+    def test_dice_cuanto_se_estimo_por_gasto(self):
+        from calculos import carbono
+        resumen = carbono.calcular(self.FILAS, pais="PE", conjunto="AR5")
+        self.assertGreater(resumen["calidad_datos"]["estimado_por_gasto_pct"], 50)
+
+    def test_el_informe_lista_las_categorias_no_estimadas(self):
+        from modulos import huella
+        resumen = __import__("calculos.carbono", fromlist=["calcular"]).calcular(self.FILAS, pais="PE",
+                                                                                  conjunto="AR5")
+        bloques = huella._bloques_informe(dict(resumen, periodo="2025"), {"nombre": "Prueba"})
+        textos = json.dumps(bloques, ensure_ascii=False)
+        self.assertIn("Categorias del alcance 3 que no se estimaron", textos)
+        self.assertIn("15. Inversiones", textos)
+        self.assertIn("se estimo por gasto", textos)
+
+
+class PruebaLogisticaDictada(PruebaConCarpeta):
+    """El viaje dictado en la conversacion se calcula sin planilla, y el informe no inventa ajustes."""
+
+    TRAMOS = [{"vehiculo": "camion refrigerado", "modo": "carretera", "toneladas": 12, "km": 220},
+              {"tipo": "hub", "toneladas": 12, "descripcion": "Puerto San Antonio"},
+              {"vehiculo": "barco", "modo": "maritimo", "toneladas": 12, "km": 12000},
+              {"vehiculo": "camion refrigerado", "modo": "carretera", "toneladas": 12, "km": 150}]
+
+    def setUp(self):
+        super(PruebaLogisticaDictada, self).setUp()
+        from modulos import logistica
+        self.logistica = logistica
+        espacio.crear_empresa({"nombre": "Exportadora SpA", "pais": "CL"}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Exportadora SpA"}
+
+    def test_calcula_los_tramos_del_comando(self):
+        resultado = self.logistica.calcular(dict(self.opciones, cadena="Manzanas",
+                                                 tramos=json.dumps(self.TRAMOS))).resultado
+        self.assertAlmostEqual(resultado["total_kg_co2e"], 3508.0404, places=4)
+        self.assertFalse(resultado["completo"])
+
+    def test_el_informe_no_dice_que_ajusto_lo_que_no_ajusto(self):
+        respuesta = self.logistica.informe_html(dict(self.opciones, cadena="Manzanas",
+                                                     tramos=json.dumps(self.TRAMOS)))
+        with io.open(respuesta.resultado["archivo"], encoding="utf-8") as origen:
+            html = origen.read()
+        self.assertNotIn("%%", html)
+        self.assertIn("no hizo falta ajustarlas", html)
+
+    def test_json_mal_formado_se_explica(self):
+        from nucleo.salida import Problema
+        with self.assertRaises(Problema) as contexto:
+            self.logistica.calcular(dict(self.opciones, tramos="no es json"))
+        self.assertIn("--tramos", contexto.exception.sugerencia)
+
+
 class PruebaSinCaracteresDeControl(unittest.TestCase):
     """Un caracter de control escrito por error rompe una expresion regular sin que se vea."""
 

@@ -177,8 +177,19 @@ def _bloques_informe(resumen, perfil):
                         "filas": [[clave, CATEGORIAS_ALCANCE3.get(clave, ""), dato["kg_co2e"] / 1000.0]
                                   for clave, dato in sorted(resumen["por_categoria_alcance3"].items(),
                                                             key=lambda x: -x[1]["kg_co2e"])]})
+    # Lo que no se estimo tambien es parte del resultado: el GHG Protocol pide declarar que quedo fuera.
+    incluidas = {str(clave) for clave in (resumen.get("por_categoria_alcance3") or {})}
+    fuera = [(clave, nombre) for clave, nombre in sorted(CATEGORIAS_ALCANCE3.items(), key=lambda x: int(x[0]))
+             if clave not in incluidas]
+    if fuera:
+        bloques.append({"tipo": "titulo", "texto": "Categorias del alcance 3 que no se estimaron", "nivel": 3})
+        bloques.append({"tipo": "texto",
+                        "texto": "No se calcularon en este informe. Algunas pueden no aplicar al negocio; las que si "
+                                 "apliquen quedan como brecha por medir."})
+        bloques.append({"tipo": "lista", "items": ["%s. %s" % (clave, nombre) for clave, nombre in fuera]})
 
     calidad = resumen["calidad_datos"]["porcentaje"]
+    por_gasto = resumen["calidad_datos"].get("estimado_por_gasto_pct") or 0.0
     bloques.extend([
         {"tipo": "titulo", "texto": "Calidad de los datos", "nivel": 2},
         {"tipo": "texto", "texto": "Cuanto de la huella viene de datos medidos y cuanto de estimaciones. "
@@ -189,6 +200,12 @@ def _bloques_informe(resumen, perfil):
             {"etiqueta": "Estimado", "valor": calidad.get("estimado", 0)},
         ]},
     ])
+    if por_gasto >= 1:
+        bloques.append({"tipo": "nota", "estilo": "aviso",
+                        "texto": "El %s %% de la huella se estimo por gasto (dinero gastado por un factor por "
+                                 "dolar). Aunque el monto este bien respaldado, es el metodo mas grueso: sirve "
+                                 "para ver donde esta el grueso, no para fijar metas ni comparar años."
+                                 % informe.formatear_numero(round(por_gasto, 1))})
 
     if resumen.get("problemas"):
         bloques.append({"tipo": "titulo", "texto": "Filas que no se pudieron calcular", "nivel": 2})

@@ -43,13 +43,25 @@ Antes de tocar el motor necesitas cinco cosas. Pídelas en lenguaje normal:
 
 ## 2. Carga la cadena
 
+**Si la persona te dicta el viaje en la conversación**, no hace falta planilla:
+pasa los tramos directo al cálculo, uno por elemento de la lista.
+
+```bash
+python .claude/motor/esg.py logistica calcular --cadena "Manzanas a Venlo" --tramos "[{\"vehiculo\": \"camion refrigerado\", \"modo\": \"carretera\", \"toneladas\": 12, \"km\": 220}, {\"tipo\": \"hub\", \"toneladas\": 12, \"descripcion\": \"Puerto San Antonio\"}, {\"vehiculo\": \"barco\", \"modo\": \"maritimo\", \"toneladas\": 12, \"km\": 12000}]"
+```
+
+Cada tramo lleva `vehiculo` (o `modo` más `intensidad` si el transportista dio
+su dato), `toneladas` (o `teu`) y `km`; los puertos y bodegas van con
+`"tipo": "hub"`. Muéstrale a la persona los tramos que usaste.
+
+**Si son envíos que se repiten**, conviene la planilla, que queda guardada:
+
 ```bash
 python .claude/motor/esg.py logistica plantilla
 ```
 
-Queda en `datos/cadenas_transporte.xlsx` con un ejemplo que hay que reemplazar.
-Una fila por tramo. Si la persona te dicta el viaje, **llena la planilla tú** y
-muéstrale lo que escribiste antes de calcular.
+Queda en `datos/cadenas_transporte.xlsx` con un ejemplo que **hay que
+reemplazar**: la persona la llena en Excel, una fila por tramo.
 
 ## 3. Calcula
 
@@ -57,6 +69,8 @@ muéstrale lo que escribiste antes de calcular.
 python .claude/motor/esg.py logistica calcular --cadena "Fruta a Venlo"
 python .claude/motor/esg.py logistica informe --cadena "Fruta a Venlo"
 ```
+
+Los dos aceptan también `--tramos`, igual que arriba.
 
 Para una pregunta suelta, sin planilla:
 
@@ -70,7 +84,7 @@ python .claude/motor/esg.py logistica tramo --vehiculo "camion refrigerado" --to
 2. **La intensidad**: cuántos gramos por tonelada-kilómetro. Es lo que compara
    un cliente entre proveedores.
 3. **Dónde está el bulto.** Casi siempre sorprende: en el ejemplo de arriba el
-   barco hace el 98 % de los kilómetros-tonelada pero solo el 81 % de las
+   barco hace el 97 % de los kilómetros-tonelada pero solo el 81 % de las
    emisiones; los 370 km de camión aportan el 19 %. **La palanca está en el
    tramo terrestre, no en el marítimo.**
 4. **Qué falta** para que la cifra sea completa (casi siempre, los puertos).
