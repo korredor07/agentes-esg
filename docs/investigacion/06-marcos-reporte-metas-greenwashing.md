@@ -580,6 +580,78 @@ En cualquier caso, la empresa debe **declarar expresamente en su declaración de
 
 ---
 
+## 6. Aseguramiento (assurance) de información de sostenibilidad
+
+### 6.1 Mapa de normas
+
+| Norma | Título | Vigencia | Estado |
+|---|---|---|---|
+| **ISAE 3000 (Revisada)** | Assurance Engagements Other than Audits or Reviews of Historical Financial Information | Encargos cuyo **informe de aseguramiento lleve fecha igual o posterior al 15 de diciembre de 2015** | Vigente. Ha sido la norma de referencia para el aseguramiento de reportes de sostenibilidad. [VERIFICADO] [46] |
+| **ISAE 3410** | Assurance Engagements on Greenhouse Gas Statements | Informes que cubran **periodos terminados el 30 de septiembre de 2013 o después** | **Se retira el 15 de diciembre de 2026**, fecha en que entra en vigor ISSA 5000. [VERIFICADO] [47] |
+| **ISSA 5000** | General Requirements for Sustainability Assurance Engagements | **Periodos que comiencen el 15 de diciembre de 2026 o después**; se permite y se fomenta la adopción anticipada | Aprobada y certificada en 2024; **publicada el 12 de noviembre de 2024**. [VERIFICADO] [48][49][50] |
+| **IESSA** | International Ethics Standards for Sustainability Assurance (IESBA) | Misma fecha: periodos que comiencen el **15 de diciembre de 2026** o después, en las jurisdicciones que las adopten | Emitida en enero de 2025 junto con ISSA 5000 en un anuncio conjunto IAASB-IESBA. [VERIFICADO] [49][51] |
+
+**Características de ISSA 5000 (resumen propio):**
+- Norma **autónoma y completa**, apta para **cualquier** encargo de aseguramiento de sostenibilidad. [VERIFICADO] [50]
+- **Agnóstica de profesión**: puede ser aplicada por contadores públicos y por proveedores de aseguramiento no contables. [VERIFICADO] [48]
+- **Neutral respecto del marco**: sirve para información preparada bajo ESRS, NIIF S1/S2, GRI u otros. [VERIFICADO] [48][50]
+- Cubre **aseguramiento limitado y razonable**, y se aplica tanto a encargos **obligatorios** como **voluntarios**. [VERIFICADO] [48]
+- ISAE 3000 (Revisada) sigue existiendo para materias **distintas** de sostenibilidad. **[NO VERIFICADO en la fuente primaria]** — confirmar en el texto de ISSA 5000/FAQ del IAASB.
+
+> ⚠️ Contexto UE: la Directiva (UE) 2026/470 aplazó al **1 de julio de 2027** la adopción por la Comisión de normas de **aseguramiento limitado**, y **eliminó** el mandato de adoptar normas de aseguramiento **razonable**. Hasta entonces rigen las normas nacionales de aseguramiento de cada Estado miembro. [VERIFICADO] [40]
+
+### 6.2 Aseguramiento limitado vs razonable
+
+| Dimensión | Aseguramiento **limitado** | Aseguramiento **razonable** |
+|---|---|---|
+| Riesgo del encargo | Se reduce a un nivel aceptable, pero **mayor** que en el razonable | Se reduce a un nivel **aceptablemente bajo** |
+| Alcance de los procedimientos | Procedimientos **limitados** respecto de los necesarios en un encargo razonable, pero planificados para obtener un nivel de seguridad **significativo** (meaningful) | Procedimientos suficientes para respaldar una opinión positiva |
+| Forma de la conclusión | **Negativa** ("no se ha puesto de manifiesto nada que nos haga pensar que...") | **Positiva** ("en nuestra opinión, la información está preparada, en todos los aspectos materiales, de conformidad con...") |
+| Nivel de seguridad | **Sustancialmente menor** que el razonable | Alto (no absoluto) |
+| Costo y esfuerzo típicos | Menor | Bastante mayor (pruebas de controles, muestreo sustantivo, recálculos) |
+
+[VERIFICADO — definiciones de ISAE 3000 (Revisada)] [46]
+
+**Implicación para el producto:** la mayoría de los reportes de sostenibilidad en LatAm y la UE parten con aseguramiento **limitado**. El salto a razonable exige que los controles internos sobre los datos ESG sean **auditables**, no solo que el número final sea correcto. De ahí la importancia de la sección siguiente.
+
+### 6.3 Principios ALCOA+ aplicados a la evidencia ESG
+
+ALCOA+ es un marco de **integridad de datos** procedente de la regulación farmacéutica (GxP). La guía oficial de la MHRA del Reino Unido lo define así [VERIFICADO] [52]:
+
+| Letra | Principio | Qué significa (resumen propio) | Traducción al expediente ESG |
+|---|---|---|---|
+| **A** | Attributable (atribuible) | Se sabe **quién** generó o modificó el dato y **cuándo** | Cada factor de emisión, factura y lectura de medidor lleva responsable identificado y fecha |
+| **L** | Legible (legible) | El dato es legible y permanece legible durante todo su ciclo de vida | Nada de fotos borrosas ni PDFs escaneados sin OCR; nombres de archivo normalizados |
+| **C** | Contemporaneous (contemporáneo) | Se registra **en el momento** en que ocurre la actividad | Las lecturas se cargan en el periodo, no reconstruidas a fin de año |
+| **O** | Original (original) | Se conserva el registro original o una copia certificada verdadera | La factura del distribuidor eléctrico, no la hoja de cálculo intermedia |
+| **A** | Accurate (exacto) | Correcto, completo, veraz y fiable | Unidades, conversiones y factores verificados; errores documentados y corregidos con traza |
+| **+C** | Complete | Incluye todos los datos, reprocesos y metadatos | Todas las sedes y meses; las exclusiones se justifican |
+| **+C** | Consistent | Secuencia cronológica y metodología coherentes | Misma metodología año a año; cambios documentados como reexpresión |
+| **+E** | Enduring | Duradero durante todo el periodo de retención | Almacenamiento estable; no solo en el correo de una persona |
+| **+A** | Available | Accesible para revisión y auditoría durante el periodo de retención | El auditor puede llegar del número del reporte al documento fuente en pocos pasos |
+
+> [SECUNDARIO — aplicación a ESG] ALCOA+ no es una norma de sostenibilidad; su traslado al ámbito ESG es una buena práctica ampliamente usada por firmas de auditoría, pero **no está codificada en ISSA 5000 ni en ESRS**. Presentarla como recomendación, no como requisito normativo.
+
+### 6.4 Qué contiene un expediente listo para auditoría
+
+Lista de trabajo derivada de los requisitos de ISAE 3000 (Revisada)/ISSA 5000, del principio de **verificabilidad** de GRI 1 y de la exigencia de **exactitud** de ESRS. **[SECUNDARIO — síntesis propia]**
+
+| Bloque | Contenido |
+|---|---|
+| **1. Gobernanza del reporte** | Quién aprueba el informe (en GRI, divulgación 2-14); acta del órgano de gobierno; organigrama del equipo de sostenibilidad; matriz RACI por indicador |
+| **2. Alcance y límites** | Entidades incluidas y excluidas y su conciliación con el perímetro de los estados financieros (GRI 2-2; NIIF S1); enfoque de consolidación de GEI elegido (control operacional o financiero) y su justificación |
+| **3. Materialidad** | Metodología, lista de grupos de interés consultados, evidencias de consulta, umbrales usados, matriz o lista priorizada, acta de aprobación (GRI 3-1/3-2; ESRS 1) |
+| **4. Por cada indicador: ficha técnica** | Definición, unidad, fórmula, fuente del dato, sistema de origen, responsable, frecuencia, controles aplicados, factores de emisión con versión y fuente, supuestos y estimaciones |
+| **5. Trazabilidad del dato** | Cadena completa: documento fuente → hoja de cálculo o sistema → agregación → cifra publicada. Cada salto debe ser reproducible |
+| **6. Reexpresiones** | Cifras del año anterior modificadas, motivo, efecto y aprobación (GRI 2-4) |
+| **7. Estimaciones y su incertidumbre** | Qué se estimó, con qué técnica, qué supuestos y qué limitaciones (principio de exactitud de GRI 1) |
+| **8. Metas** | Año base, alcance cubierto, metodología de fijación, evidencia de validación externa si la hay (por ejemplo SBTi), cálculo del progreso |
+| **9. Aseguramiento** | Alcance del encargo, norma aplicada, tipo (limitado/razonable), independencia del proveedor, carta de encargo, hallazgos y su resolución (GRI 2-5) |
+| **10. Índice y mapeo** | Índice de contenidos GRI, tabla de correspondencia GRI ↔ ESRS ↔ NIIF S2, y ubicación de cada dato |
+| **11. Control de versiones** | Registro de cambios del informe y de los archivos de cálculo; bloqueo de la versión publicada |
+
+---
+
 ## Fórmulas y métodos
 
 (pendiente)
@@ -639,3 +711,10 @@ En cualquier caso, la empresa debe **declarar expresamente en su declaración de
 43. Comisión Europea — Recomendación de la Comisión C(2025) 4984 final, de 30 de julio de 2025, sobre una norma voluntaria de información en materia de sostenibilidad para pymes (considerandos 3, 7, 8, 10, 11, 13–16). https://ec.europa.eu/finance/docs/law/250730-recommendation-vsme_en.pdf
 44. [SECUNDARIO] Referencias al número de publicación Recomendación (UE) 2025/1710 en análisis de firmas profesionales (PwC, Linklaters, HSF Kramer).
 45. Comisión Europea — Anexo I de C(2025) 4984 final (norma VSME: módulos básico B1–B11 y comprehensivo C1–C9). https://ec.europa.eu/finance/docs/law/250730-recommendation-vsme-annex-1_en.pdf
+46. IAASB — ISAE 3000 (Revised), Assurance Engagements Other than Audits or Reviews of Historical Financial Information (definiciones de aseguramiento limitado y razonable; fecha de vigencia). https://www.iaasb.org/publications/international-standard-assurance-engagements-isae-3000-revised-assurance-engagements-other-audits-or
+47. IAASB — "Assurance on a Greenhouse Gas Statement (to be withdrawn Dec. 15, 2026)" — página de proyecto de ISAE 3410. https://www.iaasb.org/consultations-projects/assurance-greenhouse-gas-statement
+48. IAASB — "ISSA 5000 Frequently Asked Questions: Applicability Matters". https://www.iaasb.org/publications/issa-5000-frequently-asked-questions-applicability-matters
+49. IAASB — "ISSA 5000 Adoption and Implementation" y "Understanding the International Standard on Sustainability Assurance 5000". https://www.iaasb.org/consultations-projects/issa-5000-adoption-and-implementation · https://www.iaasb.org/focus-areas/understanding-international-standard-sustainability-assurance-5000
+50. IAASB — International Standard on Sustainability Assurance 5000, General Requirements for Sustainability Assurance Engagements (publicación, 12 de noviembre de 2024). https://www.iaasb.org/publications/international-standard-sustainability-assurance-5000-general-requirements-sustainability-assurance
+51. IAASB/IESBA — "IAASB and IESBA Unveil New Standards and Guidance to Strengthen Sustainability Reporting and Assurance" (enero 2025). https://www.iaasb.org/news-events/2025-01/iaasb-iesba-unveil-new-standards-and-guidance-strengthen-sustainability-reporting-and-assurance
+52. MHRA (GOV.UK) — "MHRA GXP Data Integrity Guidance and Definitions", Revisión 1, marzo de 2018 (definición de ALCOA y ALCOA+). https://assets.publishing.service.gov.uk/media/5aa2b9ede5274a3e391e37f3/MHRA_GxP_data_integrity_guide_March_edited_Final.pdf

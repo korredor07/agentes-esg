@@ -2,7 +2,7 @@
 
 Fecha de investigación: 2026-09-15
 
-> **Estado del documento:** PARCIAL — en construcción. Secciones 1, 2, 3, 4 y 7 completas. Secciones 5 y 6 en investigación.
+> **Estado del documento:** COMPLETO (todas las secciones del alcance investigadas). Quedan puntos abiertos listados en §10, la mayoría por fuentes que requieren login o que bloquean el acceso automatizado.
 >
 > **Convención de etiquetas:**
 > - `[VERIFICADO]` = leído directamente en la fuente oficial primaria (PDF/XLSX/página del organismo emisor).
@@ -33,7 +33,12 @@ Fecha de investigación: 2026-09-15
 
 **Reino Unido.** La publicación vigente es **DESNZ 2026** (11-jun-2026), que **sigue usando AR5**. El factor de electricidad UK cayó **−26 %** (0,17700 → 0,13096 kgCO2e/kWh) por un cambio de método. Datos bajo **Open Government Licence v3.0**.
 
-**Convergencia útil:** Chile (HuellaChile), Perú (MINAM) y Reino Unido (DESNZ) usan **todos AR5** a septiembre de 2026. Un solo set de PCG cubre los tres.
+**PCG.** Chile (HuellaChile), Perú (MINAM), Reino Unido (DESNZ) y la UNFCCC usan **todos AR5** a septiembre de 2026. En cambio **CSRD/ESRS E1 exige "los más recientes" → AR6 de facto**, y el **Reglamento UE F-Gas 2024/573 mezcla AR4 (HFC) con AR6 (el resto)**. El GHG Protocol **recomienda** AR6 pero no lo obliga. **El motor debe soportar ambos sets y declarar cuál usa.**
+- ⚠️ **Trampa verificada:** el PCG-100 de **SF6 en AR6 es 24 300**, no 25 200. El valor 25 200 proviene de un borrador pre-edición del IPCC que sigue publicado.
+- ⚠️ **Trampa verificada:** en **combustión** de fósiles se usa **CH4 no fósil (27,0 en AR6)**, no el fósil; usar 29,8 sería doble conteo.
+- Ninguna organización publica PCG oficiales de mezclas refrigerantes: se calculan por **suma ponderada másica** (método del Anexo VI del Reglamento UE 2024/573). Esta investigación reprodujo así, **dígito a dígito**, los cuatro valores de R-404A, R-407C, R-410A y R-507A que publica HuellaChile.
+
+**Alcance 2 market-based en Chile.** Corrección importante: **Chile SÍ tiene mezcla residual**, publicada por el **Coordinador Eléctrico Nacional vía RENOVA**. HuellaChile acepta **I-REC, Green-e, RENOVA y Pulse** (lista cerrada), pero trata el market-based como **informativo**: no reduce el balance de emisiones netas, aunque **sí cuenta para el Sello de Neutralización**. La revisión del GHG Protocol se corrió a **Q4 2028**; el emparejamiento horario y la *deliverability* fueron **mayoritariamente rechazados** en consulta. **El Scope 2 Guidance de 2015 sigue vigente.**
 
 ---
 
@@ -609,15 +614,447 @@ CO2 biogénico (fuera de alcances) = 0,013921 × 112 000 = 1 559,2 kgCO2e/t
 
 ## 5. PCG a 100 años — AR5 y AR6
 
-> ⏳ **EN INVESTIGACIÓN.** Sección pendiente de completar.
+### 5.0 ⚠️ Trampa crítica: el SF6 del AR6 NO es 25 200
+
+El IPCC mantiene publicados **dos PDF distintos** del Material Suplementario del Cap.7 del AR6, y **no dan el mismo valor para SF6** [VERIFICADO — ambos leídos]:
+
+| Archivo | Estado | SF6 PCG-100 |
+|---|---|---|
+| `IPCC_AR6_WGI_Chapter_07_Supplementary_Material.pdf` | Borrador: *"ACCEPTED VERSION SUBJECT TO FINAL EDITING / Do Not Cite"* | 25 200 ❌ |
+| `IPCC_AR6_WGI_Chapter07_SM.pdf` | **Versión final publicada** | **24 300** ✅ |
+
+**El valor correcto AR6 para SF6 es 24 300.** Lo confirman de forma independiente el GHG Protocol (24 300) y el Reglamento UE 2024/573 Anexo I (24 300). **El "25 200" que circula ampliamente en internet proviene del borrador pre-edición.** El motor de cálculo debe usar 24 300.
+
+### 5.1 Tabla maestra de PCG a 100 años
+
+| Gas | **AR5** (sin cc-fb) | AR5 (con cc-fb) | **AR6** | Tabla AR5 | Tabla AR6 |
+|---|---|---|---|---|---|
+| CO2 | **1** | 1 | **1** | 8.A.1 | 7.SM.7 / 7.15 |
+| CH4 (genérico) | **28** | 34 | **27,9** | 8.A.1 / 8.7 | 7.SM.7 |
+| **CH4 fósil** | **30** | 36 ¹ | **29,8 ± 11** | 8.A.1 / 8.7 nota b | **7.15** |
+| **CH4 no fósil / biogénico** | **28** | 34 | **27,0 ± 11** | 8.A.1 | **7.15** |
+| N2O | **265** | 298 | **273 ± 130** | 8.A.1 / 8.7 | 7.15 y 7.SM.7 |
+| **SF6** | **23 500** | n/d | **24 300** ⚠️ | 8.A.1 | 7.SM.7 (final) |
+| NF3 | **16 100** | n/d | **17 400** | 8.A.1 | 7.SM.7 |
+| HFC-32 (R-32) | **677** | n/d | **771 ± 292** | 8.A.1 | 7.15 y 7.SM.7 |
+| HFC-125 | **3 170** | n/d | **3 740** | 8.A.1 | 7.SM.7 |
+| HFC-134a | **1 300** | 1 550 | **1 530** ² | 8.A.1 / 8.7 | 7.SM.7 |
+| HFC-143a | **4 800** | n/d | **5 810** | 8.A.1 | 7.SM.7 |
+| HCFC-22 (R-22) | **1 760** | n/d | **1 960** | 8.A.1 | 7.SM.7 |
+| PFC-14 (CF4, referencia) | 6 630 | 7 350 | 7 380 | 8.A.1 / 8.7 | 7.SM.7 / 7.15 |
+
+Todos [VERIFICADO].
+
+¹ AR5 Tabla 8.7 nota b indica que los valores de metano fósil son superiores en 2 unidades a 100 años → 34 + 2 = 36.
+² AR6 Tabla 7.15 da **1 526 ± 577**; Tabla 7.SM.7 da **1 530** (3 cifras significativas). Misma magnitud; 7.SM.7 es la tabla completa.
+
+> **Qué set AR5 se usa en la práctica:** el **SIN retroalimentaciones climático-carbono** (CH4 = 28, N2O = 265). Es el que exige la UNFCCC, el que usa el GHG Protocol en su columna AR5, y el del Refinamiento 2019. **Los valores con cc-fb (34 / 298) NO son los de reporte estándar.** [VERIFICADO]
+
+### 5.2 Diferencia clave AR5 → AR6 en el metano
+
+AR5 distinguía CH4 genérico (28) y "fossil methane" (30) por el **origen del carbono**. **AR6 reestructura el criterio**: la distinción pasa a ser si la oxidación del CH4 a CO2 se contabiliza aparte. [VERIFICADO]
+
+**Regla de uso del GHG Protocol (ago-2024)** [VERIFICADO]:
+
+| Usar | En |
+|---|---|
+| **CH4 fósil (29,8)** | Emisiones **fugitivas** de combustibles fósiles (petróleo y gas, minería de carbón) y procesos industriales con carbono fósil |
+| **CH4 no fósil (27,0)** | **Todo lo demás, incluida la COMBUSTIÓN** de combustibles fósiles (móvil y estacionaria) |
+
+> **Razón:** en la combustión, el CO2 de la oxidación del metano ya se contabiliza en las emisiones de CO2 de la misma fuente. Usar 29,8 sería **doble conteo**. Esto es contraintuitivo y es un error frecuente: **la combustión de diésel usa CH4 NO fósil.**
+
+### 5.3 Mezclas refrigerantes — composición y PCG
+
+**Composición másica** — [VERIFICADO] en **IPCC 2006 Vol.3 Cap.7 Tabla 7.8** (pág. 7.44), coincidente con la tabla oficial del gobierno australiano (DCCEEW):
+
+| Mezcla | Componentes | Composición másica |
+|---|---|---|
+| **R-404A** | HFC-125 / HFC-143a / HFC-134a | **44,0 / 52,0 / 4,0 %** |
+| **R-407C** | HFC-32 / HFC-125 / HFC-134a | **23,0 / 25,0 / 52,0 %** |
+| **R-410A** | HFC-32 / HFC-125 | **50,0 / 50,0 %** |
+| **R-507A** | HFC-125 / HFC-143a | **50,0 / 50,0 %** |
+
+**⚠️ NO existe publicación oficial de PCG de mezclas en AR5 ni en AR6.** Verificado explícitamente [VERIFICADO]:
+- **Reglamento UE 2024/573: NO lista mezclas.** Búsqueda de "R-404A", "R-407C", "R-410A", "R-507A" en el texto completo → **0 resultados**. El **Anexo VI** ordena calcularlas.
+- **IPCC 2006 Vol.3 Tabla 7.8:** da composición, **no** da PCG.
+- **DCCEEW (Australia):** publica PCG de mezclas, pero **solo en AR4**.
+
+**Fórmula oficial — Reglamento (UE) 2024/573, Anexo VI** [VERIFICADO]: el PCG de una mezcla es la **media ponderada másica** de los PCG de sus componentes, con tolerancia de peso de ±1 %.
+
+```
+PCG_mezcla = Σ (fracción másica_i × PCG_i)
+```
+
+**Validación del método:** aplicando la fórmula con componentes AR4 se reproducen **exactamente** los valores oficiales de DCCEEW (R-404A 3 922 ✓, R-407C 1 774 ✓, R-410A 2 088 ✓, R-507A 3 985 ✓). El método es correcto. [VERIFICADO]
+
+**Aritmética completa — [CALCULADO por suma ponderada]:**
+
+```
+R-404A = 0,44·GWP(125) + 0,52·GWP(143a) + 0,04·GWP(134a)
+  AR5: 0,44×3170 + 0,52×4800 + 0,04×1300 = 1394,8 + 2496,0 + 52,0 = 3942,8
+  AR6: 0,44×3740 + 0,52×5810 + 0,04×1530 = 1645,6 + 3021,2 + 61,2 = 4728,0
+
+R-407C = 0,23·GWP(32) + 0,25·GWP(125) + 0,52·GWP(134a)
+  AR5: 0,23×677 + 0,25×3170 + 0,52×1300 = 155,71 + 792,50 + 676,00 = 1624,21
+  AR6: 0,23×771 + 0,25×3740 + 0,52×1530 = 177,33 + 935,00 + 795,60 = 1907,93
+
+R-410A = 0,50·GWP(32) + 0,50·GWP(125)
+  AR5: 0,50×677 + 0,50×3170 = 338,5 + 1585,0 = 1923,5
+  AR6: 0,50×771 + 0,50×3740 = 385,5 + 1870,0 = 2255,5
+
+R-507A = 0,50·GWP(125) + 0,50·GWP(143a)
+  AR5: 0,50×3170 + 0,50×4800 = 1585 + 2400 = 3985
+  AR6: 0,50×3740 + 0,50×5810 = 1870 + 2905 = 4775
+```
+
+**Resumen de PCG de mezclas:**
+
+| Mezcla | PCG AR4 (oficial DCCEEW) | **PCG AR5** | **PCG AR6** | ¿Coincide con HuellaChile? |
+|---|---|---|---|---|
+| R-404A | 3 922 [VERIFICADO] | **3 942,8** [CALCULADO] | **4 728,0** [CALCULADO] | ✔ HuellaChile publica **3 942,8** |
+| R-407C | 1 774 [VERIFICADO] | **1 624,21** [CALCULADO] | **1 907,93** [CALCULADO] | ✔ HuellaChile publica **1 624,21** |
+| R-410A | 2 088 [VERIFICADO] | **1 923,5** [CALCULADO] | **2 255,5** [CALCULADO] | ✔ HuellaChile publica **1 923,5** |
+| R-507A | 3 985 [VERIFICADO] | **3 985** [CALCULADO] | **4 775,0** [CALCULADO] | ✔ HuellaChile publica **3 985** |
+
+> ✅ **VERIFICACIÓN CRUZADA INDEPENDIENTE [CALCULADO]:** esta investigación recalculó las cuatro mezclas con composición IPCC 2006 T.7.8 y componentes AR5, y reprodujo **exactamente, dígito a dígito**, los cuatro valores que publica la base oficial de HuellaChile (§2.5). Esto confirma de forma independiente: (a) que las composiciones másicas son las correctas, (b) que HuellaChile usa AR5, y (c) que la fórmula de suma ponderada es la aplicable.
 >
-> **Ya confirmado:** HuellaChile usa **AR5** [VERIFICADO, §2.5]. DESNZ 2026 usa **AR5** [VERIFICADO, §7.5].
+> *Nota de sensibilidad:* si se usa HFC-134a = 1 526 (Tabla 7.15) en lugar de 1 530 (T.7.SM.7), R-407C AR6 = 1 906 y R-404A AR6 no cambia.
+
+### 5.4 ¿Qué set exige HOY el GHG Protocol?
+
+**No exige ningún AR concreto. Exige PCG-100 del IPCC y *recomienda* el más reciente (AR6).** [VERIFICADO]
+
+Norma vigente: *Required Greenhouse Gases in Inventories — Accounting and Reporting Standard Amendment*, **febrero 2013** (reemplaza el texto del Corporate Standard 2004, Cap.6, p.45). Resumen de sus cinco reglas con palabras propias:
+
+| Regla | Fuerza |
+|---|---|
+| Usar valores de PCG a **100 años** del IPCC | `shall` (obligatorio) |
+| Usar los del Informe de Evaluación **más reciente** | `should` (recomendado); `may` usar otros |
+| Usar PCG de **un solo Informe** para un mismo inventario, cuando sea posible | `shall` |
+| Usar los mismos PCG para el periodo actual y el año base | `should` |
+| **Declarar la fuente de los PCG** e indicar si se usó más de un Informe | `shall` (obligatorio) |
+
+Documento de valores: *IPCC Global Warming Potential Values*, **versión 2.0, 7 de agosto de 2024** ("Updated with AR6 values"), que indica que *"se recomienda el uso de los valores más recientes (AR6)"*. Publica tres columnas: AR4 / AR5 / AR6. [VERIFICADO]
+
+**Conclusión operativa:** AR6 es **recomendado, no obligatorio**, por el GHG Protocol en sí. Lo que fuerza AR6 en la práctica son los marcos aguas abajo (CSRD/ESRS, CDP, SBTi). **Es obligatorio declarar qué AR se usó.**
+
+### 5.5 Cuadro de síntesis: qué set exige cada marco (septiembre 2026)
+
+| Marco | Set exigido | Carácter | Fuente | Etiqueta |
+|---|---|---|---|---|
+| **GHG Protocol Corporate Standard** | PCG-100 IPCC, cualquier AR; **AR6 recomendado** | `shall` (100 yr) + `should` (más reciente) | Enmienda feb-2013 + doc. GWP v2.0 ago-2024 | [VERIFICADO] |
+| **UNFCCC / ETF** | **AR5** | **obligatorio** | Decisión 18/CMA.1, Anexo §37 | [VERIFICADO] |
+| **CSRD / ESRS E1** | *"los más recientes"* → **AR6** de facto | **obligatorio** | Reg. Delegado (UE) 2023/2772, ESRS E1 **AR 39 (d)** | [VERIFICADO] |
+| **UE F-Gas 2024/573** | **AR4** (HFC) + **AR6** (resto) | **obligatorio** | Anexos I–III y VI | [VERIFICADO] |
+| **HuellaChile (Chile)** | **AR5** | obligatorio en la plataforma | Base de factores v2 2025 | [VERIFICADO] |
+| **Huella de Carbono Perú (MINAM)** | **AR5** | obligatorio en la plataforma | RAGEI 2019 / INFOCARBONO | [VERIFICADO] |
+| **DESNZ 2026 (Reino Unido)** | **AR5** | base de los factores publicados | Hoja `Introduction` | [VERIFICADO] |
+| Montreal / Kigali | **AR4** | obligatorio | Consistencia con línea base | [SECUNDARIO] |
+
+> ⚠️ **Desfase estructural que el motor debe modelar:** **AR5 para inventarios nacionales (UNFCCC) y para los programas de Chile, Perú y UK; AR6 para reporte corporativo europeo (ESRS).** Una misma empresa chilena con matriz europea puede necesitar **ambos sets simultáneamente**. El motor debe permitir seleccionar el set y **declararlo en la salida**.
+
+### 5.6 Reglamento UE F-Gas 2024/573 — qué set usa
+
+**Mezcla de AR4 y AR6. Nunca AR5.** [VERIFICADO]
+
+El preámbulo establece que el PCG de los **HFC** se calcula con base en el **Cuarto Informe (AR4)**, y que para los **demás gases fluorados** se usa el **Sexto Informe (AR6)**.
+
+| Anexo / Sección | Contenido | Base PCG-100 |
+|---|---|---|
+| **Anexo I, Sección 1** | HFC | **AR4** |
+| **Anexo I, Sección 2** | PFC | **AR6** |
+| **Anexo I, Sección 3** | Otros (per)fluorados y nitrilos fluorados | **AR6** |
+| **Anexo II** | HFO/HCFO insaturados, anestésicos inhalados | **AR6** |
+| **Anexo III** | Éteres, cetonas, alcoholes fluorados | **AR6** |
+| Columna "20 years-GWP" | Solo informativa | **AR6** |
+
+**Valores exactos del Anexo I** [VERIFICADO]:
+
+| Sustancia | Anexo I PCG-100 | PCG-20 (AR6, informativo) | Base |
+|---|---|---|---|
+| HFC-23 | 14 800 | 12 400 | AR4 |
+| **HFC-32** | **675** | 2 690 | AR4 |
+| **HFC-125** | **3 500** | 6 740 | AR4 |
+| **HFC-134a** | **1 430** | 4 140 | AR4 |
+| **HFC-143a** | **4 470** | 7 840 | AR4 |
+| PFC-14 (CF4) | 7 380 | 5 300 | AR6 |
+| **SF6** | **24 300** | 18 200 | AR6 |
+| **NF3** | **17 400** | 13 400 | AR6 |
+
+El **Anexo VI** añade una tabla de PCG de sustancias **no fluoradas** para el cálculo de mezclas: CH4 = **27,9**, N2O = **273**, dimetiléter = 1, cloruro de metileno = 11,2, cloruro de metilo = 5,54, cloroformo = 20,6, etano (R-170) = 0,437, propano (R-290) = 0,02, butano (R-600) = 0,006, isobutano (R-600a) = 0. [VERIFICADO] La Comisión puede modificar los Anexos I, II, III y VI por acto delegado ante nuevos informes del IPCC.
+
+### 5.7 CSRD / ESRS E1 (EFRAG) — qué set
+
+**No nombra ningún AR. Exige "los más recientes", lo que hoy equivale a AR6.** [VERIFICADO]
+
+Fuente: **Reglamento Delegado (UE) 2023/2772, Anexo I, ESRS E1, párrafo AR 39 (d)** (requisito de aplicación del DR E1-6). Establece que se deben usar los **valores de PCG más recientes publicados por el IPCC, horizonte 100 años**, para calcular el CO2eq de los gases distintos del CO2. Requisito idéntico en **AR 58 (h)** para absorciones (DR E1-7).
+
+AR 39 (c) enumera los gases obligatorios: **CO2, CH4, N2O, HFC, PFC, SF6 y NF3**, más otros cuando sean significativos.
+
+AR 39 (b) obliga además a divulgar metodologías, supuestos significativos y factores de emisión con justificación — es decir, **hay que declarar explícitamente el AR usado**.
+
+> **Consecuencia:** al exigir "los más recientes", **ESRS E1 apunta de facto a AR6**, y es el marco **más exigente** para un reportante europeo — más que el propio GHG Protocol, que solo lo recomienda.
+
+### 5.8 Estado de la revisión del GHG Protocol 2025–2026 (PCG)
+
+Fuente: **Consolidated Standard Development Plan (SDP) v2.0, 29 de julio de 2026**, que consolida y deroga los cuatro SDP v1.0 del 20-dic-2024. [VERIFICADO]
+
+El SDP lista explícitamente en el alcance del Corporate Standard (sección 6.e) las *"Actualizaciones a los requisitos actuales sobre GEI obligatorios y valores de PCG"*, con cuatro sub-puntos [VERIFICADO]:
+
+1. Integrar la enmienda de 2013 **dentro** del Corporate Standard.
+2. Revisar **qué GEI son obligatorios** (incluidos los no cubiertos por la CMNUCC).
+3. **Clarificar qué Informe de Evaluación del IPCC debe usarse** para los PCG.
+4. **Reconsiderar el PCG a 100 años como única métrica obligatoria** y evaluar añadir un **PCG a 20 años**, en particular para gases de vida corta como el metano.
+
+> ⚠️ **No ha salido ningún borrador de norma consultable.** Lo publicado en 2025–2026 son *Progress Updates* de Fase 1 y la consulta específica de Alcance 2 (§6.8). Las fechas "final 2027 / adopción 2028" que circulan en blogs comerciales **no coinciden** con el SDP oficial: **consulta Q2-2027, publicación Q4-2028**. [VERIFICADO]
+
+### 5.9 UNFCCC / ETF — AR5 obligatorio
+
+**Decisión 18/CMA.1, Anexo (MPGs), párrafo 37** [VERIFICADO]: cada Parte **debe** usar los valores de PCG a 100 años del **Quinto Informe del IPCC (AR5)**, o los de un informe posterior **si así lo acuerda la CMA**, para reportar emisiones y absorciones agregadas en CO2eq. Las Partes pueden usar adicionalmente otras métricas como información suplementaria, declarando su origen.
+
+> **A la fecha la CMA no ha adoptado una decisión de migración a AR6.** Los inventarios nacionales siguen en **AR5 sin cc-fb (28 / 265)**.
 
 ---
 
 ## 6. Alcance 2 basado en mercado en Chile (I-REC, mezcla residual)
 
-> ⏳ **EN INVESTIGACIÓN.** Sección pendiente de completar.
+### 6.0 ⚠️ Corrección a una suposición muy extendida
+
+**Chile SÍ tiene un factor de mezcla residual publicado.** No lo publica el Ministerio de Energía, ni la CNE, ni el AIB/RE-DISS: lo publica el **Coordinador Eléctrico Nacional** a través de la plataforma **RENOVA**, con metodología propia alineada al GHG Protocol elaborada con apoyo del Ministerio de Energía. **HuellaChile lo recomienda expresamente.** [VERIFICADO]
+
+### 6.1 I-REC en Chile — institucionalidad
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Local Issuer I-REC(E) | **SCX — Santiago Climate Exchange** (Bolsa de Clima de Santiago S.A.), entidad privada | [VERIFICADO] |
+| Desde cuándo | SCX declara ser emisor local **desde 2018** | [VERIFICADO — autodeclarado] |
+| Primer registro de planta chilena | 2016-01-01 | [VERIFICADO] |
+| Primera emisión de I-REC en Chile | 2017-01-31 | [VERIFICADO] |
+| Registrantes en Chile | **79 Registrants** + 49 Participants + 1 Issuer (acumulado a ago-2026) | [VERIFICADO] |
+| Registro (registry) | **Evident** (Xpansiv) — Registry Operator y Code Manager | [VERIFICADO] |
+| Gobernanza del estándar | **I-TRACK Foundation** (ex International REC Standard Foundation) | [VERIFICADO] |
+
+### 6.2 Volúmenes de I-REC en Chile
+
+Fuente primaria: *Xpansiv I-REC Registry Aggregate Data*, agosto 2026 (periodo 2014-01-01 a 2026-08-01, compilado 2026-09-01), agregando por `Country Name = Chile`. [VERIFICADO]
+https://www.trackingstandard.org/wp-content/uploads/I-REC-Registry-Data-August-2026.xlsx
+
+| Año | MWh emitidos (issuance) | MWh redimidos (beneficiario en Chile) |
+|---|---:|---:|
+| 2017 | 32 168 | — |
+| 2018 | 240 832 | — |
+| 2019 | 370 950 | — |
+| 2020 | 1 059 803 | — |
+| 2021 | 2 522 595 | 1 089 331 |
+| 2022 | 11 538 082 | 8 243 748 |
+| 2023 | 17 908 146 | 15 486 090 |
+| **2024** | **24 346 931** | **16 426 542** |
+| **2025** | **25 436 217** | **17 861 163** |
+| **2026 (ene–ago)** | **23 352 873** | **16 570 424** |
+| **TOTAL acumulado** | **106 808 595** (106,8 TWh) | **76 283 475** (76,3 TWh) |
+
+**Instalaciones registradas:** 402 históricas / **382 activas**, **14 767,3 MW** de capacidad activa. Por tecnología: Solar 305 · Hidro 53 · Eólica 41 · Bioenergía 2 · Geotermia 1. [VERIFICADO]
+
+**Emisión acumulada por tecnología (MWh):** Hidroeléctrica 55 857 116 · Solar 31 409 785 · Eólica 19 324 208 · Bioenergía 120 151 · Geotermia 97 335. [VERIFICADO]
+
+> **Dato relevante:** el **99,9 %** de los I-REC emitidos en Chile se redimen en Chile; las exportaciones son marginales. [VERIFICADO]
+>
+> **Contraste cruzado:** SCX publica "106 518 GWh emitidos, 359 plantas registradas" a jun-2026, coherente con el registro oficial. [VERIFICADO cruzado]
+
+### 6.3 Otros instrumentos usables para market-based en Chile
+
+| Instrumento | Qué es | ¿Aceptado por HuellaChile? | Etiqueta |
+|---|---|---|---|
+| **RENOVA** | Registro Nacional de Energías Renovables. Trazabilidad nacional en blockchain, administrada por el **Coordinador Eléctrico Nacional**. **Sin costo.** Granularidad horaria; 1 atributo = 1 MWh; requiere cross-check comprador/vendedor | **Sí** | [VERIFICADO] |
+| **I-REC** | Estándar internacional, emisor local SCX | **Sí** | [VERIFICADO] |
+| **Green-e** | https://www.green-e.cl/ | **Sí** | [VERIFICADO] |
+| **Pulse** | Plataforma de trazabilidad de Transelec (blockchain) | **Sí** | [VERIFICADO] |
+| **PPAs** | Contratos con fuente especificada | Solo si se inscriben en RENOVA/Pulse o vienen con certificado I-REC/Green-e | [VERIFICADO] |
+| **Atributos ERNC Ley 20.257** | ❌ **NO usable directamente por el consumidor final** | **No** | [VERIFICADO] |
+
+> **Punto contraintuitivo e importante sobre la Ley 20.257:** la obligación de cuota ERNC recae sobre las **generadoras**; *"no existe una obligación de asignar esa energía renovable a usuarios finales en particular"*. Es un atributo de cumplimiento regulatorio del generador, **no un instrumento contractual transferible al consumidor**. Sí se usa como insumo del cálculo de RENOVA para evitar doble conteo. [VERIFICADO — Coordinador Eléctrico Nacional, *Trazabilidad de energías renovables en el mercado eléctrico*, 2022]
+>
+> El mismo documento advierte que los certificados **autoemitidos por generadoras** ("nuestro suministro es X % renovable") **no cumplen el estándar GHG**, porque no provienen de un balance del sistema completo ni de un registro único trazable. [VERIFICADO]
+
+**Volúmenes RENOVA** (Coordinador Eléctrico Nacional, presentación del 04-03-2026) [VERIFICADO]:
+
+| Año | GWh trazados | Clientes acreditados |
+|---|---:|---:|
+| 2020 | 4 068 | 5 |
+| 2021 | 7 812 | 72 |
+| 2022 | 11 478 | 175 |
+| 2023 | 20 058 | 206 |
+| **2024** | **21 835** | **248** |
+
+Además, **179 clientes libres terminaron 2024 con factor de emisión igual a 0** por su consumo eléctrico. [VERIFICADO]
+
+### 6.4 Mezcla residual en Chile
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| ¿Existe? | **SÍ** | [VERIFICADO] |
+| Quién lo calcula y publica | **Coordinador Eléctrico Nacional**, vía plataforma **RENOVA** | [VERIFICADO] |
+| Metodología | *Guía de Metodología de Cálculo de Factores de Emisión en RENOVA*, **abril 2022**, elaborada con apoyo del Ministerio de Energía (Unidad de Cambio Climático) | [VERIFICADO] |
+| URL metodología | https://www.coordinador.cl/wp-content/uploads/2022/04/guia-Factor-Emision-Renova.pdf | |
+| Dónde se publica el valor | https://www.coordinador.cl/renova/ — la guía indica que debe ser **público y disponible para todas las organizaciones**, siguiendo el GHG Protocol | [VERIFICADO] |
+| Origen institucional | Mesa público-privada de certificados de energías renovables convocada por el Ministerio de Energía en 2018 | [VERIFICADO] |
+| Vínculo con HuellaChile | **Convenio formal** entre el Coordinador y HuellaChile (MMA): RENOVA acredita créditos ERNC (MWh) y el factor residual (tCO2/MWh) para "Emisiones indirectas por energía importada" | [VERIFICADO] |
+
+**Definición operativa (resumida con palabras propias):** el factor residual distribuye las emisiones operacionales de generación del SEN sobre la generación bruta, **excluyendo del denominador la generación renovable cuyo atributo ya fue asignado** a alguna organización mediante contrato o certificado trazado. La guía anticipa que el residual debería ser **numéricamente superior** al factor promedio del SEN.
+
+RENOVA calcula además un **"factor de emisión propio de cliente"**: `(atributos de consumo residual × factor residual) / consumo total`. Si el cliente cubre el 100 % con atributos trazados, su factor propio = **0**.
+
+**Valores conocidos:**
+
+| Año | Factor residual (tCO2e/MWh) | FE promedio SEN (tCO2e/MWh) | Etiqueta |
+|---|---:|---:|---|
+| 2020 | ≈ 0,4040 | 0,3834 | [SECUNDARIO] |
+| **2021** | **0,4328** | 0,41994 | **[VERIFICADO]** |
+| 2022 | **no encontrado** | 0,32736 | [NO VERIFICADO] |
+| 2023 | **no encontrado** | 0,25587 | [NO VERIFICADO] |
+| 2024 | **no encontrado** | 0,21314 | [NO VERIFICADO] |
+| 2025 | **no encontrado** | 0,24672 | [NO VERIFICADO] |
+
+> En 2021 el residual (432,8 kgCO2e/MWh) es **~3 % mayor** que el promedio (419,9), consistente con lo que anticipa la metodología. [CALCULADO]
+
+### 6.5 ⚠️ Vacío técnico: RENOVA no se reconcilia con I-REC
+
+**El factor residual de RENOVA solo descuenta los atributos trazados EN RENOVA. No descuenta la emisión/redención de I-REC.** Los dos sistemas conviven sin reconciliación pública:
+
+| Magnitud | Valor |
+|---|---:|
+| Redenciones I-REC con beneficiario en Chile, 2025 | ~17,9 TWh |
+| Energía trazada en RENOVA, 2024 | ~21,8 TWh |
+| Generación total del SEN, 2025 | ~85 064 GWh |
+
+Si hay solapamiento parcial entre ambos universos, el factor residual publicado **subestima** la intensidad real del remanente no reclamado → **riesgo de doble contabilidad entre consumidores**, precisamente lo que el Criterio 8 del Alcance 2 busca prevenir.
+
+> **[ANÁLISIS PROPIO — no verificado en fuente]** No se encontró ningún documento público que reconcilie ambos registros. **Probablemente el mayor vacío técnico del Alcance 2 market-based en Chile hoy.** Coherentemente, ACERA impulsa "una plataforma independiente de registro y trazabilidad energética" con supervisión del Ministerio de Energía, el MMA y el Coordinador [SECUNDARIO].
+
+### 6.6 Lo que NO existe para Chile
+
+| Fuente | Estado | Etiqueta |
+|---|---|---|
+| **AIB / RE-DISS** | ❌ Solo mercados europeos. Chile **no** incluido | [VERIFICADO] |
+| Ministerio de Energía / CNE (Energía Abierta) | Publica el FE **promedio/operacional** del SEN. **No publica mezcla residual** | [VERIFICADO] |
+| Base de factores de HuellaChile | Contiene **solo** el FE promedio del SEN. **No incluye** el factor residual (0 coincidencias de "residual"/"RENOVA" en todas las hojas) | [VERIFICADO] |
+| Metodología NORSUS/I-REC (OR.15.23, 2023) | **No menciona a Chile** en ninguna de sus 17 páginas | [VERIFICADO] |
+| Dashboard de mezcla residual de I-TRACK | Lanzado 10-dic-2024, años 2020–2023, basado en *Our World in Data*. **Indicativo, no oficial.** Valores de Chile no leídos (dashboard interactivo) | [VERIFICADO parcial] |
+
+### 6.7 Criterios de calidad del Alcance 2 del GHG Protocol
+
+Ubicación exacta: *Scope 2 Guidance* (**2015**), **Capítulo 7, Tabla 7.1 "Scope 2 Quality Criteria"**; explicación ampliada en la **sección 7.5**.
+https://ghgprotocol.org/scope-2-guidance
+
+> Los criterios son **neutrales respecto de la política pública**: no exigen adicionalidad ni antigüedad de la planta. Son requisitos sobre las **características del instrumento**, no de elegibilidad de la planta.
+
+**Resumen con palabras propias.** Todo instrumento contractual usado en market-based debe (1–5):
+
+1. **Portar el atributo de tasa de emisión** — debe transmitir la intensidad de GEI del MWh generado. No basta con declarar "es renovable".
+2. **Ser el único portador de ese reclamo** — ningún otro instrumento puede transmitir el mismo reclamo sobre esa misma generación. Es el criterio anti-doble-conteo del lado de la oferta.
+3. **Ser rastreado y cancelado/retirado a nombre del reportante** — debe existir un acto verificable de redención. Un certificado no retirado no sirve.
+4. **Emitirse y redimirse lo más cerca posible del periodo de consumo** al que se aplica. *(Criterio que la revisión 2025-26 quiso endurecer a emparejamiento horario.)*
+5. **Provenir del mismo mercado** donde están las operaciones consumidoras. *(Criterio que la revisión quiso endurecer a "deliverability".)*
+
+Los factores específicos de comercializadora deben además (6):
+
+6. **Calcularse sobre electricidad entregada**, incorporando los certificados retirados a nombre de sus clientes. La electricidad renovable cuyos atributos ya se vendieron por separado debe caracterizarse con la **mezcla residual** dentro de ese factor.
+
+Quien compra directo a un generador o autoconsume debe además (7):
+
+7. **Asegurar exclusividad total del reclamo**: todos los instrumentos se transfieren únicamente al reportante; nadie más puede reclamar esa electricidad.
+
+Y para poder usar cualquier instrumento contractual (8):
+
+8. **Debe existir una mezcla residual ajustada** que caracterice la intensidad de la electricidad no reclamada, disponible públicamente para el resto de consumidores — **o bien el reportante debe declarar su ausencia**. Es el criterio de cierre del sistema.
+
+**Regla de respaldo:** si un instrumento no cumple los criterios, no se descarta el reporte: se baja al siguiente nivel de la jerarquía.
+
+**Jerarquía de factores del método market-based — Capítulo 6, Tabla 6.3** (de mayor a menor precisión):
+
+| Nivel | Tipo de factor | Ejemplos |
+|---|---|---|
+| 1 | Certificados de atributos energéticos (EACs) o equivalentes | RECs, Garantías de Origen (UE), **I-REC**, PPA con transferencia de certificado |
+| 2 | Contratos de electricidad de fuente especificada (PPAs) sin sistema de certificados | Contratos que transfieren atributos |
+| 3 | Tasas de emisión de la comercializadora (producto estándar o verde) | Tarifas verdes |
+| 4 | **Mezcla residual** (nacional o subnacional) | RE-DISS (UE), **RENOVA (Chile)** |
+| 5 | Otros factores de red promedio | eGRID (EE.UU.), DESNZ (RU), **FE SEN (Chile)** |
+
+**Si no hay mezcla residual:** se baja al nivel 5 (el resultado market-based queda idéntico al location-based) **y existe una obligación de divulgación (`shall`)**: declarar que no existe factor ajustado y que **esto puede generar doble contabilidad entre consumidores**.
+
+> **Implicancia práctica para Chile:** como **sí existe** el residual de RENOVA, una empresa chilena que reporte market-based **no debería** usar el promedio del SEN para su energía no cubierta — debería usar el residual (nivel 4 antes que nivel 5). Si el residual del año no está disponible, **HuellaChile instruye usar el del año inmediatamente anterior**. [VERIFICADO]
+
+### 6.8 Estado de la revisión 2025–2026 del GHG Protocol
+
+| Fecha | Hito | Etiqueta |
+|---|---|---|
+| **01-ago-2025** | El **Independent Standards Board (ISB)** aprueba someter a consulta pública las revisiones del Alcance 2 (**votación 10 a 1**) | [VERIFICADO] |
+| 01-ago-2025 | El ISB **RECHAZA** avanzar el *Marginal Impact Method* / emisiones evitadas (**7 en contra, 4 a favor**); se deriva al workstream *Actions and Market Instruments* (AMI) | [VERIFICADO] |
+| 14-oct-2025 | Blog técnico del GHGP sobre emparejamiento horario y *deliverability* | [VERIFICADO] |
+| **20-oct-2025** | **Abren** las consultas públicas | [VERIFICADO] |
+| **31-ene-2026** | **Cierran** ambas consultas | [VERIFICADO] |
+| **29-jul-2026** | GHGP publica el *Scope 2 Public Consultation Summary of Feedback* (122 pp.) | [VERIFICADO] |
+| **29-jul-2026** | GHGP anuncia la **consolidación con ISO**: fusión de la suite corporativa con **ISO 14064-1** en un único estándar global armonizado | [VERIFICADO] |
+| Q2 2027 | Consulta pública del borrador **consolidado** GHGP + ISO | [VERIFICADO] |
+| Q3 2027 | Consulta formal del estándar **AMI** | [VERIFICADO] |
+| **Q4 2028** | **Publicación final** del estándar corporativo (se corrió un año por la armonización ISO) | [VERIFICADO] |
+
+> ➡️ **Mientras tanto, el Scope 2 Guidance de 2015 sigue plenamente vigente.** El motor de cálculo debe implementarlo tal cual.
+
+**Qué se propuso:**
+
+| Propuesta | Contenido |
+|---|---|
+| Criterio 4 → **emparejamiento horario** | Emparejar instrumentos con el consumo **hora a hora** en vez de anualmente; jerarquía de perfiles de carga donde no haya datos horarios |
+| Criterio 5 → **deliverability** | La electricidad debe poder ser plausiblemente parte de la mezcla que sirve al reportante vía red conectada; **regiones fijas de deliverability** como proxy |
+| **Standard Supply Service (SSS)** | La energía limpia mandatada o financiada públicamente se asigna **prorrata** a todos los consumidores; el resto queda fuera del mercado voluntario |
+| **Mezcla residual redefinida** | Excluir el SSS del cálculo. Se aclara que el emparejamiento horario **NO** sería exigible para aplicar el residual |
+| **Factor fósil por defecto** | Donde no haya emparejamiento ni residual, reemplazar el promedio de red por un **factor fósil** |
+| Medidas de factibilidad | Umbrales de exención por volumen y tamaño; cláusula de legado; implementación por fases |
+| **Sin cambio** | Se mantiene el **reporte dual obligatorio** (location-based + market-based) |
+
+**Resultados de la consulta (n ≈ 1 100 respuestas de 56 países; América Latina y el Caribe: 23, un 2,1 %):** [VERIFICADO]
+
+| Propuesta | Apoyo | Neutral | **Rechazo** |
+|---|---:|---:|---:|
+| **Emparejamiento horario** (P71, n=909) | 22 % | 7 % | **70 %** |
+| — Empresas | 12 % | 7 % | 82 % |
+| — América Latina y el Caribe | 18 % | 18 % | 65 % |
+| — Proveedores de datos/software | 81 % | 0 % | 19 % |
+| **Deliverability** (P83, n=875) | 30 % | 11 % | **59 %** |
+| **Redefinición de mezcla residual** (P113, n=537) | **59 %** | 18 % | 23 % |
+| — **América Latina y el Caribe** | **75 %** | 25 % | **0 %** |
+
+> **Preocupación recogida literalmente, relevante para Chile y Perú:** *"en mercados en desarrollo con datos limitados, un factor fósil por defecto podría elevar las emisiones reportadas de formas que afecten las condiciones de financiamiento para inversión en energía limpia"*. [VERIFICADO]
+
+**Lectura para Chile [ANÁLISIS PROPIO]:** Chile es un caso extremo de "solar de día" (solar+eólica cerca del 80 % en algunas horas) mientras la emisión de I-REC está dominada por hidro, así que el problema que motiva el horario es material. Pero **RENOVA ya registra con granularidad horaria**, lo que posiciona a Chile mejor que la mayoría de mercados I-REC ante un eventual requisito horario. El riesgo a monitorear es *deliverability*: si se definen fronteras **subnacionales**, el atributo del norte podría dejar de ser reclamable por consumo en el centro-sur.
+
+### 6.9 ¿Reconoce HuellaChile el market-based y los I-REC?
+
+**Sí, pero con estatus asimétrico: el market-based es SOLO INFORMATIVO en el inventario y NO reduce el balance de emisiones netas. Sin embargo, SÍ aplica para el Sello de Neutralización.**
+
+Documento primario: *Contratos de energía renovable — Cuantificación de emisiones indirectas por uso de energía importada*, HuellaChile/MMA, **septiembre 2023** [VERIFICADO — texto completo leído]
+https://huellachile.mma.gob.cl/wp-content/uploads/2025/04/HuellaChile-Contratos-de-energia-renovable-y-emisiones-por-energia-importada-01092023-1.pdf
+
+| Aspecto | Qué establece HuellaChile |
+|---|---|
+| **Método obligatorio** | **Location-based**, con el FE del SEN (o del sistema mediano que corresponda) |
+| **Estatus del market-based** | **Informativo.** Tablas 10 y 11 del informe. *"El método de mercado queda como informativo, por lo que no se verá reflejado en el balance de emisiones netas de GEI"* |
+| **Excepción** | **Para postular al Sello de Neutralización, el método de mercado SÍ se considera** |
+| **Doble reporte** | Organizaciones con contratos de energía renovable **deben** presentar ambos métodos |
+| **FE del atributo** | **0 tCO2e** para la energía respaldada por certificados de terceros |
+| **Energía NO cubierta** | Se multiplica por el **factor de emisión residual de la red** (el de RENOVA) |
+| **Si falta el residual del año** | Usar el del **año inmediatamente anterior** |
+| **Instrumentos aceptados** | **I-REC, Green-e**, y contratos inscritos en **RENOVA** o **Pulse**. Textual: *"solo se aceptan los certificados y sistemas mencionados"* — **lista cerrada** |
+| **Evidencia exigida (Tabla 11)** | Nombre del proyecto · Tecnología · **Vintage** · Créditos retirados · Registro del retiro (**Evident Registry** para I-REC) · Fecha de retiro · **Códigos identificadores (rango desde–hasta)** · **Enlace web de verificación** |
+
+**Ejemplo de cálculo oficial (Tabla 10):** consumo total 2 000 MWh · renovable 1 500 MWh · participación ERNC 75 % · **residual: 500 MWh × 0,4328 tCO2e/MWh**. [VERIFICADO]
+
+**Estado de actualización:** se revisaron Recursos → Material de Apoyo, las bases de factores 2024 y 2025 (mayo 2026) y el webinar organizacional del 12-03-2026. **No hay actualización de la doctrina de Alcance 2 posterior a septiembre de 2023.** [VERIFICADO por ausencia]
+
+### 6.10 Contexto regulatorio complementario (Chile)
+
+La **NCG 461 de la CMF** (nov-2021) hace obligatoria la divulgación de Alcance 1 y 2 para emisores registrados. La **NCG 519** (29-10-2024) la modifica e incorpora la adopción obligatoria de **NIIF S1/S2**, con vigencia para los ejercicios anuales **2026** y primer reporte en **2027**. NIIF S2 exige divulgar Alcance 2 **location-based** y, si se usa market-based, información adicional — un régimen **distinto** al de HuellaChile. [SECUNDARIO — no se verificó el texto de la NCG 519 en fuente primaria de la CMF]
 
 ---
 
@@ -894,6 +1331,36 @@ Cuatro cambios, según la hoja oficial `What's new` [VERIFICADO]:
 
 > **NO hubo migración a AR6** en DESNZ ni en 2025 ni en 2026 [VERIFICADO].
 
+### 9.5 GHG Protocol — cronología de la revisión 2024–2028
+
+| Fecha | Hito | Etiqueta |
+|---|---|---|
+| 20-dic-2024 | Publicación de los **4 SDP v1.0** (Corporate Standard, Scope 2, Scope 3, Actions & Market Instruments) | [VERIFICADO] |
+| **ago-2024** | GHG Protocol publica *IPCC Global Warming Potential Values* **v2.0**, incorporando AR6 y recomendando su uso | [VERIFICADO] |
+| **01-ago-2025** | El ISB aprueba la consulta pública del Alcance 2 (10 a 1) y **rechaza** el *Marginal Impact Method* (7 a 4) | [VERIFICADO] |
+| sep-2025 | **Alianza estratégica GHG Protocol – ISO** | [VERIFICADO] |
+| **20-oct-2025** | Abren las consultas públicas (Alcance 2 + contabilidad consecuencial del sector eléctrico) | [VERIFICADO] |
+| nov-2025 | Mandato de la Presidencia de la COP30 a GHG Protocol e ISO | [VERIFICADO] |
+| dic-2025 | *Corporate Standard – Phase 1 Progress Update* | [VERIFICADO] |
+| **31-ene-2026** | **Cierran** ambas consultas (plazo extendido desde el 19-dic-2025) | [VERIFICADO] |
+| Q1 2026 | ISO/TC 207/SC 7/WG4 se integra a los TWG; ISO entra al ISB como *Observing Entity* | [VERIFICADO] |
+| 31-mar-2026 | *Scope 3 – Phase 1 Progress Update*; RFI del workstream AMI | [VERIFICADO] |
+| **29-jul-2026** | *Scope 2 Public Consultation Summary of Feedback* (122 pp.) + **SDP consolidado v2.0** + anuncio de **fusión con ISO 14064-1** | [VERIFICADO] |
+| Q3–Q4 2026 | El TWG de Alcance 2 procesa el feedback; el ISB decide revisiones post-consulta | [VERIFICADO] |
+| **Q2 2027** | Consulta pública del **borrador consolidado único** GHGP + ISO | [VERIFICADO] |
+| Q3 2027 | Consulta formal del estándar **AMI** | [VERIFICADO] |
+| **Q4 2028** | **Publicación final** del estándar corporativo | [VERIFICADO] |
+
+> **Implicación para el motor:** durante toda la vida útil previsible de esta primera versión del motor, **rigen el Corporate Standard 2004 (con enmienda 2013) y el Scope 2 Guidance 2015**. No anticipar cambios.
+
+### 9.6 Cambios normativos en la UE (contexto)
+
+| Norma | Estado | Etiqueta |
+|---|---|---|
+| **Reglamento (UE) 2024/573** (F-Gas) | Vigente. Usa **AR4 para HFC y AR6 para el resto**. Anexo VI define el cálculo de mezclas | [VERIFICADO] |
+| **ESRS E1** (Reg. Delegado UE 2023/2772) | Vigente. Exige PCG "más recientes" a 100 años → **AR6** de facto | [VERIFICADO] |
+| ESRS enmendados ("Quick Fix"/Omnibus) | EFRAG los remitió a la Comisión en **nov-2025**; adopción esperada hacia 2026, aplicación desde 2027. **No se pudo confirmar si AR 39(d) cambia** | [NO VERIFICADO] |
+
 ---
 
 ## 10. Pendientes y dudas
@@ -947,7 +1414,22 @@ Cuatro cambios, según la hoja oficial `What's new` [VERIFICADO]:
 14. **[NO VERIFICADO] Densidades oficiales DESNZ** (hoja `Fuel properties`). Los valores de gasolina 0,750 / diésel 0,832 / kerosene 0,803 / GLP 0,530 kg/L circulan en recopiladores terciarios pero **no se verificaron** contra la hoja oficial.
 15. **[NO VERIFICADO] Cambio de densidad del petrol 100 % mineral en DESNZ** entre 2025 y 2026 (el factor por litro cambió pero el factor por tonelada no).
 
+16. **[NO VERIFICADO] Factor de emisión residual de RENOVA para 2022, 2023, 2024 y 2025.** `coordinador.cl` devuelve **HTTP 403** a acceso automatizado. **Alta prioridad.** Acceder manualmente desde navegador a https://www.coordinador.cl/renova/ , https://www.coordinador.cl/renova/renova-documentos/ y https://www.coordinador.cl/renova/renova-informa/ , o escribir a **renova@coordinador.cl**. Único valor verificado: **0,4328 tCO2e/MWh (2021)**.
+17. **[NO VERIFICADO] Reconciliación RENOVA ↔ I-REC.** No existe documento público. **Es el vacío técnico más importante del Alcance 2 market-based en Chile.** Consultar a renova@coordinador.cl y a SCX si la emisión I-REC se descuenta del cálculo del residual.
+18. **[SECUNDARIO, por confirmar] Factor residual 2020 de Chile (≈0,4040 tCO2e/MWh).** Falta fuente primaria.
+19. **[NO VERIFICADO] Valores de Chile en el dashboard de mezcla residual de I-TRACK** (2020–2023): https://www.trackingstandard.org/i-rece-residual-mix/ — dashboard interactivo. **Recordar: son indicativos, basados en *Our World in Data*, NO oficiales; el residual de RENOVA tiene prelación.**
+20. **[NO VERIFICADO] Texto de la NCG 519 de la CMF** y su tratamiento del market-based bajo NIIF S2: https://www.cmfchile.cl/portal/principal/613/w3-article-51820.html
+21. **[NO VERIFICADO] Errata oficial del IPCC sobre el SF6 del AR6** (25 200 → 24 300): https://www.ipcc.ch/report/ar6/wg1/errata/ devuelve **HTTP 403**. La evidencia documental (dos PDF en ipcc.ch + GHG Protocol + Reglamento UE) es concluyente de todos modos.
+22. **[PENDIENTE] Cotejo de los PCG de mezclas AR5/AR6 contra DESNZ 2026** (hoja `Refrigerant & other`): sería el único cotejo publicado. Los valores calculados en §5.3 deberían coincidir.
+23. **[PENDIENTE] ASHRAE Standard 34** — norma de pago. Define composiciones nominales y tolerancias; la composición usada (IPCC 2006 T.7.8 + DCCEEW) es coherente con ella.
+24. **[NO VERIFICADO] ESRS E1 enmendado (nov-2025)** — no se pudo confirmar si el requisito AR 39(d) se mantiene sin cambios: https://www.efrag.org/sites/default/files/media/document/2025-12/November_2025_ESRS_E1.pdf
+25. **[NO VERIFICADO] FAQ técnico del GHG Protocol sobre PCG** — HTTP 403: https://ghgptechassistance.zendesk.com/hc/en-us/articles/37994031317780-What-Global-Warming-Potential-GWP-values-should-companies-use-for-GHG-inventories . La norma verificada (enmienda 2013 + doc. ago-2024) sí está confirmada y es la que rige.
+26. **[NO VERIFICADO] Conclusiones de la Mesa de Certificados de Energía Renovable** (Ministerio de Energía, 2018): PDF escaneado, requiere OCR — https://energylab.cl/images/estudios/Resumen-Cierre-Mesa-de-Certificados_final.pdf
+27. **[NO VERIFICADO] Discrepancia de conteo de plantas I-REC en Chile:** SCX publica 359 plantas (jun-2026) vs 402 registradas / 382 activas del registro oficial (ago-2026).
+
 **Recomendación operativa para Perú:** para un inventario auditable, solicitar a MINAM (huellacarbonoperu@minam.gob.pe) la tabla de factores del año de reporte, o extraerla de la calculadora con cuenta propia. Los valores de §3.1 son utilizables como referencia de trabajo, pero su trazabilidad documental es **indirecta**.
+
+**Recomendación operativa para Chile market-based:** solicitar a renova@coordinador.cl la serie completa del factor residual 2022–2025. Sin ella, el motor solo puede ofrecer market-based para 2021 o aplicar la regla de HuellaChile de usar el residual del año anterior.
 
 ### 10.3 Archivos fuente para consulta directa (no procesados en su totalidad)
 
@@ -989,3 +1471,30 @@ Cuatro cambios, según la hoja oficial `What's new` [VERIFICADO]:
 21. **DESNZ (Reino Unido)** — *Greenhouse gas reporting: conversion factors 2025* (publicado 10-06-2025). — https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025
 22. **The National Archives (Reino Unido)** — *Open Government Licence v3.0*. — https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
 23. **CEPAL / Enerdata** — *Base de Información de Eficiencia Energética* (2018). Origen de la tasa de pérdidas T&D de 5,7 % usada por HuellaChile (citado en [1]).
+24. **IPCC (2013)** — *AR5, WG1, Capítulo 8*, Tabla 8.A.1 (pp. 731-738) y Tabla 8.7 (p. 714). — https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter08_FINAL.pdf
+25. **IPCC (2021)** — *AR6, WG1, Capítulo 7, Material Suplementario (VERSIÓN FINAL)*, Tabla 7.SM.7. ⚠️ Usar esta, no el borrador. — https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter07_SM.pdf
+26. **IPCC (2021)** — *AR6, WG1, Capítulo 7*, Tabla 7.15. — https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-7/
+27. ⚠️ **IPCC — AR6 WG1 Cap.7 Material Suplementario, VERSIÓN PRE-FINAL (NO USAR).** Origen del erróneo SF6 = 25 200. — https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter_07_Supplementary_Material.pdf
+28. **GHG Protocol** — *Required Greenhouse Gases in Inventories: Accounting and Reporting Standard Amendment* (febrero 2013). — https://ghgprotocol.org/sites/default/files/2022-12/Required%20gases%20and%20GWP%20values_0.pdf
+29. **GHG Protocol** — *IPCC Global Warming Potential Values*, versión 2.0 (7 de agosto de 2024). — https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf
+30. **GHG Protocol** — *Scope 2 Guidance* (2015). Cap.6 Tabla 6.3 (jerarquía de factores); Cap.7 Tabla 7.1 y sección 7.5 (criterios de calidad). — https://ghgprotocol.org/scope-2-guidance
+31. **GHG Protocol** — *Consolidated Standard Development Plan (SDP) v2.0* (29 de julio de 2026). — https://ghgprotocol.org/sites/default/files/2026-07/Consolidated-StandardDevelopmentPlan(SDP)-2026.07.29.pdf
+32. **GHG Protocol** — *Scope 2 Public Consultation: Summary of Feedback* (29 de julio de 2026, 122 pp.). — https://ghgprotocol.org/sites/default/files/2026-07/S2-PublicConsultationSummaryofFeedback-2026.07.29.pdf
+33. **GHG Protocol** — *Scope 2 Standard Advances: ISB Approves Consultation on Market- and Location-Based Revisions* (1 de agosto de 2025). — https://ghgprotocol.org/blog/scope-2-standard-advances-isb-approves-consultation-market-and-location-based-revisions
+34. **GHG Protocol** — *GHG Protocol Announces Key Standard Development Updates* (29 de julio de 2026, consolidación con ISO). — https://ghgprotocol.org/blog/ghg-protocol-announces-key-standard-development-updates-faq-resource
+35. **Unión Europea** — *Reglamento (UE) 2024/573* sobre gases fluorados de efecto invernadero. Anexos I, II, III y VI. — https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32024R0573
+36. **Unión Europea** — *Reglamento Delegado (UE) 2023/2772* (ESRS). Anexo I, ESRS E1, párrafos AR 39 y AR 58. — https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=OJ:L_202302772
+37. **UNFCCC** — *Decisión 18/CMA.1*, Anexo (MPGs del Marco de Transparencia Reforzado), párrafo 37. — https://unfccc.int/sites/default/files/resource/CMA2018_03a02E.pdf
+38. **DCCEEW (Australia)** — *Global warming potential values for HFC refrigerants* (PCG de mezclas, base AR4). — https://www.dcceew.gov.au/environment/protection/ozone/rac/global-warming-potential-values-hfc-refrigerants
+39. **Coordinador Eléctrico Nacional (Chile)** — *Guía de Metodología de Cálculo de Factores de Emisión en RENOVA* (abril 2022), elaborada con apoyo del Ministerio de Energía. — https://www.coordinador.cl/wp-content/uploads/2022/04/guia-Factor-Emision-Renova.pdf
+40. **Coordinador Eléctrico Nacional (Chile)** — *Trazabilidad de energías renovables en el mercado eléctrico* (Avalos y Olmedo, 2022). — https://www.coordinador.cl/wp-content/uploads/2022/12/Trazabibilidad-de-energia-renovables.pdf
+41. **Coordinador Eléctrico Nacional (Chile)** — *Transición energética y trazabilidad de la energía renovable* (4 de marzo de 2026). — https://www.coordinador.cl/wp-content/uploads/2026/03/2026-03-04-TRANSICION-ENERGETICA-Y-TRAZABILIDAD-DE-LA-ENERGIA-RENOVABLE.pdf
+42. **Coordinador Eléctrico Nacional (Chile)** — Plataforma RENOVA. — https://www.coordinador.cl/renova/
+43. **HuellaChile (MMA)** — *Contratos de energía renovable: cuantificación de emisiones indirectas por uso de energía importada* (septiembre 2023). **Documento rector del Alcance 2 market-based en Chile.** — https://huellachile.mma.gob.cl/wp-content/uploads/2025/04/HuellaChile-Contratos-de-energia-renovable-y-emisiones-por-energia-importada-01092023-1.pdf
+44. **HuellaChile (MMA)** — *Comunicado 2/2022* (30 de junio de 2022). — https://huellachile.mma.gob.cl/informacion-sobre-reportes-organizacionales-programa-huellachile/
+45. **I-TRACK Foundation** — *Accredited Issuers* (SCX como emisor local de Chile). — https://www.trackingstandard.org/issuers/
+46. **I-TRACK Foundation / Xpansiv-Evident** — *I-REC Registry Aggregate Data, agosto 2026* (XLSX). Fuente primaria de los volúmenes de §6.2. — https://www.trackingstandard.org/wp-content/uploads/I-REC-Registry-Data-August-2026.xlsx
+47. **I-TRACK Foundation** — *Residual Mix Dashboard* (lanzado 10-dic-2024; indicativo, no oficial). — https://www.trackingstandard.org/i-rece-residual-mix/
+48. **NORSUS / I-REC** — *Residual Mix Methodology for I-REC issuing countries* (OR.15.23, 2023). No menciona a Chile. — https://www.trackingstandard.org/wp-content/uploads/NORSUS-Residual-Mix-Methodology_OR15.23.pdf
+49. **SCX — Santiago Climate Exchange** — *I-REC International Standard*. **Fuente secundaria.** — https://www.scx.cl/web/en/irec-international-standard-2/
+50. **ACERA (Chile)** — *Visión estratégica 2026–2030*. **Fuente secundaria.** — https://cdn.acera.cl/wp-content/uploads/2026/06/PDF_Vision-estrategica-ACERA-2026-2030.pdf
