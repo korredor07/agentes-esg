@@ -145,14 +145,14 @@ def _bloques_informe(resumen, perfil):
 
     mayores = sorted(resumen["por_recurso"].items(), key=lambda x: -x[1]["kg_co2e"])[:8]
     if mayores:
-        bloques.append({"tipo": "barras", "titulo": "De donde vienen las emisiones", "unidad": "tCO2e",
+        bloques.append({"tipo": "barras", "titulo": "De dónde vienen las emisiones", "unidad": "tCO2e",
                         "datos": [{"etiqueta": nombre.replace("_", " "), "valor": dato["kg_co2e"] / 1000.0}
                                   for nombre, dato in mayores]})
 
     periodos = sorted(k for k in resumen["por_periodo"] if k != "sin periodo")
     mensuales = [p for p in periodos if len(p) == 7]
     if len(mensuales) > 1:
-        bloques.append({"tipo": "lineas", "titulo": "Evolucion mes a mes", "unidad": "tCO2e",
+        bloques.append({"tipo": "lineas", "titulo": "Evolución mes a mes", "unidad": "tCO2e",
                         "series": [{"nombre": "Emisiones",
                                     "puntos": [(p, resumen["por_periodo"][p]["kg_co2e"] / 1000.0)
                                                for p in mensuales]}]})
@@ -161,7 +161,7 @@ def _bloques_informe(resumen, perfil):
                             "texto": "La curva muestra solo los datos cargados mes a mes. Los datos anuales "
                                      "(por ejemplo la cadena de valor) no aparecen aqui, pero si en el total."})
     elif len(periodos) > 1:
-        bloques.append({"tipo": "lineas", "titulo": "Evolucion por periodo", "unidad": "tCO2e",
+        bloques.append({"tipo": "lineas", "titulo": "Evolución por periodo", "unidad": "tCO2e",
                         "series": [{"nombre": "Emisiones",
                                     "puntos": [(p, resumen["por_periodo"][p]["kg_co2e"] / 1000.0) for p in periodos]}]})
 
@@ -172,7 +172,7 @@ def _bloques_informe(resumen, perfil):
                                                             key=lambda x: -x[1]["kg_co2e"])]})
 
     if resumen["por_categoria_alcance3"]:
-        bloques.append({"tipo": "titulo", "texto": "Alcance 3 por categoria", "nivel": 2})
+        bloques.append({"tipo": "titulo", "texto": "Alcance 3 por categoría", "nivel": 2})
         bloques.append({"tipo": "tabla", "columnas": ["Categoria", "Nombre", "tCO2e"], "numericas": [2],
                         "filas": [[clave, CATEGORIAS_ALCANCE3.get(clave, ""), dato["kg_co2e"] / 1000.0]
                                   for clave, dato in sorted(resumen["por_categoria_alcance3"].items(),
@@ -182,7 +182,7 @@ def _bloques_informe(resumen, perfil):
     fuera = [(clave, nombre) for clave, nombre in sorted(CATEGORIAS_ALCANCE3.items(), key=lambda x: int(x[0]))
              if clave not in incluidas]
     if fuera:
-        bloques.append({"tipo": "titulo", "texto": "Categorias del alcance 3 que no se estimaron", "nivel": 3})
+        bloques.append({"tipo": "titulo", "texto": "Categorías del alcance 3 que no se estimaron", "nivel": 3})
         bloques.append({"tipo": "texto",
                         "texto": "No se calcularon en este informe. Algunas pueden no aplicar al negocio; las que si "
                                  "apliquen quedan como brecha por medir."})
@@ -191,9 +191,10 @@ def _bloques_informe(resumen, perfil):
     calidad = resumen["calidad_datos"]["porcentaje"]
     por_gasto = resumen["calidad_datos"].get("estimado_por_gasto_pct") or 0.0
     bloques.extend([
-        {"tipo": "titulo", "texto": "Calidad de los datos", "nivel": 2},
-        {"tipo": "texto", "texto": "Cuanto de la huella viene de datos medidos y cuanto de estimaciones. "
-                                   "Para una auditoria conviene subir la proporcion verificada."},
+        {"tipo": "titulo", "texto": "Calidad de los datos de origen", "nivel": 2},
+        {"tipo": "texto", "texto": "De dónde salen las cantidades: una boleta o factura (reportado), una "
+                                   "verificación de un tercero (verificado) o una estimación. No mide qué tan "
+                                   "fino es el factor usado: eso se indica aparte, debajo."},
         {"tipo": "barras", "titulo": "", "unidad": "%", "datos": [
             {"etiqueta": "Verificado", "valor": calidad.get("verificado", 0)},
             {"etiqueta": "Reportado", "valor": calidad.get("reportado", 0)},
@@ -213,6 +214,19 @@ def _bloques_informe(resumen, perfil):
                         "filas": [[p.get("fila"), p.get("error"), p.get("sugerencia")]
                                   for p in resumen["problemas"]]})
 
+    # Factores con una advertencia propia en el catalogo (por ejemplo, fuente secundaria):
+    # quien recibe el informe tiene que saberlo.
+    con_reparos = {}
+    for fila in resumen.get("detalle") or []:
+        factor = fila.get("factor") or {}
+        notas = factor.get("notas") or ""
+        if any(clave in notas.lower() for clave in ("secundaria", "confirmar", "no verificad")):
+            con_reparos[factor.get("id")] = "%s (%s, %s): %s" % (
+                fila.get("recurso"), factor.get("fuente"), factor.get("anio"), notas)
+    if con_reparos:
+        bloques.append({"tipo": "titulo", "texto": "Factores con reparos de su fuente", "nivel": 2})
+        bloques.append({"tipo": "lista", "items": sorted(con_reparos.values())})
+
     advertencias = [a for a in resumen.get("advertencias", []) if a]
     if advertencias:
         bloques.append({"tipo": "titulo", "texto": "Supuestos y limitaciones", "nivel": 2})
@@ -222,7 +236,7 @@ def _bloques_informe(resumen, perfil):
         bloques.append({"tipo": "lista", "items": advertencias})
 
     bloques.extend([
-        {"tipo": "titulo", "texto": "Metodologia y fuentes", "nivel": 2},
+        {"tipo": "titulo", "texto": "Metodología y fuentes", "nivel": 2},
         {"tipo": "lista", "items": [
             "Metodologia: GHG Protocol Corporate Standard (alcances 1, 2 y 3).",
             "Potenciales de calentamiento global: %s." % resumen.get("set_pcg", "AR5"),

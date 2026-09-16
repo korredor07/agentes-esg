@@ -195,7 +195,7 @@ class PruebaInformeDeHuella(PruebaConCarpeta):
                                                                                   conjunto="AR5")
         bloques = huella._bloques_informe(dict(resumen, periodo="2025"), {"nombre": "Prueba"})
         textos = json.dumps(bloques, ensure_ascii=False)
-        self.assertIn("Categorias del alcance 3 que no se estimaron", textos)
+        self.assertIn("Categorías del alcance 3 que no se estimaron", textos)
         self.assertIn("15. Inversiones", textos)
         self.assertIn("se estimo por gasto", textos)
 
@@ -373,6 +373,51 @@ class PruebaProximaAccionEnCrm(PruebaConCarpeta):
         with self.assertRaises(Problema):
             crm.registrar({"raiz": self.carpeta, "empresa": "Consultora SpA", "prospecto": "X",
                            "fecha_proxima": "el viernes"})
+
+
+class PruebaDerivacionLeyKarin(PruebaConCarpeta):
+    """Segunda ronda E2E: el motor dejaba investigar internamente cuando la ley obliga a derivar."""
+
+    def setUp(self):
+        super(PruebaDerivacionLeyKarin, self).setUp()
+        from modulos import karin
+        self.karin = karin
+        espacio.crear_empresa({"nombre": "Envases SpA", "pais": "CL", "trabajadores": 60,
+                               "exporta_a_ue": False, "anio_base": 2025}, raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Envases SpA", "fecha_denuncia": "2026-09-01"}
+
+    def test_sin_reglamento_actualizado_hay_que_derivar(self):
+        respuesta = self.karin.crear(dict(self.opciones, reglamento_actualizado="no"))
+        self.assertTrue(respuesta.resultado["derivacion_obligatoria"])
+        self.assertIn("transitorio", respuesta.resultado["motivo_derivacion"])
+        self.assertEqual(respuesta.resultado["proximos_pasos"][0]["id"], "derivar_dt")
+        self.assertTrue(respuesta.advertencias[0].startswith("IMPORTANTE"))
+
+    def test_contra_un_gerente_siempre_se_deriva(self):
+        respuesta = self.karin.crear(dict(self.opciones, reglamento_actualizado="si", contra_representante="si"))
+        self.assertTrue(respuesta.resultado["derivacion_obligatoria"])
+        self.assertIn("art. 12 inc. 5", respuesta.resultado["motivo_derivacion"])
+
+    def test_con_todo_en_regla_no_obliga_a_derivar(self):
+        respuesta = self.karin.crear(dict(self.opciones, reglamento_actualizado="si", contra_representante="no"))
+        self.assertFalse(respuesta.resultado["derivacion_obligatoria"])
+
+    def test_derivada_los_30_dias_corren_desde_la_recepcion_en_la_dt(self):
+        from calculos import karin as motor
+        sin_recepcion = {h["id"]: h for h in motor.plazos("2026-09-01", {}, via="derivada")["hitos"]}
+        self.assertIsNone(sin_recepcion["conclusion_investigacion"]["vence"])
+        self.assertIn("certificado de recepcion", sin_recepcion["conclusion_investigacion"]["estado"])
+        con_recepcion = {h["id"]: h for h in motor.plazos("2026-09-01", {"recepcion_dt": "2026-09-10"},
+                                                          via="derivada")["hitos"]}
+        interna = {h["id"]: h for h in motor.plazos("2026-09-01", {})["hitos"]}
+        self.assertEqual(con_recepcion["conclusion_investigacion"]["cuenta_desde"], "recepcion_dt")
+        self.assertGreater(con_recepcion["conclusion_investigacion"]["vence"],
+                           interna["conclusion_investigacion"]["vence"])
+
+    def test_la_recepcion_se_puede_registrar_como_evento(self):
+        caso = self.karin.crear(dict(self.opciones, via="derivada", reglamento_actualizado="no")).resultado["caso"]
+        respuesta = self.karin.evento(dict(self.opciones, caso=caso, hito="recepcion_dt", fecha="2026-09-03"))
+        self.assertTrue(respuesta.resultado)
 
 
 class PruebaSinCaracteresDeControl(unittest.TestCase):

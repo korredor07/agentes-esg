@@ -119,7 +119,7 @@ class PruebaCalculo(BasePruebaCarbono):
                 "unidad": "MWh", "pais": "CL"}
         resultado = carbono.calcular_registro(fila, self.factores, self.pcg)
         self.assertAlmostEqual(resultado["kg_co2e"], 600.0)
-        self.assertTrue(any("Converti" in a for a in resultado["advertencias"]))
+        self.assertTrue(any("se convirtieron" in a for a in resultado["advertencias"]))
 
     def test_refrigerante_usa_su_pcg(self):
         fila = {"_fila": 4, "periodo": "2024", "recurso": "R-410A", "cantidad": 3, "unidad": "kg"}

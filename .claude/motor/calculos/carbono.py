@@ -443,6 +443,7 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None, densid
         alcance=registro.get("alcance"), categoria=registro.get("categoria"),
         uso=registro.get("uso"), permitir_densidad=bool(densidad))
 
+    por_densidad = False
     if _clave(unidad) == _clave(factor["unidad"]):
         cantidad_convertida = cantidad
     elif unidades.misma_magnitud(unidad, factor["unidad"]):
@@ -455,13 +456,16 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None, densid
         else:
             kilos = unidades.convertir(cantidad, unidad, "L") * densidad["kg_por_litro"]
             cantidad_convertida = unidades.convertir(kilos, "kg", factor["unidad"])
+        # Una sola linea: antes salian dos avisos de la misma conversion.
         advertencias.append(
-            "Converti %s %s de %s usando la densidad %s kg/L (%s)."
-            % (cantidad, unidad, recurso, densidad["kg_por_litro"], densidad["fuente"]))
+            "%s %s de %s se convirtieron a %s %s con una densidad de %s kg/L (%s)."
+            % (cantidad, unidad, recurso, round(cantidad_convertida, 4), factor["unidad"],
+               densidad["kg_por_litro"], densidad["fuente"]))
+        por_densidad = True
     else:
         cantidad_convertida = unidades.convertir(cantidad, unidad, factor["unidad"])
-    if abs(cantidad_convertida - cantidad) > 1e-9:
-        advertencias.append("Converti %s %s a %s %s para usar el factor."
+    if not por_densidad and abs(cantidad_convertida - cantidad) > 1e-9:
+        advertencias.append("%s %s se convirtieron a %s %s para usar el factor."
                             % (cantidad, unidad, round(cantidad_convertida, 4), factor["unidad"]))
     por_unidad, avisos_pcg = kg_co2e_por_unidad(factor, pcg, conjunto)
     advertencias.extend(avisos_pcg)
@@ -490,6 +494,7 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None, densid
             "id": factor["id"], "valor": por_unidad, "unidad": factor["unidad"],
             "pais": factor["pais"], "anio": factor["anio"], "fuente": factor["fuente"],
             "url": factor["url"], "uso": factor.get("uso", ""), "calidad": factor.get("calidad", ""),
+            "notas": factor.get("notas", ""),
         },
         "kg_co2e": cantidad_convertida * por_unidad,
         "calidad_dato": calidad,

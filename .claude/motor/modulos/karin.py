@@ -61,6 +61,16 @@ def _valor(opciones, clave, por_defecto=""):
     return valor if valor and valor is not True else por_defecto
 
 
+def _si_no(valor):
+    """si -> True, no -> False, cualquier otra cosa (incluido «no se») -> None."""
+    texto = str(valor or "").strip().lower()
+    if texto in ("si", "sí", "true", "1"):
+        return True
+    if texto in ("no", "false", "0"):
+        return False
+    return None
+
+
 def crear(opciones):
     """Abre un caso nuevo y calcula todos sus plazos legales."""
     perfil, ruta, ruta_json = _contexto(opciones)
@@ -85,19 +95,37 @@ def crear(opciones):
         "denunciado": _valor(opciones, "denunciado"),
         "investigador": _valor(opciones, "investigador"),
         "resumen": _valor(opciones, "resumen"),
+        "reglamento_actualizado": _si_no(_valor(opciones, "reglamento_actualizado")),
+        "contra_representante": _si_no(_valor(opciones, "contra_representante")),
         "estado": "en investigacion",
         "eventos": {},
         "bitacora": [{"fecha": datetime.date.today().isoformat(), "nota": "Caso registrado en el sistema."}],
         "creado_el": datetime.datetime.now().replace(microsecond=0).isoformat(sep=" "),
     }
+    obligatoria, motivo = motor_karin.derivacion_obligatoria(caso["reglamento_actualizado"],
+                                                            caso["contra_representante"])
+    caso["derivacion_obligatoria"] = obligatoria
     datos["casos"].append(caso)
     _guardar(ruta_json, datos)
-    calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None)
+    calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None, via=caso.get("via"))
+    advertencias = [AVISO_PRIVACIDAD, AVISO_LEGAL]
+    proximos = [h for h in calculo["hitos"] if h["estado"] in ("por vencer", "en plazo", "vencido")][:3]
+    if obligatoria and str(caso["via"]).lower() != "derivada":
+        # No se cambia la via por la persona: se le dice, primero y claro, que no puede investigar internamente.
+        advertencias.insert(0, "IMPORTANTE: %s No corresponde investigar internamente. Registra la derivacion con "
+                               "--via derivada y, cuando llegue, el certificado de recepcion de la DT." % motivo)
+        proximos = [{"id": "derivar_dt", "titulo": "Derivar la denuncia a la Direccion del Trabajo",
+                     "que_hacer": motivo, "estado": "obligatorio", "vence": caso["fecha_denuncia"]}] + proximos
+    elif caso["reglamento_actualizado"] is None and caso["contra_representante"] is None:
+        advertencias.insert(0, "Antes de investigar internamente confirma dos cosas: que el reglamento interno ya "
+                               "tenga el procedimiento de la Ley Karin y que el denunciado no sea gerente ni "
+                               "represente al empleador. Si falla cualquiera, la denuncia se deriva a la DT.")
     return Respuesta(
         {"mensaje": "Caso %s registrado." % caso["id"], "caso": caso["id"],
-         "proximos_pasos": [h for h in calculo["hitos"] if h["estado"] in ("por vencer", "en plazo", "vencido")][:3],
+         "derivacion_obligatoria": obligatoria, "motivo_derivacion": motivo,
+         "proximos_pasos": proximos,
          "plazos": calculo["hitos"], "supuesto": calculo["supuesto"]},
-        advertencias=[AVISO_PRIVACIDAD, AVISO_LEGAL])
+        advertencias=advertencias)
 
 
 def evento(opciones):
@@ -114,7 +142,7 @@ def evento(opciones):
     if hito["id"] == "aplicar_medidas":
         caso["estado"] = "cerrado"
     _guardar(ruta_json, datos)
-    calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None)
+    calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None, via=caso.get("via"))
     pendientes = [h for h in calculo["hitos"] if not h["cumplido_el"]]
     return Respuesta(
         {"mensaje": "Registrado: %s el %s." % (hito["titulo"], fecha),
@@ -129,7 +157,7 @@ def ver(opciones):
     perfil, ruta, ruta_json = _contexto(opciones)
     datos = _leer(ruta_json)
     caso = _buscar(datos, _valor(opciones, "caso"))
-    calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None,
+    calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None, via=caso.get("via"),
                                  hoy=_valor(opciones, "hoy") or None)
     return Respuesta(
         {"caso": caso, "plazos": calculo["hitos"], "vencidos": calculo["vencidos"],
@@ -144,7 +172,7 @@ def listar(opciones):
     datos = _leer(ruta_json)
     resumen = []
     for caso in datos["casos"]:
-        calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None)
+        calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None, via=caso.get("via"))
         resumen.append({
             "id": caso["id"], "fecha_denuncia": caso["fecha_denuncia"], "tipo": caso["tipo"],
             "estado": caso["estado"], "vencidos": len(calculo["vencidos"]),
@@ -163,7 +191,7 @@ def alertas(opciones):
     for caso in datos["casos"]:
         if caso["estado"] == "cerrado":
             continue
-        calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None)
+        calculo = motor_karin.plazos(caso["fecha_denuncia"], caso["eventos"], caso["region"] or None, via=caso.get("via"))
         for hito in calculo["hitos"]:
             if hito["cumplido_el"] or hito["proyectado"]:
                 continue

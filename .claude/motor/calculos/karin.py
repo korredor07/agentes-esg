@@ -93,7 +93,30 @@ def cargar_feriados(region=None):
     return fechas.cargar_feriados(ARCHIVO_FERIADOS, ambitos=ambitos)
 
 
-def plazos(fecha_denuncia, eventos=None, region=None, hoy=None):
+# Eventos que no son un plazo en si, pero desde los que corre un plazo.
+EVENTOS_EXTRA = {
+    "recepcion_dt": {
+        "id": "recepcion_dt",
+        "titulo": "Certificado de recepcion de la derivacion emitido por la Direccion del Trabajo",
+        "articulo": "Art. 17 DS 21",
+    },
+}
+
+
+def derivacion_obligatoria(reglamento_actualizado=None, contra_representante=None):
+    """Si la ley obliga a derivar la denuncia a la Direccion del Trabajo. Devuelve (obligatoria, motivo)."""
+    if contra_representante is True:
+        return True, ("La denuncia es contra una de las personas del art. 4 inc. 1 del Codigo del Trabajo "
+                      "(gerente, administrador o quien representa al empleador): siempre se deriva a la "
+                      "Direccion del Trabajo (art. 12 inc. 5 DS 21).")
+    if reglamento_actualizado is False:
+        return True, ("El reglamento interno todavia no esta actualizado con el procedimiento de la Ley Karin: "
+                      "mientras no lo este, la denuncia se deriva a la Direccion del Trabajo de inmediato (DS 21, "
+                      "art. primero transitorio inc. 3).")
+    return False, ""
+
+
+def plazos(fecha_denuncia, eventos=None, region=None, hoy=None, via=None):
     """Calcula el estado de cada plazo del procedimiento.
 
     eventos: fechas reales ya ocurridas, por id de hito. Cuando un hito previo
@@ -106,9 +129,27 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None):
     inicio = fechas.parsear_fecha(fecha_denuncia)
 
     calculados = {"denuncia": {"fecha": inicio, "real": True}}
+    derivada = str(via or "").strip().lower() in ("derivada", "dt", "direccion del trabajo")
+    if eventos.get("recepcion_dt"):
+        calculados["recepcion_dt"] = {"fecha": fechas.parsear_fecha(eventos["recepcion_dt"]), "real": True}
     salida = []
     for hito in HITOS:
-        base = calculados.get(hito["desde"])
+        desde = hito["desde"]
+        if derivada and hito["id"] == "conclusion_investigacion":
+            # Art. 17 DS 21: si se derivo, los 30 dias corren desde la recepcion en la DT.
+            desde = "recepcion_dt"
+            if "recepcion_dt" not in calculados:
+                salida.append({
+                    "id": hito["id"], "titulo": hito["titulo"], "articulo": "Art. 17 DS 21",
+                    "que_hacer": ("La denuncia fue derivada: los 30 dias habiles corren desde la fecha del "
+                                  "certificado de recepcion que emite la Direccion del Trabajo. Registralo con "
+                                  "karin evento --hito recepcion_dt --fecha <fecha>."),
+                    "responsable": "Direccion del Trabajo", "dias": hito["dias"], "tipo_de_dias": hito["tipo"],
+                    "cuenta_desde": "recepcion_dt", "vence": None, "cumplido_el": None, "dias_restantes": None,
+                    "estado": "pendiente: falta el certificado de recepcion de la DT", "proyectado": False,
+                })
+                continue
+        base = calculados.get(desde)
         if base is None:
             continue
         proyectado = not base["real"]
@@ -137,7 +178,7 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None):
             "id": hito["id"], "titulo": hito["titulo"], "articulo": hito["articulo"],
             "que_hacer": hito["que_hacer"], "responsable": hito.get("responsable", "La empresa"),
             "dias": hito["dias"], "tipo_de_dias": hito["tipo"],
-            "cuenta_desde": hito["desde"],
+            "cuenta_desde": desde,
             "vence": vence.isoformat(),
             "cumplido_el": cumplido.isoformat() if cumplido else None,
             "dias_restantes": detalle["dias_restantes"] if not cumplido else None,
@@ -159,9 +200,11 @@ def plazos(fecha_denuncia, eventos=None, region=None, hoy=None):
 
 
 def validar_evento(identificador):
+    if identificador in EVENTOS_EXTRA:
+        return EVENTOS_EXTRA[identificador]
     if identificador not in HITOS_POR_ID:
         raise Problema(
             "No conozco el hito «%s» del procedimiento." % identificador,
-            "Hitos validos: %s." % ", ".join(HITOS_POR_ID),
+            "Hitos validos: %s." % ", ".join(list(HITOS_POR_ID) + list(EVENTOS_EXTRA)),
         )
     return HITOS_POR_ID[identificador]

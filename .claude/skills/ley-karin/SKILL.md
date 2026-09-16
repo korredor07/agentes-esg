@@ -20,10 +20,27 @@ Actúa en este orden:
 2. Dile que hay una obligación **inmediata**: adoptar medidas de resguardo
    (separar espacios físicos, cambiar turnos, ofrecer atención psicológica a
    través de la mutual). No pueden perjudicar a quien denuncia.
-3. Registra el caso y muéstrale el calendario completo:
+3. **Pregunta dos cosas que deciden si la empresa puede investigar o tiene que
+   derivar a la Dirección del Trabajo:**
+   - ¿El reglamento interno ya tiene el procedimiento de la Ley Karin? Si no
+     está actualizado, la denuncia **se deriva de inmediato** a la DT (DS 21,
+     art. primero transitorio inc. 3°).
+   - ¿La persona denunciada es gerente, administrador o representa al
+     empleador? Si es así, **siempre** se deriva (art. 12 inc. 5° DS 21).
+4. Registra el caso con esas respuestas y muéstrale el calendario completo:
 
 ```bash
-python .claude/motor/esg.py karin crear --fecha-denuncia 15-09-2026 --tipo "acoso laboral" --sitio "Planta" --denunciante "A.P." --denunciado "M.R." --resumen "Descripción breve"
+python .claude/motor/esg.py karin crear --fecha-denuncia 15-09-2026 --tipo "acoso laboral" --sitio "Planta" --denunciante "A.P." --denunciado "M.R." --resumen "Descripción breve" --reglamento-actualizado no --contra-representante no
+```
+
+Si el motor responde `derivacion_obligatoria: true`, eso va **primero** en tu
+respuesta, antes que cualquier plazo: la empresa no puede investigar
+internamente. Registra la derivación con `--via derivada` y, cuando la DT emita
+el certificado de recepción, anótalo: desde esa fecha corren los 30 días de
+investigación (art. 17 DS 21).
+
+```bash
+python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito recepcion_dt --fecha 2026-09-03
 ```
 
 4. Dile que **involucre desde ya a su asesoría jurídica y al organismo
