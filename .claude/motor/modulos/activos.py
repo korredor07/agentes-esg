@@ -183,6 +183,11 @@ def _vida_util_pedida(opciones):
             % opciones_texto,
             {"coincidencias": busqueda["coincidencias"]},
         )
+    otras = [c for c in busqueda["coincidencias"] if c.get("codigo") != elegido.get("codigo")]
+    if otras:
+        # La skill pide no elegir por la persona: si habia alternativas, quedan a la vista.
+        elegido = dict(elegido, otras_opciones=[
+            "%s (%s, %s años)" % (c["bien"], c["actividad"], c["vida_util_normal"]) for c in otras])
     return elegido["vida_util_normal"], elegido
 
 
@@ -244,6 +249,11 @@ def _depreciar_uno(opciones):
         resultado["vida_util_segun"] = "%s (%s), %s" % (elegido["bien"], elegido["codigo"],
                                                         elegido["resolucion"])
         resultado["codigo_sii"] = elegido["codigo"]
+        if elegido.get("otras_opciones"):
+            resultado["otras_opciones_de_la_tabla"] = elegido["otras_opciones"]
+            resultado.setdefault("advertencias", []).append(
+                "Use «%s», la fila que mas se parece a lo que escribiste, pero la tabla tiene otras: %s. "
+                "Confirma con la persona que es la correcta." % (elegido["bien"], "; ".join(elegido["otras_opciones"])))
     else:
         resultado["vida_util_segun"] = "anios indicados por ti"
 

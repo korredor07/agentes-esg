@@ -63,6 +63,8 @@ DATOS_CONOCIDOS = {
     "huella.calidad_datos": "Calidad de los datos de la huella",
     "huella.set_pcg": "Metodologia y potenciales de calentamiento global usados",
     "agua.indicadores": "Indicadores de agua calculados (resultados/agua_*.json)",
+    # Nunca esta disponible: marca los contenidos en que los datos responden solo una parte.
+    "texto_de_la_empresa": "La parte que no sale de ningun dato y tiene que escribir la empresa",
     "diagnostico": "Diagnostico ESG (seguimiento/diagnostico.json)",
     "metas": "Metas registradas (seguimiento/metas.json)",
 }

@@ -266,6 +266,11 @@ def informe_html(opciones):
         bloques.append({"tipo": "titulo", "texto": "GISTM - Estandar Global de Gestion de Relaves",
                         "nivel": 2})
         bloques.append({"tipo": "texto", "texto": resultado.get("mensaje", "")})
+        if resultado.get("clasificacion_sugerida") and not _valor(opciones, "clasificacion"):
+            bloques.append({"tipo": "nota", "estilo": "aviso",
+                            "texto": "La clasificacion de arriba es solo una sugerencia por la poblacion en riesgo "
+                                     "(una de las cinco dimensiones del Anexo 2 del GISTM). La oficial la fija el "
+                                     "estudio de la instalacion con las cinco dimensiones."})
         if resultado.get("porcentaje_conformidad") is not None:
             bloques.append({"tipo": "kpi", "items": [
                 {"etiqueta": "Conformidad", "valor": resultado["porcentaje_conformidad"], "unidad": "%",

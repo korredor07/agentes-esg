@@ -8,6 +8,10 @@ import os
 from nucleo import espacio, informe, word
 from nucleo.salida import Problema, Respuesta
 
+# registrar lee estos datos recorriendo una lista: se declaran para que la ayuda los muestre.
+OPCIONES_DINAMICAS = {"registrar": ["contacto", "correo", "telefono", "categoria", "pais", "notas",
+                                    "unidad", "periodo"]}
+
 AYUDA = "Pide datos ESG a los proveedores, registra sus respuestas y prioriza a quien perseguir primero."
 
 ARCHIVO = "proveedores.json"
@@ -302,7 +306,8 @@ def carta(opciones):
     correo = _valor(opciones, "correo")
     motivo = _valor(opciones, "motivo")
     sufijo = espacio.texto_a_slug(proveedor) if proveedor else "general"
-    destino = espacio.ruta_de(ruta, "reportes", "carta-solicitud-proveedores-%s.docx" % sufijo)
+    # Nombre corto: en Windows las rutas largas no se pueden guardar.
+    destino = espacio.ruta_de(ruta, "reportes", "carta-%s.docx" % sufijo)
     condicionar = bool(opciones.get("condicionar"))
     word.escribir_docx(destino,
                        _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motivo,
