@@ -24,9 +24,12 @@
     "./.claude/agents/agente-crm.md",
     "./.claude/agents/agente-cumplimiento.md",
     "./.claude/agents/agente-datos.md",
+    "./.claude/agents/agente-finanzas.md",
     "./.claude/agents/agente-investigador.md",
     "./.claude/agents/agente-ley-karin.md",
+    "./.claude/agents/agente-mineria.md",
     "./.claude/agents/agente-proveedores.md",
-    "./.claude/agents/agente-reportes.md"
+    "./.claude/agents/agente-reportes.md",
+    "./.claude/agents/agente-union-europea.md"
   ]
 }

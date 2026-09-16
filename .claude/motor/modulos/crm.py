@@ -134,11 +134,12 @@ def _buscar(datos, referencia):
 
 
 def _ultima_fecha(prospecto):
-    fechas_registro = [prospecto.get("creado_el", "")[:10]]
-    for entrada in prospecto.get("bitacora", []):
-        fechas_registro.append(str(entrada.get("fecha") or "")[:10])
-    validas = [f for f in fechas_registro if f]
-    return max(validas) if validas else ""
+    """Fecha de la ultima anotacion en la bitacora: es lo que cuenta como movimiento."""
+    for entrada in reversed(prospecto.get("bitacora", [])):
+        fecha = str(entrada.get("fecha") or "")[:10]
+        if fecha:
+            return fecha
+    return str(prospecto.get("creado_el", ""))[:10]
 
 
 def _dias_sin_movimiento(prospecto, hoy):

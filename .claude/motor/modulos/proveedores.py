@@ -43,10 +43,12 @@ def _numero(valor):
     if isinstance(valor, (int, float)):
         return float(valor)
     texto = str(valor).strip().replace(" ", "")
-    if texto.count(",") == 1 and (texto.count(".") > 1 or texto.rfind(",") > texto.rfind(".")):
-        texto = texto.replace(".", "").replace(",", ".")
-    else:
+    if texto.count(",") > 1:                      # 18,000,000 -> comas de miles
         texto = texto.replace(",", "")
+    elif "," in texto:                            # 18.000,5 -> coma decimal chilena
+        texto = texto.replace(".", "").replace(",", ".")
+    elif texto.count(".") > 1:                    # 18.000.000 -> puntos de miles
+        texto = texto.replace(".", "")
     try:
         return float(texto)
     except ValueError:
