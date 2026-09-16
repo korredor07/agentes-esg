@@ -100,6 +100,6 @@
     ],
     "como_responder": "Guarda el estado de cada obligacion en la misma accion, por ejemplo: datos_personales evaluar --deber-informacion parcial --seguridad no_cumple.",
     "guardado_en": "D:\\Programas Data\\Claude Code\\agentes-esg\\empresas\\ejemplo-alimentos-del-sur\\seguimiento\\datos_personales.json",
-    "evaluado_el": "2026-09-16 01:58:17"
+    "evaluado_el": "2026-09-16 06:52:55"
   }
 }

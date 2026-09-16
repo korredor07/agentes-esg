@@ -26,14 +26,14 @@
   },
   "ultima_evaluacion": {
     "empresa": "Alimentos del Sur SpA",
-    "evaluado_el": "2026-09-16 01:18:15",
-    "puntaje_general": 31.9,
+    "evaluado_el": "2026-09-16 06:52:54",
+    "puntaje_general": 40.6,
     "puntajes": {
       "ambiental": 55.0,
-      "social": 26.5,
-      "gobernanza": 14.3
+      "social": 38.2,
+      "gobernanza": 28.6
     },
-    "listo_para_auditoria_pct": 55.6,
+    "listo_para_auditoria_pct": 77.8,
     "indicadores": [
       {
         "id": "amb-perfil",
@@ -102,7 +102,7 @@
         "peso": 2,
         "riesgo": "reputacional",
         "estado": "no_cumple",
-        "nota": "Casi todo son estimaciones (0% respaldado).",
+        "nota": "Casi todo son estimaciones (28% respaldado).",
         "porque": "Un numero estimado no resiste una auditoria ni una exigencia de cliente.",
         "como_cerrarlo": "Reemplazar estimaciones por boletas, facturas o lecturas de medidor.",
         "automatico": true
@@ -161,8 +161,8 @@
         "titulo": "Datos de personas registrados",
         "peso": 2,
         "riesgo": "gestion",
-        "estado": "no_cumple",
-        "nota": "Falta la planilla de personas.",
+        "estado": "cumple",
+        "nota": "Planilla de personas cargada.",
         "porque": "Dotacion, rotacion y accidentes son la base de los indicadores sociales.",
         "como_cerrarlo": "Llenar la planilla de personas.",
         "automatico": true
@@ -305,8 +305,8 @@
         "titulo": "Evidencias respaldadas y verificables",
         "peso": 2,
         "riesgo": "reputacional",
-        "estado": "no_cumple",
-        "nota": "No hay respaldos registrados.",
+        "estado": "cumple",
+        "nota": "Hay respaldos registrados en la boveda de evidencias.",
         "porque": "Un dato sin respaldo no sirve ante un auditor, un cliente ni un tribunal.",
         "como_cerrarlo": "Registrar los archivos de respaldo en la boveda de evidencias.",
         "automatico": true
@@ -458,7 +458,7 @@
         "riesgo": "reputacional",
         "porque": "Un numero estimado no resiste una auditoria ni una exigencia de cliente.",
         "que_hacer": "Reemplazar estimaciones por boletas, facturas o lecturas de medidor.",
-        "nota": "Casi todo son estimaciones (0% respaldado).",
+        "nota": "Casi todo son estimaciones (28% respaldado).",
         "seguimiento": "abierta",
         "responsable": "",
         "fecha_compromiso": ""
@@ -492,20 +492,6 @@
         "fecha_compromiso": ""
       },
       {
-        "id": "gob-evidencias",
-        "titulo": "Evidencias respaldadas y verificables",
-        "dimension": "gobernanza",
-        "estado_indicador": "no_cumple",
-        "prioridad": 4,
-        "riesgo": "reputacional",
-        "porque": "Un dato sin respaldo no sirve ante un auditor, un cliente ni un tribunal.",
-        "que_hacer": "Registrar los archivos de respaldo en la boveda de evidencias.",
-        "nota": "No hay respaldos registrados.",
-        "seguimiento": "abierta",
-        "responsable": "",
-        "fecha_compromiso": ""
-      },
-      {
         "id": "gob-reporte",
         "titulo": "Reporte o comunicacion de sostenibilidad",
         "dimension": "gobernanza",
@@ -515,20 +501,6 @@
         "porque": "Es la forma de mostrar el trabajo hecho a clientes, bancos y trabajadores.",
         "que_hacer": "Publicar al menos un resumen anual con datos respaldados.",
         "nota": "",
-        "seguimiento": "abierta",
-        "responsable": "",
-        "fecha_compromiso": ""
-      },
-      {
-        "id": "soc-personas",
-        "titulo": "Datos de personas registrados",
-        "dimension": "social",
-        "estado_indicador": "no_cumple",
-        "prioridad": 2,
-        "riesgo": "gestion",
-        "porque": "Dotacion, rotacion y accidentes son la base de los indicadores sociales.",
-        "que_hacer": "Llenar la planilla de personas.",
-        "nota": "Falta la planilla de personas.",
         "seguimiento": "abierta",
         "responsable": "",
         "fecha_compromiso": ""

@@ -157,6 +157,34 @@ class PruebaReferencias(unittest.TestCase):
         self.assertFalse(rotos, "Comandos documentados que el motor no tiene: %s."
                          % "; ".join(sorted(set(rotos))))
 
+    def test_las_normas_apuntan_a_skills_que_existen(self):
+        """Si una norma manda a una skill inexistente, la persona queda sin salida."""
+        import sys
+        if MOTOR not in sys.path:
+            sys.path.insert(0, MOTOR)
+        from calculos import aplicabilidad
+        disponibles = set(_skills())
+        rotas = set()
+        for pais in ("CL", "PE", "ES"):
+            resultado = aplicabilidad.evaluar({"pais": pais, "trabajadores": 200,
+                                               "sector": "alimentos"})
+            for grupo in ("aplican", "por_revisar", "no_aplican"):
+                for ficha in resultado[grupo]:
+                    destino = ficha.get("skill")
+                    if destino and destino not in disponibles:
+                        rotas.add("%s -> %s" % (ficha.get("norma"), destino))
+        self.assertFalse(rotas, "Normas que mandan a una skill inexistente: %s." % sorted(rotas))
+
+    def test_los_indicadores_del_diagnostico_apuntan_bien(self):
+        import sys
+        if MOTOR not in sys.path:
+            sys.path.insert(0, MOTOR)
+        from calculos import puntaje
+        disponibles = set(_skills())
+        rotas = [i["id"] for i in puntaje.INDICADORES
+                 if i.get("skill") and i["skill"] not in disponibles]
+        self.assertFalse(rotas, "Indicadores que mandan a una skill inexistente: %s." % rotas)
+
     def test_los_archivos_de_datos_mencionados_existen(self):
         faltan = []
         for ruta, texto in _documentos():

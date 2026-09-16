@@ -82,11 +82,27 @@ qué pedir, escribe **ayuda**.
 - **Bóveda de evidencias** con huella digital SHA-256 verificable.
 - **Tablero** y **diagnóstico ESG** con brechas priorizadas por riesgo.
 
+### Exportar a Europa
+
+- **CSRD y el estándar voluntario para pymes**: qué te puede pedir un cliente
+  europeo y hasta dónde llega su derecho a pedirlo.
+- **CBAM**, el arancel de carbono en frontera para acero, aluminio, cemento y
+  fertilizantes.
+- **EUDR**, productos libres de deforestación (soya, cacao, café, madera, carne).
+- **Mercado de carbono marítimo** y FuelEU: cuánto le suma al flete a Europa.
+
 ### Sectoriales
 
-Minería (relaves, ventilación, exposición ocupacional, cierre de faenas),
-agua, logística, cadena de frío, activos fijos y depreciación, proveedores,
-academia interna y seguimiento comercial.
+- **Minería**: depósitos de relaves, ventilación de minas subterráneas,
+  exposición ocupacional, ruido y cierre de faenas.
+- **Agua**: consumo, indicadores GRI 303 y huella de escasez hídrica.
+- **Transporte de carga**: emisiones de un envío tramo por tramo según ISO
+  14083, y comparación entre camión, tren, barco y avión.
+- **Cadena de frío**: temperatura cinética media, excursiones fuera de rango y
+  las temperaturas que exige el Reglamento Sanitario de los Alimentos.
+- **Activos fijos**: vida útil según la tabla del SII, depreciación y
+  corrección monetaria, para planificar el recambio de equipos.
+- Y además **proveedores**, **academia interna** y **seguimiento comercial**.
 
 Para ver el detalle y la comparación con una plataforma comercial:
 [docs/equivalencias.md](docs/equivalencias.md).

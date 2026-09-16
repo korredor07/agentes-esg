@@ -236,16 +236,25 @@
       },
       {
         "clave": "descarga_riles",
+        "paises": [
+          "CL"
+        ],
         "pregunta": "¿Descargan aguas del proceso a un rio, al mar o al alcantarillado?",
         "para_que": "Define obligaciones sobre residuos liquidos."
       },
       {
         "clave": "fuente_fija_grande",
+        "paises": [
+          "CL"
+        ],
         "pregunta": "¿Alguna instalacion emite mas de 100 toneladas de material particulado o mas de 25.000 toneladas de CO2 al año?",
         "para_que": "Define si paga impuesto verde."
       },
       {
         "clave": "supervisada_cmf",
+        "paises": [
+          "CL"
+        ],
         "pregunta": "¿Es sociedad anonima abierta o esta supervisada por la CMF?",
         "para_que": "Define si debe reportar sostenibilidad en su memoria anual."
       },
@@ -258,11 +267,6 @@
         "clave": "exporta_bienes_cbam",
         "pregunta": "¿Exportan hierro o acero, aluminio, cemento, fertilizantes, hidrogeno o electricidad a la UE?",
         "para_que": "Define si le aplica el CBAM."
-      },
-      {
-        "clave": "emisor_valores",
-        "pregunta": "¿La empresa tiene valores inscritos en el mercado de valores?",
-        "para_que": "Define obligaciones de reporte en Peru."
       }
     ],
     "resumen": "Le aplican 7 normas identificadas; 3 quedan por confirmar.",
