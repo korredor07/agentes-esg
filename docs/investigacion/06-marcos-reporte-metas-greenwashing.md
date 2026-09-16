@@ -2,13 +2,28 @@
 
 Fecha de investigación: 2026-09-15
 
-> Documento en construcción. Se actualiza por secciones.
 > Convenciones de etiquetado: **[VERIFICADO]** = dato leído directamente en la fuente oficial primaria (texto del estándar, norma o regulador). **[SECUNDARIO]** = fuente no oficial (consultora, prensa especializada) o resumen de buscador no confirmado en el documento primario. **[NO VERIFICADO]** = no se pudo confirmar en esta investigación; requiere revisión humana antes de usar en producto.
 > Nota de propiedad intelectual: no se reproduce texto literal de GRI, SASB, IFRS, ESRS, ISO ni SBTi. Se citan solo códigos y títulos de divulgaciones (identificadores necesarios para la interoperabilidad) y se resume el contenido con palabras propias.
 
 ## Resumen
 
-(pendiente — se redacta al cerrar todas las secciones)
+**Qué hay que saber en una página.**
+
+**1. Los marcos se están reescribiendo a la vez, y casi todo entra en vigor entre 2026 y 2028.** GRI publicó GRI 101 (biodiversidad, vigente desde el 1-ene-2026) y GRI 102 y 103 (clima y energía, vigentes desde el 1-ene-2027), que **retiran** GRI 302, GRI 305-1 a 305-5 y GRI 201-2. El ISSB emitió en diciembre de 2025 enmiendas a NIIF S2 (vigentes 1-ene-2027). La Comisión Europea adoptó el 3-jul-2026 los **ESRS simplificados**, con **61 % menos de datapoints obligatorios**, obligatorios desde el ejercicio 2027. El SBTi publicó el **Corporate Net-Zero Standard V2.0** el 11-jun-2026, en vigor el 31-ene-2027. **ISSA 5000** sustituye a ISAE 3410 el 15-dic-2026. Conclusión de diseño: el motor debe tratar la **versión del marco** como parámetro, nunca como constante.
+
+**2. Chile prorrogó un año; Perú va por otra vía y llega en 2029.** La CMF publicó la **NCG 572 (27-jul-2026)**, que mueve la obligación de reportar bajo NIIF S1/S2 de las memorias del año 2026 a las del **año 2027**. En Perú, la adopción vino del Consejo Normativo de Contabilidad (no del regulador de valores), con obligatoriedad reportada desde el **1-ene-2029** para empresas no supervisadas con ingresos ≥ 2.300 UIT (dato **[SECUNDARIO]**, pendiente de verificar).
+
+**3. La UE redujo el alcance de la CSRD pero endureció la publicidad ambiental.** La Directiva (UE) 2026/470 ("Omnibus I", en vigor el 18-mar-2026) subió el umbral a **1.000 empleados y 450 M EUR**, eliminó el mandato de normas de aseguramiento razonable y suprimió las normas sectoriales obligatorias. En paralelo, la **Directiva (UE) 2024/825 se aplica desde el 27 de septiembre de 2026** —doce días después de la fecha de esta investigación— y prohíbe **en toda circunstancia** las alegaciones ambientales genéricas, las que cubren todo el producto cuando la evidencia cubre una parte, y las de neutralidad **basadas solo en compensación**. Las promesas a futuro exigen plan detallado y **verificación por un tercero independiente**.
+
+**4. Chile ya sanciona el greenwashing hoy.** La Ley 19.496 castiga la publicidad falsa o engañosa con hasta **1.500 UTM**, que suben a **2.250 UTM** cuando la publicidad incide sobre la salud, la seguridad o **el medio ambiente**. No hace falta una ley nueva: el argumento ya existe.
+
+**5. Las cifras de SBTi que hay que implementar bien.** Tasa lineal de **4,2 % anual** para Alcances 1+2 (1,5 °C) y **2,5 %** para Alcance 3 — pero **ajustadas dinámicamente** según año base y año net-zero, no fijas. Metas de corto plazo de **5 a 10 años** desde la presentación. Alcance 3 obligatorio si representa **≥ 40 %** del total, con cobertura mínima del **67 %**. Meta de largo plazo: **90 %** de reducción. Créditos de carbono y emisiones evitadas **no cuentan** como progreso.
+
+**6. El encadenamiento que da valor al producto.** Trayectoria SBTi → Monte Carlo (probabilidad y brecha) → MACC (qué medidas cubren la brecha y a qué costo) → nueva simulación hasta superar el umbral de credibilidad. El ejemplo trabajado en este documento arroja una probabilidad de cumplimiento del **11,5 %** con una brecha mediana de **1.320 tCO2e/año**: exactamente el tipo de hallazgo que convierte una meta publicitada en un riesgo legal bajo el art. 6(2)(d) de la Directiva 2024/825.
+
+**7. Advertencia legal para un proyecto de código abierto.** El uso no comercial de los estándares SASB e NIIF es gratuito, pero **integrarlos en un producto o servicio requiere licencia de la Fundación IFRS**, y eso incluye SICS®. Referenciar por código y enlazar; no empaquetar el contenido.
+
+**8. Veinte puntos quedaron sin verificar** (ver "Pendientes y dudas"), casi todos por bloqueo técnico de las fuentes: `iso.org` devolvió 403, `fsb-tcfd.org` 403, el portal peruano `gob.pe` 418 y el servicio de texto legal chileno truncó la Ley 19.496 en el artículo 24. Ninguno se rellenó con suposiciones.
 
 ---
 
@@ -747,17 +762,477 @@ Con la **ruta transversal** (cross-sector pathway) del método de **contracción
 
 ---
 
+## 8. Greenwashing: regulación y normas técnicas
+
+### 8.1 Directiva (UE) 2024/825 — "Empoderar a los consumidores para la transición verde"
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Título | Directiva (UE) 2024/825 del Parlamento Europeo y del Consejo, de **28 de febrero de 2024**, por la que se modifican las Directivas 2005/29/CE y 2011/83/UE en lo que respecta a empoderar a los consumidores para la transición ecológica mediante una mejor protección contra las prácticas desleales y una mejor información | [VERIFICADO] [57] |
+| Publicación en el DOUE | **6 de marzo de 2024** | [VERIFICADO] [57] |
+| Entrada en vigor | 20 días tras la publicación | [VERIFICADO] [57] |
+| **Plazo de transposición** | **27 de marzo de 2026** | [VERIFICADO] [57] |
+| **Fecha de aplicación** | **27 de septiembre de 2026** | [VERIFICADO] [57] |
+
+> 📌 Nota de contexto temporal: a la fecha de esta investigación (15 de septiembre de 2026), **faltan 12 días** para que las normas nacionales de transposición empiecen a aplicarse. Es el cambio regulatorio más inminente del documento.
+
+#### Nuevas prácticas prohibidas "en toda circunstancia" (lista negra del Anexo I de la Directiva 2005/29/CE)
+
+Resumidas con palabras propias [VERIFICADO] [57]:
+
+| Punto | Práctica prohibida |
+|---|---|
+| **2a** | Exhibir una etiqueta de sostenibilidad que no se base en un sistema de certificación o que no haya sido establecida por autoridades públicas. |
+| **4a** | Formular una **alegación ambiental genérica** (por ejemplo "ecológico", "verde", "respetuoso con el medio ambiente") sin poder demostrar un desempeño ambiental excelente y reconocido. |
+| **4b** | Formular una alegación ambiental sobre **todo el producto o toda la empresa** cuando en realidad solo concierne a un aspecto concreto o a una actividad concreta. |
+| **4c** | Afirmar que un producto tiene impacto ambiental **neutro, reducido o positivo** en materia de emisiones de GEI **basándose exclusivamente en compensación** (offsetting). |
+| **10a** | Presentar como rasgo distintivo de la oferta algo que es un **requisito legal obligatorio** para todos los productos de esa categoría. |
+| **23d–23e** | Ocultar información sobre el impacto negativo de una actualización de software en la funcionalidad; o presentar como necesaria una actualización que solo mejora la funcionalidad. |
+| **23f–23g** | Comercializar un bien con una característica que **limita su durabilidad** sin informarlo; o afirmar falsamente una durabilidad determinada en condiciones normales de uso. |
+| **23h** | Presentar como reparables bienes que no lo son. |
+| **23i** | Inducir a sustituir consumibles antes de lo técnicamente necesario. |
+| **23j** | Ocultar que el uso de componentes no originales deteriorará la funcionalidad, o afirmarlo falsamente. |
+
+#### Cambios en los artículos 6 y 7 (prácticas engañosas, evaluación caso a caso)
+
+[VERIFICADO] [57]
+
+- **Art. 6(1)(b)**: se añaden como "características principales" del producto las **características ambientales o sociales**, los accesorios y los **aspectos de circularidad** (durabilidad, reparabilidad, reciclabilidad). Es decir, engañar sobre ellos es práctica engañosa evaluable caso a caso.
+- **Art. 6(2)(d)** — **alegaciones sobre desempeño ambiental futuro** (tipo "seremos neutros en 2030"): solo son admisibles si se basan en **compromisos claros, objetivos, públicamente disponibles y verificables**, recogidos en un **plan de implementación detallado y realista**, con **verificación periódica por un tercero experto independiente**.
+- **Art. 6(2)(e)**: se prohíbe publicitar **beneficios irrelevantes** que no se deriven de ninguna característica real del producto o del negocio.
+- **Art. 7** — **comparaciones**: cuando se comparan productos por características ambientales, sociales o de circularidad, se considera información sustancial (cuya omisión es engañosa) el **método de comparación**, **qué productos se comparan y sus proveedores**, y las **medidas para mantener actualizada** esa información.
+- **Etiquetas de sostenibilidad**: los sistemas de certificación que las respaldan deben cumplir cuatro condiciones: acceso abierto a todo operador que cumpla, desarrollo de requisitos con **consulta a partes interesadas**, procedimientos frente a incumplimiento (incluida la retirada de la etiqueta) y **seguimiento por un tercero** basado en normas internacionales, de la Unión o nacionales. Las etiquetas establecidas por autoridades públicas están exentas del requisito de sistema de certificación.
+
+#### Traducción operativa para el skill anti-greenwashing (UE)
+
+1. ¿La alegación es genérica sin desempeño ambiental excelente demostrado? → prohibida (4a).
+2. ¿La alegación de neutralidad se apoya solo en compensación? → prohibida (4c).
+3. ¿La alegación cubre el producto entero pero la evidencia solo cubre un componente o una planta? → prohibida (4b).
+4. ¿Es una promesa a futuro? → exige plan detallado, público, con hitos y verificación independiente periódica (art. 6(2)(d)).
+5. ¿Es una comparación? → publicar método, productos comparados y proveedores, y cómo se actualiza (art. 7).
+6. ¿Es un sello propio o de una asociación sin sistema de certificación? → prohibido (2a).
+7. ¿La ventaja anunciada es en realidad una obligación legal? → prohibida (10a).
+
+### 8.2 Directiva de Alegaciones Ecológicas (Green Claims Directive) — estado
+
+| Hito | Fecha | Etiqueta |
+|---|---|---|
+| Propuesta de la Comisión, COM(2023) 166 final (procedimiento 2023/0085(COD)) | **23 de marzo de 2023** | [VERIFICADO] [58] |
+| Dictamen del Comité Económico y Social Europeo | 14 de junio de 2023 | [VERIFICADO] [58] |
+| Dictamen del Comité Europeo de las Regiones | 10 de octubre de 2023 | [VERIFICADO] [58] |
+| Posición del Parlamento Europeo en primera lectura | **12 de marzo de 2024** | [VERIFICADO] [58] |
+| Debates en el Consejo | junio–julio de 2024 | [VERIFICADO] [58] |
+| **Estado registrado en EUR-Lex al 15-sep-2026** | **"En curso" (Ongoing), en fase de primera lectura. EUR-Lex no registra ningún acto de adopción, retirada ni acuerdo en trílogo posterior a julio de 2024** | [VERIFICADO — ficha de procedimiento de EUR-Lex] [58] |
+| Acontecimientos de 2025–2026 (intención de retirada anunciada por la Comisión, suspensión de trílogos, etc.) | — | **[NO VERIFICADO]** — no se pudo confirmar en fuente oficial dentro de esta investigación. La ficha de EUR-Lex y la página de la Comisión sobre *green claims* no registran eventos posteriores a 2024. **Verificar antes de publicar cualquier afirmación sobre su estado.** |
+
+> ⚠️ Instrucción para el producto: mientras no se confirme, el agente debe decir que la Directiva de Alegaciones Ecológicas **no está en vigor** y que la norma aplicable en la UE es la Directiva (UE) 2024/825 transpuesta al derecho nacional. No afirmar que fue retirada ni que fue aprobada.
+
+### 8.3 Reino Unido: CMA Green Claims Code
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Emisor | **Competition and Markets Authority (CMA)** | [VERIFICADO] [59] |
+| Publicación | **20 de septiembre de 2021** | [VERIFICADO] [59] |
+| Naturaleza | **Guía**, no norma autónoma: ayuda a las empresas a cumplir obligaciones ya existentes de derecho del consumidor. No es asesoría legal | [VERIFICADO] [59] |
+| Base legal original | Consumer Protection from Unfair Trading Regulations 2008 y Business Protection from Misleading Marketing Regulations 2008 | [VERIFICADO] [60] |
+| Base legal actual | Las disposiciones de protección frente al comercio desleal están ahora en la **Digital Markets, Competition and Consumers Act 2024**, sobre la que la CMA publicó la guía **CMA207** | [VERIFICADO] [61] |
+
+**Los seis principios del Green Claims Code** (parafraseados) [VERIFICADO] [60]:
+
+| # | Principio | Qué implica |
+|---|---|---|
+| 1 | Las alegaciones deben ser **veraces y exactas** | El producto o servicio debe entregar realmente el beneficio ambiental anunciado, sin exageración ni insinuaciones engañosas |
+| 2 | Deben ser **claras y no ambiguas** | Lenguaje comprensible; evitar términos vagos como "eco-friendly" sin explicación |
+| 3 | No deben **omitir ni ocultar información importante** | No destacar lo positivo callando impactos negativos significativos que influirían en la decisión de compra |
+| 4 | Las **comparaciones** deben ser justas y significativas | Comparar productos similares con mediciones consistentes y base transparente |
+| 5 | Deben considerar el **ciclo de vida completo** | Fabricación, transporte, uso y fin de vida |
+| 6 | Deben estar **fundamentadas** | Evidencia robusta, creíble y actualizada |
+
+> Útil como checklist universal: los seis principios de la CMA son el instrumento más claro y más fácil de explicar a una pyme, y son compatibles con la Directiva 2024/825 y con la Ley 19.496 chilena.
+
+### 8.4 Chile: Ley 19.496 y el SERNAC
+
+| Elemento | Dato | Etiqueta |
+|---|---|---|
+| Norma | **Ley N° 19.496**, sobre protección de los derechos de los consumidores | [VERIFICADO] [62] |
+| Publicación | **7 de marzo de 1997** | [VERIFICADO] [62] |
+| Multa general por infracción | Hasta **300 UTM** | [VERIFICADO — art. 24] [62] |
+| **Multa por publicidad falsa o engañosa** difundida por medios de comunicación social, en relación con los elementos del artículo 28 | Hasta **1.500 UTM** | [VERIFICADO — art. 24] [62] |
+| **Multa agravada si la publicidad falsa o engañosa incide sobre la salud, la seguridad o el medio ambiente** | Hasta **2.250 UTM** | [VERIFICADO — art. 24] [62] |
+| Circunstancias que el tribunal debe ponderar | Atenuantes (reparación del daño, autodenuncia, colaboración) y agravantes (reincidencia, daño patrimonial grave, riesgo a la seguridad) | [VERIFICADO — art. 24] [62] |
+| Vínculo con el contrato | Las "condiciones objetivas" señaladas en el **artículo 28** que se comunican en la publicidad se entienden **incorporadas al contrato** (art. 1° N°4 y art. 4) | [VERIFICADO] [62] |
+
+> 🔑 **Punto clave para Chile:** la ley chilena **ya sanciona hoy** el greenwashing, sin necesidad de una norma específica: una alegación ambiental falsa o engañosa cae bajo el artículo 28 y, por incidir sobre el medio ambiente, activa el tramo agravado de **2.250 UTM** del artículo 24. Ese es el argumento más fuerte para convencer a una empresa chilena de fundamentar sus alegaciones.
+
+**Pendientes de verificación en Chile [NO VERIFICADO]:**
+- Texto literal del **artículo 28** (letras a–g: componentes, idoneidad, características relevantes, precio, condiciones de garantía, etc.) y del **artículo 28 A** (publicidad comparativa / conductas que inducen a error). El servicio de texto de la Biblioteca del Congreso Nacional truncó el documento en el artículo 24 en los tres intentos realizados.
+- **Guías, circulares interpretativas o pronunciamientos específicos del SERNAC sobre alegaciones ambientales** ("eco", "biodegradable", "carbono neutral", "sustentable"). No se localizó ninguno navegando el portal institucional del SERNAC; la sección de noticias no muestra contenidos sobre publicidad ambiental. **No afirmar que existe una guía del SERNAC sobre greenwashing hasta confirmarlo.**
+- Aplicación de la **Ley 21.081 (2018)**, que fortaleció facultades del SERNAC y elevó multas, y de la **Ley 21.398 ("Pro Consumidor", 2021)**.
+
+### 8.5 Normas ISO relevantes
+
+> ⚠️ **Limitación de esta investigación:** `iso.org` devolvió **HTTP 403** en los cuatro intentos de lectura (páginas de catálogo y plataforma OBP). Los datos siguientes provienen de conocimiento previo y **no** fueron confirmados en la fuente oficial en esta sesión. **[NO VERIFICADO]** — validar número de edición, año y alcance en `iso.org` antes de usarlos en producto.
+
+#### ISO 14021 — Autodeclaraciones ambientales (etiquetado Tipo II) [NO VERIFICADO]
+
+Principios que rigen las autodeclaraciones ambientales, resumidos:
+
+- La declaración debe ser **exacta, verificable, pertinente y no engañosa**.
+- Debe ser **específica**: indicar a qué se refiere (producto, envase, componente o servicio).
+- **No se admiten declaraciones vagas** o inespecíficas como "amigable con el medio ambiente", "verde", "no contaminante", "seguro para la naturaleza".
+- **No debe implicar** una mejora ambiental que no exista, ni basarse en la ausencia de una sustancia que el producto nunca contuvo o que ya está prohibida.
+- Debe poder **sustentarse con evidencia** disponible antes de hacerse pública y mantenerse actualizada.
+- Define términos concretos con requisitos de uso (reciclable, contenido reciclado, compostable, degradable, reutilizable, recargable, consumo reducido de energía, entre otros) y **símbolos** como el lazo de Möbius.
+- El marco general del etiquetado ambiental está en la familia ISO 14020 (Tipo I: ISO 14024, etiquetas con certificación por tercero; Tipo II: ISO 14021, autodeclaradas; Tipo III: ISO 14025, declaraciones ambientales de producto con datos cuantificados de ACV).
+
+#### ISO 14068-1:2023 — Gestión del cambio climático: transición a cero neto, Parte 1: Carbono neutralidad [NO VERIFICADO]
+
+Ideas principales, resumidas:
+
+- Establece principios, requisitos y orientación para lograr y **demostrar la neutralidad en carbono** de un "sujeto" (organización, producto, servicio, edificio, evento, etc.).
+- **Jerarquía obligatoria**: primero **medir** la huella de carbono, luego **reducir** las emisiones mediante acciones propias y de la cadena de valor conforme a un **plan de gestión de carbono** con metas y plazos, y **solo al final compensar** el remanente con créditos de carbono que cumplan criterios de calidad.
+- Exige que la compensación sea **residual**, no un sustituto de la reducción, y que los créditos usados sean **verificables, adicionales, permanentes, sin doble contabilidad y con tratamiento de fugas**; establece expectativas crecientes de uso de **remociones** frente a créditos de reducción a lo largo del tiempo.
+- Requiere **transparencia documental**: alcance del sujeto, límites, periodo, metodología, cantidad compensada y tipo de créditos, y disponibilidad pública de la declaración.
+- Sustituye en la práctica a la especificación británica PAS 2060.
+
+> ⚠️ **Interacción crítica con la UE:** el punto **4c** de la lista negra de la Directiva (UE) 2024/825 prohíbe afirmar impacto climático neutro **basándose exclusivamente en compensación**. Una certificación de "carbono neutral" bajo ISO 14068-1 **no protege** por sí sola frente a esa prohibición si la reducción real es marginal y la neutralidad descansa en créditos. El agente debe advertirlo siempre.
+
+---
+
+## 9. MACC: curva de costos marginales de abatimiento
+
+### 9.1 Qué es y para qué sirve
+
+Una **MACC** (Marginal Abatement Cost Curve) es un gráfico de barras que ordena las medidas de reducción de emisiones de **menor a mayor costo por tonelada evitada**. Cada barra tiene:
+
+- **Ancho** = potencial anual de abatimiento de la medida, en tCO2e/año.
+- **Alto** = costo marginal de abatimiento, en moneda por tCO2e (puede ser **negativo** si la medida ahorra dinero neto).
+
+El eje horizontal acumula el abatimiento total; el vertical cruza el cero, de modo que las medidas que están **bajo la línea de cero** son las que pagan por sí mismas ("no-regret"). La curva responde a tres preguntas de negocio: cuánto puedo reducir, en qué orden conviene hacerlo y cuánto cuesta cada tramo.
+
+> Aclaración metodológica honesta: la MACC es una herramienta de **priorización**, no de predicción. Es estática (no captura interacciones ni curvas de aprendizaje), sensible a la tasa de descuento y a la vida útil asumidas, e ignora costos de transacción y barreras no económicas. Presentarla siempre con sus supuestos visibles. **[SECUNDARIO — síntesis propia]**
+
+### 9.2 Fórmula del costo marginal de abatimiento
+
+$$\text{CMA} = \frac{\text{CAPEX} \times \text{FRC}(i, n) + \text{OPEX}_{\text{anual}} - \text{Ahorros}_{\text{anuales}}}{\text{Abatimiento anual (tCO}_2\text{e)}}$$
+
+donde el **factor de recuperación de capital** (FRC, *capital recovery factor*) anualiza la inversión:
+
+$$\text{FRC}(i,n) = \frac{i\,(1+i)^{n}}{(1+i)^{n} - 1}$$
+
+- $i$ = tasa de descuento anual (costo de capital real de la empresa).
+- $n$ = vida útil de la medida en años.
+- Los **ahorros** incluyen energía evitada, combustible evitado, menor mantenimiento, ingresos por excedentes y, si aplica, impuestos al carbono evitados.
+- Si la medida es de inversión cero (por ejemplo un cambio de procedimiento), FRC × CAPEX = 0 y el costo es simplemente (OPEX − ahorros) / tCO2e.
+
+**Convención de signos:** un CMA **negativo** significa que la medida genera un beneficio económico neto además de reducir emisiones.
+
+### 9.3 Cómo construir la curva (procedimiento para el motor)
+
+1. **Inventario de medidas.** Listar todas las opciones técnicamente viables, cada una con CAPEX, OPEX incremental, ahorros anuales, vida útil y abatimiento anual.
+2. **Definir el escenario base** (*business as usual*). El abatimiento se mide **contra ese escenario**, no contra el año actual. Si la red eléctrica se descarboniza sola, ese efecto pertenece a la línea base, no a la medida.
+3. **Homogeneizar supuestos**: misma tasa de descuento, misma moneda y año base, mismos factores de emisión, mismo horizonte.
+4. **Evitar doble contabilidad**: si dos medidas actúan sobre el mismo consumo (por ejemplo LED + sensores de presencia), calcular la segunda **de forma incremental** sobre la primera, o agruparlas en un paquete.
+5. **Calcular el CMA** de cada medida con la fórmula anterior.
+6. **Ordenar de menor a mayor CMA** y acumular el abatimiento en el eje X.
+7. **Trazar la brecha**: superponer la línea vertical del abatimiento anual que exige la meta (por ejemplo, la trayectoria SBTi). Lo que queda a la derecha de esa línea es el remanente sin solución identificada.
+8. **Analizar sensibilidad**: recalcular con $i$ ± 3 pp, precios de energía ± 30 % y vida útil ± 25 %. El **orden** de las medidas suele ser más robusto que los valores absolutos.
+
+### 9.4 Cómo leer la curva
+
+| Zona | Lectura | Acción |
+|---|---|---|
+| Barras anchas y bajo cero (izquierda) | Ahorro neto con volumen relevante | Ejecutar ya; financian el resto del plan |
+| Barras estrechas y bajo cero | Ahorran dinero pero mueven poca emisión | Hacerlas, pero no son la respuesta a la meta |
+| Barras anchas y sobre cero | El núcleo del costo del plan | Negociar financiamiento, escalonar, buscar incentivos |
+| Barras muy altas y estrechas | Costo desproporcionado por poca tonelada | Posponer; esperar cambio tecnológico o de precios |
+| Espacio a la derecha de la línea de meta | Brecha sin solución | Señal de alerta: la meta no es alcanzable con lo identificado |
+
+---
+
+## 10. Monte Carlo para la probabilidad de cumplir una meta
+
+### 10.1 Por qué Monte Carlo
+
+Una trayectoria determinista dice "en 2030 emitiremos 9.350 tCO2e". Eso es falso en el sentido estricto: el crecimiento del negocio, la velocidad de descarbonización de la red eléctrica, el éxito de cada proyecto y la calidad de los factores de emisión son **inciertos**. Monte Carlo convierte la pregunta binaria ("¿cumplimos?") en una distribución de resultados y una **probabilidad**, que es lo que un directorio o un banco necesita para decidir.
+
+### 10.2 Enfoque recomendado
+
+**Paso 1 — Escribir el modelo de emisiones como una función explícita.** Por ejemplo, para un horizonte de $H$ años:
+
+$$E_H = E_0 \prod_{y=1}^{H} \Big[ (1 + g_y)\,(1 - d_y)\,(1 - e_y) \Big] \times \prod_{k} (1 - p_k \cdot s_k)$$
+
+donde $g_y$ = crecimiento de la actividad, $d_y$ = descarbonización exógena (red eléctrica), $e_y$ = eficiencia continua, y cada proyecto discreto $k$ aporta una reducción $s_k$ que ocurre solo si el proyecto se ejecuta ($p_k$ = variable Bernoulli).
+
+**Paso 2 — Elegir distribuciones por variable.** Regla práctica: usar la distribución más simple que refleje honestamente lo que se sabe.
+
+| Variable incierta | Distribución sugerida | Por qué |
+|---|---|---|
+| Crecimiento de la producción o ventas | **Normal** o **lognormal** (si no puede ser negativa) | Suma de muchos efectos pequeños; se parametriza con el plan de negocio y su desviación histórica |
+| Factor de emisión de la red eléctrica | **Triangular** (mín, más probable, máx) o **PERT** | Hay proyección oficial (valor central) y rangos de escenarios |
+| Ahorro real de un proyecto de eficiencia | **Triangular** | Se conoce el diseño (más probable) y el rango de desempeño típico |
+| ¿Se ejecuta el proyecto? | **Bernoulli** | Modela riesgo de aprobación, permisos o financiamiento |
+| Año de puesta en marcha | **Discreta** o **triangular discretizada** | Captura retrasos |
+| Incertidumbre del factor de emisión | **Normal** con CV del inventario | Se puede tomar del análisis de incertidumbre del inventario GEI |
+| Precio de la energía o del carbono | **Lognormal** o escenarios discretos ponderados | Colas asimétricas |
+
+**Paso 3 — Modelar correlaciones.** Es el error más frecuente: tratar todo como independiente. Si la producción crece, el consumo energético crece y la inversión disponible aumenta. Implementar al menos las correlaciones obvias (crecimiento ↔ consumo; precio de energía ↔ ahorro monetario) mediante una **cópula gaussiana** o, más simple, generando un factor común compartido.
+
+**Paso 4 — Iteraciones.** El error estándar de una probabilidad estimada es $\sqrt{p(1-p)/N}$, máximo en $p=0{,}5$:
+
+| N iteraciones | Error estándar máximo de la probabilidad |
+|---|---|
+| 1.000 | ±1,58 puntos porcentuales |
+| 5.000 | ±0,71 pp |
+| **10.000** | **±0,50 pp** |
+| 50.000 | ±0,22 pp |
+| 100.000 | ±0,16 pp |
+
+**Recomendación:** **10.000 iteraciones** como mínimo para reportar una probabilidad con una cifra decimal; 100.000 si se van a reportar percentiles de cola (P5, P95). Fijar siempre una **semilla** para reproducibilidad — es un requisito de auditabilidad, no un detalle técnico.
+
+**Paso 5 — Reportar.**
+
+- **Probabilidad de cumplir la meta**: fracción de iteraciones con $E_H \le \text{meta}$.
+- **Percentiles** de emisiones en el año meta: P5, P25, **P50 (mediana)**, P75, P95.
+- **Brecha esperada**: mediana menos meta.
+- **Análisis de sensibilidad**: correlación de rangos (Spearman) entre cada variable de entrada y el resultado, presentada como diagrama de tornado. Esto dice **dónde invertir en reducir incertidumbre**.
+- **Supuestos de cada distribución**, con su fuente. Sin esto, el resultado no es auditable.
+
+**Paso 6 — Interpretar con honestidad.** Una probabilidad del 40 % no es "vamos por buen camino con matices": significa que el plan actual no alcanza. Umbrales sugeridos para el agente:
+
+| Probabilidad | Lectura | Mensaje |
+|---|---|---|
+| ≥ 80 % | Meta robusta | Mantener y monitorear |
+| 50–80 % | Meta alcanzable pero frágil | Añadir medidas de respaldo del MACC |
+| 20–50 % | Meta improbable | Replantear el plan; identificar la brecha |
+| < 20 % | Meta no creíble | **Riesgo de greenwashing**: anunciarla públicamente sin plan es exactamente lo que prohíbe el art. 6(2)(d) de la Directiva (UE) 2024/825 |
+
+### 10.3 Referencias metodológicas
+
+- El **análisis de incertidumbre de inventarios GEI** está tratado en la guía de incertidumbre del GHG Protocol, que distingue incertidumbre **científica**, de **parámetro/estimación** y de **modelo**, y admite métodos estadísticos y de simulación para propagarla. **[NO VERIFICADO]** — el enlace directo al PDF devolvió 404; localizar el documento vigente en `ghgprotocol.org` antes de citarlo. [64]
+- Las **Directrices del IPCC de 2006 para inventarios nacionales de GEI (Vol. 1, Cap. 3)** definen dos enfoques: propagación de errores (Enfoque 1) y **simulación de Monte Carlo (Enfoque 2)**, este último recomendado cuando hay incertidumbres grandes, distribuciones no normales o correlaciones. **[NO VERIFICADO]** — verificar capítulo y numeración en `ipcc-nggip.iges.or.jp`.
+- Para valorar el costo-efectividad en moneda por tonelada, el **HM Treasury Green Book supplementary guidance: "Valuation of energy use and greenhouse gas emissions for appraisal"** (Reino Unido, última actualización el **30 de noviembre de 2023**, alineada con los valores de CO2-equivalencia del IPCC AR5) define valores del carbono en £/tCO2e, tasas de descuento y el cálculo de costo-efectividad de políticas climáticas (su capítulo 5). Es la referencia pública más citable para parametrizar una MACC. [VERIFICADO] [65]
+
+---
+
 ## Fórmulas y métodos
 
-(pendiente)
+Todos los ejemplos numéricos de esta sección fueron **calculados** durante la investigación (no estimados a ojo) y son reproducibles con los parámetros indicados.
+
+### F1. Trayectoria SBTi de contracción absoluta (lineal)
+
+$$E_t = E_{base} \times \big(1 - r \times (t - t_{base})\big)$$
+
+- $r$ = tasa lineal anual. Mínimos de la ruta transversal: **4,2 %** para Alcances 1 y 2 (1,5 °C) y **2,5 %** para Alcance 3 (muy por debajo de 2 °C), **ajustados dinámicamente** según el año base y el año net-zero. [VERIFICADO] [54]
+- La reducción acumulada es $r \times (t - t_{base})$ y **no** se compone.
+
+**Ejemplo numérico.** Empresa con año base **2024** y **12.500 tCO2e** de Alcances 1+2. Tasa 4,2 % anual.
+
+| Año | Años desde base | Reducción acumulada | Emisiones permitidas (tCO2e) |
+|---|---|---|---|
+| 2025 | 1 | 4,2 % | 11.975 |
+| 2026 | 2 | 8,4 % | 11.450 |
+| 2027 | 3 | 12,6 % | 10.925 |
+| 2028 | 4 | 16,8 % | 10.400 |
+| 2029 | 5 | 21,0 % | 9.875 |
+| **2030** | **6** | **25,2 %** | **9.350** |
+| 2031 | 7 | 29,4 % | 8.825 |
+| 2032 | 8 | 33,6 % | 8.300 |
+| 2033 | 9 | 37,8 % | 7.775 |
+| **2034** | **10** | **42,0 %** | **7.250** |
+
+Nota: una reducción lineal del 42 % en 10 años equivale a una tasa **compuesta** del **5,302 % anual**. Confundir ambas es un error frecuente al comparar con metas expresadas en CAGR.
+
+**Validaciones que el motor debe ejecutar:**
+- Año base ≥ 2015 (C13).
+- Horizonte entre 5 y 10 años desde la presentación (C13), salvo que el año meta sea 2030 (R7).
+- Si Alcance 3 ≥ 40 % del total 1+2+3 → exigir meta de Alcance 3 (C4).
+- Cobertura de Alcance 3 ≥ 67 % del total reportado y excluido (C6).
+- Exclusiones ≤ 5 % en 1+2 y ≤ 5 % en 3 (C5).
+- No acreditar créditos de carbono ni emisiones evitadas como progreso (C11, C12).
+
+### F2. Umbral de Alcance 3
+
+$$\text{Ratio}_{3} = \frac{E_{3}}{E_{1} + E_{2} + E_{3}}$$
+
+Si $\text{Ratio}_{3} \ge 0{,}40$ → la meta de Alcance 3 es **obligatoria**. [VERIFICADO] [53]
+
+**Ejemplo.** $E_1$ = 3.000, $E_2$ = 9.500, $E_3$ = 41.000 tCO2e. Total = 53.500. Ratio₃ = 41.000 / 53.500 = **76,6 %** → meta de Alcance 3 obligatoria, y debe cubrir al menos 67 % × 41.000 = **27.470 tCO2e**.
+
+### F3. Meta de largo plazo
+
+$$E_{2050} \le E_{base} \times (1 - 0{,}90)$$
+
+Mínimo del **90 %** de reducción en todos los alcances. Las emisiones residuales deben **neutralizarse** con remociones permanentes para poder declarar net-zero. [VERIFICADO] [54]
+
+**Ejemplo.** Con $E_{base}$ = 12.500 tCO2e: $E_{2050} \le$ **1.250 tCO2e**, y esas 1.250 t deben neutralizarse.
+
+### F4. Factor de recuperación de capital y costo marginal de abatimiento
+
+$$\text{FRC}(i,n) = \frac{i(1+i)^n}{(1+i)^n-1} \qquad\qquad \text{CMA} = \frac{\text{CAPEX}\cdot\text{FRC} + \text{OPEX} - \text{Ahorros}}{\text{tCO}_2\text{e evitadas}}$$
+
+**Ejemplo completo de MACC** — tasa de descuento $i$ = 10 %, valores anuales en USD:
+
+| Medida | CAPEX | n (años) | FRC | CAPEX anualizado | OPEX | Ahorros | tCO2e/año | **CMA (USD/tCO2e)** |
+|---|---|---|---|---|---|---|---|---|
+| Iluminación LED | 45.000 | 10 | 0,16275 | 7.324 | 1.200 | 14.000 | 38 | **−144,1** |
+| Motores eficientes | 120.000 | 12 | 0,14676 | 17.612 | 3.000 | 26.000 | 70 | **−77,0** |
+| Solar FV autoconsumo | 320.000 | 20 | 0,11746 | 37.587 | 6.500 | 52.000 | 160 | **−49,5** |
+| Recuperador de calor | 210.000 | 15 | 0,13147 | 27.609 | 8.000 | 22.000 | 130 | **+104,7** |
+| Electrificación de flota | 480.000 | 8 | 0,18744 | 89.973 | 12.000 | 40.000 | 145 | **+427,4** |
+
+**Verificación del primer caso:** FRC(10 %, 10) = 0,10 × 1,10¹⁰ / (1,10¹⁰ − 1) = 0,16275. CAPEX anualizado = 45.000 × 0,16275 = 7.324. CMA = (7.324 + 1.200 − 14.000) / 38 = −5.476 / 38 = **−144,1 USD/tCO2e**.
+
+**Curva resultante (orden de ejecución y abatimiento acumulado):**
+
+| Orden | Medida | CMA (USD/tCO2e) | Abatimiento acumulado (tCO2e/año) |
+|---|---|---|---|
+| 1 | Iluminación LED | −144,1 | 38 |
+| 2 | Motores eficientes | −77,0 | 108 |
+| 3 | Solar FV autoconsumo | −49,5 | 268 |
+| 4 | Recuperador de calor | +104,7 | 398 |
+| 5 | Electrificación de flota | +427,4 | 543 |
+
+**Lectura:** las tres primeras medidas suman **268 tCO2e/año con ahorro neto**. Si la meta exige 400 tCO2e/año, hay que llegar hasta el recuperador de calor; el costo neto del paquete completo hasta ese punto sigue siendo favorable porque las medidas negativas financian la positiva. La electrificación de flota, a 427 USD/tCO2e, solo se justifica si hay precio del carbono, obligación regulatoria o beneficio reputacional cuantificado.
+
+### F5. Monte Carlo — ejemplo reproducible
+
+**Configuración.** Misma empresa: $E_0$ = 12.500 tCO2e en 2024, meta SBTi 2030 = 9.350 tCO2e (F1). Horizonte 6 años. 100.000 iteraciones, semilla 20260915.
+
+| Variable | Distribución | Parámetros |
+|---|---|---|
+| Crecimiento anual de la actividad | Normal | media 2,5 %, desviación 1,5 % |
+| Descarbonización anual de la red | Triangular | mín 1,0 %, moda 2,5 %, máx 4,5 % |
+| Eficiencia anual continua | Triangular | mín 0 %, moda 2,0 %, máx 3,0 % |
+| ¿Se ejecuta el proyecto solar? | Bernoulli | p = 0,70 |
+| Reducción puntual del solar (año 3) | Triangular | mín 3 %, moda 6 %, máx 9 % |
+
+**Resultados calculados:**
+
+| Indicador | Valor |
+|---|---|
+| **Probabilidad de cumplir la meta** | **11,5 %** (error estándar ±0,10 pp) |
+| Media de emisiones en 2030 | 10.731 tCO2e |
+| Desviación estándar | 1.182 tCO2e |
+| P5 | 8.899 tCO2e |
+| P10 | 9.264 tCO2e |
+| P25 | 9.902 tCO2e |
+| **P50 (mediana)** | **10.670 tCO2e** |
+| P75 | 11.492 tCO2e |
+| P90 | 12.282 tCO2e |
+| P95 | 12.776 tCO2e |
+| **Brecha mediana frente a la meta** | **+1.320 tCO2e** |
+
+**Interpretación:** con 11,5 % de probabilidad, la meta **no es creíble** con el plan actual. La brecha mediana de 1.320 tCO2e/año es exactamente el insumo que se lleva a la MACC: hay que encontrar medidas que cubran ~1.320 tCO2e/año adicionales. Anunciar públicamente esta meta sin ese plan es el supuesto que la Directiva (UE) 2024/825 exige respaldar con "un plan de implementación detallado y realista" verificado por un tercero.
+
+**Encadenamiento MACC ↔ Monte Carlo (el núcleo del motor):**
+
+1. Trayectoria SBTi → define la **meta anual** (F1).
+2. Monte Carlo sobre el plan actual → **probabilidad y brecha** (F5).
+3. MACC → **qué medidas** cubren esa brecha y a qué costo (F4).
+4. Se añaden las medidas seleccionadas al modelo y se vuelve a correr Monte Carlo → nueva probabilidad.
+5. Se itera hasta superar el umbral de credibilidad (≥ 80 %).
+6. El resultado —plan, costo, probabilidad y supuestos— es a la vez el **plan de transición** (NIIF S2 / ESRS E1 / GRI 102-1) y la **defensa anti-greenwashing**.
+
+---
 
 ## Cambios recientes (2024–2026)
 
-(pendiente)
+Línea de tiempo consolidada de todo lo verificado en este documento.
+
+| Fecha | Hito | Marco |
+|---|---|---|
+| **28-feb-2024** | Directiva (UE) 2024/825 (empoderar a los consumidores) | Greenwashing UE |
+| **feb-2024** | Publicación de GRI 14: Mining Sector | GRI |
+| **06-mar-2024** | Publicación en el DOUE de la Directiva (UE) 2024/825 | Greenwashing UE |
+| **12-mar-2024** | Posición del Parlamento Europeo en primera lectura sobre la Green Claims Directive | Greenwashing UE |
+| **ene-2024** | Publicación de GRI 101: Biodiversity 2024 | GRI |
+| **abr-2024** | Inicio de la revisión del SBTi Corporate Net-Zero Standard hacia V2.0 | SBTi |
+| **28-oct-2024** | CMF Chile publica la NCG 519 (adopción de NIIF S1 y S2) | ISSB / Chile |
+| **12-nov-2024** | IAASB publica **ISSA 5000** | Aseguramiento |
+| **dic-2024** | EFRAG entrega el estándar **VSME** a la Comisión Europea | ESRS / pymes |
+| **ene-2025** | IAASB e IESBA presentan conjuntamente ISSA 5000 e IESSA | Aseguramiento |
+| **26-feb-2025** | La Comisión adopta la propuesta del paquete **Omnibus I** | CSRD / CSDDD |
+| **mar–jun-2025** | Primera consulta pública del SBTi sobre CNZS V2 | SBTi |
+| **jun-2025** | Publicación de **GRI 102: Climate Change 2025** y **GRI 103: Energy 2025** | GRI |
+| **11-jul-2025** | Reglamento Delegado (UE) 2025/1416 (aplazamiento de fechas de aplicación de ciertos ESRS) | ESRS |
+| **jul-2025** | El ISSB publica dos borradores de enmiendas a los estándares SASB y a la guía por industria de NIIF S2 | ISSB / SASB |
+| **29-jul-2025** | **Recomendación de la Comisión C(2025) 4984** sobre la norma voluntaria VSME | ESRS / pymes |
+| **30-jul-2025** | Fecha de la Recomendación VSME | ESRS / pymes |
+| **29-jul – 29-sep-2025** | Consulta pública de EFRAG sobre los borradores de ESRS simplificados | ESRS |
+| **15-sep-2025** | Entran en vigor SBTi CNZS V1.3 y Near-Term Criteria V5.3 | SBTi |
+| **nov–dic-2025** | Segunda consulta pública del SBTi sobre CNZS V2 | SBTi |
+| **02-dic-2025** | EFRAG entrega a la Comisión su asesoramiento técnico sobre los ESRS revisados | ESRS |
+| **dic-2025** | El ISSB emite las **enmiendas a NIIF S2** sobre divulgación de emisiones de GEI | ISSB |
+| **23-dic-2025** | EFRAG entrega el análisis costo-beneficio y documentos de apoyo | ESRS |
+| **01-ene-2026** | Entra en vigor **GRI 101: Biodiversity 2024**; entra en vigor **GRI 14: Mining Sector** | GRI |
+| **01-ene-2026** | GRI pone a disposición las secciones actualizadas de los sectoriales con clima y energía | GRI |
+| **24-feb-2026** | Se adopta la **Directiva (UE) 2026/470 (Omnibus I)** | CSRD / CSDDD |
+| **26-feb-2026** | Publicación en el DOUE de la Directiva (UE) 2026/470 | CSRD / CSDDD |
+| **mar-2026** | SBTi FLAG Guidance V1.2 | SBTi |
+| **18-mar-2026** | Entrada en vigor de la Directiva (UE) 2026/470 | CSRD / CSDDD |
+| **~18/27-mar-2026** | Perú: el Consejo Normativo de Contabilidad oficializa NIIF S1 y S2 (Res. 001-2026-EF/30) **[SECUNDARIO]** | ISSB / Perú |
+| **27-mar-2026** | **Plazo de transposición** de la Directiva (UE) 2024/825 | Greenwashing UE |
+| **14-abr-2026** | Entran en vigor SBTi CNZS V1.3.1 y Near-Term Criteria V5.3.1 | SBTi |
+| **06-may-2026** | La Comisión publica el borrador del acto delegado de ESRS revisados | ESRS |
+| **08-may-2026** | El Consejo Técnico del SBTi aprueba CNZS V2.0 | SBTi |
+| **21-may-2026** | El Consejo de Administración del SBTi adopta CNZS V2.0 | SBTi |
+| **03-jun-2026** | Cierre de la consulta pública sobre el acto delegado de ESRS | ESRS |
+| **11-jun-2026** | **SBTi publica el Corporate Net-Zero Standard V2.0** | SBTi |
+| **jun-2026** | Talleres CMF–Fundación IFRS en Chile | ISSB / Chile |
+| **03-jul-2026** | La Comisión adopta el **acto delegado C(2026) 5010** con los **ESRS simplificados (2026)** y un acto delegado con una norma voluntaria | ESRS |
+| **27-jul-2026** | CMF Chile publica la **NCG 572**: prórroga de un año de la obligación NIIF S1/S2 | ISSB / Chile |
+| **15-sep-2026** | *(fecha de esta investigación)* | — |
+| **27-sep-2026** | **Fecha de aplicación** de la Directiva (UE) 2024/825 | Greenwashing UE |
+| **15-dic-2026** | Entra en vigor **ISSA 5000** (e IESSA); se **retira ISAE 3410** | Aseguramiento |
+| **31-dic-2026** | Último día de vigencia de **GRI 302: Energy 2016** | GRI |
+| **01-ene-2027** | Entran en vigor **GRI 102: Climate Change 2025** y **GRI 103: Energy 2025**; se retiran GRI 305-1 a 305-5 y GRI 201-2 | GRI |
+| **01-ene-2027** | Aplicación obligatoria de los **ESRS (2026)**; aplicación de los nuevos umbrales CSRD | ESRS |
+| **01-ene-2027** | Vigencia de las **enmiendas de dic-2025 a NIIF S2** | ISSB |
+| **31-ene-2027** | Entra en vigor el **SBTi CNZS V2.0**; validaciones disponibles desde el Q1 2027 | SBTi |
+| **01-jul-2027** | Fecha límite para que la Comisión adopte normas de **aseguramiento limitado** | Aseguramiento UE |
+| **19-mar-2027** | Plazo de transposición de la Directiva (UE) 2026/470 | CSRD |
+| **31-dic-2027** | Entra en vigor la sección III de la NCG 519 chilena (memorias del año 2027) | ISSB / Chile |
+| **31-ene-2028** | Último día para presentar metas al SBTi bajo V1.3.1 | SBTi |
+| **26-jul-2029** | Aplicación de la CSDDD reformada | CSDDD |
+| **01-ene-2029** | Obligatoriedad de NIIF S1/S2 en Perú para empresas no supervisadas con ingresos ≥ 2.300 UIT **[SECUNDARIO]** | ISSB / Perú |
+
+### Qué significa esto para "Agentes ESG"
+
+1. **Todo lo importante cambia entre 2026 y 2028.** El motor debe tratar la **versión del marco** como un parámetro de primera clase (año de reporte → versión aplicable), no como una constante.
+2. **Chile se relajó un año** (NCG 572): la ventana de preparación es 2026–2027, no 2026. Argumento comercial: quien reporte voluntariamente el ejercicio 2026 accede a retroalimentación técnica de la CMF.
+3. **Perú llega más tarde y por una vía distinta** (Consejo Normativo de Contabilidad, no el regulador de valores), con un umbral en UIT que hay que recalcular cada año.
+4. **La UE redujo drásticamente el alcance** (1.000 empleados + 450 M EUR) pero **endureció la publicidad ambiental** desde el 27 de septiembre de 2026. Para una pyme latinoamericana exportadora, el riesgo ya no es tanto "tener que reportar CSRD" como (a) responder cuestionarios de cadena de valor —para lo que sirve el VSME— y (b) no poder usar alegaciones ambientales en su marketing europeo.
+5. **El aseguramiento se unifica** en ISSA 5000 desde diciembre de 2026, y SBTi V2.0 lo hace **obligatorio (limitado)** para empresas Categoría A. El expediente auditable deja de ser opcional.
+
+---
 
 ## Pendientes y dudas
 
-- GRI 304: Biodiversity 2016 — no se pudo abrir el PDF oficial (error 404 en los dos enlaces `pdf.ashx` encontrados). Falta confirmar los títulos exactos de 304-1 a 304-4 y la fecha de fin de vigencia. **[NO VERIFICADO]**
+Lista de todo lo que **no** quedó verificado y debe resolverse antes de usarse en producto.
+
+| # | Pendiente | Por qué quedó abierto | Dónde verificar |
+|---|---|---|---|
+| 1 | **GRI 304: Biodiversity 2016** — títulos exactos de 304-1 a 304-4 y fecha de fin de vigencia | Los dos enlaces `pdf.ashx?id=12499` devolvieron error de servidor de GRI | `globalreporting.org`, centro de descargas |
+| 2 | **Códigos de métricas SASB** por industria (prefijos y numeración) | No se abrió ningún estándar SASB concreto | `navigator.sasb.ifrs.org` |
+| 3 | **Licencia necesaria** para incorporar contenido SASB/SICS/NIIF en un producto de código abierto | Interpretación propia de los términos publicados | `licences@ifrs.org` / IFRS Sustainability Licensing |
+| 4 | **Perú**: número, fecha y articulado exactos de la Resolución CNC N.° 001-2026-EF/30; confirmación del umbral de 2.300 UIT y de la fecha del 1-ene-2029 | `gob.pe` devolvió HTTP 418 | `gob.pe` / `mef.gob.pe` (Consejo Normativo de Contabilidad) |
+| 5 | **Brasil (CVM 193) y México (CNBV)**: fechas y alcance exactos | Solo fuentes secundarias | `cvm.gov.br`, `gob.mx/cnbv` |
+| 6 | Cifra de **"nueve de ~40 jurisdicciones latinoamericanas"** que adoptaron ISSB | Cifra de prensa, no de la Fundación IFRS | `ifrs.org` — jurisdictional profiles |
+| 7 | **Redacción literal de las 11 divulgaciones del TCFD** en el documento original del FSB | `fsb-tcfd.org` devolvió 403 y el PDF del FSB devolvió 500; se usó la transcripción oficial del Gobierno del Reino Unido, que incluye una adaptación al sector público en Estrategia b) | `fsb.org` o archivo del TCFD |
+| 8 | **ISSA 5000**: confirmación textual de que cubre aseguramiento limitado y razonable y de que ISAE 3000 (Revisada) sigue vigente para otras materias | Se leyeron páginas índice del IAASB, no el texto de la norma | Texto de ISSA 5000 y FAQ del IAASB |
+| 9 | **ISO 14021** e **ISO 14068-1:2023**: número de edición, año, título exacto y alcance | `iso.org` devolvió HTTP 403 en los cuatro intentos (catálogo y plataforma OBP) | `iso.org` o un organismo nacional de normalización |
+| 10 | **Green Claims Directive**: qué ocurrió en 2025–2026 (¿retirada?, ¿trílogos suspendidos?, ¿sigue viva?) | EUR-Lex marca el procedimiento "en curso" sin eventos posteriores a julio de 2024 | Programa de Trabajo de la Comisión 2026 (Anexo de retiradas), EU Law Tracker, Observatorio Legislativo del PE |
+| 11 | **Chile**: texto literal de los artículos **28** y **28 A** de la Ley 19.496 | El servicio XML de la BCN truncó el documento en el artículo 24 en tres intentos | `bcn.cl/leychile` (versión completa) |
+| 12 | **SERNAC**: existencia de guías, circulares interpretativas o pronunciamientos sobre **alegaciones ambientales** | No se localizó ninguno navegando `sernac.cl`; la sección de noticias no muestra contenido ambiental | `sernac.cl`, Ley del Consumidor, circulares interpretativas |
+| 13 | **SBTi V2.0**: umbrales numéricos que separan **Categoría A y Categoría B**; requisitos concretos de la antigua ruta pyme (empleados, tarifas, si exigía meta de Alcance 3) | Solo se leyó el documento de "Main Changes" | Texto de CNZS V2.0 y definición de pyme del SBTi |
+| 14 | **SBTi**: ecuación exacta del **ajuste dinámico** de la tasa de reducción según año base y año net-zero | Está en el "CNZS v1.3.1 Method Appendix", no leído | `sciencebasedtargets.org` — Method Appendix y Corporate Near-Term Tool |
+| 15 | **SBTi FLAG**: confirmación del **72 % a 2050** y de la fecha de corte de deforestación en el texto de la FLAG Guidance V1.2 | Solo página web de SBTi | FLAG Guidance V1.2 (PDF) |
+| 16 | **GHG Protocol**: documento vigente de análisis de incertidumbre y su recomendación sobre Monte Carlo | El PDF citado devolvió 404 | `ghgprotocol.org` |
+| 17 | **IPCC 2006 Guidelines Vol. 1 Cap. 3**: numeración exacta de los Enfoques 1 y 2 de incertidumbre | No verificado en esta sesión | `ipcc-nggip.iges.or.jp` |
+| 18 | **ESRS (2026)**: confirmar si ya se publicó en el DOUE tras el periodo de escrutinio, y su número de Reglamento Delegado | Al 15-sep-2026 solo se localizó el documento adoptado C(2026) 5010, con la fecha de entrada en vigor pendiente de completar por la Oficina de Publicaciones | `eur-lex.europa.eu` |
+| 19 | **VSME**: confirmar el número oficial de la Recomendación (se cita como (UE) 2025/1710 en fuentes secundarias) y el contenido del acto delegado de norma voluntaria adoptado el 3-jul-2026 | Solo se leyó el documento C(2025) 4984 y su Anexo I | `eur-lex.europa.eu` |
+| 20 | **Errata de GRI**: confirmar con GRI que la FAQ de GRI 103 (pregunta 6) contiene un error tipográfico al decir "GRI 305: Energy 2016" en lugar de "GRI 302" | Deducido por contexto y por la portada de GRI 302 | `gssbsecretariat@globalreporting.org` |
 
 ## Fuentes
 
@@ -817,3 +1292,13 @@ Con la **ruta transversal** (cross-sector pathway) del método de **contracción
 54. SBTi — "SBTi Corporate Net-Zero Standard", Versión 1.3.1, abril de 2026 (secciones 1.3, 2.2, 2.3, 3.3, Anexo B.1). https://files.sciencebasedtargets.org/production/files/Net-Zero-Standard.pdf · y "Main Changes Document — Corporate Net-Zero Standard V2.0", Versión 1, junio de 2026. https://files.sciencebasedtargets.org/production/files/Corporate-Net-Zero-Standard-V2-Main-Changes-Document.pdf
 55. SBTi — "The Corporate Net-Zero Standard" y "The new Corporate Net-Zero Standard Version 2.0". https://sciencebasedtargets.org/net-zero · https://sciencebasedtargets.org/corporate-net-zero-standard-v2 · Texto V2.0: https://files.sciencebasedtargets.org/production/files/Corporate-Net-Zero-Standard-version-2.pdf
 56. SBTi — Sector Forest, Land and Agriculture (página oficial). https://sciencebasedtargets.org/sectors/forest-land-and-agriculture
+57. EUR-Lex — Directiva (UE) 2024/825 del Parlamento Europeo y del Consejo, de 28 de febrero de 2024 (Anexo I modificado de la Directiva 2005/29/CE; artículos 6 y 7). http://data.europa.eu/eli/dir/2024/825/oj
+58. EUR-Lex — Ficha de procedimiento 2023/0085(COD), propuesta de Directiva sobre fundamentación y comunicación de alegaciones ambientales explícitas (COM(2023) 166 final). https://eur-lex.europa.eu/procedure/EN/2023_85 · Comisión Europea, página temática "Green claims": https://environment.ec.europa.eu/topics/circular-economy/green-claims_en
+59. CMA (GOV.UK) — "Green claims code: making environmental claims" (publicación de 20 de septiembre de 2021). https://www.gov.uk/government/publications/green-claims-code-making-environmental-claims
+60. CMA (GOV.UK) — "Making environmental claims on goods and services" (guía completa; seis principios y marco legal). https://www.gov.uk/government/publications/green-claims-code-making-environmental-claims/environmental-claims-on-goods-and-services
+61. CMA (GOV.UK) — "Unfair commercial practices (CMA207)": guía sobre las disposiciones de protección frente al comercio desleal de la Digital Markets, Competition and Consumers Act 2024. https://www.gov.uk/government/publications/unfair-commercial-practices-cma207
+62. Biblioteca del Congreso Nacional de Chile — Ley N° 19.496, sobre protección de los derechos de los consumidores (texto vía servicio XML de Ley Chile; artículos 1, 4 y 24). https://www.bcn.cl/leychile/navegar?idNorma=61438
+63. [NO VERIFICADO] ISO — ISO 14021 (Etiquetas y declaraciones ambientales — Autodeclaraciones ambientales, etiquetado Tipo II) e ISO 14068-1:2023 (Gestión del cambio climático — Transición a cero neto — Parte 1: Carbono neutralidad). `iso.org` devolvió HTTP 403 en todos los intentos. Verificar en https://www.iso.org/standards.html
+64. [NO VERIFICADO] GHG Protocol — Guía de evaluación de incertidumbre de inventarios de GEI. El enlace directo al PDF devolvió HTTP 404; localizar el documento vigente en el centro de herramientas y guías. https://ghgprotocol.org/
+65. HM Treasury / DESNZ (GOV.UK) — "Valuation of energy use and greenhouse gas emissions for appraisal" (Green Book supplementary guidance), última actualización de 30 de noviembre de 2023, alineada con los valores de CO2-equivalencia del IPCC AR5; incluye valores del carbono en £/tCO2e, tasas de descuento y el cálculo de costo-efectividad (capítulo 5). https://www.gov.uk/government/publications/valuation-of-energy-use-and-greenhouse-gas-emissions-for-appraisal
+66. Cálculos propios de esta investigación (trayectoria SBTi, FRC/MACC y simulación Monte Carlo), ejecutados en Python con NumPy; semilla 20260915 y 100.000 iteraciones para la simulación. Todos los parámetros están explicitados en la sección "Fórmulas y métodos" para permitir su reproducción.

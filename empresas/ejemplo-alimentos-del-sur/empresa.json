@@ -1,0 +1,45 @@
+{
+  "version_esquema": 1,
+  "nombre": "Alimentos del Sur SpA",
+  "razon_social": "",
+  "identificador_tributario": "",
+  "pais": "CL",
+  "sector": "Agroindustria - conservas de fruta",
+  "tamano": "mediana",
+  "trabajadores": 120,
+  "ingresos_anuales": 4200000000,
+  "moneda": "CLP",
+  "anio_base": 2025,
+  "periodo_actual": "2026",
+  "marcos": [
+    "GRI",
+    "HuellaChile"
+  ],
+  "exporta_a_ue": true,
+  "sitios": [
+    {
+      "nombre": "Planta Chillan",
+      "tipo": "planta",
+      "comuna": "Chillan",
+      "region": "Nuble",
+      "pais": "CL"
+    },
+    {
+      "nombre": "Oficina central",
+      "tipo": "oficina",
+      "comuna": "Las Condes",
+      "region": "Metropolitana",
+      "pais": "CL"
+    }
+  ],
+  "entidades_legales": [],
+  "marca": {
+    "nombre": "Alimentos del Sur SpA",
+    "color_primario": "#1B4332",
+    "color_secundario": "#D8F3DC"
+  },
+  "notas": "Empresa ficticia de demostracion. Los datos son inventados para mostrar como funciona.",
+  "creado_el": "2026-09-15 20:47:01",
+  "actualizado_el": "2026-09-15 20:47:01",
+  "carpeta": "ejemplo-alimentos-del-sur"
+}

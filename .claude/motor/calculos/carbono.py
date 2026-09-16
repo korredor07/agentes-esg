@@ -46,6 +46,33 @@ ALIAS_RECURSO = {
     "lena": "lena", "biomasa": "biomasa", "pellet": "pellet", "astillas": "biomasa",
     "biodiesel": "biodiesel", "etanol": "etanol",
     "vapor": "vapor", "agua caliente": "calor", "calor": "calor", "frio": "frio",
+    # Alcance 3: transporte de carga
+    "camion": "camion_carga", "camion de carga": "camion_carga", "flete": "camion_carga",
+    "flete camion": "camion_carga", "flete terrestre": "camion_carga", "transporte terrestre": "camion_carga",
+    "hgv": "camion_carga", "camion carga": "camion_carga",
+    "camion refrigerado": "camion_refrigerado", "transporte refrigerado": "camion_refrigerado",
+    "furgon": "furgon", "furgoneta": "furgon", "van": "furgon",
+    "tren de carga": "tren_carga", "ferrocarril": "tren_carga", "tren carga": "tren_carga",
+    "barco": "barco_contenedor", "buque": "barco_contenedor", "contenedor": "barco_contenedor",
+    "maritimo": "barco_contenedor", "flete maritimo": "barco_contenedor", "barco contenedor": "barco_contenedor",
+    "granel": "granelero", "granelero": "granelero", "carga general": "barco_carga_general",
+    "flete aereo": "carga_aerea", "avion carga": "carga_aerea", "carga aerea": "carga_aerea",
+    # Alcance 3: viajes
+    "avion": "avion_larga_distancia_economica", "vuelo": "avion_larga_distancia_economica",
+    "vuelo internacional": "avion_larga_distancia_economica", "pasaje aereo": "avion_larga_distancia_economica",
+    "vuelo nacional": "avion_nacional", "vuelo corto": "avion_corta_distancia",
+    "auto": "auto", "vehiculo": "auto", "automovil": "auto", "camioneta": "auto",
+    "taxi": "taxi", "uber": "taxi", "aplicacion de transporte": "taxi",
+    "bus": "bus", "micro": "bus", "autobus": "bus", "bus interurbano": "bus_interurbano",
+    "tren": "tren_pasajeros", "metro": "tren_pasajeros", "tren pasajeros": "tren_pasajeros",
+    "hotel": "hotel", "alojamiento": "hotel", "hospedaje": "hotel", "noche de hotel": "hotel",
+    # Alcance 3: residuos y agua
+    "basura": "residuo_mixto_relleno", "residuos": "residuo_mixto_relleno",
+    "residuo mixto": "residuo_mixto_relleno", "relleno sanitario": "residuo_mixto_relleno",
+    "reciclaje": "residuo_mixto_reciclaje", "residuos reciclados": "residuo_mixto_reciclaje",
+    "organicos": "organico_relleno", "compostaje": "organico_compostaje",
+    "agua": "agua_potable", "agua potable": "agua_potable", "consumo de agua": "agua_potable",
+    "alcantarillado": "agua_residual", "aguas servidas": "agua_residual", "agua residual": "agua_residual",
 }
 
 

@@ -1,0 +1,2170 @@
+{
+  "total_kg_co2e": 1566046.1276170118,
+  "total_t_co2e": 1566.0461276170117,
+  "registros_calculados": 76,
+  "registros_con_problema": 0,
+  "por_alcance": {
+    "alcance_2": {
+      "kg_co2e": 142880.97983999999,
+      "registros": 24
+    },
+    "alcance_1": {
+      "kg_co2e": 187805.9860270117,
+      "registros": 38
+    },
+    "alcance_3": {
+      "kg_co2e": 1235359.16175,
+      "registros": 14
+    }
+  },
+  "por_sitio": {
+    "Planta Chillan": {
+      "kg_co2e": 224382.62862657264,
+      "registros": 37
+    },
+    "Oficina central": {
+      "kg_co2e": 13585.53184,
+      "registros": 13
+    },
+    "Flota": {
+      "kg_co2e": 92718.80540043906,
+      "registros": 12
+    },
+    "Sin sitio": {
+      "kg_co2e": 1235359.16175,
+      "registros": 14
+    }
+  },
+  "por_recurso": {
+    "electricidad": {
+      "kg_co2e": 142880.97983999999,
+      "registros": 24
+    },
+    "diesel": {
+      "kg_co2e": 150036.17513142485,
+      "registros": 24
+    },
+    "glp": {
+      "kg_co2e": 8294.610895586793,
+      "registros": 12
+    },
+    "R-404A": {
+      "kg_co2e": 25628.2,
+      "registros": 1
+    },
+    "R-410A": {
+      "kg_co2e": 3847.0,
+      "registros": 1
+    },
+    "camion": {
+      "kg_co2e": 323927.34,
+      "registros": 3
+    },
+    "barco contenedor": {
+      "kg_co2e": 228620.28,
+      "registros": 1
+    },
+    "vuelo": {
+      "kg_co2e": 5383.84,
+      "registros": 1
+    },
+    "hotel": {
+      "kg_co2e": 1711.2,
+      "registros": 1
+    },
+    "residuo mixto relleno": {
+      "kg_co2e": 75484.13335,
+      "registros": 1
+    },
+    "organico compostaje": {
+      "kg_co2e": 2882.1983999999998,
+      "registros": 1
+    },
+    "agua potable": {
+      "kg_co2e": 5452.05,
+      "registros": 1
+    },
+    "agua residual": {
+      "kg_co2e": 4101.12,
+      "registros": 1
+    },
+    "gasto envases carton": {
+      "kg_co2e": 37362.0,
+      "registros": 1
+    },
+    "gasto envases plastico": {
+      "kg_co2e": 23739.0,
+      "registros": 1
+    },
+    "gasto consultoria": {
+      "kg_co2e": 936.0,
+      "registros": 1
+    },
+    "gasto agricultura": {
+      "kg_co2e": 525760.0,
+      "registros": 1
+    }
+  },
+  "por_periodo": {
+    "2025-01": {
+      "kg_co2e": 31461.85449916623,
+      "registros": 5
+    },
+    "2025-02": {
+      "kg_co2e": 29946.777911869925,
+      "registros": 5
+    },
+    "2025-03": {
+      "kg_co2e": 29049.898893256308,
+      "registros": 5
+    },
+    "2025-04": {
+      "kg_co2e": 22087.38677107489,
+      "registros": 5
+    },
+    "2025-05": {
+      "kg_co2e": 23231.811113853735,
+      "registros": 5
+    },
+    "2025-06": {
+      "kg_co2e": 22740.75130807725,
+      "registros": 5
+    },
+    "2025-07": {
+      "kg_co2e": 21686.29197889254,
+      "registros": 5
+    },
+    "2025-08": {
+      "kg_co2e": 21759.151183781476,
+      "registros": 5
+    },
+    "2025-09": {
+      "kg_co2e": 22870.312973375076,
+      "registros": 5
+    },
+    "2025-10": {
+      "kg_co2e": 23251.100760668738,
+      "registros": 5
+    },
+    "2025-11": {
+      "kg_co2e": 22611.530504888236,
+      "registros": 5
+    },
+    "2025-12": {
+      "kg_co2e": 30514.89796810723,
+      "registros": 5
+    },
+    "2025": {
+      "kg_co2e": 1264834.3617500002,
+      "registros": 16
+    }
+  },
+  "por_categoria_alcance3": {
+    "4": {
+      "kg_co2e": 112909.20000000001,
+      "registros": 1
+    },
+    "9": {
+      "kg_co2e": 439638.42,
+      "registros": 3
+    },
+    "6": {
+      "kg_co2e": 7095.04,
+      "registros": 2
+    },
+    "5": {
+      "kg_co2e": 82467.45175,
+      "registros": 3
+    },
+    "1": {
+      "kg_co2e": 593249.05,
+      "registros": 5
+    }
+  },
+  "calidad_datos": {
+    "kg_co2e": {
+      "estimado": 1566046.1276170118,
+      "reportado": 0.0,
+      "verificado": 0.0
+    },
+    "porcentaje": {
+      "estimado": 100.0,
+      "reportado": 0.0,
+      "verificado": 0.0
+    }
+  },
+  "set_pcg": "AR5",
+  "detalle": [
+    {
+      "fila": 2,
+      "periodo": "2025-01",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 60952.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 60952.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 15038.07744,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 3,
+      "periodo": "2025-01",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3054.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3054.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 753.48288,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 4,
+      "periodo": "2025-01",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2452.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2452.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6656.035547259161,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 5,
+      "periodo": "2025-01",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 3066.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 3066.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8401.331600252568,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 6,
+      "periodo": "2025-01",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 366.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 366.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 612.9270316545056,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 7,
+      "periodo": "2025-02",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 58893.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 58893.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 14530.08096,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 8,
+      "periodo": "2025-02",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3448.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3448.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 850.69056,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 9,
+      "periodo": "2025-02",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2298.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2298.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6237.997425612379,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 10,
+      "periodo": "2025-02",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2774.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2774.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 7601.204781180894,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 11,
+      "periodo": "2025-02",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 434.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 434.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 726.8041850766542,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 12,
+      "periodo": "2025-03",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 58775.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 58775.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 14500.967999999999,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 13,
+      "periodo": "2025-03",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3419.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3419.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 843.53568,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 14,
+      "periodo": "2025-03",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2359.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2359.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6403.583954316623,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 15,
+      "periodo": "2025-03",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2438.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2438.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6680.510907180613,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 16,
+      "periodo": "2025-03",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 371.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 371.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 621.3003517590754,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 17,
+      "periodo": "2025-04",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 39052.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 39052.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9634.90944,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 18,
+      "periodo": "2025-04",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3328.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3328.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 821.08416,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 19,
+      "periodo": "2025-04",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1385.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1385.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 3759.628561563596,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 20,
+      "periodo": "2025-04",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2646.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2646.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 7250.464257752215,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 21,
+      "periodo": "2025-04",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 371.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 371.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 621.3003517590754,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 22,
+      "periodo": "2025-05",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 40014.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 40014.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9872.25408,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 23,
+      "periodo": "2025-05",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3334.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3334.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 822.56448,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 24,
+      "periodo": "2025-05",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1380.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1380.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 3746.055895276363,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 25,
+      "periodo": "2025-05",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2979.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2979.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8162.937650734638,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 26,
+      "periodo": "2025-05",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 375.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 375.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 627.9990078427312,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 27,
+      "periodo": "2025-06",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 37328.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 37328.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9209.56416,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 28,
+      "periodo": "2025-06",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3496.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3496.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 862.5331199999999,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 29,
+      "periodo": "2025-06",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1381.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1381.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 3748.7704285338095,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 30,
+      "periodo": "2025-06",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2990.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2990.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8193.079414466789,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 31,
+      "periodo": "2025-06",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 434.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 434.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 726.8041850766542,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 32,
+      "periodo": "2025-07",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 38749.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 38749.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9560.15328,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 33,
+      "periodo": "2025-07",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 2950.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 2950.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 727.824,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 34,
+      "periodo": "2025-07",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1463.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1463.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 3971.362155644434,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 35,
+      "periodo": "2025-07",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2447.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2447.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6705.172350234192,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 36,
+      "periodo": "2025-07",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 431.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 431.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 721.7801930139124,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 37,
+      "periodo": "2025-08",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 36590.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 36590.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9027.4848,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 38,
+      "periodo": "2025-08",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3196.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3196.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 788.51712,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 39,
+      "periodo": "2025-08",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1564.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1564.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 4245.530014646545,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 40,
+      "periodo": "2025-08",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2547.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2547.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6979.188384162847,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 41,
+      "periodo": "2025-08",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 429.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 429.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 718.4308649720845,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 42,
+      "periodo": "2025-09",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 36464.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 36464.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8996.398079999999,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 43,
+      "periodo": "2025-09",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3484.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3484.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 859.5724799999999,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 44,
+      "periodo": "2025-09",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1507.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1507.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 4090.801618972086,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 45,
+      "periodo": "2025-09",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2973.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2973.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8146.496688698918,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 46,
+      "periodo": "2025-09",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 464.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 464.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 777.0441057040728,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 47,
+      "periodo": "2025-10",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 36980.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 36980.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9123.7056,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 48,
+      "periodo": "2025-10",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3005.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3005.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 741.3936,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 49,
+      "periodo": "2025-10",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1647.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1647.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 4470.836275014616,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 50,
+      "periodo": "2025-10",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2984.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2984.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8176.638452431071,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 51,
+      "periodo": "2025-10",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 441.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 441.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 738.5268332230519,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 52,
+      "periodo": "2025-11",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 37039.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 37039.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 9138.26208,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 53,
+      "periodo": "2025-11",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3281.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3281.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 809.4883199999999,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 54,
+      "periodo": "2025-11",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 1399.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 1399.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 3797.632027167849,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 55,
+      "periodo": "2025-11",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2960.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2960.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8110.874604288193,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 56,
+      "periodo": "2025-11",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 451.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 451.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 755.2734734321914,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 57,
+      "periodo": "2025-12",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 58814.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 58814.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 14510.59008,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 58,
+      "periodo": "2025-12",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "electricidad",
+      "uso": "electricidad",
+      "alcance": 2,
+      "categoria": "",
+      "cantidad": 3477.0,
+      "unidad": "kWh",
+      "cantidad_en_unidad_factor": 3477.0,
+      "factor": {
+        "id": "cl-elec-2025",
+        "valor": 0.24672,
+        "unidad": "kWh",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - Ministerio de Energia",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 857.8454399999999,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 59,
+      "periodo": "2025-12",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "diesel",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2280.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 2280.0,
+      "factor": {
+        "id": "cl-diesel-est",
+        "valor": 2.71453325744664,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 6189.135826978339,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 60,
+      "periodo": "2025-12",
+      "anio": 2025,
+      "sitio": "Flota",
+      "recurso": "diesel",
+      "uso": "movil",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 3033.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 3033.0,
+      "factor": {
+        "id": "cl-diesel-mov",
+        "valor": 2.7401603392865517,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 8310.90630905611,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 61,
+      "periodo": "2025-12",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "glp",
+      "uso": "estacionaria",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 386.0,
+      "unidad": "litros",
+      "cantidad_en_unidad_factor": 386.0,
+      "factor": {
+        "id": "cl-glp-est",
+        "valor": 1.6746640209139498,
+        "unidad": "L",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 646.4203120727847,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 62,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "Planta Chillan",
+      "recurso": "R-404A",
+      "uso": "fugitiva",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 6.5,
+      "unidad": "kg",
+      "cantidad_en_unidad_factor": 6.5,
+      "factor": {
+        "id": "cl-r404a",
+        "valor": 3942.8,
+        "unidad": "kg",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - IPCC AR5 Tabla 8.A.1",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 25628.2,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 63,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "Oficina central",
+      "recurso": "R-410A",
+      "uso": "fugitiva",
+      "alcance": 1,
+      "categoria": "",
+      "cantidad": 2.0,
+      "unidad": "kg",
+      "cantidad_en_unidad_factor": 2.0,
+      "factor": {
+        "id": "cl-r410a",
+        "valor": 1923.5,
+        "unidad": "kg",
+        "pais": "CL",
+        "anio": 2025,
+        "fuente": "HuellaChile (MMA) - IPCC AR5 Tabla 8.A.1",
+        "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
+      },
+      "kg_co2e": 3847.0,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 2,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "camion",
+      "uso": "carga",
+      "alcance": 3,
+      "categoria": "4",
+      "cantidad": 888000.0,
+      "unidad": "t.km",
+      "cantidad_en_unidad_factor": 888000.0,
+      "factor": {
+        "id": "uk-carga-camion",
+        "valor": 0.12715,
+        "unidad": "t.km",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 112909.20000000001,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para camion: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 3,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "camion",
+      "uso": "carga",
+      "alcance": 3,
+      "categoria": "9",
+      "cantidad": 1248000.0,
+      "unidad": "t.km",
+      "cantidad_en_unidad_factor": 1248000.0,
+      "factor": {
+        "id": "uk-carga-camion",
+        "valor": 0.12715,
+        "unidad": "t.km",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 158683.2,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para camion: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 4,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "barco contenedor",
+      "uso": "carga",
+      "alcance": 3,
+      "categoria": "9",
+      "cantidad": 11564000.0,
+      "unidad": "t.km",
+      "cantidad_en_unidad_factor": 11564000.0,
+      "factor": {
+        "id": "uk-carga-contenedor",
+        "valor": 0.01977,
+        "unidad": "t.km",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 228620.28,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para barco contenedor: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 5,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "camion",
+      "uso": "carga",
+      "alcance": 3,
+      "categoria": "9",
+      "cantidad": 411600.0,
+      "unidad": "t.km",
+      "cantidad_en_unidad_factor": 411600.0,
+      "factor": {
+        "id": "uk-carga-camion",
+        "valor": 0.12715,
+        "unidad": "t.km",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 52334.94,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para camion: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 6,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "vuelo",
+      "uso": "pasajeros",
+      "alcance": 3,
+      "categoria": "6",
+      "cantidad": 46000.0,
+      "unidad": "pasajero.km",
+      "cantidad_en_unidad_factor": 46000.0,
+      "factor": {
+        "id": "uk-avion-larga-economica",
+        "valor": 0.11704,
+        "unidad": "pasajero.km",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Business travel air",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 5383.84,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para vuelo: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 7,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "hotel",
+      "uso": "alojamiento",
+      "alcance": 3,
+      "categoria": "6",
+      "cantidad": 62.0,
+      "unidad": "noche",
+      "cantidad_en_unidad_factor": 62.0,
+      "factor": {
+        "id": "uk-hotel-cl",
+        "valor": 27.6,
+        "unidad": "noche",
+        "pais": "CL",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Hotel stay",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 1711.2,
+      "calidad_dato": "estimado",
+      "advertencias": []
+    },
+    {
+      "fila": 8,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "residuo mixto relleno",
+      "uso": "residuos",
+      "alcance": 3,
+      "categoria": "5",
+      "cantidad": 145.0,
+      "unidad": "t",
+      "cantidad_en_unidad_factor": 145.0,
+      "factor": {
+        "id": "uk-residuo-mixto-relleno",
+        "valor": 520.58023,
+        "unidad": "t",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Waste disposal",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 75484.13335,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para residuo mixto relleno: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 9,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "organico compostaje",
+      "uso": "residuos",
+      "alcance": 3,
+      "categoria": "5",
+      "cantidad": 320.0,
+      "unidad": "t",
+      "cantidad_en_unidad_factor": 320.0,
+      "factor": {
+        "id": "uk-residuo-organico-compost",
+        "valor": 9.00687,
+        "unidad": "t",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Waste disposal",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 2882.1983999999998,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para organico compostaje: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 10,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "agua potable",
+      "uso": "agua",
+      "alcance": 3,
+      "categoria": "1",
+      "cantidad": 28500.0,
+      "unidad": "m3",
+      "cantidad_en_unidad_factor": 28500.0,
+      "factor": {
+        "id": "uk-agua-potable",
+        "valor": 0.1913,
+        "unidad": "m3",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Water supply",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 5452.05,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para agua potable: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 11,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "agua residual",
+      "uso": "agua",
+      "alcance": 3,
+      "categoria": "5",
+      "cantidad": 24000.0,
+      "unidad": "m3",
+      "cantidad_en_unidad_factor": 24000.0,
+      "factor": {
+        "id": "uk-agua-residual",
+        "valor": 0.17088,
+        "unidad": "m3",
+        "pais": "*",
+        "anio": 2026,
+        "fuente": "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Water treatment",
+        "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+      },
+      "kg_co2e": 4101.12,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para agua residual: use un factor internacional de referencia."
+      ]
+    },
+    {
+      "fila": 12,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "gasto envases carton",
+      "uso": "gasto",
+      "alcance": 3,
+      "categoria": "1",
+      "cantidad": 78000.0,
+      "unidad": "USD",
+      "cantidad_en_unidad_factor": 78000.0,
+      "factor": {
+        "id": "epa-gasto-envases-carton",
+        "valor": 0.479,
+        "unidad": "USD",
+        "pais": "*",
+        "anio": 2022,
+        "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 322211)",
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+      },
+      "kg_co2e": 37362.0,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para gasto envases carton: use un factor internacional de referencia.",
+        "Para gasto envases carton use el factor de 2022, que es el mas cercano que tengo a 2025."
+      ]
+    },
+    {
+      "fila": 13,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "gasto envases plastico",
+      "uso": "gasto",
+      "alcance": 3,
+      "categoria": "1",
+      "cantidad": 41000.0,
+      "unidad": "USD",
+      "cantidad_en_unidad_factor": 41000.0,
+      "factor": {
+        "id": "epa-gasto-envases-plastico",
+        "valor": 0.579,
+        "unidad": "USD",
+        "pais": "*",
+        "anio": 2022,
+        "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 326160)",
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+      },
+      "kg_co2e": 23739.0,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para gasto envases plastico: use un factor internacional de referencia.",
+        "Para gasto envases plastico use el factor de 2022, que es el mas cercano que tengo a 2025."
+      ]
+    },
+    {
+      "fila": 14,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "gasto consultoria",
+      "uso": "gasto",
+      "alcance": 3,
+      "categoria": "1",
+      "cantidad": 12000.0,
+      "unidad": "USD",
+      "cantidad_en_unidad_factor": 12000.0,
+      "factor": {
+        "id": "epa-gasto-consultoria",
+        "valor": 0.078,
+        "unidad": "USD",
+        "pais": "*",
+        "anio": 2022,
+        "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 541611)",
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+      },
+      "kg_co2e": 936.0,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para gasto consultoria: use un factor internacional de referencia.",
+        "Para gasto consultoria use el factor de 2022, que es el mas cercano que tengo a 2025."
+      ]
+    },
+    {
+      "fila": 15,
+      "periodo": "2025",
+      "anio": 2025,
+      "sitio": "",
+      "recurso": "gasto agricultura",
+      "uso": "gasto",
+      "alcance": 3,
+      "categoria": "1",
+      "cantidad": 620000.0,
+      "unidad": "USD",
+      "cantidad_en_unidad_factor": 620000.0,
+      "factor": {
+        "id": "epa-gasto-agricultura",
+        "valor": 0.848,
+        "unidad": "USD",
+        "pais": "*",
+        "anio": 2022,
+        "fuente": "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 111150)",
+        "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
+      },
+      "kg_co2e": 525760.0,
+      "calidad_dato": "estimado",
+      "advertencias": [
+        "No tengo factor propio de CL para gasto agricultura: use un factor internacional de referencia.",
+        "Para gasto agricultura use el factor de 2022, que es el mas cercano que tengo a 2025."
+      ]
+    }
+  ],
+  "problemas": [],
+  "advertencias": [
+    "No tengo factor propio de CL para agua potable: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para agua residual: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para barco contenedor: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para camion: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para gasto agricultura: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para gasto consultoria: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para gasto envases carton: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para gasto envases plastico: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para organico compostaje: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para residuo mixto relleno: use un factor internacional de referencia.",
+    "No tengo factor propio de CL para vuelo: use un factor internacional de referencia.",
+    "Para gasto agricultura use el factor de 2022, que es el mas cercano que tengo a 2025.",
+    "Para gasto consultoria use el factor de 2022, que es el mas cercano que tengo a 2025.",
+    "Para gasto envases carton use el factor de 2022, que es el mas cercano que tengo a 2025.",
+    "Para gasto envases plastico use el factor de 2022, que es el mas cercano que tengo a 2025."
+  ],
+  "fuentes": [
+    "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Business travel air (2026)",
+    "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Freighting goods (2026)",
+    "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Hotel stay (2026)",
+    "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Waste disposal (2026)",
+    "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Water supply (2026)",
+    "DESNZ (Reino Unido) GHG Conversion Factors 2026 - Water treatment (2026)",
+    "HuellaChile (MMA) - IPCC AR5 Tabla 8.A.1 (2025)",
+    "HuellaChile (MMA) - Ministerio de Energia (2025)",
+    "HuellaChile (MMA) - base IPCC 2006 Cuadro 2.4 (2025)",
+    "HuellaChile (MMA) - base IPCC 2006 Cuadro 3.2.1 y 3.2.2 (2025)",
+    "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 111150) (2022)",
+    "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 322211) (2022)",
+    "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 326160) (2022)",
+    "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 541611) (2022)"
+  ],
+  "calculado_el": "2026-09-15 20:47:02",
+  "empresa": "Alimentos del Sur SpA",
+  "periodo": "2025",
+  "archivos": [
+    "D:\\Programas Data\\Claude Code\\agentes-esg\\empresas\\ejemplo-alimentos-del-sur\\datos\\consumos.xlsx",
+    "D:\\Programas Data\\Claude Code\\agentes-esg\\empresas\\ejemplo-alimentos-del-sur\\datos\\alcance3.xlsx"
+  ]
+}
