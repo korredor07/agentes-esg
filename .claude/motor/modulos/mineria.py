@@ -301,6 +301,10 @@ def informe_html(opciones):
 
     for titulo, resultado in secciones:
         criticos.extend(resultado.get("acciones_inmediatas") or [])
+        if resultado.get("advertencias"):
+            # Por ejemplo, que el GISTM no es ley en Chile: quien lea el informe tiene que saberlo.
+            bloques.append({"tipo": "titulo", "texto": "Tener en cuenta: %s" % titulo, "nivel": 3})
+            bloques.append({"tipo": "lista", "items": list(resultado["advertencias"])})
         pendientes = list(resultado.get("no_verificado") or []) + list(resultado.get("no_calculado") or [])
         if pendientes:
             bloques.append({"tipo": "titulo", "texto": "Lo que NO calculo aqui: %s" % titulo, "nivel": 3})

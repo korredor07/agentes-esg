@@ -497,6 +497,8 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None, densid
             "notas": factor.get("notas", ""),
         },
         "kg_co2e": cantidad_convertida * por_unidad,
+        # Por ejemplo, «aproximacion declarada»: la skill exige que llegue al informe.
+        "notas_de_la_fila": str(registro.get("notas") or "").strip(),
         "calidad_dato": calidad,
         "advertencias": advertencias,
     }

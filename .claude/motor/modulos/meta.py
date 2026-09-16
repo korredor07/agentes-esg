@@ -228,11 +228,25 @@ OPCIONES_DINAMICAS = {
 }
 
 
+def _primero(fila, *claves):
+    """El primer valor escrito. Un 0 es un valor; una celda vacia no."""
+    for clave in claves:
+        valor = fila.get(clave)
+        if valor not in (None, ""):
+            return valor
+    return None
+
+
 def _leer_medidas(ruta_empresa):
+    """Lee la planilla de medidas. Devuelve (medidas, ruta, avisos)."""
     # El mismo nombre que crea «plantilla crear --tipo medidas». Antes se buscaba otro
     # (medidas_reduccion.xlsx) y el plan nunca encontraba la planilla: se sigue leyendo por si existe.
     ruta = espacio.ruta_de(ruta_empresa, "datos", "medidas.xlsx")
     anterior = espacio.ruta_de(ruta_empresa, "datos", "medidas_reduccion.xlsx")
+    avisos = []
+    if os.path.isfile(ruta) and os.path.isfile(anterior):
+        avisos.append("Tambien existe %s y no la use: el plan lee %s. Si tiene medidas, pasalas a esa planilla."
+                      % (os.path.basename(anterior), os.path.basename(ruta)))
     if not os.path.isfile(ruta) and os.path.isfile(anterior):
         ruta = anterior
     if not os.path.isfile(ruta):
@@ -240,38 +254,35 @@ def _leer_medidas(ruta_empresa):
             "No encontre la planilla de medidas de reduccion.",
             "Crea la planilla con: plantilla crear --tipo medidas, y anota que acciones evaluan.",
         )
-    tabla = excel.leer_tabla(ruta)
     _, definicion = definiciones.obtener("medidas")
-    medidas = []
-    ejemplos = 0
-    for fila in tabla["filas"]:
-        # Las filas de ejemplo son de una empresa inventada: no pueden entrar al plan.
-        if definiciones.es_fila_de_ejemplo(definicion, fila):
-            ejemplos += 1
-            continue
-        medidas.append({
-            "medida": fila.get("medida") or fila.get("accion") or fila.get("nombre"),
-            "capex": fila.get("inversion_capex") or fila.get("inversion") or fila.get("capex"),
-            "opex": fila.get("costo_anual_opex") or fila.get("costo_anual") or fila.get("opex"),
-            "ahorros": fila.get("ahorro_anual") or fila.get("ahorros"),
-            "vida_util": fila.get("vida_util_anos") or fila.get("vida_util") or 10,
-            "tco2e_evitadas": fila.get("tco2e_evitadas_al_ano") or fila.get("tco2e_evitadas"),
-            "notas": fila.get("notas") or "",
-            "_fila": fila.get("_fila"),
-        })
-    if ejemplos and not medidas:
+    tabla, aviso = definiciones.leer_sin_ejemplos(ruta, definicion=definicion)
+    if aviso:
+        avisos.append(aviso)
+    if not tabla["filas"] and aviso:
         raise Problema(
             "La planilla de medidas solo tiene las filas de ejemplo que trae la plantilla.",
             "Reemplazalas por las medidas que la empresa esta evaluando, con sus cotizaciones, y vuelve a intentarlo.",
             {"archivo": ruta},
         )
-    return medidas, ruta, ejemplos
+    medidas = []
+    for fila in tabla["filas"]:
+        medidas.append({
+            "medida": _primero(fila, "medida", "accion", "nombre"),
+            "capex": _primero(fila, "inversion_capex", "inversion", "capex"),
+            "opex": _primero(fila, "costo_anual_opex", "costo_anual", "opex"),
+            "ahorros": _primero(fila, "ahorro_anual", "ahorros"),
+            "vida_util": _primero(fila, "vida_util_anos", "vida_util"),
+            "tco2e_evitadas": _primero(fila, "tco2e_evitadas_al_ano", "tco2e_evitadas"),
+            "notas": fila.get("notas") or "",
+            "_fila": fila.get("_fila"),
+        })
+    return medidas, ruta, avisos
 
 
 def plan(opciones):
     """Curva de costos de abatimiento con las medidas cargadas."""
     perfil, ruta, ruta_json = _contexto(opciones)
-    medidas, archivo, ejemplos = _leer_medidas(ruta)
+    medidas, archivo, avisos = _leer_medidas(ruta)
     datos = _leer_meta(ruta_json)
     brecha = _valor(opciones, "brecha") or (datos.get("ultima_probabilidad") or {}).get("brecha_mediana")
     tasa = float(_valor(opciones, "tasa_descuento") or 0.10)
@@ -280,9 +291,12 @@ def plan(opciones):
     advertencias = [
         "Los costos dependen de las cotizaciones que cargaste: revisalas antes de decidir una inversion.",
         AVISO]
-    if ejemplos:
-        advertencias.insert(0, "Deje fuera %d fila(s) de ejemplo de la plantilla: no son medidas de la empresa. "
-                               "Borralas de la planilla cuando puedas." % ejemplos)
+    if resultado["medidas_con_problema"]:
+        advertencias.insert(0, "%d medida(s) quedaron fuera de la curva por datos que faltan: %s." % (
+            len(resultado["medidas_con_problema"]),
+            "; ".join("%s (fila %s): %s" % (p["medida"], p["fila"], p["problema"])
+                      for p in resultado["medidas_con_problema"])))
+    advertencias = avisos + advertencias
     return Respuesta(resultado, advertencias=advertencias)
 
 

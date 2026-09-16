@@ -198,7 +198,7 @@ def _bloques_cuestionario(perfil, proveedor, periodo, plazo, responsable, correo
             "no hace falta rehacer el trabajo.",
         ]},
         {"tipo": "nota", "texto": "Uso de la informacion: %s usara estas respuestas para calcular su propia "
-                                  "huella de carbono y responder requerimientos de clientes y autoridades. "
+                                  "huella de carbono con datos reales. "
                                   "Los datos se guardan en los sistemas de %s, no se publican con el nombre "
                                   "del proveedor sin su acuerdo previo y no se comparten con la competencia."
                                   % (nombre_empresa, nombre_empresa)},
@@ -236,7 +236,7 @@ def _bloques_carta(perfil, proveedor, periodo, plazo, responsable, correo, motiv
         {"tipo": "titulo", "texto": "Que haremos con el dato", "nivel": 1},
         {"tipo": "lista", "items": [
             "Lo usaremos para calcular nuestra huella de carbono con datos reales en vez de estimaciones, "
-            "y para responder los requerimientos de nuestros clientes y de la autoridad.",
+            "para que nuestra huella refleje lo que ustedes realmente hacen.",
             "Los datos quedan en nuestros sistemas internos. No los publicamos identificando al proveedor "
             "sin acuerdo previo, ni los compartimos con otras empresas de su rubro.",
             "Los datos de contacto de las personas se usan solo para esta gestion y para las consultas que "

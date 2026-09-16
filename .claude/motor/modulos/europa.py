@@ -199,7 +199,10 @@ def _evaluar(perfil, respuestas):
         estado_cbam = "no aplica"
         motivo_cbam = ("Sus productos no estan en la lista del CBAM. Solo cubre cemento, electricidad, "
                        "fertilizantes, hierro y acero, aluminio e hidrogeno.")
-    elif bienes is True and exporta is not False:
+    elif bienes is True and exporta is None:
+        estado_cbam = "revisar"
+        motivo_cbam = ("Exporta bienes que el CBAM cubre, pero falta confirmar si los vende a la Union Europea.")
+    elif bienes is True:
         estado_cbam = "aplica"
         motivo_cbam = ("Exporta bienes cubiertos: el importador europeo declara y paga, pero necesita que la "
                        "empresa le entregue las emisiones incorporadas de cada envio.")
@@ -248,7 +251,11 @@ def _evaluar(perfil, respuestas):
         estado_eudr = "no aplica"
         motivo_eudr = ("Sus productos no estan entre las siete materias primas cubiertas (ganado, cacao, "
                        "cafe, palma, caucho, soya y madera).")
-    elif commodities is True and exporta is not False:
+    elif commodities is True and exporta is None:
+        estado_eudr = "revisar"
+        motivo_eudr = ("Exporta materias primas que el EUDR cubre, pero falta confirmar si las vende a la Union "
+                       "Europea.")
+    elif commodities is True:
         estado_eudr = "aplica"
         riesgo, listado = ue.riesgo_pais_eudr(pais)
         motivo_eudr = ("Exporta materias primas cubiertas. %s queda en riesgo %s, asi que la diligencia "
@@ -761,7 +768,8 @@ def informe_html(opciones):
     perfil, ruta, ruta_json = _contexto(opciones)
     guardado = _leer(ruta_json)
     respuestas = guardado.get("respuestas") or _respuestas_de_cumplimiento(ruta)
-    mecanismos = (guardado.get("aplica") or {}).get("mecanismos") or _evaluar(perfil, respuestas)
+    # Siempre desde las respuestas: un veredicto guardado por una version anterior del motor puede estar mal.
+    mecanismos = _evaluar(perfil, respuestas)
 
     aplican = [m for m in mecanismos if m["estado"] == "aplica"]
     revisar = [m for m in mecanismos if m["estado"] == "revisar"]

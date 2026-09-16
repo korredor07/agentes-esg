@@ -18,7 +18,7 @@ def factor_recuperacion_capital(tasa, anios):
     """FRC: cuanto hay que pagar cada año para amortizar una inversion."""
     try:
         tasa = float(tasa)
-        anios = int(anios)
+        anios = float(anios)
     except (TypeError, ValueError):
         raise Problema("La tasa de descuento o la vida util no son numeros validos.",
                        "Usa por ejemplo tasa 0,1 (10 %) y vida util 10 años.")
@@ -33,7 +33,9 @@ def factor_recuperacion_capital(tasa, anios):
 
 def _numero(valor, nombre, medida):
     if valor in (None, ""):
-        return 0.0
+        # Una celda vacia puede ser «cero» o «falta la cotizacion»: no se adivina, porque cambia el orden de la curva.
+        raise Problema("En la medida «%s» falta %s." % (medida, nombre),
+                       "Si de verdad es cero, escribe 0. Si falta la cotizacion, la medida queda fuera hasta tenerla.")
     try:
         return float(str(valor).replace(",", "."))
     except (TypeError, ValueError):
@@ -51,8 +53,13 @@ def costo_marginal(medida, tasa_descuento=0.10):
     capex = _numero(medida.get("capex"), "la inversion", nombre)
     opex = _numero(medida.get("opex"), "el costo anual de operacion", nombre)
     ahorros = _numero(medida.get("ahorros"), "los ahorros anuales", nombre)
-    vida = int(_numero(medida.get("vida_util") or medida.get("anios") or 10, "la vida util", nombre))
-    tasa = _numero(medida.get("tasa_descuento") or tasa_descuento, "la tasa de descuento", nombre)
+    vida_util = medida.get("vida_util") if medida.get("vida_util") not in (None, "") else medida.get("anios")
+    vida = _numero(vida_util, "la vida util", nombre)
+    if vida <= 0:
+        raise Problema("En la medida «%s», la vida util tiene que ser de al menos un año." % nombre,
+                       "Escribe cuantos años dura la medida.")
+    tasa = _numero(medida.get("tasa_descuento") if medida.get("tasa_descuento") not in (None, "") else tasa_descuento,
+                   "la tasa de descuento", nombre)
 
     frc = factor_recuperacion_capital(tasa, vida)
     capex_anualizado = capex * frc
@@ -76,7 +83,19 @@ def curva(medidas, tasa_descuento=0.10, brecha=None):
     if not medidas:
         raise Problema("No hay medidas de reduccion cargadas.",
                        "Agrega al menos una: que se haria, cuanto cuesta y cuanto reduce al año.")
-    calculadas = [costo_marginal(m, tasa_descuento) for m in medidas]
+    calculadas = []
+    con_problema = []
+    for medida in medidas:
+        try:
+            calculadas.append(costo_marginal(medida, tasa_descuento))
+        except Problema as problema:
+            # Una medida con un dato faltante queda fuera y se dice cual y por que; no tumba ni distorsiona el resto.
+            con_problema.append({"medida": medida.get("medida") or medida.get("nombre") or "sin nombre",
+                                 "fila": medida.get("_fila"), "problema": problema.mensaje,
+                                 "que_hacer": problema.sugerencia})
+    if not calculadas:
+        raise Problema("No pude calcular ninguna de las medidas cargadas.",
+                       "; ".join("%s: %s" % (p["medida"], p["problema"]) for p in con_problema))
     calculadas.sort(key=lambda m: m["costo_por_tonelada"])
 
     acumulado = 0.0
@@ -97,6 +116,8 @@ def curva(medidas, tasa_descuento=0.10, brecha=None):
         "potencial_con_ahorro": round(potencial_con_ahorro, 1),
         "costo_anual_total": round(costo_acumulado, 1),
         "costo_promedio_por_tonelada": round(costo_acumulado / acumulado, 1) if acumulado else 0.0,
+        "medidas_con_problema": con_problema,
+        "completo": not con_problema,
     }
 
     if brecha:

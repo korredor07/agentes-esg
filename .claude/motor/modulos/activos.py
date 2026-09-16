@@ -162,7 +162,7 @@ def _vida_util_pedida(opciones):
     """Resuelve cuantos anios usar: los que indicaron o los de la tabla del SII."""
     indicada = _valor(opciones, "vida_util") or _valor(opciones, "vida_util_normal")
     if indicada not in (None, ""):
-        return motor_activos.entero(indicada, "la vida util", "Escribe los anios, por ejemplo 7."), None
+        return motor_activos.entero(indicada, "la vida util", "Escribe los anios, por ejemplo 7."), None, []
     bien = _valor(opciones, "bien")
     if not bien:
         raise Problema(
@@ -171,9 +171,12 @@ def _vida_util_pedida(opciones):
             "indicame los anios con --vida-util 7.",
         )
     busqueda = motor_activos.buscar_vida_util(bien, _valor(opciones, "actividad"))
+    avisos = list(busqueda.get("advertencias") or [])
+    # Si el bien puede ser de una nomina que no esta cargada (mineria, construccion...), eso va en la respuesta.
+    ojo = (" Ojo: %s" % " ".join(avisos)) if avisos else ""
     if not busqueda["encontrado"]:
         raise Problema(busqueda["mensaje"],
-                       "Tambien puedes indicarme los anios directamente con --vida-util.",
+                       "Tambien puedes indicarme los anios directamente con --vida-util.%s" % ojo,
                        {"consulta": bien})
     elegido = busqueda["eleccion_unica"]
     if not elegido or elegido["vida_util_normal"] is None:
@@ -181,8 +184,8 @@ def _vida_util_pedida(opciones):
                                    for c in busqueda["coincidencias"])
         raise Problema(
             "«%s» calza con mas de una fila de la tabla del SII y no voy a elegir por ti." % bien,
-            "Opciones: %s. Vuelve a pedirmelo con --vida-util y los anios que correspondan."
-            % opciones_texto,
+            "Opciones: %s. Vuelve a pedirmelo con --vida-util y los anios que correspondan.%s"
+            % (opciones_texto, ojo),
             {"coincidencias": busqueda["coincidencias"]},
         )
     otras = [c for c in busqueda["coincidencias"] if c.get("codigo") != elegido.get("codigo")]
@@ -190,7 +193,7 @@ def _vida_util_pedida(opciones):
         # La skill pide no elegir por la persona: si habia alternativas, quedan a la vista.
         elegido = dict(elegido, otras_opciones=[
             "%s (%s, %s años)" % (c["bien"], c["actividad"], c["vida_util_normal"]) for c in otras])
-    return elegido["vida_util_normal"], elegido
+    return elegido["vida_util_normal"], elegido, avisos
 
 
 # --------------------------------------------------------------------------
@@ -236,7 +239,7 @@ def _correccion_para(resultado, opciones, valor, anio_inicio, mes_inicio):
 
 def _depreciar_uno(opciones):
     valor = _valor(opciones, "valor")
-    anios, elegido = _vida_util_pedida(opciones)
+    anios, elegido, avisos_tabla = _vida_util_pedida(opciones)
     anio_inicio = _valor(opciones, "anio_inicio") or _valor(opciones, "anio")
     mes_inicio = _valor(opciones, "mes_inicio") or _valor(opciones, "mes") or 1
     resultado = motor_activos.depreciacion(
@@ -258,6 +261,10 @@ def _depreciar_uno(opciones):
                 "Confirma con la persona que es la correcta." % (elegido["bien"], "; ".join(elegido["otras_opciones"])))
     else:
         resultado["vida_util_segun"] = "anios indicados por ti"
+    # Lo que la busqueda en la tabla advirtio (por ejemplo, nominas del SII que no estan cargadas) llega a la persona.
+    for aviso in avisos_tabla:
+        if aviso not in resultado.setdefault("advertencias", []):
+            resultado["advertencias"].append(aviso)
 
     correccion = _correccion_para(resultado, opciones, resultado["valor"],
                                   resultado.get("anio_inicio"), resultado.get("mes_inicio"))
@@ -494,7 +501,8 @@ def informe_html(opciones):
         "ejercicio": resultado["ejercicio"],
         "activos": resultado["cantidad"],
         "totales": resultado["totales"],
-    }, advertencias=[AVISO_ESG, AVISO_LEGAL], fuentes=[motor_activos.FUENTE_VIDA_UTIL])
+    }, advertencias=list(resultado.get("advertencias") or []) + [AVISO_ESG, AVISO_LEGAL],
+        fuentes=[motor_activos.FUENTE_VIDA_UTIL])
 
 
 ACCIONES = {

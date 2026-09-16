@@ -57,6 +57,11 @@ def _preparar_filas(tabla, alcance_por_defecto=None):
     return registros
 
 
+# Sube cuando cambia lo que guarda un calculo (por ejemplo, las notas de cada factor). Un informe armado
+# con un resultado de una version anterior podria omitir advertencias: se recalcula antes.
+VERSION_CALCULO = 2
+
+
 def _leer_planilla(ruta_empresa, nombre, alcance=None):
     ruta = espacio.ruta_de(ruta_empresa, "datos", nombre)
     if not os.path.isfile(ruta):
@@ -94,6 +99,7 @@ def calcular(opciones):
             )
 
     resumen = carbono.calcular(registros, conjunto=conjunto.upper(), pais=perfil.get("pais"))
+    resumen["version_calculo"] = VERSION_CALCULO
     resumen["advertencias"] = avisos_de_ejemplo + list(resumen["advertencias"])
     resumen["empresa"] = perfil.get("nombre")
     resumen["periodo"] = periodo or "todos los periodos cargados"
@@ -222,18 +228,31 @@ def _bloques_informe(resumen, perfil):
                         "filas": [[p.get("fila"), p.get("error"), p.get("sugerencia")]
                                   for p in resumen["problemas"]]})
 
-    # Factores con una advertencia propia en el catalogo (por ejemplo, fuente secundaria):
-    # quien recibe el informe tiene que saberlo.
-    con_reparos = {}
+    # Todos los factores usados, con su nota y cuanto pesan en la huella. Antes se elegian por palabras clave
+    # y quedaban fuera, por ejemplo, un factor provisional o uno usado fuera de lo que cubre.
+    total_kg = resumen.get("total_kg_co2e") or 0.0
+    usados = {}
+    supuestos = []
     for fila in resumen.get("detalle") or []:
         factor = fila.get("factor") or {}
-        notas = factor.get("notas") or ""
-        if any(clave in notas.lower() for clave in ("secundaria", "confirmar", "no verificad")):
-            con_reparos[factor.get("id")] = "%s (%s, %s): %s" % (
-                fila.get("recurso"), factor.get("fuente"), factor.get("anio"), notas)
-    if con_reparos:
-        bloques.append({"tipo": "titulo", "texto": "Factores con reparos de su fuente", "nivel": 2})
-        bloques.append({"tipo": "lista", "items": sorted(con_reparos.values())})
+        ficha = usados.setdefault(factor.get("id"), {"recursos": set(), "kg": 0.0, "factor": factor})
+        ficha["recursos"].add(str(fila.get("recurso") or ""))
+        ficha["kg"] += fila.get("kg_co2e") or 0.0
+        if fila.get("notas_de_la_fila"):
+            supuestos.append("%s (fila %s): %s" % (fila.get("recurso"), fila.get("fila"), fila["notas_de_la_fila"]))
+    if usados:
+        bloques.append({"tipo": "titulo", "texto": "Factores usados y lo que dice su fuente", "nivel": 2})
+        bloques.append({"tipo": "tabla",
+                        "columnas": ["Para", "Factor y fuente", "Parte de la huella", "Nota de la fuente"],
+                        "filas": [[", ".join(sorted(f["recursos"])),
+                                   "%s (%s, %s)" % (clave, f["factor"].get("fuente"), f["factor"].get("anio")),
+                                   "%s %%" % informe.formatear_numero(round(f["kg"] / total_kg * 100, 1))
+                                   if total_kg else "-",
+                                   f["factor"].get("notas") or "-"]
+                                  for clave, f in sorted(usados.items(), key=lambda par: -par[1]["kg"])]})
+    if supuestos:
+        bloques.append({"tipo": "titulo", "texto": "Supuestos anotados en los datos", "nivel": 2})
+        bloques.append({"tipo": "lista", "items": sorted(set(supuestos))})
 
     advertencias = [a for a in resumen.get("advertencias", []) if a]
     if advertencias:
@@ -270,6 +289,19 @@ def reporte(opciones):
         )
     with open(origen, encoding="utf-8") as archivo:
         resumen = json.load(archivo)
+    aviso_version = None
+    if resumen.get("version_calculo") != VERSION_CALCULO:
+        try:
+            calcular(dict(opciones))
+            with open(origen, encoding="utf-8") as archivo:
+                resumen = json.load(archivo)
+            aviso_version = ("El calculo guardado era de una version anterior del motor: se recalculo con los datos "
+                             "actuales antes de armar el informe.")
+        except Problema as problema:
+            aviso_version = ("El calculo guardado es de una version anterior del motor y no se pudo recalcular (%s). "
+                             "El informe puede omitir advertencias sobre los factores: vuelve a ejecutar huella "
+                             "calcular." % problema.mensaje)
+            resumen.setdefault("advertencias", []).insert(0, aviso_version)
 
     marca = perfil.get("marca") or {}
     destino = espacio.ruta_de(ruta_empresa, "reportes",
@@ -286,6 +318,7 @@ def reporte(opciones):
         "archivo": destino,
         "total_t_co2e": resumen.get("total_t_co2e"),
         "empresa": perfil.get("nombre"),
+        "aviso": aviso_version,
     }
 
 

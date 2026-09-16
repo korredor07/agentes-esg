@@ -713,6 +713,116 @@ class PruebaCoberturaQueNoSeSobrestima(PruebaConCarpeta):
         self.assertIn("Antes de publicar, revisa esto", texto)
 
 
+class PruebaAvisosQueNoSePierden(PruebaConCarpeta):
+    """Revision independiente: advertencias que quedaban en el JSON y no llegaban al documento ni a la persona."""
+
+    def setUp(self):
+        super(PruebaAvisosQueNoSePierden, self).setUp()
+        from nucleo.salida import Problema
+        self.Problema = Problema
+        espacio.crear_empresa({"nombre": "Revision SpA", "pais": "CL", "anio_base": 2025, "exporta_a_ue": True},
+                              raiz=self.carpeta)
+        self.opciones = {"raiz": self.carpeta, "empresa": "Revision SpA"}
+        self.ruta = espacio.cargar_empresa("Revision SpA", raiz=self.carpeta)[1]
+
+    def _texto_docx(self, ruta):
+        import re
+        import zipfile
+        with zipfile.ZipFile(ruta) as documento:
+            xml = documento.read("word/document.xml").decode("utf-8")
+        return " ".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", xml, re.S))
+
+    def test_carta_y_cuestionario_sin_motivo_no_invocan_a_clientes_ni_autoridades(self):
+        from modulos import proveedores
+        carta = proveedores.carta(dict(self.opciones, proveedor="Molino Central")).resultado["archivo"]
+        cuestionario = proveedores.cuestionario(dict(self.opciones, proveedor="Molino Central")).resultado["archivo"]
+        for archivo in (carta, cuestionario):
+            texto = self._texto_docx(archivo)
+            self.assertNotIn("autoridad", texto)
+            self.assertNotIn("requerimientos", texto)
+
+    def test_cbam_y_eudr_no_aplican_sin_saber_si_vende_a_europa(self):
+        from modulos import europa
+        espacio.crear_empresa({"nombre": "Duda Europa SpA", "pais": "CL"}, raiz=self.carpeta)
+        resultado = europa.aplica({"raiz": self.carpeta, "empresa": "Duda Europa SpA", "exporta_a_ue": "no se",
+                                   "exporta_bienes_cbam": "si", "exporta_commodities_eudr": "si"}).resultado
+        estados = {m["id"]: m["estado"] for m in resultado["mecanismos"]}
+        self.assertEqual(estados["cbam"], "revisar")
+        self.assertEqual(estados["eudr"], "revisar")
+
+    def test_el_informe_europeo_no_usa_un_veredicto_guardado_viejo(self):
+        from modulos import europa
+        europa.aplica(dict(self.opciones))
+        ruta_json = europa._contexto(self.opciones)[2]
+        with io.open(ruta_json, encoding="utf-8") as archivo:
+            guardado = json.load(archivo)
+        for mecanismo in guardado["aplica"]["mecanismos"]:
+            if mecanismo["id"] == "maritimo":
+                # Como lo guardaba la version anterior del motor.
+                mecanismo["estado"] = "aplica"
+                mecanismo["motivo"] = "VEREDICTO GUARDADO POR UNA VERSION ANTERIOR"
+        with io.open(ruta_json, "w", encoding="utf-8") as archivo:
+            json.dump(guardado, archivo)
+        archivo = europa.informe_html(dict(self.opciones)).resultado["archivo"]
+        with io.open(archivo, encoding="utf-8") as origen:
+            html = origen.read()
+        self.assertNotIn("VEREDICTO GUARDADO POR UNA VERSION ANTERIOR", html)
+        self.assertIn("Falta confirmar si la carga viaja a Europa por barco", html)
+
+    def test_depreciar_un_bien_ambiguo_avisa_de_las_nominas_no_cargadas(self):
+        from modulos import activos
+        with self.assertRaises(self.Problema) as contexto:
+            activos.depreciar(dict(self.opciones, bien="cargador frontal", valor="450000000", anio="2024"))
+        self.assertIn("mineria", contexto.exception.sugerencia)
+
+    def test_el_informe_de_mineria_dice_que_el_gistm_no_es_ley(self):
+        from modulos import mineria
+        archivo = mineria.informe_html(dict(self.opciones, clasificacion="alta", requisitos="40")).resultado["archivo"]
+        with io.open(archivo, encoding="utf-8") as origen:
+            self.assertIn("NO es ley en Chile", origen.read())
+
+    def test_el_plan_no_rellena_celdas_vacias_ni_trunca_la_vida_util(self):
+        from modulos import datos, meta, plantilla
+        plantilla.crear(dict(self.opciones, tipo="medidas"))
+        datos.escribir(dict(self.opciones, tipo="medidas", filas=json.dumps([
+            ["Paneles solares", 80000, 1500, 12000, 2.5, 45, "", ""],
+            ["Caldera nueva", "", "", 9000, 10, 30, "", "Falta cotizacion"],
+            ["Aislacion", 20000, 0, 3000, "", 10, "", ""],
+        ])))
+        respuesta = meta.plan(dict(self.opciones, brecha="30"))
+        calculadas = {m["medida"]: m for m in respuesta.resultado["medidas"]}
+        self.assertEqual(list(calculadas), ["Paneles solares"])
+        self.assertEqual(calculadas["Paneles solares"]["vida_util"], 2.5)
+        fuera = {p["medida"] for p in respuesta.resultado["medidas_con_problema"]}
+        self.assertEqual(fuera, {"Caldera nueva", "Aislacion"})
+        self.assertTrue(respuesta.advertencias[0].startswith("2 medida(s) quedaron fuera"))
+
+    def test_el_informe_de_huella_muestra_todos_los_factores_y_los_supuestos(self):
+        from modulos import huella
+        from nucleo import excel
+        from plantillas import definiciones
+        hojas = definiciones.hojas_de(definiciones.PLANTILLAS["consumos"], con_ejemplo=False)
+        hojas[1]["filas"] = [["2025-01", "Planta", "electricidad", "electricidad", 1000, "kWh", "reportado", "",
+                              "Aproximacion declarada: medidor compartido"]]
+        excel.escribir_xlsx(os.path.join(self.ruta, "datos", "consumos.xlsx"), hojas)
+        huella.calcular(dict(self.opciones, periodo="2025"))
+        # Resultado guardado por una version anterior: sin version ni notas de los factores.
+        guardado = os.path.join(self.ruta, "resultados", "huella_2025.json")
+        with io.open(guardado, encoding="utf-8") as archivo:
+            viejo = json.load(archivo)
+        viejo.pop("version_calculo")
+        for fila in viejo["detalle"]:
+            fila["factor"].pop("notas", None)
+        with io.open(guardado, "w", encoding="utf-8") as archivo:
+            json.dump(viejo, archivo)
+        respuesta = huella.reporte(dict(self.opciones, periodo="2025"))
+        self.assertIn("se recalculo", respuesta["aviso"])
+        with io.open(respuesta["archivo"], encoding="utf-8") as origen:
+            html = origen.read()
+        self.assertIn("Factores usados y lo que dice su fuente", html)
+        self.assertIn("Aproximacion declarada: medidor compartido", html)
+
+
 class PruebaSinCaracteresDeControl(unittest.TestCase):
     """Un caracter de control escrito por error rompe una expresion regular sin que se vea."""
 
