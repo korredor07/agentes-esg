@@ -287,14 +287,15 @@ def datos_disponibles(perfil, ruta_empresa, periodo=None):
         if evaluacion:
             claves.add("diagnostico")
             puntajes = evaluacion.get("puntajes") or {}
+            brechas = len(evaluacion.get("brechas") or [])
             detalle["diagnostico"] = (
                 "Diagnostico ESG: puntaje general %s de 100 (ambiental %s, social %s, gobernanza %s), "
-                "con %d brechas identificadas." % (
+                "con %d %s identificada%s." % (
                     informe.formatear_numero(evaluacion.get("puntaje_general")),
                     informe.formatear_numero(puntajes.get("ambiental")),
                     informe.formatear_numero(puntajes.get("social")),
                     informe.formatear_numero(puntajes.get("gobernanza")),
-                    len(evaluacion.get("brechas") or [])))
+                    brechas, "brecha" if brechas == 1 else "brechas", "" if brechas == 1 else "s"))
         else:
             avisos.append("Hay un diagnostico iniciado pero sin evaluacion guardada. Ejecuta: diagnostico evaluar.")
 
@@ -411,17 +412,34 @@ def _seleccionar(resultado, opciones):
     return fichas
 
 
+def _faltantes(ficha):
+    return ", ".join(catalogo.DATOS_CONOCIDOS.get(dato, dato) for dato in ficha["faltan"])
+
+
 def _instruccion(ficha):
+    """Que tiene que hacer la persona en esta seccion del borrador."""
     if ficha["estado"] == "cubierto":
         return "[Revisa la cifra, explica de donde sale y agrega el contexto del periodo.]"
     if ficha["estado"] == "parcial":
-        return "[Completa lo que falta y escribe el texto. %s]" % ficha["motivo"]
+        return "[Escribe el texto con lo que ya tienes y completa lo que falta: %s]" % _faltantes(ficha)
     if ficha["se_redacta"]:
         return "[Escribe aqui la respuesta de la empresa. Si el tema no aplica, dilo y explica por que.]"
-    return "[Todavia no tienes este dato. %s]" % ficha["motivo"]
+    return "[Todavia no tienes este dato. Para llenarlo necesitas: %s]" % _faltantes(ficha)
 
 
-def _bloques_borrador(perfil, marco, periodo, fichas, detalle, resultado):
+def _datos_que_mas_suman(fichas):
+    """Que dato conviene conseguir primero: el que desbloquea mas contenidos."""
+    faltantes = {}
+    for ficha in fichas:
+        for dato in ficha["faltan"]:
+            faltantes[dato] = faltantes.get(dato, 0) + 1
+    return sorted(
+        ({"dato": dato, "nombre": catalogo.DATOS_CONOCIDOS.get(dato, dato),
+          "contenidos_que_desbloquea": veces} for dato, veces in faltantes.items()),
+        key=lambda x: (-x["contenidos_que_desbloquea"], x["dato"]))[:8]
+
+
+def _bloques_borrador(perfil, marco, periodo, fichas, detalle):
     hoy = datetime.date.today().strftime("%d-%m-%Y")
     bloques = [
         {"tipo": "titulo", "texto": "Borrador de reporte de sostenibilidad", "nivel": 0},
@@ -480,9 +498,10 @@ def _bloques_borrador(perfil, marco, periodo, fichas, detalle, resultado):
     bloques.append({"tipo": "tabla", "columnas": ["Fuente oficial", "Enlace", "Revisado el"],
                     "filas": [[nombre, url, fecha] for nombre, url, fecha in fuentes]})
     bloques.append({"tipo": "nota",
-                    "texto": "Cobertura con los datos actuales: %s%% de los %d contenidos de %s. %s"
-                             % (informe.formatear_numero(resultado["porcentaje_cobertura"]),
-                                resultado["total"], marco, AVISO)})
+                    "texto": "Cobertura con los datos actuales: %s%% de los %d contenidos de %s incluidos en "
+                             "este borrador. %s"
+                             % (informe.formatear_numero(catalogo.porcentaje_cubierto(fichas)),
+                                len(fichas), marco, AVISO)})
     return bloques
 
 
@@ -498,7 +517,7 @@ def borrador(opciones):
     destino = espacio.ruta_de(ruta_empresa, "reportes", "borrador-%s-%s.docx" % (
         espacio.texto_a_slug(marco), espacio.texto_a_slug(periodo or "sin-periodo")))
     word.escribir_docx(destino,
-                       _bloques_borrador(perfil, marco, periodo or "sin indicar", fichas, detalle, resultado),
+                       _bloques_borrador(perfil, marco, periodo or "sin indicar", fichas, detalle),
                        titulo="Borrador de reporte %s - %s" % (marco, perfil.get("nombre", "")))
 
     if len(fichas) > 40:
@@ -516,7 +535,8 @@ def borrador(opciones):
         "con_dato_listo": len([f for f in fichas if f["estado"] == "cubierto"]),
         "a_medias": len([f for f in fichas if f["estado"] == "parcial"]),
         "por_completar": len([f for f in fichas if f["estado"] == "pendiente"]),
-        "porcentaje_cobertura": resultado["porcentaje_cobertura"],
+        "porcentaje_cobertura": catalogo.porcentaje_cubierto(fichas),
+        "porcentaje_del_marco_completo": resultado["porcentaje_cobertura"],
         "huella_usada": os.path.basename(huella) if huella else None,
     }, advertencias=[AVISO] + avisos)
 
@@ -525,11 +545,11 @@ _COLORES_ESTADO = {"cubierto": "verde", "parcial": "amarillo", "pendiente": "roj
 _PALABRA_ESTADO = {"cubierto": "Cubierto", "parcial": "Parcial", "pendiente": "Pendiente"}
 
 
-def _bloques_indice(perfil, marco, fichas, detalle, resultado):
+def _bloques_indice(perfil, marco, fichas, detalle):
     conteo = {estado: len([f for f in fichas if f["estado"] == estado]) for estado in catalogo.ESTADOS}
     bloques = [
         {"tipo": "kpi", "items": [
-            {"etiqueta": "Cobertura", "valor": resultado["porcentaje_cobertura"], "unidad": "%",
+            {"etiqueta": "Cobertura", "valor": catalogo.porcentaje_cubierto(fichas), "unidad": "%",
              "detalle": "Con los datos que hay hoy en la carpeta", "color": "verde"},
             {"etiqueta": "Cubiertos", "valor": conteo["cubierto"], "detalle": "El dato ya existe"},
             {"etiqueta": "Parciales", "valor": conteo["parcial"], "detalle": "Falta una parte del dato"},
@@ -549,7 +569,7 @@ def _bloques_indice(perfil, marco, fichas, detalle, resultado):
                         "filas": [[f["codigo"], f["titulo"], _PALABRA_ESTADO[f["estado"]],
                                    "; ".join(detalle.get(c, c) for c in f["encontrados"]) or f["motivo"]]
                                   for f in grupo["contenidos"]]})
-    faltan = resultado["datos_que_mas_suman"]
+    faltan = _datos_que_mas_suman(fichas)
     if faltan:
         bloques.append({"tipo": "titulo", "texto": "Que conviene cargar primero", "nivel": 2})
         bloques.append({"tipo": "barras", "titulo": "", "unidad": "contenidos que se desbloquean",
@@ -573,7 +593,7 @@ def indice(opciones):
     informe.escribir_html(
         destino,
         "Indice de contenidos %s" % marco,
-        _bloques_indice(perfil, marco, fichas, detalle, resultado),
+        _bloques_indice(perfil, marco, fichas, detalle),
         marca=perfil.get("marca") or {},
         subtitulo="%s - %s de %d contenidos con dato disponible" % (
             perfil.get("nombre", ""), len([f for f in fichas if f["estado"] == "cubierto"]), len(fichas)))
@@ -585,7 +605,9 @@ def indice(opciones):
         "cubiertos": len([f for f in fichas if f["estado"] == "cubierto"]),
         "parciales": len([f for f in fichas if f["estado"] == "parcial"]),
         "pendientes": len([f for f in fichas if f["estado"] == "pendiente"]),
-        "porcentaje_cobertura": resultado["porcentaje_cobertura"],
+        "porcentaje_cobertura": catalogo.porcentaje_cubierto(fichas),
+        "porcentaje_del_marco_completo": resultado["porcentaje_cobertura"],
+        "que_conviene_cargar_primero": _datos_que_mas_suman(fichas),
     }, advertencias=[AVISO] + avisos)
 
 

@@ -103,6 +103,50 @@ PLANTILLAS = {
             ["2025", "1", "gasto consultoria", 15000, "USD", "", "", "Varias", "reportado", "", "Servicios profesionales del año"],
         ],
     },
+    "rep": {
+        "titulo": "Ley REP - productos prioritarios",
+        "para_que": "Declarar cuantas toneladas de cada producto prioritario puso la empresa en el mercado chileno "
+                    "cada año, y cuantas se recolectaron y valorizaron. Con esto se calculan las metas de la "
+                    "Ley 20.920 (Ley REP).",
+        "hoja": "Ley REP",
+        "columnas": [
+            {"titulo": "Anio", "ancho": 10,
+             "ayuda": "Año calendario del dato (2025). Una fila por año, producto, categoria y material. "
+                      "Necesitas el año anterior para calcular la meta del año siguiente."},
+            {"titulo": "Producto prioritario", "ancho": 26,
+             "ayuda": "envases, neumaticos, aceites lubricantes, pilas, aee (aparatos electricos y "
+                      "electronicos) o baterias. Son los seis del art. 10 de la Ley 20.920."},
+            {"titulo": "Categoria", "ancho": 22,
+             "ayuda": "Envases: domiciliario o no domiciliario. Neumaticos: A o B. AEE: ait (intercambio de "
+                      "temperatura), pfv (paneles fotovoltaicos) u otros. Pilas, aceites y baterias: dejala vacia."},
+            {"titulo": "Material", "ancho": 22,
+             "ayuda": "Solo para envases: carton para liquidos, metal, papel y carton, plastico, vidrio u otros. "
+                      "Si el envase es de varios materiales, va a la subcategoria que sea al menos el 85% de su "
+                      "masa (art. 6 del DS 12/2020)."},
+            {"titulo": "Toneladas puestas en el mercado", "ancho": 32,
+             "ayuda": "Toneladas que la empresa vendio o importo por primera vez en Chile ese año. Los envases "
+                      "reutilizables no cuentan aqui (art. 3 del DS 12/2020)."},
+            {"titulo": "Toneladas recolectadas", "ancho": 24,
+             "ayuda": "Toneladas de residuos recolectadas ese año a nombre de la empresa, segun el certificado "
+                      "del sistema de gestion."},
+            {"titulo": "Toneladas valorizadas", "ancho": 24,
+             "ayuda": "Toneladas efectivamente valorizadas ese año. En envases solo cuenta el reciclaje material "
+                      "(art. 28); en neumaticos tambien recauchaje, coprocesamiento y valorizacion energetica."},
+            {"titulo": "Sistema de gestion", "ancho": 22,
+             "ayuda": "individual o colectivo. Si es colectivo, escribe el nombre del sistema al que adhiere."},
+            {"titulo": "Evidencia", "ancho": 24,
+             "ayuda": "Archivo de respaldo: certificado del sistema de gestion, factura, declaracion de importacion."},
+            {"titulo": "Notas", "ancho": 28, "ayuda": "Lo que quieras recordar de esa fila."},
+        ],
+        "ejemplo": [
+            [2025, "envases", "domiciliario", "plastico", 500, 0, 0, "colectivo", "", "Año base de la meta 2026"],
+            [2026, "envases", "domiciliario", "plastico", 520, 60, 60, "colectivo", "certificado-2026.pdf", ""],
+            [2025, "envases", "domiciliario", "vidrio", 300, 0, 0, "colectivo", "", "Año base de la meta 2026"],
+            [2026, "envases", "domiciliario", "vidrio", 310, 50, 50, "colectivo", "certificado-2026.pdf", ""],
+            [2025, "neumaticos", "A", "", 1000, 0, 0, "colectivo", "", "Año base de la meta 2026"],
+            [2026, "neumaticos", "A", "", 1050, 700, 520, "colectivo", "", ""],
+        ],
+    },
 }
 
 

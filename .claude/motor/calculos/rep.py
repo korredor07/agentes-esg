@@ -467,7 +467,7 @@ def normalizar_material(texto, clave_producto="envases", donde=""):
     )
 
 
-def _anio(valor, donde=""):
+def anio_valido(valor, donde=""):
     """Acepta 2026, '2026' o '2026-03' y devuelve el anio como numero."""
     texto = str(valor if valor not in (None, True) else "").strip()
     coincidencia = re.match(r"^(\d{4})", texto)
@@ -623,10 +623,10 @@ def _prorratear(clave_producto, anio, meta):
     return efectiva, True, (
         "Primer anio de metas: se aplica el prorrateo M1 = (Mi x MO)/12 con MO = %d meses, porque las "
         "metas empezaron a regir el %s. La meta de tabla de %s%% queda en %s%% para este anio."
-        % (meses, info["metas_desde"], _pct(meta), _pct(efectiva)))
+        % (meses, info["metas_desde"], formatear_numero(meta), formatear_numero(efectiva)))
 
 
-def _pct(valor):
+def formatear_numero(valor):
     if valor is None:
         return "-"
     return ("%.4f" % valor).rstrip("0").rstrip(".").replace(".", ",")
@@ -641,7 +641,7 @@ def metas_de(producto, anio, material=None, categoria=None, metas=None):
     """
     clave = normalizar_producto(producto)
     info = PRODUCTOS[clave]
-    anio = _anio(anio)
+    anio = anio_valido(anio)
     metas = metas if metas is not None else cargar_metas()
 
     filtro_categoria = normalizar_categoria(clave, categoria) if categoria else None
@@ -802,7 +802,7 @@ def normalizar_declaracion(fila):
     numero = fila.get("_fila") or fila.get("fila")
     donde = " (fila %s de la planilla)" % numero if numero else ""
     producto = normalizar_producto(_primero(fila, ["producto", "producto_prioritario", "prioritario"]), donde)
-    anio = _anio(_primero(fila, ["anio", "ano", "periodo", "anio_calendario"]), donde)
+    anio = anio_valido(_primero(fila, ["anio", "ano", "periodo", "anio_calendario"]), donde)
     categoria = normalizar_categoria(producto, _primero(fila, ["categoria", "categoria_del_producto"]), donde)
     material = normalizar_material(_primero(fila, ["material", "subcategoria"]), producto, donde)
     return {
@@ -957,7 +957,7 @@ def calcular_cumplimiento(declaraciones, anio, producto, categoria=None, materia
     """
     clave = normalizar_producto(producto)
     info = PRODUCTOS[clave]
-    anio = _anio(anio)
+    anio = anio_valido(anio)
     metas = metas if metas is not None else cargar_metas()
 
     registros = [normalizar_declaracion(fila) for fila in (declaraciones or [])]

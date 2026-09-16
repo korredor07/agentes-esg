@@ -18,11 +18,15 @@
   ],
   "skills": "./.claude/skills",
   "agents": [
+    "./.claude/agents/agente-academia.md",
     "./.claude/agents/agente-auditor.md",
     "./.claude/agents/agente-carbono.md",
+    "./.claude/agents/agente-crm.md",
     "./.claude/agents/agente-cumplimiento.md",
     "./.claude/agents/agente-datos.md",
     "./.claude/agents/agente-investigador.md",
-    "./.claude/agents/agente-ley-karin.md"
+    "./.claude/agents/agente-ley-karin.md",
+    "./.claude/agents/agente-proveedores.md",
+    "./.claude/agents/agente-reportes.md"
   ]
 }
