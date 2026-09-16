@@ -17,8 +17,8 @@ Si aún no está hecho, primero la skill `brechas-cumplimiento`: sus preguntas
 ponen productos en el mercado) son las que activan cada declaración.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" calendario proximas
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" calendario informe
+python .claude/motor/esg.py calendario proximas
+python .claude/motor/esg.py calendario informe
 ```
 
 Estados que devuelve: **urgente** (vence en una semana o menos), **abierto**

@@ -21,7 +21,7 @@ una anotación o altera el orden, la verificación lo detecta.
 ## Registrar
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos de energía 2025" --responsable "Ana Pérez"
+python .claude/motor/esg.py evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos de energía 2025" --responsable "Ana Pérez"
 ```
 
 Qué conviene registrar:
@@ -37,8 +37,8 @@ cambio posterior aparecerá como archivo modificado.
 ## Verificar
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia verificar
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia listar
+python .claude/motor/esg.py evidencia verificar
+python .claude/motor/esg.py evidencia listar
 ```
 
 Si algo falla, traduce el problema:

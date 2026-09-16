@@ -52,7 +52,7 @@ def responder(opciones):
     perfil, ruta, ruta_json = _contexto(opciones)
     clave = opciones.get("clave")
     respuesta = opciones.get("respuesta")
-    validas = {p["clave"] for p in aplicabilidad.PREGUNTAS}
+    validas = {p["clave"] for p in aplicabilidad.preguntas_aplicables(perfil)}
     if not clave or clave is True or clave not in validas:
         raise Problema(
             "No reconozco la pregunta «%s»." % clave,

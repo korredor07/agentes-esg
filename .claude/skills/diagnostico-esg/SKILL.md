@@ -13,7 +13,7 @@ respondes tú conversando con la persona.
 ## 1. Primera evaluación
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" diagnostico evaluar
+python .claude/motor/esg.py diagnostico evaluar
 ```
 
 Devuelve el puntaje general, el de cada dimensión (ambiental, social,
@@ -25,7 +25,7 @@ una autoevaluación con lo que hay en la carpeta.
 ## 2. Completar lo que falta preguntando
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" diagnostico preguntas
+python .claude/motor/esg.py diagnostico preguntas
 ```
 
 Trae los indicadores sin responder, ordenados por importancia. **Pregunta de a
@@ -42,7 +42,7 @@ sé», déjalo sin responder y anótalo como algo por averiguar.
 Guarda cada respuesta apenas la recibas:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" diagnostico responder --indicador soc-karin --estado no_cumple --nota "Nunca se redactó"
+python .claude/motor/esg.py diagnostico responder --indicador soc-karin --estado no_cumple --nota "Nunca se redactó"
 ```
 
 No hagas las 16 preguntas de una vez. Tres o cuatro por conversación es
@@ -60,7 +60,7 @@ urgentes**, con esta estructura para cada una:
 Si la persona se compromete con alguna, regístralo:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" diagnostico brecha --indicador soc-karin --seguimiento reconocida --responsable "Jefa de personas" --fecha-compromiso 2026-11-30
+python .claude/motor/esg.py diagnostico brecha --indicador soc-karin --seguimiento reconocida --responsable "Jefa de personas" --fecha-compromiso 2026-11-30
 ```
 
 Estados de seguimiento: `abierta`, `reconocida` (la vio y la asumió),
@@ -69,7 +69,7 @@ Estados de seguimiento: `abierta`, `reconocida` (la vio y la asumió),
 ## 4. Informe
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" diagnostico informe
+python .claude/motor/esg.py diagnostico informe
 ```
 
 Deja `reportes/diagnostico-esg.html`: sirve para mostrar a la gerencia o al

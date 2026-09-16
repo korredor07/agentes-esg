@@ -80,7 +80,9 @@ def generar(opciones):
         {"etiqueta": "Puntaje ESG", "valor": diagnostico["puntaje_general"], "unidad": "/100",
          "detalle": "Nivel: %s" % palabra, "color": color},
         {"etiqueta": "Huella de carbono", "valor": (huella or {}).get("total_t_co2e", 0), "unidad": "tCO2e",
-         "detalle": "Periodo: %s" % (huella or {}).get("periodo", "sin calcular")},
+         "detalle": ("Periodo: %s" % (huella or {}).get("periodo", "sin calcular")) if (huella or {}).get("completo", True)
+                    else "INCOMPLETA: faltan %d fila(s)" % (huella or {}).get("registros_con_problema", 0),
+         "color": None if (huella or {}).get("completo", True) else "rojo"},
         {"etiqueta": "Brechas por cerrar", "valor": len([b for b in diagnostico["brechas"]
                                                          if b["seguimiento"] != "resuelta"]),
          "unidad": "", "detalle": "%d de alto riesgo" % len(diagnostico["brechas_criticas"]),
@@ -91,7 +93,12 @@ def generar(opciones):
          "detalle": "Cadena intacta" if verificacion["ok"] else "Revisar: hay problemas",
          "color": "verde" if verificacion["ok"] else "rojo"},
     ]
-    bloques = [{"tipo": "kpi", "items": tarjetas}]
+    bloques = []
+    if huella and not huella.get("completo", True):
+        bloques.append({"tipo": "nota", "estilo": "riesgo",
+                        "texto": "%s Mientras tanto, la huella que aparece aqui abajo esta subestimada."
+                                 % huella.get("aviso_principal", "El ultimo calculo de huella esta incompleto.")})
+    bloques.append({"tipo": "kpi", "items": tarjetas})
 
     alertas = _alertas(ruta)
     if alertas:
@@ -105,11 +112,19 @@ def generar(opciones):
                             "datos": [{"etiqueta": clave.replace("_", " ").title(), "valor": v["kg_co2e"] / 1000.0}
                                       for clave, v in sorted(por_alcance.items())]})
         periodos = sorted(k for k in huella.get("por_periodo", {}) if k != "sin periodo")
-        if len(periodos) > 1:
-            bloques.append({"tipo": "lineas", "titulo": "Emisiones por periodo", "unidad": "tCO2e",
+        mensuales = [p for p in periodos if len(p) == 7]
+        serie = mensuales if len(mensuales) > 1 else periodos
+        if len(serie) > 1:
+            bloques.append({"tipo": "lineas",
+                            "titulo": "Emisiones mes a mes" if serie is mensuales else "Emisiones por periodo",
+                            "unidad": "tCO2e",
                             "series": [{"nombre": "Emisiones",
                                         "puntos": [(p, huella["por_periodo"][p]["kg_co2e"] / 1000.0)
-                                                   for p in periodos]}]})
+                                                   for p in serie]}]})
+            if serie is mensuales and len(mensuales) < len(periodos):
+                bloques.append({"tipo": "texto",
+                                "texto": "La curva muestra solo lo cargado mes a mes; los datos anuales "
+                                         "(como la cadena de valor) estan en el total pero no en la curva."})
     else:
         bloques.append({"tipo": "nota", "estilo": "aviso",
                         "texto": "Todavia no hay huella calculada. Es el mejor primer paso: con las boletas "
@@ -122,7 +137,15 @@ def generar(opciones):
                         "filas": [[b["prioridad"], b["titulo"], b["que_hacer"]] for b in proximas]})
 
     bloques.append({"tipo": "titulo", "texto": "Estado de los datos", "nivel": 2})
-    bloques.append({"tipo": "semaforo", "items": _estado_archivos(ruta)})
+    estado_archivos = _estado_archivos(ruta)
+    if huella and not huella.get("completo", True):
+        for fila in estado_archivos:
+            if fila["etiqueta"].startswith("Energia y combustibles"):
+                fila["estado"] = "rojo"
+                fila["estado_texto"] = "Con errores"
+                fila["detalle"] = ("%s, pero %d fila(s) no se pudieron calcular."
+                                   % (fila["detalle"], huella.get("registros_con_problema", 0)))
+    bloques.append({"tipo": "semaforo", "items": estado_archivos})
     bloques.append({"tipo": "nota", "estilo": "info",
                     "texto": "Tablero generado con los datos de esta carpeta. Es apoyo de gestion: "
                              "no reemplaza asesoria legal ni una auditoria."})

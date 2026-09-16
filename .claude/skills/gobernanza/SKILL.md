@@ -62,7 +62,7 @@ el exigible a su realidad**.
 ### 1. Revisar dónde está parada la empresa
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" gobernanza revisar --empresa mi-empresa
+python .claude/motor/esg.py gobernanza revisar --empresa mi-empresa
 ```
 
 Devuelve el cuestionario guiado (19 preguntas repartidas en políticas, canal de
@@ -83,7 +83,7 @@ Ejemplos de cómo suenan:
 Guarda cada respuesta apenas la recibas:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" gobernanza responder --pregunta canal-denuncias --estado parcial --nota "Existe un correo pero nadie lo sabe"
+python .claude/motor/esg.py gobernanza responder --pregunta canal-denuncias --estado parcial --nota "Existe un correo pero nadie lo sabe"
 ```
 
 Estados válidos: `cumple`, `parcial`, `no_cumple`, `no_aplica`. **`parcial` es la
@@ -97,9 +97,9 @@ sigue.
 ### 2. Entregar los borradores
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" gobernanza documento --tipo codigo-etica
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" gobernanza documento --tipo politica-canal-denuncias
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" gobernanza documento --tipo matriz-riesgos-delitos
+python .claude/motor/esg.py gobernanza documento --tipo codigo-etica
+python .claude/motor/esg.py gobernanza documento --tipo politica-canal-denuncias
+python .claude/motor/esg.py gobernanza documento --tipo matriz-riesgos-delitos
 ```
 
 Son **borradores con la estructura que pide la ley**, con todo lo propio de la
@@ -110,7 +110,7 @@ jurídica.
 ### 3. Dejar el informe
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" gobernanza informe
+python .claude/motor/esg.py gobernanza informe
 ```
 
 HTML que se abre con doble clic y se imprime a PDF (Ctrl+P).

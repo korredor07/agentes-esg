@@ -24,13 +24,13 @@ bajísimas y proveedores molestos. Escribirle a los 8 es una tarde de trabajo.
    calculadas.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" proveedores registrar --nombre "Envases del Sur" --categoria envases --gasto-anual 18000000 --contacto "Luis Soto"
+python .claude/motor/esg.py proveedores registrar --nombre "Envases del Sur" --categoria envases --gasto-anual 18000000 --contacto "Luis Soto"
 ```
 
 2. Pide el orden de trabajo:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" proveedores evaluar
+python .claude/motor/esg.py proveedores evaluar
 ```
 
 El resultado marca con `explica_80_pct` a los que están dentro del 80 % del
@@ -47,8 +47,8 @@ lista, y no otra, es a quien hay que escribir esta semana.
 Genera los dos documentos y revísalos con la persona antes de enviarlos:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" proveedores carta --proveedor "Envases del Sur" --plazo 30-10-2026 --responsable "Ana Rojas" --correo ana@empresa.cl
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" proveedores cuestionario --proveedor "Envases del Sur" --plazo 30-10-2026 --responsable "Ana Rojas" --correo ana@empresa.cl
+python .claude/motor/esg.py proveedores carta --proveedor "Envases del Sur" --plazo 30-10-2026 --responsable "Ana Rojas" --correo ana@empresa.cl
+python .claude/motor/esg.py proveedores cuestionario --proveedor "Envases del Sur" --plazo 30-10-2026 --responsable "Ana Rojas" --correo ana@empresa.cl
 ```
 
 Lo que hace la diferencia entre un cuestionario contestado y uno ignorado:
@@ -69,7 +69,7 @@ Lo que hace la diferencia entre un cuestionario contestado y uno ignorado:
 ## Registrar lo que llega
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" proveedores registrar --nombre "Envases del Sur" --entrego si --huella-declarada 0,85 --unidad "kg CO2e por kg" --calidad reportado --certificaciones "ISO 14001, ISO 9001"
+python .claude/motor/esg.py proveedores registrar --nombre "Envases del Sur" --entrego si --huella-declarada 0,85 --unidad "kg CO2e por kg" --calidad reportado --certificaciones "ISO 14001, ISO 9001"
 ```
 
 Dos cosas que nunca deben faltar:
@@ -131,7 +131,7 @@ por el proveedor.
 ## Informe y seguimiento
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" proveedores informe
+python .claude/motor/esg.py proveedores informe
 ```
 
 Entrega una página HTML con quién pesa más, quién entregó datos (verde) y quién

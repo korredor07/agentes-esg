@@ -143,7 +143,7 @@ las cuatro, la frase todavía no se puede publicar.
 11. **Deja el respaldo guardado** antes de publicar:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/respaldo-afirmacion-envase.pdf --descripcion "Certificado de contenido reciclado del envase, 2025" --responsable "Nombre de quien lo aprueba"
+python .claude/motor/esg.py evidencia registrar --archivo datos/respaldo-afirmacion-envase.pdf --descripcion "Certificado de contenido reciclado del envase, 2025" --responsable "Nombre de quien lo aprueba"
 ```
 
 ## 6. Los dos casos que más aparecen
@@ -155,8 +155,8 @@ certificación de neutralidad **no protege** frente a la prohibición europea si
 la reducción real fue marginal y la neutralidad descansa en créditos comprados.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" huella calcular
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta validar
+python .claude/motor/esg.py huella calcular
+python .claude/motor/esg.py meta validar
 ```
 
 **«Queremos anunciar nuestra meta».** Antes de publicarla, revisa con la skill
@@ -165,7 +165,7 @@ plan. Si la probabilidad de cumplirla es baja, dilo internamente antes de que se
 anuncie:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta probabilidad
+python .claude/motor/esg.py meta probabilidad
 ```
 
 ## Cuidados

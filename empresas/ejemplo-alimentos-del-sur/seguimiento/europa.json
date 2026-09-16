@@ -1,0 +1,458 @@
+{
+  "respuestas": {
+    "exporta_commodities_eudr": "no",
+    "exporta_a_ue": "si"
+  },
+  "aplica": {
+    "mecanismos": [
+      {
+        "id": "csrd",
+        "norma": "CSRD — informe de sostenibilidad europeo (Directiva 2013/34/UE tras la Directiva (UE) 2026/470)",
+        "estado": "revisar",
+        "motivo": "Falta un dato para decidir: cuanto factura el grupo dentro de la Union Europea. Casi ninguna empresa exportadora de Chile o Peru llega a estos numeros, pero conviene confirmarlo.",
+        "que_hacer": "Revisar con la asesoria del grupo en Europa cuanto se factura dentro de la Union Europea.",
+        "skill": "union-europea",
+        "riesgo": "medio",
+        "detalle": {
+          "umbrales": {
+            "volumen_negocios_eur": 450000000.0,
+            "empleados": 1000,
+            "volumen_en_ue_eur": 450000000.0,
+            "filial_ue_eur": 200000000.0,
+            "logica": "Los dos criterios a la vez (acumulativos), no dos de tres."
+          },
+          "empresa_protegida": true,
+          "primer_informe": null
+        }
+      },
+      {
+        "id": "cadena_valor",
+        "norma": "Exigencias del cliente europeo y tope VSME",
+        "estado": "aplica",
+        "motivo": "Los clientes europeos obligados a reportar piden datos a sus proveedores. Si la empresa no supera las 1.000 personas, el techo de lo exigible es el estandar voluntario VSME.",
+        "que_hacer": "Preparar el paquete VSME: huella de carbono de alcance 1 y 2, datos basicos de personas y gobernanza, con respaldo. Sirve para todos los clientes a la vez.",
+        "skill": "union-europea",
+        "riesgo": "medio",
+        "detalle": {
+          "tope_vsme": {
+            "aplica": true,
+            "que_es": "La empresa declarante sujeta a la CSRD no puede exigir a una empresa que no supera los 1.000 empleados informacion que exceda los limites del estandar voluntario VSME, y esa empresa puede negarse a entregarla.",
+            "limite": "Estandar voluntario VSME para pymes no cotizadas.",
+            "ojo": "Es un techo frente a lo que el cliente puede EXIGIR por obligacion legal, no frente a lo que puede PACTAR en el contrato. Y si el proveedor no esta domiciliado en la Union Europea, que pueda invocarlo no esta confirmado."
+          }
+        }
+      },
+      {
+        "id": "cbam",
+        "norma": "CBAM — Reglamento (UE) 2023/956, modificado por el Reglamento (UE) 2025/2083",
+        "estado": "revisar",
+        "motivo": "Falta confirmar si exportan hierro o acero, aluminio, cemento, fertilizantes, hidrogeno o electricidad.",
+        "que_hacer": "Calcular las emisiones incorporadas por tonelada de producto y entregarselas al importador.",
+        "skill": "cbam",
+        "riesgo": "alto",
+        "detalle": {
+          "periodo_definitivo": "Desde el 1 de enero de 2026.",
+          "primera_declaracion": "30 de septiembre de 2027, referida al año 2026 (art. 6, ap. 1).",
+          "umbral_del_importador_t": 50.0
+        }
+      },
+      {
+        "id": "maritimo",
+        "norma": "Mercado de carbono maritimo (Directiva (UE) 2023/959) y FuelEU (Reglamento (UE) 2023/1805)",
+        "estado": "aplica",
+        "motivo": "Desde 2026 la naviera entrega derechos por el 100 % de sus emisiones verificadas y en las rutas Sudamerica-Europa se cubre el 50 % del viaje. Ese costo llega como recargo en el flete, aunque la empresa no tenga ninguna obligacion propia.",
+        "que_hacer": "Pedirle a la naviera el desglose del recargo: que aplique el 50 % en rutas Sudamerica-Europa, con que precio del derecho europeo y separando el recargo de FuelEU.",
+        "skill": "maritimo-ets",
+        "riesgo": "medio",
+        "detalle": {
+          "cobertura_del_viaje": "50 % entre un tercer pais y la Union Europea",
+          "entrega_2026": "100 % de las emisiones verificadas",
+          "gases_desde_2026": "CO2, metano y oxido nitroso"
+        }
+      },
+      {
+        "id": "eudr",
+        "norma": "EUDR — Reglamento (UE) 2023/1115, tras el Reglamento (UE) 2025/2650",
+        "estado": "no aplica",
+        "motivo": "Sus productos no estan entre las siete materias primas cubiertas (ganado, cacao, cafe, palma, caucho, soya y madera).",
+        "que_hacer": "Reunir la geolocalizacion de cada predio y las pruebas de que no hubo deforestacion despues del 31 de diciembre de 2020.",
+        "skill": "eudr",
+        "riesgo": "alto",
+        "detalle": {
+          "fecha_de_corte": "31 de diciembre de 2020",
+          "grandes_y_medianas": "30 de diciembre de 2026",
+          "micro_y_pequenas": "30 de junio de 2027"
+        }
+      },
+      {
+        "id": "csddd",
+        "norma": "CSDDD — diligencia debida del cliente europeo (Directiva (UE) 2024/1760 tras la 2026/470)",
+        "estado": "aplica",
+        "motivo": "Tras la reforma de 2026 solo obliga a empresas de mas de 5.000 empleados y 1.500 millones de euros, y se aplica desde el 26 de julio de 2029. Aun asi, las clausulas de derechos humanos y ambiente ya estan en los contratos marco de los grandes compradores y no se van a retirar.",
+        "que_hacer": "Mantener al dia las politicas laborales, ambientales y de proveedores que piden esos contratos.",
+        "skill": "union-europea",
+        "riesgo": "medio",
+        "detalle": {
+          "umbrales": {
+            "empleados": 5000,
+            "volumen_negocios_eur": 1500000000.0,
+            "aplicacion": "26 de julio de 2029 para todas las empresas en ambito",
+            "sancion": "Tope uniforme del 3 % del volumen de negocios mundial neto (antes era el 5 %).",
+            "norma": "Directiva (UE) 2024/1760, modificada por la Directiva (UE) 2026/470"
+          }
+        }
+      }
+    ],
+    "evaluado_el": "2026-09-16"
+  },
+  "actualizado_el": "2026-09-16 06:17:53",
+  "cbam": [
+    {
+      "anio": 2026,
+      "sector": "hierro_acero",
+      "emisiones": {
+        "sector": "hierro_acero",
+        "sector_nombre": "Hierro y acero",
+        "gases_cubiertos": [
+          "CO2"
+        ],
+        "codigos_nc": "Capitulo 72 y determinadas partidas del capitulo 73",
+        "computa_indirectas": false,
+        "tipo_de_mercancia": "simple",
+        "cantidad_toneladas": 500.0,
+        "see_t_co2e_por_t": 1.8,
+        "emisiones_incorporadas_t_co2e": 900.0,
+        "componentes_por_tonelada": {
+          "directas": null,
+          "indirectas": null,
+          "precursores": null
+        },
+        "precursores": [],
+        "origen_del_dato": "SEE entregado por la instalacion productora",
+        "articulos": [
+          "Anexo IV, puntos 1 a 3, del Reglamento (UE) 2023/956",
+          "Anexo II del Reglamento (UE) 2023/956 (emisiones directas e indirectas)"
+        ],
+        "supuestos": [
+          "Se usa el SEE que entregaste tal cual: el motor no lo recalcula ni lo verifica.",
+          "Para hierro y acero el SEE debe incluir solo las emisiones directas (Anexo II del Reglamento (UE) 2023/956)."
+        ],
+        "advertencias": [],
+        "fuente": "docs/investigacion/07-union-europea.md"
+      },
+      "costo": {
+        "anio": 2026,
+        "factor_cbam": 0.975,
+        "porcentaje_exigible": 0.025,
+        "emisiones_incorporadas_t_co2e": 900.0,
+        "certificados_teoricos": 22.5,
+        "deduccion_certificados": 0.0,
+        "deduccion_es_estimacion": false,
+        "certificados_a_entregar": 22.5,
+        "precio_certificado_eur": 75.0,
+        "costo_eur": 1687.5,
+        "costo_por_tonelada_eur": 3.375,
+        "exencion_por_masa": null,
+        "calendario": {
+          "periodo_transitorio": "1 de octubre de 2023 al 31 de diciembre de 2025: solo informacion, sin pagar.",
+          "periodo_definitivo": "Desde el 1 de enero de 2026.",
+          "primera_declaracion": "30 de septiembre de 2027, referida al año 2026 (art. 6, ap. 1).",
+          "venta_de_certificados": "Desde el 1 de febrero de 2027 (art. 20, ap. 1).",
+          "entrega_de_certificados": "Antes del 30 de septiembre de cada año (art. 22, ap. 1).",
+          "precio_del_certificado": "En 2026 es la media trimestral del precio de subasta del derecho del RCDE UE; desde 2027, la media semanal."
+        },
+        "articulos": [
+          "Art. 31 del Reglamento (UE) 2023/956 (ajuste por asignacion gratuita)",
+          "Art. 10 bis, ap. 1 bis, de la Directiva 2003/87/CE (factor CBAM por año)",
+          "Art. 9 del Reglamento (UE) 2023/956 (carbono pagado en el pais de origen)",
+          "Art. 22 del Reglamento (UE) 2023/956 (entrega de certificados)"
+        ],
+        "supuestos": [],
+        "advertencias": [
+          "Los precios del derecho de emision europeo y del certificado CBAM son de mercado y cambian todos los dias. El motor usa el precio que tu entregues y lo deja registrado en el resultado para que el calculo sea auditable."
+        ],
+        "no_verificado": [
+          {
+            "que_falta": "La mecanica exacta de la deduccion por el precio del carbono ya pagado en el pais de origen (art. 9 del Reglamento (UE) 2023/956) se remite a un acto de ejecucion que no se pudo leer.",
+            "consecuencia": "El descuento que calcula el motor es una estimacion abierta, no la formula oficial. Si el impuesto verde chileno sera aceptado o no, tampoco esta confirmado.",
+            "como_resolverlo": "Confirmarlo con el importador europeo antes de prometerle un descuento.",
+            "tema": "cbam_deduccion_origen"
+          },
+          {
+            "que_falta": "La tabla de valores por defecto del periodo definitivo del CBAM (los que usa el importador cuando el exportador no entrega datos): no se confirmo el numero ni la fecha del acto de ejecucion que los publica.",
+            "consecuencia": "El motor no puede estimar el escenario «sin datos del proveedor».",
+            "como_resolverlo": "Pidelos a tu cliente europeo o descarga el fichero «Default values definitive period» de la Direccion General de Fiscalidad y Union Aduanera de la Comision.",
+            "tema": "cbam_valores_por_defecto"
+          }
+        ],
+        "fuente": "docs/investigacion/07-union-europea.md"
+      },
+      "calculado_el": "2026-09-16"
+    }
+  ],
+  "maritimo": {
+    "anio": 2025,
+    "ets": {
+      "anio": 2025,
+      "tipo_viaje": "tercer_pais_ue",
+      "descripcion_viaje": "Sale de un tercer pais y llega a un puerto de la UE",
+      "cobertura_viaje": 0.5,
+      "porcentaje_entrega": 0.7,
+      "combustible": "HFO",
+      "factor_emision_t_por_t": 3.16889,
+      "emisiones_viaje_t_co2e": 4753.335,
+      "emisiones_cubiertas_t_co2e": 2376.6675,
+      "derechos_a_entregar_t": 1663.66725,
+      "precio_eua_eur": 75.0,
+      "costo_eur": 124775.04375,
+      "teu": 6800.0,
+      "recargo_por_teu_eur": 18.34927113970588,
+      "recargo_por_feu_eur": 36.69854227941176,
+      "obligado": "La compañia naviera (armador, gestor naval o fletador a casco desnudo). El exportador no declara ni entrega derechos: lo paga como recargo en el flete.",
+      "articulos": [
+        "Art. 3 octies bis de la Directiva 2003/87/CE (cobertura del viaje)",
+        "Art. 3 octies ter de la Directiva 2003/87/CE (40 % en 2024, 70 % en 2025, 100 % desde 2026)",
+        "Anexo I de la Directiva 2003/87/CE (CO2 desde 2024; CH4 y N2O desde 2026)",
+        "Anexo II del Reglamento (UE) 2023/1805 (factores de los combustibles)"
+      ],
+      "que_pedirle_a_la_naviera": [
+        "Que el recargo aplique el 50 % en las rutas Sudamerica-Europa, no el 100 %.",
+        "El precio del derecho europeo usado como referencia y el periodo al que corresponde.",
+        "El factor de emision por contenedor de esa ruta y ese servicio.",
+        "El desglose separado del recargo del mercado de carbono y del de FuelEU: son dos cosas distintas y no se compensan entre si."
+      ],
+      "supuestos": [
+        "Factor CO2 equivalente del Fueloil pesado (HFO): 3.16889 t CO2e por tonelada de combustible, con los valores de GWP que entregaste."
+      ],
+      "advertencias": [
+        "Los precios del derecho de emision europeo y del certificado CBAM son de mercado y cambian todos los dias. El motor usa el precio que tu entregues y lo deja registrado en el resultado para que el calculo sea auditable."
+      ],
+      "no_verificado": [
+        {
+          "que_falta": "El contenido exacto de los apartados 1 bis y 1 ter del art. 2 del Reglamento (UE) 2015/757, que definen que actividades quedan fuera del ETS maritimo.",
+          "consecuencia": "El motor asume que el viaje esta cubierto; puede haber exclusiones que no conoce.",
+          "como_resolverlo": "Preguntarselo a la naviera.",
+          "tema": "ets_exclusiones_mrv"
+        },
+        {
+          "que_falta": "Los valores de potencial de calentamiento global a 100 años (GWP) a los que remite FuelEU: estan en el Anexo V de la Directiva (UE) 2018/2001 y no se leyeron directamente.",
+          "consecuencia": "Sin ellos no se puede convertir el metano y el oxido nitroso a CO2 equivalente.",
+          "como_resolverlo": "Entregar los valores que use la naviera o su verificador y dejarlos registrados.",
+          "tema": "gwp_fueleu"
+        }
+      ],
+      "fuente": "docs/investigacion/07-union-europea.md"
+    },
+    "fueleu": {
+      "anio": 2025,
+      "objetivo_gco2e_mj": 89.3368,
+      "reduccion_exigida": 0.02,
+      "intensidad_real_gco2e_mj": 91.74419753086421,
+      "energia_total_mj": 405000000.0,
+      "balance_gco2e": -974996000.0000075,
+      "balance_t_co2e": -974.9960000000075,
+      "estado": "deficit",
+      "equivalente_vlsfo_t": 259.2032072208438,
+      "periodos_consecutivos": 1,
+      "multiplicador_reincidencia": 1.0,
+      "penalizacion_eur": 622087.6973300251,
+      "detalle_intensidad": {
+        "ghgie_gco2e_mj": 91.74419753086421,
+        "wtt_gco2e_mj": 13.5,
+        "ttw_gco2e_mj": 78.24419753086421,
+        "f_wind": 1.0,
+        "energia_total_mj": 405000000.0,
+        "energia_ops_mj": 0.0,
+        "combustibles": [
+          {
+            "combustible": "HFO",
+            "nombre": "Fueloil pesado (HFO)",
+            "consumidor": "Todos los motores de combustion interna",
+            "toneladas": 10000.0,
+            "energia_mj": 405000000.0,
+            "lcv_mj_g": 0.0405,
+            "wtt_gco2e_mj": 13.5,
+            "co2eq_ttw_g_g": 3.16889,
+            "methane_slip_pct": 0.0,
+            "factor_premio": 1.0
+          }
+        ],
+        "articulos": [
+          "Anexo I, ecuaciones 1 y 2, del Reglamento (UE) 2023/1805",
+          "Anexo II del Reglamento (UE) 2023/1805 (factores por defecto)"
+        ],
+        "advertencias": [],
+        "no_verificado": [
+          {
+            "que_falta": "Los valores de potencial de calentamiento global a 100 años (GWP) a los que remite FuelEU: estan en el Anexo V de la Directiva (UE) 2018/2001 y no se leyeron directamente.",
+            "consecuencia": "Sin ellos no se puede convertir el metano y el oxido nitroso a CO2 equivalente.",
+            "como_resolverlo": "Entregar los valores que use la naviera o su verificador y dejarlos registrados.",
+            "tema": "gwp_fueleu"
+          }
+        ]
+      },
+      "articulos": [
+        "Anexo IV, parte A, del Reglamento (UE) 2023/1805 (balance)",
+        "Anexo IV, parte B, del Reglamento (UE) 2023/1805 (penalizacion)",
+        "Art. 23, ap. 2, del Reglamento (UE) 2023/1805 (reincidencia)",
+        "Art. 4, ap. 2, del Reglamento (UE) 2023/1805"
+      ],
+      "calendario": {
+        "primer_periodo": "Año natural 2025.",
+        "registro_de_balances": "Antes del 1 de mayo del periodo de verificacion.",
+        "pago_de_la_penalizacion": "30 de junio del periodo de verificacion.",
+        "documento_de_cumplimiento": "30 de junio; vale 18 meses tras el fin del periodo."
+      },
+      "advertencias": [],
+      "no_verificado": [
+        {
+          "que_falta": "Los valores de potencial de calentamiento global a 100 años (GWP) a los que remite FuelEU: estan en el Anexo V de la Directiva (UE) 2018/2001 y no se leyeron directamente.",
+          "consecuencia": "Sin ellos no se puede convertir el metano y el oxido nitroso a CO2 equivalente.",
+          "como_resolverlo": "Entregar los valores que use la naviera o su verificador y dejarlos registrados.",
+          "tema": "gwp_fueleu"
+        }
+      ],
+      "fuente": "docs/investigacion/07-union-europea.md"
+    },
+    "calculado_el": "2026-09-16"
+  },
+  "eudr": {
+    "estado": "aplica",
+    "materia_prima": "cafe",
+    "materia_prima_nombre": "Cafe",
+    "derivados": [
+      "cafe tostado",
+      "cafe soluble"
+    ],
+    "pais": "PE",
+    "riesgo_pais": "estandar",
+    "riesgo_confirmado_en_lista": true,
+    "nota_riesgo": "PE figura en la lista de riesgo estandar del Reglamento de Ejecucion (UE) 2025/1093.",
+    "diligencia": "completa",
+    "explicacion_diligencia": "Riesgo estandar o alto: hay que hacer la diligencia debida completa, con recopilacion de informacion (art. 9), evaluacion del riesgo (art. 10) y mitigacion hasta dejarlo en nulo o insignificante (art. 11).",
+    "fecha_de_aplicacion": "30 de diciembre de 2026",
+    "nota_fecha": "",
+    "fecha_de_corte": "31 de diciembre de 2020",
+    "requisitos_articulo_3": [
+      "Estar libre de deforestacion: la tierra no puede haber sido deforestada despues del 31 de diciembre de 2020.",
+      "Haberse producido conforme a la legislacion del pais de produccion.",
+      "Estar amparado por una declaracion de diligencia debida del operador europeo."
+    ],
+    "pasos_de_diligencia": [
+      {
+        "paso": 1,
+        "titulo": "Recopilar la informacion",
+        "articulo": "Art. 9",
+        "obligatorio_en_riesgo_bajo": true,
+        "detalle": "Reunir y conservar durante cinco años todos los datos de cada lote y cada predio.",
+        "exigible": true
+      },
+      {
+        "paso": 2,
+        "titulo": "Evaluar el riesgo",
+        "articulo": "Art. 10",
+        "obligatorio_en_riesgo_bajo": false,
+        "detalle": "Considerar la clasificacion de riesgo del pais, la presencia de bosques, los derechos de los pueblos indigenas, la complejidad de la cadena y las denuncias recibidas.",
+        "exigible": true
+      },
+      {
+        "paso": 3,
+        "titulo": "Mitigar el riesgo",
+        "articulo": "Art. 11",
+        "obligatorio_en_riesgo_bajo": false,
+        "detalle": "Tomar medidas hasta dejar el riesgo en nulo o insignificante: documentacion adicional, auditorias independientes, apoyo al proveedor para que levante su informacion.",
+        "exigible": true
+      },
+      {
+        "paso": 4,
+        "titulo": "Presentar la declaracion de diligencia debida",
+        "articulo": "Arts. 4 y 33",
+        "obligatorio_en_riesgo_bajo": true,
+        "detalle": "La presenta el operador europeo por el sistema de informacion (TRACES) antes de poner el producto en el mercado. Genera un numero de referencia que acompaña al producto.",
+        "exigible": true
+      }
+    ],
+    "informacion_requerida": [
+      {
+        "id": "descripcion",
+        "que": "Descripcion del producto y lista de materias primas que contiene",
+        "por": "lote",
+        "articulo": "Art. 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "cantidad",
+        "que": "Cantidad del envio, en kilogramos",
+        "por": "lote",
+        "articulo": "Art. 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "pais_produccion",
+        "que": "Pais donde se produjo la materia prima",
+        "por": "lote",
+        "articulo": "Art. 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "geolocalizacion",
+        "que": "Coordenadas de latitud y longitud de todas las parcelas donde se produjo",
+        "por": "predio",
+        "articulo": "Art. 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "proveedor",
+        "que": "Nombre, direccion y correo del proveedor de cada lote",
+        "por": "lote",
+        "articulo": "Art. 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "comprador",
+        "que": "Nombre, direccion y correo de a quien se le vendio",
+        "por": "lote",
+        "articulo": "Art. 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "libre_deforestacion",
+        "que": "Prueba de que la tierra no fue deforestada despues del 31 de diciembre de 2020 (imagenes satelitales, titulos, estudios, certificaciones)",
+        "por": "predio",
+        "articulo": "Arts. 2 y 9 del Reglamento (UE) 2023/1115"
+      },
+      {
+        "id": "legalidad",
+        "que": "Prueba de que la produccion cumple la legislacion del pais: uso del suelo, ambiental, laboral, derechos de terceros y tributaria",
+        "por": "predio",
+        "articulo": "Art. 3, letra b), del Reglamento (UE) 2023/1115"
+      }
+    ],
+    "sanciones": [
+      "Multa de al menos el 4 % del volumen de negocios anual del operador en toda la Union Europea.",
+      "Decomiso de los productos y de los ingresos obtenidos.",
+      "Exclusion de la contratacion publica y del acceso a financiacion publica.",
+      "Prohibicion temporal de comercializar, en infracciones graves o reiteradas."
+    ],
+    "quien_declara": "El operador europeo que pone el producto en el mercado presenta la declaracion por el sistema TRACES. El exportador no declara: entrega la informacion y las pruebas.",
+    "articulos": [
+      "Art. 2 del Reglamento (UE) 2023/1115 (definicion y fecha de corte)",
+      "Art. 3 del Reglamento (UE) 2023/1115 (los tres requisitos)",
+      "Arts. 9, 10 y 11 del Reglamento (UE) 2023/1115 (diligencia debida)",
+      "Arts. 4 y 33 del Reglamento (UE) 2023/1115 (declaracion y sistema de informacion)",
+      "Art. 25 del Reglamento (UE) 2023/1115 (sanciones)",
+      "Reglamento de Ejecucion (UE) 2025/1093 (riesgo por pais)"
+    ],
+    "no_verificado": [
+      {
+        "que_falta": "Las fechas de aplicacion del EUDR proceden de la pagina oficial de la Comision Europea y no se confirmaron contra el articulo 38 del texto consolidado.",
+        "consecuencia": "Sirven para planificar, no para discutir un plazo con una autoridad.",
+        "como_resolverlo": "Confirmarlas con el operador europeo que presentara la declaracion.",
+        "tema": "eudr_fechas_articulado"
+      },
+      {
+        "que_falta": "El formato exacto de la geolocalizacion (decimales, punto o poligono segun el tamaño del predio) tras las modificaciones de 2024 y 2025.",
+        "consecuencia": "El motor pide las coordenadas pero no fija el formato como obligatorio.",
+        "como_resolverlo": "Pedir al cliente europeo el formato que exige su sistema de declaracion.",
+        "tema": "eudr_geolocalizacion"
+      }
+    ],
+    "aviso": "Orientacion de apoyo, no asesoria legal ni aduanera. Los reglamentos europeos cambiaron en 2025 y 2026: antes de firmar un contrato o declarar ante una autoridad, confirmalo con tu cliente europeo, tu agente de aduana o tu asesoria.",
+    "fuente": "docs/investigacion/07-union-europea.md",
+    "revisado_el": "2026-09-16"
+  }
+}

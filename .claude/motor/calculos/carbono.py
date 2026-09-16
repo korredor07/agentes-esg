@@ -25,6 +25,7 @@ from nucleo.salida import Problema
 CARPETA_DATOS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "datos")
 ARCHIVO_FACTORES = os.path.join(CARPETA_DATOS, "factores_emision.csv")
 ARCHIVO_PCG = os.path.join(CARPETA_DATOS, "pcg.csv")
+ARCHIVO_DENSIDADES = os.path.join(CARPETA_DATOS, "densidades_combustibles.csv")
 
 CALIDADES = {"estimado": 1, "reportado": 2, "verificado": 3}
 
@@ -120,6 +121,37 @@ def cargar_pcg(ruta=None):
     return tabla
 
 
+def cargar_densidades(ruta=None):
+    """Densidades de combustibles para convertir litros a kilos y viceversa.
+
+    El IPCC no publica densidades: vienen de fuentes nacionales o de la
+    referencia internacional, y cada fila dice cual.
+    """
+    ruta = ruta or ARCHIVO_DENSIDADES
+    tabla = {}
+    if not os.path.isfile(ruta):
+        return tabla
+    with open(ruta, encoding="utf-8-sig", newline="") as archivo:
+        for fila in csv.DictReader(archivo):
+            recurso = normalizar_recurso(fila.get("recurso"))
+            pais = (fila.get("pais") or "*").strip().upper() or "*"
+            valor = _numero(fila.get("densidad_kg_por_litro"))
+            if recurso and valor:
+                tabla[(recurso, pais)] = {
+                    "kg_por_litro": valor, "fuente": (fila.get("fuente") or "").strip(),
+                    "notas": (fila.get("notas") or "").strip(),
+                }
+    return tabla
+
+
+def densidad_de(recurso, pais=None, densidades=None):
+    """Devuelve la densidad del combustible para ese pais, o la internacional."""
+    densidades = densidades if densidades is not None else cargar_densidades()
+    clave = normalizar_recurso(recurso)
+    pais = (pais or "").upper()
+    return densidades.get((clave, pais)) or densidades.get((clave, "*"))
+
+
 def cargar_factores(ruta=None):
     """Lee el catalogo de factores de emision."""
     ruta = ruta or ARCHIVO_FACTORES
@@ -189,8 +221,17 @@ def _misma_unidad(una, otra):
     return unidades.misma_magnitud(una, otra)
 
 
+def _puente_por_densidad(una, otra):
+    """Masa y volumen se pueden convertir si hay densidad del combustible."""
+    try:
+        magnitudes = {unidades.normalizar_unidad(una)[0], unidades.normalizar_unidad(otra)[0]}
+    except Problema:
+        return False
+    return magnitudes == {"masa", "volumen"}
+
+
 def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=None,
-                  categoria=None, uso=None):
+                  categoria=None, uso=None, permitir_densidad=False):
     """Elige el factor mas apropiado y explica por que."""
     clave = normalizar_recurso(recurso)
     candidatos = [f for f in factores if f["recurso"] == clave]
@@ -239,7 +280,8 @@ def buscar_factor(factores, recurso, unidad=None, pais=None, anio=None, alcance=
                 % (recurso, candidatos[0]["pais"], pais))
 
     if unidad:
-        compatibles = [f for f in candidatos if _misma_unidad(f["unidad"], unidad)]
+        compatibles = [f for f in candidatos if _misma_unidad(f["unidad"], unidad)
+                       or (permitir_densidad and _puente_por_densidad(f["unidad"], unidad))]
         if not compatibles:
             disponible = candidatos[0]["unidad"]
             monetaria = not unidades.misma_magnitud(disponible, disponible)
@@ -284,7 +326,7 @@ def _periodo_y_anio(registro):
     return crudo, int(coincidencia.group(1)) if coincidencia else None
 
 
-def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None):
+def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None, densidades=None):
     """Calcula las emisiones de una fila de consumo."""
     recurso = registro.get("recurso") or registro.get("combustible") or registro.get("tipo")
     if not recurso:
@@ -313,14 +355,29 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None):
         )
 
     periodo, anio = _periodo_y_anio(registro)
+    pais_registro = registro.get("pais") or pais
+    densidad = densidad_de(recurso, pais_registro, densidades)
     factor, advertencias = buscar_factor(
         factores, recurso, unidad=unidad,
-        pais=(registro.get("pais") or pais), anio=anio,
+        pais=pais_registro, anio=anio,
         alcance=registro.get("alcance"), categoria=registro.get("categoria"),
-        uso=registro.get("uso"))
+        uso=registro.get("uso"), permitir_densidad=bool(densidad))
 
     if _clave(unidad) == _clave(factor["unidad"]):
         cantidad_convertida = cantidad
+    elif unidades.misma_magnitud(unidad, factor["unidad"]):
+        cantidad_convertida = unidades.convertir(cantidad, unidad, factor["unidad"])
+    elif densidad and _puente_por_densidad(unidad, factor["unidad"]):
+        origen = unidades.normalizar_unidad(unidad)[0]
+        if origen == "masa":
+            litros = unidades.convertir(cantidad, unidad, "kg") / densidad["kg_por_litro"]
+            cantidad_convertida = unidades.convertir(litros, "L", factor["unidad"])
+        else:
+            kilos = unidades.convertir(cantidad, unidad, "L") * densidad["kg_por_litro"]
+            cantidad_convertida = unidades.convertir(kilos, "kg", factor["unidad"])
+        advertencias.append(
+            "Converti %s %s de %s usando la densidad %s kg/L (%s)."
+            % (cantidad, unidad, recurso, densidad["kg_por_litro"], densidad["fuente"]))
     else:
         cantidad_convertida = unidades.convertir(cantidad, unidad, factor["unidad"])
     if abs(cantidad_convertida - cantidad) > 1e-9:
@@ -329,10 +386,12 @@ def calcular_registro(registro, factores, pcg, conjunto="AR6", pais=None):
     por_unidad, avisos_pcg = kg_co2e_por_unidad(factor, pcg, conjunto)
     advertencias.extend(avisos_pcg)
 
-    calidad = _clave(registro.get("calidad_dato") or registro.get("calidad") or "estimado")
+    calidad = _clave(registro.get("calidad_del_dato") or registro.get("calidad_dato")
+                     or registro.get("calidad") or "estimado")
     if calidad not in CALIDADES:
         advertencias.append("No reconoci la calidad de dato «%s» en la fila %s: la trate como estimada."
-                            % (registro.get("calidad_dato"), registro.get("_fila", "?")))
+                            % (registro.get("calidad_del_dato") or registro.get("calidad_dato"),
+                               registro.get("_fila", "?")))
         calidad = "estimado"
 
     return {
@@ -368,14 +427,16 @@ def _sumar(destino, clave, kg):
     casilla["registros"] += 1
 
 
-def calcular(registros, factores=None, pcg=None, conjunto="AR6", pais=None, continuar_con_errores=True):
+def calcular(registros, factores=None, pcg=None, conjunto="AR6", pais=None, continuar_con_errores=True,
+             densidades=None):
     """Calcula la huella de una lista de registros y arma los resumenes."""
     factores = factores if factores is not None else cargar_factores()
     pcg = pcg if pcg is not None else cargar_pcg()
+    densidades = densidades if densidades is not None else cargar_densidades()
     detalle, problemas, advertencias = [], [], []
     for registro in registros:
         try:
-            detalle.append(calcular_registro(registro, factores, pcg, conjunto, pais))
+            detalle.append(calcular_registro(registro, factores, pcg, conjunto, pais, densidades))
         except Problema as problema:
             if not continuar_con_errores:
                 raise
@@ -411,6 +472,10 @@ def calcular(registros, factores=None, pcg=None, conjunto="AR6", pais=None, cont
     return {
         "total_kg_co2e": total,
         "total_t_co2e": total / 1000.0,
+        "completo": not problemas,
+        "aviso_principal": ("" if not problemas else
+                            "Este total esta INCOMPLETO: %d fila(s) no se pudieron calcular y sus "
+                            "emisiones no estan sumadas." % len(problemas)),
         "registros_calculados": len(detalle),
         "registros_con_problema": len(problemas),
         "por_alcance": por_alcance,

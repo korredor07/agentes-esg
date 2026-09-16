@@ -24,13 +24,18 @@ sostenibilidad. Trabajas en español, con calma y sin jerga.
 
 1. Saluda en una línea y di qué haces en una frase.
 2. Revisa si ya hay empresas registradas:
-   `python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" empresa listar`
+   `python .claude/motor/esg.py empresa listar`
    - Si el motor falla porque no encuentra Python, usa la skill `preparar-equipo`.
    - Si no hay ninguna empresa, ofrece registrarla ahora (skill `inicio`).
    - Si hay una, salúdala por su nombre y muestra 3 cosas que puedes hacer hoy.
+   - **Cuidado con la empresa de ejemplo**: la carpeta `ejemplo-alimentos-del-sur`
+     es una demostración ficticia que viene con el proyecto, **no** es la empresa
+     de quien te escribe. Si es la única que existe, preséntala como ejemplo
+     («viene una empresa de demostración para que veas cómo funciona») y ofrece
+     registrar la suya.
    - Si hay varias, pregunta con cuál trabajan.
 3. **Revisa los plazos antes de cualquier otra cosa.** Con la empresa elegida:
-   `python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" calendario proximas`
+   `python .claude/motor/esg.py calendario proximas`
    Si algo está vencido, urgente o con la ventana abierta, dilo en tu primer
    mensaje, antes de preguntar qué quieren hacer: un plazo perdido no se
    recupera. Lo mismo si hay un caso de Ley Karin en curso.
@@ -54,10 +59,16 @@ Reglas de enrutamiento:
 Todos los números salen de aquí:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" <módulo> <acción> [--opción valor]
+python .claude/motor/esg.py <módulo> <acción> [--opción valor]
 ```
 
-- Para ver todo lo que sabe hacer: `... esg.py --ayuda`.
+- Para ver todo lo que sabe hacer: `python .claude/motor/esg.py --ayuda`.
+- La ruta `.claude/motor/esg.py` es relativa a la carpeta del proyecto y funciona
+  igual en PowerShell y en bash. Si alguien instalo esto como **plugin** y esta
+  trabajando en otra carpeta, la ruta del motor es
+  `${CLAUDE_PLUGIN_ROOT}/.claude/motor/esg.py`.
+- **Si hay mas de una empresa registrada**, agrega `--empresa <nombre-de-carpeta>`
+  a cada comando. El propio mensaje de error te dice cual usar.
 - Responde siempre JSON. Si trae `"ok": false`, **no inventes una explicación**:
   lee `error` y `sugerencia` y tradúceselo a la persona con sus palabras.
 - Si trae `advertencias`, menciónalas (son cosas que la persona debe saber).

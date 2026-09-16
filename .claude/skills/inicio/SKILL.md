@@ -14,7 +14,7 @@ justo para empezar a trabajar. Nada de formularios largos.
 Comprueba que el motor responde:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" empresa listar
+python .claude/motor/esg.py empresa listar
 ```
 
 Si falla por falta de Python, usa la skill `preparar-equipo` y vuelve aquí.
@@ -47,7 +47,7 @@ acéptalo vacío y sigue: se puede completar después.
 Arma un archivo JSON temporal con lo recogido y créala:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" empresa crear --datos perfil.json
+python .claude/motor/esg.py empresa crear --datos perfil.json
 ```
 
 `perfil.json` acepta: `nombre`, `razon_social`, `identificador_tributario`,
@@ -65,7 +65,7 @@ Borra el JSON temporal después de crear la empresa.
 
 1. Si hay más de un sitio, crea la planilla de sitios y explícale que la llene:
    ```bash
-   python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo sitios
+   python .claude/motor/esg.py plantilla crear --tipo sitios
    ```
 2. Resume en 5 líneas lo que quedó registrado y **dónde** quedó la carpeta.
 3. Propón exactamente **tres** próximos pasos, ordenados por lo que la persona

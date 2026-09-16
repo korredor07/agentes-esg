@@ -47,8 +47,8 @@ Preguntas que sirven para saber si aplica:
 Para ver qué le toca a esta empresa en concreto:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep obligaciones
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep obligaciones --producto envases
+python .claude/motor/esg.py rep obligaciones
+python .claude/motor/esg.py rep obligaciones --producto envases
 ```
 
 ## Quién queda fuera
@@ -69,9 +69,9 @@ Cada decreto tiene su **propia fórmula**. Nunca las mezcles y **nunca calcules
 un porcentaje a mano**: pídeselo al motor.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep metas --producto envases --anio 2026
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep metas --producto envases --anio 2026 --categoria domiciliario --material plastico
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep metas --producto neumaticos --anio 2026 --categoria A
+python .claude/motor/esg.py rep metas --producto envases --anio 2026
+python .claude/motor/esg.py rep metas --producto envases --anio 2026 --categoria domiciliario --material plastico
+python .claude/motor/esg.py rep metas --producto neumaticos --anio 2026 --categoria A
 ```
 
 Tres cosas que se equivocan casi siempre:
@@ -92,7 +92,7 @@ Además, el **primer año** de metas se **prorratea** por meses (envases 2023:
 1. Crea la planilla y pídele que la llene con **toneladas por año**:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo rep
+python .claude/motor/esg.py plantilla crear --tipo rep
 ```
 
 2. Explícale que necesita **el año anterior también**: la meta de 2026 se
@@ -102,8 +102,8 @@ python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo rep
 3. Calcula:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep calcular --anio 2026
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" rep calcular --anio 2026 --producto neumaticos
+python .claude/motor/esg.py rep calcular --anio 2026
+python .claude/motor/esg.py rep calcular --anio 2026 --producto neumaticos
 ```
 
 El resultado trae, por cada meta: toneladas puestas en el mercado, meta

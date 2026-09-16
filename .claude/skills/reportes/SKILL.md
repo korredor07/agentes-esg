@@ -53,19 +53,19 @@ Se puede usar más de un marco: comparten los mismos datos de base.
 **1. Muestra los marcos y ayúdale a elegir.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte marcos
+python .claude/motor/esg.py reporte marcos
 ```
 
 Para ver todo lo que exige uno en particular:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte marcos --marco "NIIF S2"
+python .claude/motor/esg.py reporte marcos --marco "NIIF S2"
 ```
 
 **2. Revisa qué puede reportar hoy.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte cobertura --marco GRI --periodo 2025
+python .claude/motor/esg.py reporte cobertura --marco GRI --periodo 2025
 ```
 
 Lee la carpeta de la empresa (`resultados/huella_*.json`, `datos/personas.xlsx`,
@@ -87,7 +87,7 @@ Un porcentaje bajo en la primera vuelta es **normal**. No lo dramatices.
 **3. Genera el índice de contenidos.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte indice --marco GRI
+python .claude/motor/esg.py reporte indice --marco GRI
 ```
 
 Deja un HTML en `reportes/` que marca cada contenido como **cubierto**
@@ -98,7 +98,7 @@ es el punto de partida del índice de contenidos que exige el estándar.
 **4. Genera el borrador en Word.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte borrador --marco GRI --periodo 2025
+python .claude/motor/esg.py reporte borrador --marco GRI --periodo 2025
 ```
 
 Queda en `reportes/` como `.docx`: se abre en Word y se edita. Las cifras que
@@ -108,10 +108,10 @@ Si el borrador queda muy largo (GRI tiene muchos contenidos temáticos), acótal
 
 ```bash
 # solo lo que se reporta siempre (universales)
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte borrador --marco GRI --solo-obligatorios
+python .claude/motor/esg.py reporte borrador --marco GRI --solo-obligatorios
 
 # solo los temas materiales que eligió la empresa
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" reporte borrador --marco GRI --temas 302,305,403,405
+python .claude/motor/esg.py reporte borrador --marco GRI --temas 302,305,403,405
 ```
 
 **5. Acompáñala a completarlo.** No le entregues el archivo y te vayas. Toma los
@@ -122,7 +122,7 @@ se anota como brecha: **es mejor una omisión explicada que un dato inventado**.
 **6. Respalda las cifras** antes de que el reporte salga de la empresa:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos 2025 del reporte"
+python .claude/motor/esg.py evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos 2025 del reporte"
 ```
 
 ## Greenwashing: lo que no se puede decir

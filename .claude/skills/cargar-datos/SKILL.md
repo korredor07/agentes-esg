@@ -17,11 +17,22 @@ seguro. Siempre muéstrale un resumen de lo que extrajiste **antes** de guardar:
 
 > «De las 12 boletas leí: enero 42.350 kWh, febrero 39.980 kWh… ¿Lo dejo así?»
 
+Para escribirlo, el motor recibe las filas en el orden de las columnas:
+
+```bash
+python .claude/motor/esg.py datos escribir --tipo consumos --filas "[[\"2025-01\", \"Planta\", \"electricidad\", \"electricidad\", 42350, \"kWh\", \"reportado\", \"boleta-enero.pdf\", \"\"]]"
+```
+
+- Agrega al final de lo que ya existe. Con `--reemplazar` parte de cero.
+- Si son muchas filas, guarda el JSON en un archivo y pasa su ruta en `--filas`.
+- Para ver el orden exacto de las columnas: `plantilla listar` y la hoja
+  «Instrucciones» de la planilla.
+
 **2. Ella llena la plantilla Excel.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla listar
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo consumos
+python .claude/motor/esg.py plantilla listar
+python .claude/motor/esg.py plantilla crear --tipo consumos
 ```
 
 Explícale: una fila por dato, no cambiar los títulos de las columnas, borrar las
@@ -72,8 +83,8 @@ no cuadra. Traduce cada problema a una instrucción concreta:
 Cuando el dato ya está bueno, deja la huella digital del archivo:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos 2025 con boletas"
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia verificar
+python .claude/motor/esg.py evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos 2025 con boletas"
+python .claude/motor/esg.py evidencia verificar
 ```
 
 Eso permite demostrar más adelante que el archivo no cambió. No reemplaza una

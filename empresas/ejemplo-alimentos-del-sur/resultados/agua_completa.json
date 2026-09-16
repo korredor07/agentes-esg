@@ -1,0 +1,232 @@
+{
+  "periodo": "todos los periodos cargados",
+  "extraccion_m3": 28500.0,
+  "descarga_m3": 24000.0,
+  "consumo_m3": 4500.0,
+  "extraccion_megalitros": 28.5,
+  "descarga_megalitros": 24.0,
+  "consumo_megalitros": 4.5,
+  "registros_calculados": 1,
+  "registros_con_problema": 0,
+  "por_sitio": {
+    "Planta Chillan": {
+      "extraccion_m3": 28500.0,
+      "descarga_m3": 24000.0,
+      "consumo_m3": 4500.0,
+      "registros": 1,
+      "zona_estres_hidrico": "si",
+      "nombre": "Planta Chillan"
+    }
+  },
+  "por_origen": {
+    "agua_de_terceros": {
+      "extraccion_m3": 28500.0,
+      "descarga_m3": 24000.0,
+      "consumo_m3": 4500.0,
+      "registros": 1,
+      "nombre": "Agua de terceros (empresa sanitaria, APR, otra empresa)"
+    }
+  },
+  "por_destino": {
+    "a_terceros": {
+      "extraccion_m3": 28500.0,
+      "descarga_m3": 24000.0,
+      "consumo_m3": 4500.0,
+      "registros": 1,
+      "nombre": "A un tercero (alcantarillado, planta de tratamiento de otro, riego de otro)"
+    }
+  },
+  "por_periodo": {
+    "2025": {
+      "extraccion_m3": 28500.0,
+      "descarga_m3": 24000.0,
+      "consumo_m3": 4500.0,
+      "registros": 1
+    }
+  },
+  "zonas_estres_hidrico": {
+    "metros_cubicos": {
+      "extraccion_m3": {
+        "si": 28500.0,
+        "no": 0.0,
+        "sin_definir": 0.0
+      },
+      "descarga_m3": {
+        "si": 24000.0,
+        "no": 0.0,
+        "sin_definir": 0.0
+      },
+      "consumo_m3": {
+        "si": 4500.0,
+        "no": 0.0,
+        "sin_definir": 0.0
+      }
+    },
+    "porcentaje": {
+      "extraccion": {
+        "si": 100.0,
+        "no": 0.0,
+        "sin_definir": 0.0
+      },
+      "descarga": {
+        "si": 100.0,
+        "no": 0.0,
+        "sin_definir": 0.0
+      },
+      "consumo": {
+        "si": 100.0,
+        "no": 0.0,
+        "sin_definir": 0.0
+      }
+    },
+    "sitios_en_estres": [
+      "Planta Chillan"
+    ],
+    "sitios_sin_definir": [],
+    "como_se_determina": "Lo marca la persona en la planilla. GRI 303 reconoce como herramientas publicas el WRI Aqueduct Water Risk Atlas y el WWF Water Risk Filter, y considera zona con estres hidrico aquella con estres hidrico de referencia alto (40-80%) o extremadamente alto (mas de 80%). El estandar tambien permite marcarla por problemas de calidad o de acceso al agua, dejando anotada la razon."
+  },
+  "calidad_datos": {
+    "metros_cubicos_extraidos": {
+      "estimado": 0.0,
+      "reportado": 28500.0,
+      "verificado": 0.0
+    },
+    "porcentaje": {
+      "estimado": 0.0,
+      "reportado": 100.0,
+      "verificado": 0.0
+    },
+    "registros": {
+      "estimado": 0,
+      "reportado": 1,
+      "verificado": 0
+    }
+  },
+  "desglose_agua_dulce_y_otras": {
+    "disponible": false,
+    "que_pide_el_estandar": "GRI 303-3 y 303-4 piden separar agua dulce (hasta 1.000 mg/L de solidos disueltos totales) de otras aguas (mas de 1.000 mg/L).",
+    "por_que_falta": "La planilla de agua no tiene una columna de salinidad o de solidos disueltos totales, y no se puede deducir del origen sin un analisis.",
+    "que_hacer": "Si la empresa reporta con GRI, pide el analisis de calidad del agua de cada fuente (o el informe del laboratorio) y anota el desglose a mano en el reporte."
+  },
+  "formulas": {
+    "consumo": {
+      "formula": "Consumo (m3) = Extraccion (m3) - Descarga (m3)",
+      "unidades": "m3 de agua en el periodo",
+      "fuente": "GRI 303-5 (metodo de calculo aceptado). Definicion completa: glosario de GRI 303",
+      "advertencia": "La resta no cuenta el agua almacenada para otro periodo ni el agua devuelta tan contaminada que nadie mas puede usarla. GRI 303 las cuenta como consumo: si ocurren, hay que ajustar la cifra a mano."
+    },
+    "megalitros": {
+      "formula": "Megalitros (ML) = metros cubicos (m3) / 1.000",
+      "unidades": "1 ML = 1.000 m3 = 1.000.000 litros",
+      "fuente": "GRI 303-3, 303-4 y 303-5 piden los volumenes en megalitros"
+    },
+    "huella_de_escasez": {
+      "formula": "Huella de escasez (m3 mundo-eq) = Consumo (m3) x factor AWARE (adimensional)",
+      "unidades": "El consumo va en m3; el factor AWARE es adimensional y se interpreta como m3 mundo-eq por cada m3 consumido; el resultado queda en m3 mundo-eq",
+      "fuente": "Metodo AWARE (WULCA). Boulay et al. 2018; version vigente AWARE 2.0, Seitfudem et al. 2025. Aplicado dentro del marco de ISO 14046:2014",
+      "advertencia": "El insumo es el consumo de GRI 303-5, no la extraccion. El factor debe ser el de la cuenca y el mes del sitio; el promedio del pais es una aproximacion gruesa."
+    },
+    "porcentaje_en_estres": {
+      "formula": "Porcentaje en zonas de estres (%) = volumen en zonas con estres / volumen total x 100",
+      "unidades": "porcentaje del volumen del periodo",
+      "fuente": "GRI 303-3-b, 303-4-b y 303-5-b piden el desglose de las zonas con estres hidrico"
+    }
+  },
+  "detalle": [
+    {
+      "fila": 2,
+      "periodo": "2025",
+      "mes": null,
+      "sitio": "Planta Chillan",
+      "origen": "agua_de_terceros",
+      "origen_nombre": "Agua de terceros (empresa sanitaria, APR, otra empresa)",
+      "origen_original": "red publica",
+      "destino": "a_terceros",
+      "destino_nombre": "A un tercero (alcantarillado, planta de tratamiento de otro, riego de otro)",
+      "destino_original": "alcantarillado",
+      "extraccion_m3": 28500.0,
+      "descarga_m3": 24000.0,
+      "consumo_m3": 4500.0,
+      "zona_estres_hidrico": true,
+      "calidad_dato": "reportado",
+      "notas": "Boletas de la sanitaria",
+      "advertencias": []
+    }
+  ],
+  "problemas": [],
+  "advertencias": [
+    "La resta no cuenta el agua almacenada para otro periodo ni el agua devuelta tan contaminada que nadie mas puede usarla. GRI 303 las cuenta como consumo: si ocurren, hay que ajustar la cifra a mano."
+  ],
+  "fuentes": [
+    "GRI 303: Water and Effluents 2018 (divulgaciones 303-3, 303-4 y 303-5)"
+  ],
+  "calculado_el": "2026-09-16 06:20:25",
+  "planilla": "D:\\Programas Data\\Claude Code\\agentes-esg\\empresas\\ejemplo-alimentos-del-sur\\datos\\agua.xlsx",
+  "empresa": "Alimentos del Sur SpA",
+  "pais": "CL",
+  "indicadores_gri303": {
+    "estandar": "GRI 303: Water and Effluents 2018 (divulgaciones 303-3, 303-4 y 303-5)",
+    "vigencia": "Obligatorio para reportes publicados desde el 1 de enero de 2021.",
+    "unidad": "megalitros (ML). 1 ML = 1.000 m3",
+    "periodo": "todos los periodos cargados",
+    "303-3": {
+      "titulo": "303-3 Extraccion de agua",
+      "que_pide": "Cuanta agua tomo la organizacion de todas las fuentes durante el periodo, sea cual sea el uso que le dio, desglosada por tipo de fuente (superficial, subterranea, de mar, producida y de terceros), mas el mismo desglose referido solo a las zonas con estres hidrico, separando en ambos casos el agua dulce de las otras aguas.",
+      "total_megalitros": 28.5,
+      "por_fuente_megalitros": {
+        "agua_de_terceros": {
+          "nombre": "Agua de terceros (empresa sanitaria, APR, otra empresa)",
+          "megalitros": 28.5
+        }
+      },
+      "en_zonas_con_estres_hidrico_megalitros": 28.5,
+      "fuera_de_zonas_con_estres_hidrico_megalitros": 0.0,
+      "sin_definir_megalitros": 0.0,
+      "agua_dulce_y_otras_aguas": "no disponible",
+      "lo_que_falta": [
+        "Separar agua dulce (hasta 1.000 mg/L de solidos disueltos totales) de otras aguas (mas de 1.000 mg/L). La planilla no trae ese dato."
+      ]
+    },
+    "303-4": {
+      "titulo": "303-4 Descarga de agua",
+      "que_pide": "Cuanta agua devolvio la organizacion durante el periodo y a donde fue, separando agua dulce de otras aguas, indicando cuanto se descargo en zonas con estres hidrico y declarando las sustancias prioritarias de preocupacion que contienen esas descargas.",
+      "total_megalitros": 24.0,
+      "por_destino_megalitros": {
+        "a_terceros": {
+          "nombre": "A un tercero (alcantarillado, planta de tratamiento de otro, riego de otro)",
+          "megalitros": 24.0
+        }
+      },
+      "en_zonas_con_estres_hidrico_megalitros": 24.0,
+      "fuera_de_zonas_con_estres_hidrico_megalitros": 0.0,
+      "sin_definir_megalitros": 0.0,
+      "agua_dulce_y_otras_aguas": "no disponible",
+      "sustancias_prioritarias_de_preocupacion": "no disponible",
+      "lo_que_falta": [
+        "Separar agua dulce (hasta 1.000 mg/L de solidos disueltos totales) de otras aguas (mas de 1.000 mg/L). La planilla no trae ese dato.",
+        "Declarar si se descargan sustancias prioritarias de preocupacion y, si las hay, cuales son, como se fijaron sus limites y cuanto se descargo. Ese dato viene del monitoreo de la descarga, no de esta planilla."
+      ]
+    },
+    "303-5": {
+      "titulo": "303-5 Consumo de agua",
+      "que_pide": "Cuanta de esa agua se quedo, es decir, no volvio a la superficie, al subsuelo, al mar ni a un tercero, cuanto de ese consumo ocurrio en zonas con estres hidrico, y si los cambios en el agua almacenada son un impacto significativo.",
+      "total_megalitros": 4.5,
+      "en_zonas_con_estres_hidrico_megalitros": 4.5,
+      "fuera_de_zonas_con_estres_hidrico_megalitros": 0.0,
+      "sin_definir_megalitros": 0.0,
+      "metodo_de_calculo": "Consumo (m3) = Extraccion (m3) - Descarga (m3)",
+      "cambio_en_el_almacenamiento": "no disponible",
+      "lo_que_falta": [
+        "Revisar si hubo agua almacenada de un periodo a otro o agua devuelta tan contaminada que nadie mas puede usarla: GRI 303-5 las cuenta como consumo y la resta extraccion menos descarga no las incluye.",
+        "Declarar si los cambios en el almacenamiento de agua son un impacto significativo y, en ese caso, cuanto cambiaron."
+      ]
+    },
+    "divulgaciones_de_gestion_que_no_son_numeros": [
+      "303-1 Interaccion con el agua como recurso compartido: contar de donde saca el agua la empresa, que impactos genera, como los aborda (tambien los de su cadena de valor) y como se hace cargo del contexto local de cada zona con estres hidrico.",
+      "303-2 Gestion de los impactos de la descarga: decir que estandares minimos de calidad cumple el agua que devuelve, como se fijaron esos estandares y como se considera la calidad del cuerpo de agua que la recibe."
+    ],
+    "fuentes": [
+      "GRI 303: Water and Effluents 2018 (divulgaciones 303-3, 303-4 y 303-5)"
+    ]
+  }
+}

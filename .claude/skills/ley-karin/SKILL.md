@@ -23,7 +23,7 @@ Actúa en este orden:
 3. Registra el caso y muéstrale el calendario completo:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" karin crear --fecha-denuncia 15-09-2026 --tipo "acoso laboral" --sitio "Planta" --denunciante "A.P." --denunciado "M.R." --resumen "Descripción breve"
+python .claude/motor/esg.py karin crear --fecha-denuncia 15-09-2026 --tipo "acoso laboral" --sitio "Planta" --denunciante "A.P." --denunciado "M.R." --resumen "Descripción breve"
 ```
 
 4. Dile que **involucre desde ya a su asesoría jurídica y al organismo
@@ -56,13 +56,13 @@ involucrados (dictamen DT ORD. N° 386/10 de 2025).
 Para ver el calendario de un caso, con feriados chilenos ya descontados:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" karin ver --caso KARIN-2026-001
+python .claude/motor/esg.py karin ver --caso KARIN-2026-001
 ```
 
 Cuando algo se cumple, regístralo: el resto del calendario se recalcula solo.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" karin evento --caso KARIN-2026-001 --hito informar_dt --fecha 17-09-2026
+python .claude/motor/esg.py karin evento --caso KARIN-2026-001 --hito informar_dt --fecha 17-09-2026
 ```
 
 Hitos válidos: `medidas_resguardo`, `informar_dt`, `designar_investigador`,
@@ -72,7 +72,7 @@ Hitos válidos: `medidas_resguardo`, `informar_dt`, `designar_investigador`,
 Para dejar los vencimientos visibles en el tablero:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" karin alertas
+python .claude/motor/esg.py karin alertas
 ```
 
 ## Si no hay denuncia: prevención
@@ -85,8 +85,8 @@ información y capacitación, medidas de prevención propias del giro, y resguar
 de la privacidad y la honra.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" karin documento --tipo protocolo
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" karin documento --tipo informe
+python .claude/motor/esg.py karin documento --tipo protocolo
+python .claude/motor/esg.py karin documento --tipo informe
 ```
 
 Entrega un borrador en Word con la estructura exigida. Deja claro que **es un

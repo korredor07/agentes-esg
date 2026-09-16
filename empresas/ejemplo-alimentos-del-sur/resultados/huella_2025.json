@@ -1,6 +1,8 @@
 {
   "total_kg_co2e": 1566046.1276170118,
   "total_t_co2e": 1566.0461276170117,
+  "completo": true,
+  "aviso_principal": "",
   "registros_calculados": 76,
   "registros_con_problema": 0,
   "por_alcance": {
@@ -183,13 +185,13 @@
   },
   "calidad_datos": {
     "kg_co2e": {
-      "estimado": 1566046.1276170118,
-      "reportado": 0.0,
+      "estimado": 1120178.5508955866,
+      "reportado": 445867.57672142494,
       "verificado": 0.0
     },
     "porcentaje": {
-      "estimado": 100.0,
-      "reportado": 0.0,
+      "estimado": 71.52909043618763,
+      "reportado": 28.470909563812363,
       "verificado": 0.0
     }
   },
@@ -217,7 +219,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 15038.07744,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -242,7 +244,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 753.48288,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -267,7 +269,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6656.035547259161,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -292,7 +294,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8401.331600252568,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -342,7 +344,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 14530.08096,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -367,7 +369,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 850.69056,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -392,7 +394,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6237.997425612379,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -417,7 +419,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 7601.204781180894,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -467,7 +469,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 14500.967999999999,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -492,7 +494,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 843.53568,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -517,7 +519,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6403.583954316623,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -542,7 +544,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6680.510907180613,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -592,7 +594,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9634.90944,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -617,7 +619,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 821.08416,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -642,7 +644,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 3759.628561563596,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -667,7 +669,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 7250.464257752215,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -717,7 +719,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9872.25408,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -742,7 +744,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 822.56448,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -767,7 +769,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 3746.055895276363,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -792,7 +794,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8162.937650734638,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -842,7 +844,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9209.56416,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -867,7 +869,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 862.5331199999999,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -892,7 +894,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 3748.7704285338095,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -917,7 +919,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8193.079414466789,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -967,7 +969,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9560.15328,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -992,7 +994,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 727.824,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1017,7 +1019,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 3971.362155644434,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1042,7 +1044,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6705.172350234192,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1092,7 +1094,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9027.4848,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1117,7 +1119,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 788.51712,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1142,7 +1144,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 4245.530014646545,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1167,7 +1169,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6979.188384162847,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1217,7 +1219,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8996.398079999999,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1242,7 +1244,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 859.5724799999999,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1267,7 +1269,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 4090.801618972086,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1292,7 +1294,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8146.496688698918,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1342,7 +1344,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9123.7056,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1367,7 +1369,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 741.3936,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1392,7 +1394,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 4470.836275014616,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1417,7 +1419,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8176.638452431071,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1467,7 +1469,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 9138.26208,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1492,7 +1494,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 809.4883199999999,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1517,7 +1519,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 3797.632027167849,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1542,7 +1544,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8110.874604288193,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1592,7 +1594,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 14510.59008,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1617,7 +1619,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 857.8454399999999,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1642,7 +1644,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 6189.135826978339,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1667,7 +1669,7 @@
         "url": "https://huellachile.mma.gob.cl/wp-content/uploads/2026/05/HuellaChile-Factores-de-emision2025_-Org-y-Ev_v2-Version-completa.xlsx"
       },
       "kg_co2e": 8310.90630905611,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1875,7 +1877,7 @@
         "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
       },
       "kg_co2e": 5383.84,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para vuelo: use un factor internacional de referencia."
       ]
@@ -1902,7 +1904,7 @@
         "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
       },
       "kg_co2e": 1711.2,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": []
     },
     {
@@ -1927,7 +1929,7 @@
         "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
       },
       "kg_co2e": 75484.13335,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para residuo mixto relleno: use un factor internacional de referencia."
       ]
@@ -1954,7 +1956,7 @@
         "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
       },
       "kg_co2e": 2882.1983999999998,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para organico compostaje: use un factor internacional de referencia."
       ]
@@ -1981,7 +1983,7 @@
         "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
       },
       "kg_co2e": 5452.05,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para agua potable: use un factor internacional de referencia."
       ]
@@ -2035,7 +2037,7 @@
         "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
       },
       "kg_co2e": 37362.0,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para gasto envases carton: use un factor internacional de referencia.",
         "Para gasto envases carton use el factor de 2022, que es el mas cercano que tengo a 2025."
@@ -2063,7 +2065,7 @@
         "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
       },
       "kg_co2e": 23739.0,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para gasto envases plastico: use un factor internacional de referencia.",
         "Para gasto envases plastico use el factor de 2022, que es el mas cercano que tengo a 2025."
@@ -2091,7 +2093,7 @@
         "url": "https://www.epa.gov/climateleadership/supply-chain-greenhouse-gas-emission-factors"
       },
       "kg_co2e": 936.0,
-      "calidad_dato": "estimado",
+      "calidad_dato": "reportado",
       "advertencias": [
         "No tengo factor propio de CL para gasto consultoria: use un factor internacional de referencia.",
         "Para gasto consultoria use el factor de 2022, que es el mas cercano que tengo a 2025."
@@ -2160,7 +2162,7 @@
     "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 326160) (2022)",
     "US EPA Supply Chain GHG Emission Factors v1.3 (NAICS 541611) (2022)"
   ],
-  "calculado_el": "2026-09-16 01:19:46",
+  "calculado_el": "2026-09-16 06:15:46",
   "empresa": "Alimentos del Sur SpA",
   "periodo": "2025",
   "archivos": [

@@ -25,7 +25,7 @@ mensaje sobre la Microsoft Store o abre la tienda, **no cuenta como instalado**.
 Si encontraste uno, confirma que el motor funciona y termina:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" version mostrar
+python .claude/motor/esg.py version mostrar
 ```
 
 ## 2. Si no está instalado
@@ -58,7 +58,7 @@ generar reportes confiables, porque no vas a inventar números.
 ## 3. Verificar
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" revision sistema
+python .claude/motor/esg.py revision sistema
 ```
 
 Revisa la versión de Python, que estén los archivos de factores y feriados, que

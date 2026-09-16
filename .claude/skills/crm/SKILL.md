@@ -26,11 +26,11 @@ consultora). El prospecto se indica con `--prospecto`.
 | `perdido` | Se cerró sin contrato | — |
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" crm registrar --prospecto "Viña Los Robles" --contacto "Marta Diaz" --sector Vitivinicola --tamano mediana --origen recomendacion --necesidad "un cliente europeo le pide la huella"
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" crm listar
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" crm mover --prospecto CRM-0001 --estado contactado --nota "llamada inicial, quedó de mandar el requerimiento del cliente"
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" crm siguiente
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" crm informe
+python .claude/motor/esg.py crm registrar --prospecto "Viña Los Robles" --contacto "Marta Diaz" --sector Vitivinicola --tamano mediana --origen recomendacion --necesidad "un cliente europeo le pide la huella"
+python .claude/motor/esg.py crm listar
+python .claude/motor/esg.py crm mover --prospecto CRM-0001 --estado contactado --nota "llamada inicial, quedó de mandar el requerimiento del cliente"
+python .claude/motor/esg.py crm siguiente
+python .claude/motor/esg.py crm informe
 ```
 
 Cada movimiento deja bitácora con la fecha y la nota. Esa bitácora es lo que
@@ -74,7 +74,7 @@ encima es llegar tarde.
 ## Trabajar la lista cada día
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" crm siguiente
+python .claude/motor/esg.py crm siguiente
 ```
 
 Ordena los prospectos activos por cuánto llevan sin movimiento y propone la

@@ -85,9 +85,9 @@ de las normas europeas**: preséntalo como recomendación, nunca como obligació
 La bóveda de evidencias del motor cubre la parte mecánica de esto:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/consumos-2025.xlsx --descripcion "Consumos de energía 2025, cerrados" --responsable "Ana Pérez"
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia verificar
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia listar
+python .claude/motor/esg.py evidencia registrar --archivo datos/consumos-2025.xlsx --descripcion "Consumos de energía 2025, cerrados" --responsable "Ana Pérez"
+python .claude/motor/esg.py evidencia verificar
+python .claude/motor/esg.py evidencia listar
 ```
 
 Recuerda el límite: la huella digital prueba que el archivo **no cambió** y en
@@ -122,7 +122,7 @@ conviene postergar el encargo un ciclo: contratar una verificación sin expedien
 es pagar por una lista de hallazgos.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" diagnostico evaluar
+python .claude/motor/esg.py diagnostico evaluar
 ```
 
 El diagnóstico entrega el indicador **«listo para auditoría»**: el porcentaje de

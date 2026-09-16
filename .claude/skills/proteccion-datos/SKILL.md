@@ -115,7 +115,7 @@ Preguntas concretas que sirven para abrir el tema con una pyme:
 ### 1. Armar el inventario
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales inventario --empresa mi-empresa
+python .claude/motor/esg.py datos_personales inventario --empresa mi-empresa
 ```
 
 Entrega la guía, las preguntas en lenguaje cotidiano y la lista de tratamientos
@@ -127,7 +127,7 @@ Recorre **área por área**, no todo de una vez. Empieza por personas.
 ### 2. Registrar cada tratamiento
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales registrar --nombre "Ficha de trabajadores" --area Personas --titulares "trabajadores y postulantes" --categorias-datos "identificación, contacto, contrato, licencias médicas" --finalidad "administrar la relación laboral" --base-licitud contrato --destinatarios "jefatura de personas y contadora externa" --donde-se-guarda "carpeta del servidor" --conservacion "mientras dure el contrato y el plazo legal posterior" --sale-del-pais no --datos-sensibles si
+python .claude/motor/esg.py datos_personales registrar --nombre "Ficha de trabajadores" --area Personas --titulares "trabajadores y postulantes" --categorias-datos "identificación, contacto, contrato, licencias médicas" --finalidad "administrar la relación laboral" --base-licitud contrato --destinatarios "jefatura de personas y contadora externa" --donde-se-guarda "carpeta del servidor" --conservacion "mientras dure el contrato y el plazo legal posterior" --sale-del-pais no --datos-sensibles si
 ```
 
 Bases de licitud válidas: `consentimiento`, `contrato`, `obligacion_legal`,
@@ -141,7 +141,7 @@ Se puede volver a llamar con el **mismo nombre** para completar lo que falte.
 ### 3. Evaluar qué falta
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales evaluar --deber-informacion no_cumple --seguridad parcial
+python .claude/motor/esg.py datos_personales evaluar --deber-informacion no_cumple --seguridad parcial
 ```
 
 Revisa qué tratamientos exigirían **evaluación de impacto** y en qué está la
@@ -159,10 +159,10 @@ La **evaluación de impacto es obligatoria** cuando el tratamiento:
 ### 4. Entregar los borradores
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales documento --tipo politica-privacidad
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales documento --tipo registro-actividades
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales documento --tipo procedimiento-derechos
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos_personales informe
+python .claude/motor/esg.py datos_personales documento --tipo politica-privacidad
+python .claude/motor/esg.py datos_personales documento --tipo registro-actividades
+python .claude/motor/esg.py datos_personales documento --tipo procedimiento-derechos
+python .claude/motor/esg.py datos_personales informe
 ```
 
 Los documentos son **borradores con la estructura exigida**, con lo propio de la

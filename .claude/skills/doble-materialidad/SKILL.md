@@ -64,7 +64,7 @@ cliente sin terminar haciendo el trabajo de una multinacional».
 ### Proponer la lista
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" materialidad asuntos
+python .claude/motor/esg.py materialidad asuntos
 ```
 
 Entrega los asuntos comunes más los propios del rubro de la empresa (los detecta
@@ -90,7 +90,7 @@ Seis preguntas por asunto. Tradúcelas así:
 | Probabilidad financiera | «¿Qué tan probable es que eso pase en los próximos años?» | Muy poco probable | Prácticamente seguro |
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" materialidad registrar --asunto agua --escala 5 --alcance 4 --irremediabilidad 4 --probabilidad-impacto 5 --magnitud-financiera 4 --probabilidad-financiera 4 --nota "La planta está en zona declarada de escasez hídrica"
+python .claude/motor/esg.py materialidad registrar --asunto agua --escala 5 --alcance 4 --irremediabilidad 4 --probabilidad-impacto 5 --magnitud-financiera 4 --probabilidad-financiera 4 --nota "La planta está en zona declarada de escasez hídrica"
 ```
 
 Se puede registrar en dos tandas (primero el impacto, después lo financiero):
@@ -100,9 +100,9 @@ supuestos**. Si el asunto ya está ocurriendo hoy, la probabilidad es 5.
 ### Calcular y mirar el resultado
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" materialidad evaluar
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" materialidad evaluar --umbral 3,5
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" materialidad informe
+python .claude/motor/esg.py materialidad evaluar
+python .claude/motor/esg.py materialidad evaluar --umbral 3,5
+python .claude/motor/esg.py materialidad informe
 ```
 
 El informe deja `reportes/doble-materialidad.html` con la matriz dibujada, la
@@ -128,7 +128,7 @@ factible**, no un estudio de mercado:
 Deja el respaldo guardado:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/consulta-grupos-interes.xlsx --descripcion "Respuestas de la consulta de materialidad 2026" --responsable "Nombre de quien la hizo"
+python .claude/motor/esg.py evidencia registrar --archivo datos/consulta-grupos-interes.xlsx --descripcion "Respuestas de la consulta de materialidad 2026" --responsable "Nombre de quien la hizo"
 ```
 
 Un verificador externo va a pedir exactamente esto: método usado, a quién se

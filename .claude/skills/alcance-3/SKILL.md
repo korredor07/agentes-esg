@@ -47,7 +47,7 @@ qué las otras no lo son.
 **2. Crea la planilla y explícale cómo llenarla.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo alcance3
+python .claude/motor/esg.py plantilla crear --tipo alcance3
 ```
 
 **3. Elige el mejor método disponible para cada línea** (en este orden):
@@ -75,7 +75,7 @@ economía de Estados Unidos. Entonces:
 **6. Calcula y analiza el punto caliente.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" huella calcular --periodo 2025
+python .claude/motor/esg.py huella calcular --periodo 2025
 ```
 
 El resultado incluye `por_categoria_alcance3` y las mayores fuentes. Con eso:

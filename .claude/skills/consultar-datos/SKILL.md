@@ -12,7 +12,7 @@ estimación tuya.
 ## Qué hay cargado
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos resumen
+python .claude/motor/esg.py datos resumen
 ```
 
 Muestra los archivos, sus hojas, cuántas filas tienen y cuándo se actualizaron,
@@ -21,8 +21,8 @@ además de los resultados y reportes ya generados.
 ## Leer una planilla
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos leer --archivo consumos.xlsx
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos leer --archivo alcance3.xlsx --hoja "Alcance 3" --limite 50
+python .claude/motor/esg.py datos leer --archivo consumos.xlsx
+python .claude/motor/esg.py datos leer --archivo alcance3.xlsx --hoja "Alcance 3" --limite 50
 ```
 
 Con esas filas puedes responder preguntas como «¿cuánta electricidad usamos en
@@ -36,8 +36,8 @@ totales por alcance, por sitio, por recurso y por periodo, listos para citar.
 ## Revisar si los datos tienen sentido
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos anomalias
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" datos anomalias --umbral 80
+python .claude/motor/esg.py datos anomalias
+python .claude/motor/esg.py datos anomalias --umbral 80
 ```
 
 Detecta dos cosas:

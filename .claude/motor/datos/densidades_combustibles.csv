@@ -1,0 +1,14 @@
+recurso,pais,densidad_kg_por_litro,fuente,url,verificado_el,notas
+diesel,CL,0.84,Balance Nacional de Energia 2024 (Ministerio de Energia de Chile),https://energia.gob.cl/,2026-09-16,Densidad oficial chilena. El diesel varia cerca de 5% segun el mercado: si la empresa tiene la densidad de su proveedor conviene usar esa.
+gasolina,CL,0.73,Balance Nacional de Energia 2024 (Ministerio de Energia de Chile),https://energia.gob.cl/,2026-09-16,Densidad oficial chilena.
+glp,CL,0.55,Balance Nacional de Energia 2024 (Ministerio de Energia de Chile),https://energia.gob.cl/,2026-09-16,Gas licuado. Un balon de 45 kg equivale a unos 82 litros.
+kerosene,CL,0.81,Balance Nacional de Energia 2024 (Ministerio de Energia de Chile),https://energia.gob.cl/,2026-09-16,Parafina.
+diesel,*,0.87,UNSD Energy Statistics Yearbook 2009 Tabla IV,https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf,2026-09-16,Referencia internacional cuando no hay densidad nacional.
+gasolina,*,0.74,UNSD Energy Statistics Yearbook 2009 Tabla IV,https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf,2026-09-16,Referencia internacional.
+glp,*,0.54,UNSD Energy Statistics Yearbook 2009 Tabla IV,https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf,2026-09-16,Referencia internacional. Un balon de 45 kg equivale a unos 83 litros.
+kerosene,*,0.81,UNSD Energy Statistics Yearbook 2009 Tabla IV,https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf,2026-09-16,Referencia internacional.
+fuel oil,*,0.95,UNSD Energy Statistics Yearbook 2009 Tabla IV,https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf,2026-09-16,Fuel oil residual.
+fuel oil 5,*,0.95,UNSD Energy Statistics Yearbook 2009 Tabla IV,https://unstats.un.org/unsd/energy/yearbook/2009/2009_xliv.pdf,2026-09-16,Fuel oil residual.
+diesel,CO,0.856,UPME / FECOC Tabla 2 (Colombia),https://app.upme.gov.co/Calculadora_Emisiones1/new/Informe_Final_FECOC_Correcciones_UPME_FunNatura.pdf,2026-09-16,Densidad publicada para Colombia.
+gasolina,CO,0.741,UPME / FECOC Tabla 2 (Colombia),https://app.upme.gov.co/Calculadora_Emisiones1/new/Informe_Final_FECOC_Correcciones_UPME_FunNatura.pdf,2026-09-16,Densidad publicada para Colombia.
+glp,CO,0.56,UPME / FECOC Tabla 2 (Colombia),https://app.upme.gov.co/Calculadora_Emisiones1/new/Informe_Final_FECOC_Correcciones_UPME_FunNatura.pdf,2026-09-16,Densidad publicada para Colombia.

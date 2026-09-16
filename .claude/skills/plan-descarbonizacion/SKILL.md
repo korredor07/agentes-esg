@@ -13,7 +13,7 @@ evitada**. La sorpresa habitual: varias medidas tienen costo negativo, es decir
 ## 1. Juntar las medidas candidatas
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo medidas
+python .claude/motor/esg.py plantilla crear --tipo medidas
 ```
 
 Por cada acción hacen falta cinco datos: inversión inicial, costo anual de
@@ -36,8 +36,8 @@ Ideas para empezar, según lo que salió grande en la huella:
 ## 2. Construir la curva
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta plan
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta plan --brecha 1320 --tasa-descuento 0.1
+python .claude/motor/esg.py meta plan
+python .claude/motor/esg.py meta plan --brecha 1320 --tasa-descuento 0.1
 ```
 
 Si ya se estimó la probabilidad de la meta (skill `metas-net-zero`), la brecha

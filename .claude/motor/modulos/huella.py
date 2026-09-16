@@ -96,20 +96,37 @@ def calcular(opciones):
         json.dump(resumen, archivo, ensure_ascii=False, indent=2, default=str)
 
     liviano = {clave: resumen[clave] for clave in
-               ("total_kg_co2e", "total_t_co2e", "registros_calculados", "registros_con_problema",
+               ("total_kg_co2e", "total_t_co2e", "completo", "aviso_principal",
+                "registros_calculados", "registros_con_problema",
                 "por_alcance", "por_sitio", "por_recurso", "por_periodo", "por_categoria_alcance3",
                 "calidad_datos", "set_pcg", "problemas", "fuentes", "empresa", "periodo")}
     liviano["resultado_guardado_en"] = destino
     liviano["mayores_fuentes"] = sorted(
         ({"recurso": k, "t_co2e": v["kg_co2e"] / 1000.0} for k, v in resumen["por_recurso"].items()),
         key=lambda x: -x["t_co2e"])[:5]
-    return Respuesta(liviano, advertencias=resumen["advertencias"], fuentes=resumen["fuentes"])
+    liviano["mensaje"] = (
+        "Huella calculada: %s tCO2e en %s." % (round(resumen["total_t_co2e"], 1), resumen["periodo"])
+        if resumen["completo"] else
+        "%s No presentes este total como definitivo hasta resolver esas filas."
+        % resumen["aviso_principal"])
+    advertencias = list(resumen["advertencias"])
+    if not resumen["completo"]:
+        advertencias.insert(0, resumen["aviso_principal"])
+    return Respuesta(liviano, advertencias=advertencias, fuentes=resumen["fuentes"])
 
 
 def _bloques_informe(resumen, perfil):
     total_t = resumen["total_t_co2e"]
     por_alcance = resumen["por_alcance"]
-    bloques = [
+    bloques = []
+    if not resumen.get("completo", True):
+        bloques.append({
+            "tipo": "nota", "estilo": "riesgo",
+            "texto": "%s Revisa al final de este informe la lista de filas con problema: hasta "
+                     "resolverlas, esta cifra no sirve para entregar a un cliente ni a una autoridad."
+                     % resumen.get("aviso_principal", "Este total esta incompleto."),
+        })
+    bloques += [
         {"tipo": "kpi", "items": [
             {"etiqueta": "Huella total", "valor": total_t, "unidad": "tCO2e",
              "detalle": "Periodo: %s" % resumen.get("periodo", ""), "color": "verde"},
@@ -177,6 +194,14 @@ def _bloques_informe(resumen, perfil):
         bloques.append({"tipo": "tabla", "columnas": ["Fila", "Que pasa", "Que hacer"],
                         "filas": [[p.get("fila"), p.get("error"), p.get("sugerencia")]
                                   for p in resumen["problemas"]]})
+
+    advertencias = [a for a in resumen.get("advertencias", []) if a]
+    if advertencias:
+        bloques.append({"tipo": "titulo", "texto": "Supuestos y limitaciones", "nivel": 2})
+        bloques.append({"tipo": "texto",
+                        "texto": "Esto es lo que hubo que asumir para calcular. Quien revise el dato "
+                                 "necesita verlo: forma parte del resultado."})
+        bloques.append({"tipo": "lista", "items": advertencias})
 
     bloques.extend([
         {"tipo": "titulo", "texto": "Metodologia y fuentes", "nivel": 2},

@@ -2,9 +2,11 @@
 """Lectura y revision de los datos cargados por la empresa."""
 
 import datetime
+import json
 import os
 
 from nucleo import espacio, excel
+from plantillas import definiciones
 from nucleo.salida import Problema, Respuesta
 
 AYUDA = "Lee las planillas cargadas, resume que hay y detecta datos raros o meses faltantes."
@@ -163,4 +165,82 @@ def anomalias(opciones):
     )
 
 
-ACCIONES = {"resumen": resumen, "leer": leer, "anomalias": anomalias}
+def escribir(opciones):
+    """Escribe filas en una planilla de la empresa, creandola desde la plantilla si hace falta.
+
+    Sirve para que el asistente llene la planilla por la persona despues de leer
+    sus boletas o de que ella le dicte los datos.
+    """
+    perfil, ruta = _contexto(opciones)
+    tipo = opciones.get("tipo")
+    if not tipo or tipo is True:
+        raise Problema(
+            "Falta decir en que planilla escribir.",
+            "Por ejemplo: --tipo consumos. Las disponibles salen con: plantilla listar.",
+        )
+    clave, definicion = definiciones.obtener(tipo)
+    if not definicion:
+        raise Problema(
+            "No tengo una planilla llamada «%s»." % tipo,
+            "Disponibles: %s." % ", ".join(d["tipo"] for d in definiciones.listar()),
+        )
+
+    crudo = opciones.get("filas")
+    if not crudo or crudo is True:
+        raise Problema(
+            "Faltan las filas que quieres escribir.",
+            'Pasalas como JSON con --filas, por ejemplo: --filas "[[\"2025-01\", \"Planta\", '
+            '\"electricidad\", \"electricidad\", 4200, \"kWh\", \"reportado\", \"\", \"\"]]". '
+            "Cada fila debe traer los valores en el orden de las columnas de la planilla.",
+        )
+    if os.path.isfile(str(crudo)):
+        with open(crudo, encoding="utf-8") as archivo:
+            filas = json.load(archivo)
+    else:
+        try:
+            filas = json.loads(crudo)
+        except ValueError as error:
+            raise Problema(
+                "No pude leer las filas: %s." % error,
+                "Revisa que el JSON este bien formado, o guardalo en un archivo y pasa su ruta.",
+            )
+    if isinstance(filas, dict):
+        filas = [filas]
+    if not isinstance(filas, list) or not filas:
+        raise Problema("Las filas deben venir como una lista.", "Ejemplo: [[valor1, valor2, ...], [...]]")
+
+    columnas = [c["titulo"] for c in definicion["columnas"]]
+    normalizadas = []
+    for numero, fila in enumerate(filas, start=1):
+        if isinstance(fila, dict):
+            fila = [fila.get(c) if c in fila else fila.get(excel.normalizar_encabezado(c)) for c in columnas]
+        if len(fila) > len(columnas):
+            raise Problema(
+                "La fila %d trae %d valores y la planilla tiene %d columnas."
+                % (numero, len(fila), len(columnas)),
+                "Columnas de «%s»: %s." % (clave, ", ".join(columnas)),
+            )
+        normalizadas.append(list(fila) + [""] * (len(columnas) - len(fila)))
+
+    destino = espacio.ruta_de(ruta, "datos", "%s.xlsx" % clave)
+    existentes = []
+    if os.path.isfile(destino) and not opciones.get("reemplazar"):
+        tabla = excel.leer_tabla(destino)
+        for fila in tabla["filas"]:
+            existentes.append([fila.get(excel.normalizar_encabezado(c)) for c in columnas])
+
+    hojas = definiciones.hojas_de(definicion, con_ejemplo=False)
+    hojas[1]["filas"] = existentes + normalizadas
+    excel.escribir_xlsx(destino, hojas)
+    return Respuesta(
+        {
+            "mensaje": "%s %d fila(s) en la planilla de %s."
+                       % ("Reemplace con" if opciones.get("reemplazar") else "Agregue",
+                          len(normalizadas), definicion["titulo"].lower()),
+            "archivo": destino, "columnas": columnas,
+            "filas_en_la_planilla": len(existentes) + len(normalizadas),
+        },
+        advertencias=["Muestrale a la persona lo que escribiste antes de calcular nada con estos datos."])
+
+
+ACCIONES = {"resumen": resumen, "leer": leer, "escribir": escribir, "anomalias": anomalias}

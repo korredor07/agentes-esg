@@ -188,16 +188,21 @@ def resolver_ruta(identificador, raiz=None):
             ("Empresas registradas: %s." % ", ".join(e["nombre"] for e in empresas)) if empresas
             else "Todavia no hay ninguna empresa registrada. Puedo crear una contigo en un minuto.",
         )
-    if len(empresas) == 1:
-        return empresas[0]["ruta"]
     if not empresas:
         raise Problema(
             "Todavia no hay ninguna empresa registrada.",
             "Dime el nombre de tu empresa y la registro en un minuto.",
         )
+    # la empresa de demostracion no compite con la empresa real de la persona
+    reales = [e for e in empresas if not e["carpeta"].startswith("ejemplo-")]
+    candidatas = reales or empresas
+    if len(candidatas) == 1:
+        return candidatas[0]["ruta"]
     raise Problema(
         "Hay varias empresas registradas y no se cual usar.",
-        "Indica una de estas: %s." % ", ".join(e["nombre"] for e in empresas),
+        "Agrega la opcion --empresa con el nombre de su carpeta. Por ejemplo: --empresa %s. "
+        "Disponibles: %s." % (candidatas[0]["carpeta"],
+                              ", ".join("%s (%s)" % (e["carpeta"], e["nombre"]) for e in candidatas)),
     )
 
 

@@ -272,22 +272,22 @@ REGLAS = [
 PREGUNTAS = [
     {"clave": "tiene_trabajadores", "pregunta": "¿La empresa tiene personas contratadas?",
      "para_que": "Define casi todas las obligaciones laborales."},
-    {"clave": "pone_productos_prioritarios",
+    {"clave": "pone_productos_prioritarios", "paises": ["CL"],
      "pregunta": "¿Venden productos envasados, importan articulos, o comercializan neumaticos, aceites, "
                  "aparatos electricos, pilas o baterias?",
      "para_que": "Define si le aplica la Ley REP."},
-    {"clave": "tiene_calderas", "pregunta": "¿Tienen calderas, hornos, grupos electrogenos u otras fuentes fijas?",
+    {"clave": "tiene_calderas", "paises": ["CL"], "pregunta": "¿Tienen calderas, hornos, grupos electrogenos u otras fuentes fijas?",
      "para_que": "Define obligaciones de declaracion de emisiones e impuesto verde."},
-    {"clave": "genera_residuos_industriales",
+    {"clave": "genera_residuos_industriales", "paises": ["CL"],
      "pregunta": "¿Generan residuos industriales o peligrosos (aceites, solventes, lodos, chatarra)?",
      "para_que": "Define obligaciones de declaracion de residuos."},
-    {"clave": "descarga_riles", "pregunta": "¿Descargan aguas del proceso a un rio, al mar o al alcantarillado?",
+    {"clave": "descarga_riles", "paises": ["CL"], "pregunta": "¿Descargan aguas del proceso a un rio, al mar o al alcantarillado?",
      "para_que": "Define obligaciones sobre residuos liquidos."},
-    {"clave": "fuente_fija_grande",
+    {"clave": "fuente_fija_grande", "paises": ["CL"],
      "pregunta": "¿Alguna instalacion emite mas de 100 toneladas de material particulado o mas de 25.000 "
                  "toneladas de CO2 al año?",
      "para_que": "Define si paga impuesto verde."},
-    {"clave": "supervisada_cmf", "pregunta": "¿Es sociedad anonima abierta o esta supervisada por la CMF?",
+    {"clave": "supervisada_cmf", "paises": ["CL"], "pregunta": "¿Es sociedad anonima abierta o esta supervisada por la CMF?",
      "para_que": "Define si debe reportar sostenibilidad en su memoria anual."},
     {"clave": "exporta_a_ue", "pregunta": "¿Venden a la Union Europea, directo o a traves de otra empresa?",
      "para_que": "Define las exigencias europeas."},
@@ -297,9 +297,15 @@ PREGUNTAS = [
     {"clave": "exporta_commodities_eudr",
      "pregunta": "¿Exportan a la UE ganado, cacao, cafe, aceite de palma, caucho, soya o madera?",
      "para_que": "Define si le aplica el reglamento de deforestacion."},
-    {"clave": "emisor_valores", "pregunta": "¿La empresa tiene valores inscritos en el mercado de valores?",
+    {"clave": "emisor_valores", "paises": ["PE"], "pregunta": "¿La empresa tiene valores inscritos en el mercado de valores?",
      "para_que": "Define obligaciones de reporte en Peru."},
 ]
+
+
+def preguntas_aplicables(perfil):
+    """Solo las preguntas que tienen sentido para el pais de la empresa."""
+    pais = (perfil.get("pais") or "").upper()
+    return [p for p in PREGUNTAS if not p.get("paises") or pais in p["paises"]]
 
 
 def evaluar(perfil, respuestas=None):
@@ -317,7 +323,7 @@ def evaluar(perfil, respuestas=None):
 
     orden = {"alto": 0, "medio": 1, "bajo": 2}
     aplican.sort(key=lambda f: orden.get(f["riesgo"], 3))
-    pendientes = [p for p in PREGUNTAS if p["clave"] not in respuestas]
+    pendientes = [p for p in preguntas_aplicables(perfil) if p["clave"] not in respuestas]
     return {
         "pais": pais,
         "aplican": aplican,

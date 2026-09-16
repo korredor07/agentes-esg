@@ -30,13 +30,13 @@ Para la cadena de valor (compras, fletes, viajes, residuos) usa la skill
 **2. Revisa si ya hay datos.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" empresa ver
+python .claude/motor/esg.py empresa ver
 ```
 
 Si no existe `datos/consumos.xlsx`, créalo y explícale qué llenar:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo consumos
+python .claude/motor/esg.py plantilla crear --tipo consumos
 ```
 
 **3. Ayúdale a reunir los datos.** Lo mínimo para un año creíble:
@@ -56,7 +56,7 @@ skill `cargar-datos`.
 **4. Calcula.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" huella calcular --periodo 2025
+python .claude/motor/esg.py huella calcular --periodo 2025
 ```
 
 Lee con atención `advertencias` y `problemas`:
@@ -80,7 +80,7 @@ la conversión con una fuente.
 **6. Genera el informe.**
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" huella reporte --periodo 2025
+python .claude/motor/esg.py huella reporte --periodo 2025
 ```
 
 Queda en `reportes/` como archivo HTML: se abre con doble clic y se imprime a
@@ -89,7 +89,7 @@ PDF desde el navegador (Ctrl+P). Dile dónde quedó.
 **7. Respalda la evidencia** (importante si el número se usará ante terceros):
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos 2025"
+python .claude/motor/esg.py evidencia registrar --archivo datos/consumos.xlsx --descripcion "Consumos 2025"
 ```
 
 **8. Propón el siguiente paso**, según lo que la empresa necesite: estimar el

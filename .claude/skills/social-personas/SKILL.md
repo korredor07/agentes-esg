@@ -13,7 +13,7 @@ entran y salen, cuánto ganan, cuánto se capacitan y cuántos accidentes hubo.
 ## 1. Cargar los datos
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" plantilla crear --tipo personas
+python .claude/motor/esg.py plantilla crear --tipo personas
 ```
 
 Una fila por **grupo**, no por persona: sitio, categoría, género, tipo de
@@ -34,8 +34,8 @@ Dile de dónde sacar cada dato:
 ## 2. Calcular
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" social calcular --periodo 2025
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" social informe --periodo 2025
+python .claude/motor/esg.py social calcular --periodo 2025
+python .claude/motor/esg.py social informe --periodo 2025
 ```
 
 ## 3. Qué significa cada número

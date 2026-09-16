@@ -9,7 +9,7 @@ allowed-tools: Bash(python *), Bash(py *), Bash(python3 *), PowerShell(python *)
 Una sola página con todo lo importante, para mirar antes de una reunión.
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" tablero generar
+python .claude/motor/esg.py tablero generar
 ```
 
 Queda en `reportes/tablero.html`. Se abre con doble clic; para enviarlo, se

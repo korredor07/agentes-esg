@@ -19,7 +19,7 @@ confiables (no un año raro, como un año de pandemia o de paro de planta).
 ## 2. Definir la meta
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta definir --anio-base 2025 --anio-meta 2030 --base 12500
+python .claude/motor/esg.py meta definir --anio-base 2025 --anio-meta 2030 --base 12500
 ```
 
 Si no indicas `--base`, toma los alcances 1 y 2 de la última huella calculada.
@@ -34,7 +34,7 @@ compuesta**. Bajar 42 % en 10 años equivale a un 5,3 % compuesto anual, no a un
 ## 3. Revisar si la meta se sostiene
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta validar
+python .claude/motor/esg.py meta validar
 ```
 
 Revisa los criterios públicos: año base válido, horizonte entre 5 y 10 años,
@@ -49,7 +49,7 @@ Nosotros no validamos nada.
 ## 4. ¿Qué tan probable es cumplirla?
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta probabilidad
+python .claude/motor/esg.py meta probabilidad
 ```
 
 Simula miles de escenarios combinando lo que la empresa no controla del todo:
@@ -86,7 +86,7 @@ solar está aprobado o todavía se evalúa?». Ella los conoce mejor que nadie.
 ## 5. Informe
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" meta informe
+python .claude/motor/esg.py meta informe
 ```
 
 ## Antes de anunciar la meta en público

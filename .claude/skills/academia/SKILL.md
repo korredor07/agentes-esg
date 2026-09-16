@@ -16,7 +16,7 @@ Cuatro rutas de aprendizaje, con lecciones de 10 a 15 minutos:
 | Reportes y comunicación responsable | intermedio | Marcos de reporte, evidencia y greenwashing |
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia cursos
+python .claude/motor/esg.py academia cursos
 ```
 
 ## Cómo enseñar esto a alguien sin formación técnica
@@ -47,7 +47,7 @@ resolviendo un problema.
 Pide el contenido de la lección:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia cursos --curso "Huella de carbono" --leccion 2
+python .claude/motor/esg.py academia cursos --curso "Huella de carbono" --leccion 2
 ```
 
 Devuelve el objetivo, el `contenido_clave`, una pregunta con alternativas, la
@@ -78,7 +78,7 @@ arrendada». Si se equivoca:
 **4. Registrar.** Siempre, aunque se haya equivocado:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia avance --persona "Ana Perez" --area "Operaciones" --curso "Huella de carbono" --leccion 2 --respuesta b
+python .claude/motor/esg.py academia avance --persona "Ana Perez" --area "Operaciones" --curso "Huella de carbono" --leccion 2 --respuesta b
 ```
 
 La respuesta se indica con la letra de la alternativa. El motor devuelve si fue
@@ -94,8 +94,8 @@ Si hiciste la lección pero no alcanzaste a preguntar, registra igual sin
 Cuando la persona completa todas las lecciones de una ruta:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia certificado --persona "Ana Perez" --curso "Fundamentos ESG"
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia certificado --persona "Ana Perez" --curso "Fundamentos ESG" --formato word
+python .claude/motor/esg.py academia certificado --persona "Ana Perez" --curso "Fundamentos ESG"
+python .claude/motor/esg.py academia certificado --persona "Ana Perez" --curso "Fundamentos ESG" --formato word
 ```
 
 El HTML se abre con doble clic y se imprime a PDF desde el navegador; el Word
@@ -115,8 +115,8 @@ No lo emitas «igual»: el valor del registro es que sea cierto.
 ## Ranking: animar sin ridiculizar
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia ranking --por area
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" academia ranking --por persona
+python .claude/motor/esg.py academia ranking --por area
+python .claude/motor/esg.py academia ranking --por persona
 ```
 
 Cómo usarlo:

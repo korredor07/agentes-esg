@@ -12,7 +12,7 @@ el perfil de la empresa y unas pocas preguntas concretas.
 ## 1. Preguntar lo justo
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" cumplimiento preguntas
+python .claude/motor/esg.py cumplimiento preguntas
 ```
 
 Son preguntas de sí o no, en lenguaje cotidiano. **Hazlas de a una** y acepta
@@ -21,7 +21,7 @@ Son preguntas de sí o no, en lenguaje cotidiano. **Hazlas de a una** y acepta
 Guarda cada respuesta apenas la recibas:
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" cumplimiento responder --clave pone_productos_prioritarios --respuesta si
+python .claude/motor/esg.py cumplimiento responder --clave pone_productos_prioritarios --respuesta si
 ```
 
 Cómo traducir las preguntas al lenguaje de la persona:
@@ -37,8 +37,8 @@ Cómo traducir las preguntas al lenguaje de la persona:
 ## 2. Revisar
 
 ```bash
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" cumplimiento revisar
-python "${CLAUDE_SKILL_DIR}/../../motor/esg.py" cumplimiento informe
+python .claude/motor/esg.py cumplimiento revisar
+python .claude/motor/esg.py cumplimiento informe
 ```
 
 Entrega tres grupos:

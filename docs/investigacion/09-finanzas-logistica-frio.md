@@ -507,3 +507,124 @@ Fuentes oficiales del SII: *"Instrucciones de llenado de Información de Compras
 4. **Evitar doble conteo**: restar notas de crédito (56/61 en ventas; 60/61 en compras) y excluir `Tipo Transaccion = 3` (bienes raíces) y `= 4` (activo fijo) del gasto operacional — el activo fijo va a **categoría 2 (bienes de capital)** del alcance 3, no a la categoría 1.
 
 ---
+
+## 5. Logística — ISO 14083:2023 y GLEC Framework
+
+> **Aviso de alcance:** el documento hermano `02-factores-alcance3-transporte-gasto.md` (§4) ya contiene la investigación detallada y verificada del GLEC Framework v3.2 y de ISO 14083:2023, leída del PDF oficial. Esta sección **no la repite**: aporta el resumen operativo para el motor, el contraste con una fuente independiente y un **ejemplo multimodal resuelto**. Para factores, licencias y tablas, ir a `02-…`.
+
+### 5.1 Normas vigentes al 16.09.2026
+
+| Documento | Versión vigente | Fecha | Etiqueta |
+|---|---|---|---|
+| **ISO 14083** — *Greenhouse gases — Quantification and reporting of greenhouse gas emissions arising from transport chain operations* | **ISO 14083:2023**, edición 1 (Stage 60.60) | Marzo 2023 | [VERIFICADO] vía doc 02 |
+| Versión europea | **EN ISO 14083:2023** (adopciones nacionales UNE-EN, DIN EN, BS EN…) | 2023 | [SECUNDARIO] |
+| ¿Enmienda o revisión 2024–2026? | **No se encontró evidencia** de enmienda publicada ni de una ISO 14083-2 | — | [NO VERIFICADO] — `iso.org` devuelve HTTP 403 a peticiones automatizadas; comprobar manualmente |
+| **GLEC Framework** (Smart Freight Centre) | **v3.2** | **21 de octubre de 2025** | [VERIFICADO] vía doc 02 |
+| Novedad principal de la v3.2 | Nuevo módulo anexo de **contaminantes atmosféricos** (NOx, SOx, PM10, PM2.5, black carbon) + actualización de factores de combustible | Oct 2025 | [SECUNDARIO] [16] |
+| Próxima revisión GLEC | Esperada **2026–2028**, alineada con el ciclo de revisión de ISO 14083 (GWP AR6, perfiles operativos post-pandemia, combustibles bajos en carbono) | — | [NO VERIFICADO] |
+| **CountEmissions EU** | Reglamento UE de método único de cálculo de emisiones de transporte de pasajeros y carga, basado en EN ISO 14083; acuerdo Consejo–Parlamento en **noviembre de 2025** | 2025 | [SECUNDARIO] — verificar número y fecha de publicación en el DOUE |
+
+### 5.2 Vocabulario ISO 14083 (redacción propia)
+
+Confirmado de forma independiente en la guía CLECAT sobre ISO 14083 [17] [SECUNDARIO], coherente con doc 02:
+
+| Sigla | Qué es | Símbolo de fórmula |
+|---|---|---|
+| **TC** — Transport Chain | La cadena completa, de expedidor a destinatario | — |
+| **TCE** — Transport Chain Element | Cada tramo de la cadena: la carga movida por **un solo vehículo**, o una operación de **hub** (distancia cero). Cada cambio de vehículo o paso por hub obliga a abrir un TCE nuevo | — |
+| **TO** — Transport Operation | El uso concreto de un vehículo para llevar carga o pasajeros | — |
+| **TOC** — Transport Operation Category | Agrupación de operaciones de transporte con características similares en un período (típicamente un año). Es el nivel al que se calcula la **intensidad**. Reemplaza el término "leg" de EN 16258 | — |
+| **HO / HOC** — Hub Operation (Category) | Transferencia de carga o pasajeros en un nodo, y su agrupación por características | — |
+| **Transport activity** | Actividad de transporte: masa × distancia, en **t·km** (o pax·km) | `T` |
+| **Hub activity** | Rendimiento (throughput) del hub, en **toneladas** o pax, medido sobre lo que **sale** del hub | `H` |
+| **Operation GHG emissions** | Emisiones por operar vehículos o hubs. **Reemplaza "Tank-to-Wheel (TTW)"** de EN 16258 | — |
+| **Energy provision GHG emissions** | Emisiones de producir, almacenar, procesar y distribuir el vector energético (incluida la electricidad). **Reemplaza "Well-to-Tank (WTT)"** | — |
+| **Total GHG emissions** | La suma de ambas. **Reemplaza "Well-to-Wheel (WTW)"** | `G` |
+| **GHG emission intensity** | Emisiones por unidad de actividad (g CO2e/t·km o g CO2e/t) | `g` |
+| **SFD** — Shortest Feasible Distance | Ruta practicable más corta según las opciones de infraestructura para ese tipo de vehículo | — |
+| **GCD** — Great Circle Distance | Distancia geodésica entre dos puntos sobre la superficie terrestre | — |
+| **DAF** — Distance Adjustment Factor | Corrección para homogeneizar el tipo de distancia del TCE con el usado para la intensidad del TOC | — |
+
+> **Punto fino terminológico:** ISO 14083 abandonó formalmente WTT/TTW/WTW en favor de *energy provision / operation / total GHG emissions*, pero la industria (y el propio GLEC) sigue usando las siglas antiguas. El motor debería aceptar ambos vocabularios y **reportar con los términos ISO**.
+
+### 5.3 Ecuaciones operativas
+
+```
+# 1. Actividad
+T_TCE  = masa_carga_toneladas × distancia_actividad_km        # t·km
+H_TCE  = toneladas de throughput saliente del hub             # t
+
+# 2. Intensidad del TOC (se calcula "hacia atrás", desde el consumo real)
+G_TOC  = Σ (energía_consumida_i × (EF_operacion_i + EF_provision_i))
+g_TOC  = G_TOC / T_TOC                                        # g CO2e/t·km
+
+# 3. Emisión del TCE
+G_TCE(transporte) = T_TCE × g_TOC × DAF
+G_TCE(hub)        = H_TCE × g_HOC
+
+# 4. Emisión de la cadena
+G_TC = Σ G_TCE          # transporte + hubs
+
+# 5. Intensidad de la cadena
+g_TC = G_TC / T_TC
+```
+
+- El **DAF entra solo** cuando el tipo de distancia del TCE difiere del usado para calcular `g_TOC`; si ambos usan SFD, `DAF = 1`. [VERIFICADO]
+- El *empty running* y los trayectos en vacío **ya están dentro del TOC**: la intensidad se calcula sobre la energía total del período (cargado + vacío) dividida por la actividad **cargada**. Si el dato de combustible cubre solo los trayectos cargados, hay que **añadir** la porción correspondiente a los vacíos. [VERIFICADO vía doc 02]
+- **Asignación**: se evita siempre que se pueda desagregando más los datos; cuando es inevitable, la base de reparto es la **cuota de t·km directas** de cada envío sobre el total del TCE. [VERIFICADO vía doc 02]
+
+### 5.4 Distancias y factores de ajuste
+
+Tabla 3 de la guía CLECAT, que cita expresamente a ISO 14083 como fuente [17] [SECUNDARIO]:
+
+| Modo | Tipo de distancia a usar | DAF | Equivalencia partiendo de distancia real |
+|---|---|---:|---|
+| **Aéreo** | **GCD** (obligatorio) | — | **GCD + 95 km** |
+| **Carretera** | SFD | **1,05** | SFD + 5 % |
+| **Marítimo** | SFD | **1,15** | SFD + 15 % |
+| Ferrocarril, vías navegables interiores, tuberías, teleféricos | SFD | **No se requiere** | La red física fija la ruta; se asume distancia real ≈ SFD |
+
+> **Coincide exactamente** con lo leído del GLEC v3.2 en doc 02 (+5 % carretera, +15 % marítimo, +95 km aéreo). Dos fuentes independientes → fiabilidad alta.
+
+Reglas adicionales confirmadas [17] [SECUNDARIO]:
+- **No se pueden mezclar** GCD y SFD dentro de una misma cadena; hay que declarar cuál se usó.
+- El aéreo **siempre** usa GCD, y **cada escala es un TCE distinto**.
+- En **rondas de recogida y entrega** se usa igualmente GCD o SFD entre cada punto de carga y descarga: es una distancia ficticia cuyo único propósito es **repartir** las emisiones reales de la ronda entre los envíos, vía t·km.
+- La **distancia de la intensidad** y la **distancia de la actividad** deben ser siempre del mismo tipo, o el resultado está sesgado.
+
+### 5.5 Masa, factor de carga y viajes vacíos
+
+| Parámetro | Regla | Etiqueta |
+|---|---|---|
+| Masa del envío | Masa real de la mercancía **incluido el embalaje original del expedidor**, **excluido** el embalaje de transporte del transportista (palés, contenedores) | [VERIFICADO] |
+| Contenedores/palés vacíos transportados como fin del viaje | Cuentan como carga; su tara es la masa del flete | [VERIFICADO] vía doc 02 |
+| TEU sin peso conocido | **10 t/TEU** por defecto (6 t/TEU carga ligera; 14,5 t/TEU carga pesada) | [VERIFICADO] vía doc 02 |
+| **Load factor** | Masa transportada / capacidad legal de carga del vehículo. Es el principal determinante de g CO2e/t·km | [VERIFICADO] |
+| **Empty running** | % de recorrido sin carga sobre el total de operaciones | [VERIFICADO] |
+| Uplift temperatura controlada | GLEC aplica un **uplift del 12 %** al ferrocarril refrigerado, extrapolado del uplift de carretera por falta de datos específicos | [VERIFICADO] vía doc 02 |
+
+### 5.6 ¿Se pueden redistribuir los valores por defecto de GLEC? — **NO**
+
+| Fuente | Licencia | ¿Redistribuible en repo open source? |
+|---|---|---|
+| **GLEC Framework v3.2** (Smart Freight Centre) | Efectivamente *NonCommercial*; exige **permiso previo por escrito** de SFC para cualquier uso comercial. Descarga gratuita ≠ licencia libre | **NO** [VERIFICADO vía doc 02] |
+| Metodología ISO 14083 / GLEC (algoritmos, TCE/TOC/HOC, DAF, allocation) | Los métodos no son objeto de copyright | **Sí**, reimplementada con redacción propia |
+| **ISO 14083:2023** (texto de la norma) | Copyright ISO, venta por catálogo | **NO** — solo se puede citar y resumir |
+
+**Alternativas públicas y redistribuibles** (detalle y cifras en doc 02):
+
+| Fuente | Licencia | Cobertura |
+|---|---|---|
+| **UK DESNZ — GHG Conversion Factors 2026** | Open Government Licence v3.0 (permite uso comercial con atribución) | HGV, furgonetas, rail, marítimo por tipo/tamaño de buque, aéreo, WTT y TTW por t·km |
+| **ADEME — Base Empreinte / Base Carbone** | Licence Ouverte (Etalab) | Transporte francés y europeo |
+| **US EPA — SmartWay** y factores por gasto | Dominio público (17 U.S.C. § 105) | Carretera y ferrocarril de EE. UU. |
+| **EcoTransIT World** (parte pública) | Consultar términos por caso | Multimodal internacional |
+| **CountEmissions EU** (futuro) | Se prevé **base de valores por defecto pública y gratuita** alineada con EN ISO 14083 | UE — poner en vigilancia |
+
+> **Regla para el repositorio:** no versionar ningún valor GLEC. Implementar la metodología, alimentarla con DESNZ/ADEME/EPA, y ofrecer un *adaptador opcional* para que el usuario cargue su propio fichero GLEC bajo su propia licencia. Añadir un test que verifique la ausencia de valores GLEC en los datos versionados.
+
+### 5.7 Ejemplo resuelto — envío multimodal camión + barco
+
+Ver el desarrollo numérico completo en **§8.4 "Fórmulas y métodos"**.
+
+---

@@ -127,9 +127,22 @@ def _clave(texto):
     return texto
 
 
+def _vacio(valor):
+    """True cuando el dato no vino: None, texto en blanco o una opcion sin valor.
+
+    Se compara por identidad y no con «in (None, '', True, False)» porque en Python
+    1.0 == True, y un precio de 1,0 euros se confundiria con un dato faltante.
+    """
+    if valor is None or valor is True or valor is False:
+        return True
+    if isinstance(valor, str) and not valor.strip():
+        return True
+    return False
+
+
 def _numero(valor, nombre, obligatorio=True, minimo=None):
     """Convierte a numero un dato escrito por una persona."""
-    if valor in (None, "", True, False):
+    if _vacio(valor):
         if obligatorio:
             raise Problema(
                 "Falta %s." % nombre,
@@ -343,7 +356,7 @@ def cbam_emisiones_incorporadas(sector, cantidad_toneladas, see=None, emisiones_
     precursores_por_t = 0.0
     detalle_precursores = []
 
-    if see not in (None, "", True, False):
+    if not _vacio(see):
         see_valor = _numero(see, "las emisiones especificas incorporadas (t CO2e por tonelada)", minimo=0)
         origen = "SEE entregado por la instalacion productora"
         supuestos.append("Se usa el SEE que entregaste tal cual: el motor no lo recalcula ni lo verifica.")
@@ -363,7 +376,7 @@ def cbam_emisiones_incorporadas(sector, cantidad_toneladas, see=None, emisiones_
             )
         directas = _numero(emisiones_directas, "las emisiones directas del proceso, en t CO2e", minimo=0)
         if ficha["indirectas"]:
-            if emisiones_indirectas in (None, "", True, False):
+            if _vacio(emisiones_indirectas):
                 raise Problema(
                     "Para %s hay que declarar tambien las emisiones indirectas y no me las diste."
                     % ficha["nombre"].lower(),
@@ -452,6 +465,14 @@ def cbam_costo_estimado(emisiones_incorporadas, anio, precio_certificado_eur,
     emisiones = _numero(emisiones_incorporadas, "las emisiones incorporadas del envio, en t CO2e", minimo=0)
     anio = _anio(anio)
     factor, exigible = factor_cbam(anio)
+    if _vacio(precio_certificado_eur):
+        raise Problema(
+            "Falta el precio del certificado CBAM.",
+            ("Es un precio de mercado que cambia todos los dias, asi que no lo invento. En 2026 es la media "
+             "trimestral del precio de subasta del derecho de emision europeo, y desde 2027 la media "
+             "semanal. Pidelo a tu importador europeo o a tu agente de aduana y pasamelo en euros por "
+             "tonelada."),
+        )
     precio = _numero(precio_certificado_eur, "el precio del certificado CBAM, en euros por tonelada",
                      minimo=0)
 
@@ -459,7 +480,7 @@ def cbam_costo_estimado(emisiones_incorporadas, anio, precio_certificado_eur,
     supuestos = []
     exencion = None
 
-    if masa_neta_anual_importador not in (None, "", True, False):
+    if not _vacio(masa_neta_anual_importador):
         exencion = cbam_umbral_masa(masa_neta_anual_importador, sector)
         if exencion["exento"]:
             advertencias.append(exencion["motivo"])
@@ -472,10 +493,10 @@ def cbam_costo_estimado(emisiones_incorporadas, anio, precio_certificado_eur,
     deduccion = 0.0
     deduccion_estimada = False
 
-    if deduccion_certificados not in (None, "", True, False):
+    if not _vacio(deduccion_certificados):
         deduccion = _numero(deduccion_certificados, "la deduccion en certificados", minimo=0)
         supuestos.append("La deduccion por carbono pagado en origen la entregaste tu, en certificados.")
-    elif precio_carbono_origen_eur_t not in (None, "", True, False):
+    elif not _vacio(precio_carbono_origen_eur_t):
         precio_origen = _numero(precio_carbono_origen_eur_t,
                                 "el precio del carbono pagado en el pais de origen, en euros por tonelada",
                                 minimo=0)
@@ -723,7 +744,7 @@ def fueleu_intensidad_real(consumos, gwp=None, energia_ops_mj=0.0, co2eq_ops=Non
     if not consumos:
         raise Problema("No me dijiste que combustible consumio el buque.",
                        "Necesito al menos el tipo de combustible y las toneladas consumidas.")
-    anio = _anio(anio) if anio not in (None, "", True, False) else None
+    anio = None if _vacio(anio) else _anio(anio)
     numerador_wtt = 0.0
     numerador_ttw = 0.0
     denominador = 0.0
@@ -829,7 +850,7 @@ def fueleu_balance(anio, consumos=None, ghgie_actual=None, energia_total_mj=None
     advertencias = []
     detalle_intensidad = None
 
-    if ghgie_actual not in (None, "", True, False):
+    if not _vacio(ghgie_actual):
         actual = _numero(ghgie_actual, "la intensidad real de gases de efecto invernadero (gCO2e/MJ)",
                          minimo=0)
         energia = _numero(energia_total_mj, "la energia total usada a bordo dentro del ambito, en MJ",
@@ -986,7 +1007,7 @@ def ets_maritimo_obligacion(anio, tipo_viaje="tercer_pais_ue", emisiones_viaje_t
     factor_usado = None
     ficha = None
 
-    if emisiones_viaje_t not in (None, "", True, False):
+    if not _vacio(emisiones_viaje_t):
         emisiones = _numero(emisiones_viaje_t, "las emisiones del viaje, en t CO2e", minimo=0)
         supuestos.append("Se usan las emisiones del viaje que entregaste (normalmente las informa la naviera).")
     else:
@@ -1014,6 +1035,12 @@ def ets_maritimo_obligacion(anio, tipo_viaje="tercer_pais_ue", emisiones_viaje_t
             "la diferencia es pequeña; en buques a gas natural licuado es grande por el metano que se "
             "escapa sin quemar).")
 
+    if _vacio(precio_eua_eur):
+        raise Problema(
+            "Falta el precio del derecho de emision europeo (EUA).",
+            ("Es un precio de mercado que cambia todos los dias y no lo invento. Pidele a la naviera con que "
+             "precio y con que periodo calcula su recargo, y pasamelo en euros por tonelada."),
+        )
     precio = _numero(precio_eua_eur, "el precio del derecho de emision europeo (EUA), en euros por tonelada",
                      minimo=0)
     cubiertas = emisiones * viaje["cobertura"]
@@ -1078,6 +1105,20 @@ NORMAS_CSRD = {
     "transposicion_csddd": "26 de julio de 2028",
 }
 
+def _tope_vsme(protegida):
+    """Ficha del tope VSME a las solicitudes de informacion a la cadena de valor."""
+    return {
+        "aplica": protegida,
+        "que_es": ("La empresa declarante sujeta a la CSRD no puede exigir a una empresa que no supera "
+                   "los 1.000 empleados informacion que exceda los limites del estandar voluntario "
+                   "VSME, y esa empresa puede negarse a entregarla."),
+        "limite": "Estandar voluntario VSME para pymes no cotizadas.",
+        "ojo": ("Es un techo frente a lo que el cliente puede EXIGIR por obligacion legal, no frente a "
+                "lo que puede PACTAR en el contrato. Y si el proveedor no esta domiciliado en la Union "
+                "Europea, que pueda invocarlo no esta confirmado."),
+    }
+
+
 UMBRALES_CSDDD = {
     "empleados": 5000,
     "volumen_negocios_eur": 1500000000.0,
@@ -1089,7 +1130,7 @@ UMBRALES_CSDDD = {
 
 def csrd_aplica(empleados=None, volumen_negocios_eur=None, establecida_en_ue=False,
                 volumen_negocios_en_ue_eur=None, filial_ue_volumen_eur=None,
-                tiene_sucursal_ue=False, ya_reportaba=False, ejercicio=None):
+                tiene_filial_ue=None, tiene_sucursal_ue=False, ya_reportaba=False, ejercicio=None):
     """Si a la empresa le aplica el informe de sostenibilidad europeo (CSRD).
 
     Regimen vigente tras la Directiva (UE) 2026/470:
@@ -1140,6 +1181,36 @@ def csrd_aplica(empleados=None, volumen_negocios_eur=None, establecida_en_ue=Fal
                       "y mas de 1.000 empleados. La empresa no los supera.")
     else:
         via = "Matriz de un tercer pais con actividad en la Union Europea (art. 40 bis)"
+        if tiene_filial_ue is False and not tiene_sucursal_ue:
+            return {
+                "estado": "no aplica",
+                "via": via,
+                "motivo": ("La empresa no esta en la Union Europea y no tiene filial ni sucursal alli. El "
+                           "art. 40 bis exige una filial europea de mas de 200 millones de euros o una "
+                           "sucursal, asi que no entra en el ambito."),
+                "faltan_datos": [],
+                "primer_ejercicio": None, "primer_informe": None, "oleada": None,
+                "umbrales": {
+                    "volumen_negocios_eur": UMBRAL_CSRD_VOLUMEN_EUR,
+                    "empleados": UMBRAL_CSRD_EMPLEADOS,
+                    "volumen_en_ue_eur": UMBRAL_CSRD_VOLUMEN_EN_UE_EUR,
+                    "filial_ue_eur": UMBRAL_CSRD_FILIAL_UE_EUR,
+                    "logica": "Los dos criterios a la vez (acumulativos), no dos de tres.",
+                },
+                "empresa_protegida": protegida,
+                "tope_vsme": _tope_vsme(protegida),
+                "aseguramiento": "Solo aseguramiento limitado; se elimino el paso a aseguramiento razonable.",
+                "estandares_sectoriales": ("Se suprimieron los estandares sectoriales obligatorios. La "
+                                           "Comision solo podra emitir orientaciones sectoriales no "
+                                           "vinculantes."),
+                "normas": NORMAS_CSRD,
+                "csddd": UMBRALES_CSDDD,
+                "articulos": ["Art. 40 bis de la Directiva 2013/34/UE, en su version tras la Directiva "
+                              "(UE) 2026/470"],
+                "no_verificado": pendientes("csrd_tope_vsme_extraterritorial", "csrd_espana"),
+                "aviso": AVISO_LEGAL,
+                "fuente": FUENTE,
+            }
         if volumen_ue is None:
             faltan.append("cuanto factura el grupo dentro de la Union Europea")
         if volumen_ue is not None and volumen_ue > UMBRAL_CSRD_VOLUMEN_EN_UE_EUR and filial is None:
@@ -1184,16 +1255,7 @@ def csrd_aplica(empleados=None, volumen_negocios_eur=None, establecida_en_ue=Fal
             "logica": "Los dos criterios a la vez (acumulativos), no dos de tres.",
         },
         "empresa_protegida": protegida,
-        "tope_vsme": {
-            "aplica": protegida,
-            "que_es": ("La empresa declarante sujeta a la CSRD no puede exigir a una empresa que no supera "
-                       "los 1.000 empleados informacion que exceda los limites del estandar voluntario "
-                       "VSME, y esa empresa puede negarse a entregarla."),
-            "limite": "Estandar voluntario VSME para pymes no cotizadas.",
-            "ojo": ("Es un techo frente a lo que el cliente puede EXIGIR por obligacion legal, no frente a "
-                    "lo que puede PACTAR en el contrato. Y si el proveedor no esta domiciliado en la Union "
-                    "Europea, que pueda invocarlo no esta confirmado."),
-        },
+        "tope_vsme": _tope_vsme(protegida),
         "aseguramiento": "Solo aseguramiento limitado; se elimino el paso a aseguramiento razonable.",
         "estandares_sectoriales": ("Se suprimieron los estandares sectoriales obligatorios. La Comision solo "
                                    "podra emitir orientaciones sectoriales no vinculantes."),
@@ -1345,7 +1407,7 @@ def eudr_aplica(producto=None, pais=None, tamano_operador=None, cubierto_por_eut
     Las fechas de aplicacion proceden de la pagina oficial de la Comision y no se
     confirmaron contra el articulo 38: sirven para planificar, no para discutir plazos.
     """
-    if producto in (None, "", True, False):
+    if _vacio(producto):
         return {
             "estado": "revisar",
             "motivo": ("Falta saber que se exporta. El reglamento cubre ganado bovino, cacao, cafe, palma "
@@ -1359,7 +1421,7 @@ def eudr_aplica(producto=None, pais=None, tamano_operador=None, cubierto_por_eut
 
     ficha = materia_eudr(producto)
     riesgo, listado = riesgo_pais_eudr(pais)
-    tamano = _clave(tamano_operador) if tamano_operador not in (None, True, False) else ""
+    tamano = "" if _vacio(tamano_operador) else _clave(tamano_operador)
     tamano = {"grande": "grande", "mediana": "mediana", "median": "mediana", "pequena": "pequena",
               "pequeña": "pequena", "micro": "micro", "microempresa": "micro"}.get(tamano, "")
 
