@@ -13,7 +13,7 @@ Estado: ✅ listo · 🚧 en construcción · ⛔ no replicable (con alternativa
 | Capacidad típica | Aquí | Estado |
 |---|---|---|
 | Alta de empresa, sitios y entidades legales | Skill `inicio` + `empresa.json` en la carpeta de la empresa | ✅ |
-| Asistente de IA que guía y responde | El propio Claude con la skill `asistente` y 10 agentes especialistas | ✅ |
+| Asistente de IA que guía y responde | El propio Claude con la skill `asistente` y 13 agentes especialistas | ✅ |
 | Tablero con indicadores y estado general | Skill `tablero` → HTML imprimible a PDF | ✅ |
 | Escáner de salud ESG con brechas priorizadas | Skill `diagnostico-esg`: puntaje E/S/G, brechas por riesgo y seguimiento | ✅ |
 | Carga de datos desde archivos y documentos | Skill `cargar-datos`: Excel, CSV, PDF y fotos leídos por el agente | ✅ |
@@ -29,14 +29,15 @@ Estado: ✅ listo · 🚧 en construcción · ⛔ no replicable (con alternativa
 |---|---|---|
 | Huella de carbono alcances 1 y 2 | Skill `huella-carbono` con factores oficiales de Chile y Perú | ✅ |
 | Alcance 3 con las 15 categorías | Skill `alcance-3`: por actividad y por gasto, con análisis de dónde está el grueso | ✅ |
-| Catálogo de factores de emisión | 108 factores con fuente, año y licencia en `.claude/motor/datos/` | ✅ |
+| Catálogo de factores de emisión | 108 factores de emisión más densidades, transporte ISO 14083, AWARE y vida útil del SII, todos con fuente, año y licencia | ✅ |
 | Metas y trayectoria de reducción | Skill `metas-net-zero`: trayectoria lineal, criterios y Monte Carlo | ✅ |
 | Curva de costos de abatimiento (MACC) | Skill `plan-descarbonizacion` | ✅ |
-| Huella hídrica (ISO 14046) | Skill `huella-hidrica` | 🚧 |
-| Ley REP: metas por producto y material | Skill `ley-rep` | 🚧 |
-| RETC y declaraciones ambientales | Skill `retc` | 🚧 |
-| Minería: relaves, ventilación, exposición | Skill `mineria` | 🚧 |
-| Logística: emisiones de transporte y cadena de frío | Skills `logistica-glec` y `cadena-frio` | 🚧 |
+| Huella hídrica (ISO 14046) | Skill `huella-hidrica`: GRI 303, huella de escasez con factores AWARE | ✅ |
+| Ley REP: metas por producto y material | Skill `ley-rep` con las metas de cada decreto | ✅ |
+| RETC y declaraciones ambientales | Skill `retc` con el calendario de plazos | ✅ |
+| Minería: relaves, ventilación, exposición | Skill `mineria`: DS 248, DS 132 y límites del DS 594 | ✅ |
+| Logística: emisiones de transporte | Skill `logistica-glec`: ISO 14083 tramo por tramo, con puertos | ✅ |
+| Cadena de frío: temperatura y excursiones | Skill `cadena-frio`: temperatura cinética media y límites del RSA | ✅ |
 | Base propietaria de decenas de miles de factores | Factores públicos verificados + búsqueda con fuente cuando falta uno | ⛔ |
 
 ## Social y gobernanza
@@ -45,8 +46,8 @@ Estado: ✅ listo · 🚧 en construcción · ⛔ no replicable (con alternativa
 |---|---|---|
 | Ley Karin: protocolo, casos y plazos | Skill `ley-karin` con plazos legales y feriados de Chile | ✅ |
 | Indicadores de personas | Skill `social-personas`: dotación, rotación, brecha salarial, accidentes, inclusión | ✅ |
-| Gobernanza y modelo de prevención de delitos | Skill `gobernanza` | 🚧 |
-| Protección de datos personales | Skill `proteccion-datos` | 🚧 |
+| Gobernanza y modelo de prevención de delitos | Skill `gobernanza`: Ley 20.393 y NCG de la CMF | ✅ |
+| Protección de datos personales | Skill `proteccion-datos`: Ley 21.719 y documentos base | ✅ |
 | Canal de denuncias anónimo con formulario web | Se entrega el procedimiento y los documentos; el canal lo opera la empresa | ⛔ |
 
 ## Cumplimiento y reportería
@@ -55,11 +56,11 @@ Estado: ✅ listo · 🚧 en construcción · ⛔ no replicable (con alternativa
 |---|---|---|
 | Qué normativa le aplica a la empresa | Skill `brechas-cumplimiento`: Chile, Perú y exigencias europeas | ✅ |
 | Radar de cambios normativos | Agente `agente-investigador` verifica en fuentes oficiales | ✅ |
-| Reportes GRI, NIIF S1/S2, norma CMF, VSME | Skill `reportes` | 🚧 |
-| Doble materialidad | Skill `doble-materialidad` | 🚧 |
-| Preparación para verificación externa | Skill `aseguramiento` | 🚧 |
-| Revisión anti-greenwashing | Skill `greenwashing` | 🚧 |
-| Unión Europea: CSRD, CBAM, EUDR, marítimo | Skills `union-europea`, `cbam`, `eudr`, `maritimo-ets` | 🚧 |
+| Reportes GRI, NIIF S1/S2, norma CMF, VSME | Skill `reportes`: cobertura, índice y borrador en Word | ✅ |
+| Doble materialidad | Skill `doble-materialidad` con matriz y priorización | ✅ |
+| Preparación para verificación externa | Skill `aseguramiento`: qué pedirá el verificador y qué falta | ✅ |
+| Revisión anti-greenwashing | Skill `greenwashing`: revisa la frase antes de publicarla | ✅ |
+| Unión Europea: CSRD, CBAM, EUDR, marítimo | Skills `union-europea`, `cbam`, `eudr`, `maritimo-ets` | ✅ |
 | Reportes en formato electrónico regulatorio (iXBRL) | No incluido: se entrega el contenido en Word para su carga | ⛔ |
 | Envío automático a organismos (SII, RETC, DT) | Se preparan los archivos; el envío lo hace la empresa en el portal | ⛔ |
 | Firma electrónica avanzada y sellado de tiempo acreditado | Cadena de hashes SHA-256 verificable localmente | ⛔ |
@@ -68,10 +69,10 @@ Estado: ✅ listo · 🚧 en construcción · ⛔ no replicable (con alternativa
 
 | Capacidad típica | Aquí | Estado |
 |---|---|---|
-| Red de proveedores y solicitud de datos | Skill `proveedores` | 🚧 |
-| Academia y formación interna | Skill `academia` | 🚧 |
-| CRM comercial | Skill `crm` | 🚧 |
-| Activos fijos y depreciación tributaria | Skill `activos-fijos` | 🚧 |
+| Red de proveedores y solicitud de datos | Skill `proveedores`: cuestionario, carta y priorización | ✅ |
+| Academia y formación interna | Skill `academia` con registro y certificado interno | ✅ |
+| CRM comercial | Skill `crm`: embudo, bitácora y próxima acción | ✅ |
+| Activos fijos y depreciación tributaria | Skill `activos-fijos`: tabla del SII, depreciación y corrección monetaria | ✅ |
 | Integraciones con ERP, sensores y cloud | Importación desde Excel, CSV y documentos | ⛔ |
 
 ## Lo que esta herramienta hace mejor

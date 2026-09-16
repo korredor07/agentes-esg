@@ -36,6 +36,13 @@ improvisar. Este archivo se actualiza cuando se agregan capacidades.
 |---|---|
 | Cuánta agua usa la empresa, indicadores GRI 303, huella de escasez | `huella-hidrica` |
 
+## Transporte y cadena de frío
+
+| Necesidad | Skill |
+|---|---|
+| Cuánto emite un envío o la flota; comparar camión, tren, barco y avión | `logistica-glec` |
+| Revisar si se rompió la cadena de frío; a qué temperatura guardar algo | `cadena-frio` |
+
 ## Cumplimiento en Chile y Perú
 
 | Necesidad | Skill |
