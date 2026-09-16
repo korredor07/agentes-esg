@@ -1,0 +1,58 @@
+fecha,nombre,ambito,irrenunciable,ley,notas
+2025-01-01,Año Nuevo,nacional,si,2.977,
+2025-04-18,Viernes Santo,nacional,no,2.977,Feriado movil segun la Pascua
+2025-04-19,Sabado Santo,nacional,no,2.977,Feriado movil segun la Pascua
+2025-05-01,Dia Nacional del Trabajo,nacional,si,19.973,
+2025-05-21,Dia de las Glorias Navales,nacional,no,2.977,
+2025-06-07,Asalto y Toma del Morro de Arica,Arica y Parinacota,no,20.663,Feriado regional
+2025-06-20,Dia Nacional de los Pueblos Indigenas,nacional,no,21.357,Solsticio de invierno
+2025-06-29,San Pedro y San Pablo,nacional,no,2.977,Cae domingo: no se traslada
+2025-07-16,Virgen del Carmen,nacional,no,20.148,
+2025-08-15,Asuncion de la Virgen,nacional,no,2.977,
+2025-08-20,Nacimiento del Procer Bernardo O'Higgins,Chillan,no,20.768,Feriado comunal de Chillan y Chillan Viejo
+2025-09-18,Independencia Nacional,nacional,si,2.977,
+2025-09-19,Dia de las Glorias del Ejercito,nacional,si,2.977,
+2025-10-12,Encuentro de Dos Mundos,nacional,no,3.810,Cae domingo: no se traslada
+2025-10-31,Dia Nacional de las Iglesias Evangelicas y Protestantes,nacional,no,20.299,
+2025-11-01,Dia de Todos los Santos,nacional,no,2.977,
+2025-11-16,Eleccion presidencial y parlamentaria,nacional,no,18.700,Feriado por eleccion
+2025-12-08,Inmaculada Concepcion,nacional,no,2.977,
+2025-12-14,Eleccion presidencial segunda vuelta,nacional,no,18.700,Feriado por eleccion
+2025-12-25,Navidad,nacional,si,2.977,
+2026-01-01,Año Nuevo,nacional,si,2.977,
+2026-04-03,Viernes Santo,nacional,no,2.977,Pascua 05-04-2026
+2026-04-04,Sabado Santo,nacional,no,2.977,
+2026-05-01,Dia Nacional del Trabajo,nacional,si,19.973,
+2026-05-21,Dia de las Glorias Navales,nacional,no,2.977,
+2026-06-07,Asalto y Toma del Morro de Arica,Arica y Parinacota,no,20.663,Feriado regional
+2026-06-21,Dia Nacional de los Pueblos Indigenas,nacional,no,21.357,Solsticio de invierno
+2026-06-29,San Pedro y San Pablo,nacional,no,19.668,Cae lunes: no hay traslado
+2026-07-16,Virgen del Carmen,nacional,no,20.148,
+2026-08-15,Asuncion de la Virgen,nacional,no,2.977,
+2026-08-20,Nacimiento del Procer Bernardo O'Higgins,Chillan,no,20.768,Feriado comunal
+2026-09-18,Independencia Nacional,nacional,si,2.977,
+2026-09-19,Dia de las Glorias del Ejercito,nacional,si,2.977,
+2026-10-12,Encuentro de Dos Mundos,nacional,no,19.668,Cae lunes
+2026-10-31,Dia Nacional de las Iglesias Evangelicas y Protestantes,nacional,no,20.299,Cae sabado: no se traslada
+2026-11-01,Dia de Todos los Santos,nacional,no,2.977,
+2026-12-08,Inmaculada Concepcion,nacional,no,2.977,
+2026-12-25,Navidad,nacional,si,2.977,
+2027-01-01,Año Nuevo,nacional,si,2.977,
+2027-03-26,Viernes Santo,nacional,no,2.977,Pascua 28-03-2027
+2027-03-27,Sabado Santo,nacional,no,2.977,
+2027-05-01,Dia Nacional del Trabajo,nacional,si,19.973,
+2027-05-21,Dia de las Glorias Navales,nacional,no,2.977,
+2027-06-07,Asalto y Toma del Morro de Arica,Arica y Parinacota,no,20.663,Feriado regional
+2027-06-21,Dia Nacional de los Pueblos Indigenas,nacional,no,21.357,Solsticio de invierno
+2027-06-28,San Pedro y San Pablo,nacional,no,19.668,Trasladado: el 29 cae martes
+2027-07-16,Virgen del Carmen,nacional,no,20.148,
+2027-08-15,Asuncion de la Virgen,nacional,no,2.977,
+2027-08-20,Nacimiento del Procer Bernardo O'Higgins,Chillan,no,20.768,Feriado comunal
+2027-09-17,Feriado adicional de Fiestas Patrias,nacional,no,20.983,El 18 y 19 caen sabado y domingo
+2027-09-18,Independencia Nacional,nacional,si,2.977,
+2027-09-19,Dia de las Glorias del Ejercito,nacional,si,2.977,
+2027-10-11,Encuentro de Dos Mundos,nacional,no,19.668,Trasladado: el 12 cae martes
+2027-10-31,Dia Nacional de las Iglesias Evangelicas y Protestantes,nacional,no,20.299,Cae domingo: no se traslada
+2027-11-01,Dia de Todos los Santos,nacional,no,2.977,
+2027-12-08,Inmaculada Concepcion,nacional,no,2.977,
+2027-12-25,Navidad,nacional,si,2.977,

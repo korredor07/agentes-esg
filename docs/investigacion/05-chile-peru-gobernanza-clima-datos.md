@@ -469,9 +469,272 @@ Funciones: promoción y protección de derechos, **fiscalización**, **imposici�
 
 ---
 
+## 5. Chile — normas laborales que alimentan las métricas sociales ESG
+
+Estas cuatro normas son la fuente de los indicadores sociales que exige la NCG 461 (y que pedirán NIIF S1/S2 y la CSRD europea): inclusión, jornada, accidentabilidad y brecha salarial.
+
+### 5.1 Ley 21.015 — inclusión laboral de personas con discapacidad
+
+- **Ley 21.015**, "Incentiva la inclusión de personas con discapacidad al mundo laboral". Texto consultado en LeyChile con `fechaVersion = 2017-06-15` y una actualización posterior en su art. 4 con fecha **2024-08-24**. `[VERIFICADO]` [14]
+
+**A quién aplica y cuota**
+
+| Concepto | Valor exacto | Artículo |
+|---|---|---|
+| Umbral de empresa | **100 o más trabajadores** | Art. 157 bis del Código del Trabajo |
+| **Cuota obligatoria** | **al menos el 1%** de personas con discapacidad o asignatarias de **pensión de invalidez** | Art. 157 bis CdT |
+| Sector público | misma cuota del **1%** | Art. 45 de la Ley 20.422 |
+
+`[VERIFICADO]` [14]
+
+**Medidas alternativas de cumplimiento (art. 157 ter CdT)** — solo proceden si existen **"razones fundadas"** (naturaleza de las funciones o falta de postulantes) `[VERIFICADO]` [14]:
+
+| Letra | Medida | Monto mínimo |
+|---|---|---|
+| a) | **Contratos de prestación de servicios** con empresas que tengan contratadas personas con discapacidad | equivalente a **24 ingresos mínimos mensuales** por cada trabajador que falte por contratar |
+| b) | **Donaciones en dinero** a proyectos o programas de instituciones sin fines de lucro | entre **24 y 12 veces** el límite máximo imponible del art. 16 del DL 3.500 de 1980, por cada trabajador que falte |
+
+Restricción de la letra b): la donación **no puede dirigirse a instituciones en que participe el donante o sus parientes**. `[VERIFICADO]` [14]
+
+**Comunicación anual (art. 157 ter CdT)** `[VERIFICADO]` [14]:
+- Las empresas que ejecuten alguna de las medidas alternativas de las letras a) y b) **deberán remitir una comunicación electrónica a la Dirección del Trabajo**.
+- **Plazo: en el mes de ENERO de cada año.**
+- La comunicación **tiene vigencia de 12 meses**.
+- Debe indicar la **razón invocada** y la **medida adoptada**.
+- La Dirección del Trabajo informa a la **Subsecretaría de Evaluación Social**, al **Servicio Nacional de la Discapacidad (SENADIS)** y al **Servicio de Impuestos Internos**.
+
+**Transitorios relevantes** `[VERIFICADO]` [14]:
+- Entrada en vigencia: "el primer día del mes subsiguiente a la publicación en el Diario Oficial de los reglamentos" (art. primero transitorio).
+- Las empresas de **100 a 199 trabajadores** quedan obligadas desde el **final del primer año** (art. quinto transitorio).
+- Durante los **primeros 2 años** se podían usar las medidas alternativas **sin acreditar "razón fundada"** (art. sexto transitorio) — ventana ya vencida.
+
+**Sanciones:** el texto de la Ley 21.015 no fija multas propias; la fiscalización corresponde a la **Dirección del Trabajo** y las infracciones se sancionan por el régimen general de multas del Código del Trabajo. `[VERIFICADO]` en cuanto a la competencia fiscalizadora [14]; los montos concretos de multa **no fueron verificados** `[NO VERIFICADO]`.
+
+#### Checklist — Ley 21.015
+
+1. [ ] Contar la dotación total: ¿la empresa tiene **100 o más trabajadores**? (incluir todas las modalidades contractuales).
+2. [ ] Calcular el **1%** exigido y compararlo con el número actual de personas con discapacidad o con pensión de invalidez contratadas.
+3. [ ] Verificar que cada persona contada tenga **acreditación vigente** de discapacidad (Registro Nacional de la Discapacidad) o de pensión de invalidez.
+4. [ ] Si no se alcanza la cuota, documentar la **"razón fundada"** (naturaleza de las funciones o ausencia de postulantes) con evidencia del proceso de reclutamiento.
+5. [ ] Si se recurre a la medida de la **letra a)**, verificar que el contrato de servicios alcance **24 ingresos mínimos mensuales anuales** por cada trabajador faltante.
+6. [ ] Si se recurre a la **letra b)**, verificar el rango de la donación y que la institución beneficiaria **no tenga vínculo con el donante ni sus parientes**.
+7. [ ] **Enviar la comunicación electrónica a la Dirección del Trabajo en el mes de enero** y agendar el recordatorio anual (vigencia de 12 meses).
+8. [ ] Adoptar medidas de **accesibilidad y ajustes razonables** en los puestos de trabajo y documentarlas.
+9. [ ] Incorporar el indicador "% de personas con discapacidad sobre dotación total" al reporte de sostenibilidad (NCG 461, sección de personas).
+
+---
+
+### 5.2 Ley 21.561 — reducción de la jornada a 40 horas
+
+- **Ley 21.561**, promulgada el **14 de abril de 2023** y **publicada el 26 de abril de 2023**. `[VERIFICADO]` [15]
+- **Artículo 22, inciso primero del Código del Trabajo (texto final):** *"La duración de la jornada ordinaria de trabajo no excederá de cuarenta horas semanales..."* `[VERIFICADO]` [15]
+
+**Calendario gradual (artículo primero transitorio)**
+
+| Hito | Jornada semanal máxima | Fecha (desde publicación del 26-04-2023) |
+|---|---|---|
+| Año 1 | **44 horas** | **26 de abril de 2024** |
+| Año 3 | **42 horas** | **26 de abril de 2026** |
+| Año 5 | **40 horas** | **26 de abril de 2028** |
+
+`[VERIFICADO]` en cuanto a los tramos de 44/42/40 horas y a los años 1, 3 y 5 [15]. Las fechas calendario son el cómputo directo desde la publicación. `[SECUNDARIO]`
+
+> **Estado al 16 de septiembre de 2026: la jornada ordinaria máxima vigente es de 42 horas semanales.** El siguiente escalón (40 horas) opera en abril de 2028.
+
+**Flexibilidades incorporadas** `[VERIFICADO]` [15]:
+
+| Mecanismo | Artículo CdT | Contenido |
+|---|---|---|
+| **Promedio en 4 semanas** | Art. 22 bis | La jornada puede distribuirse en promedio sobre ciclos de hasta 4 semanas, con **máximo 45 horas** en una semana y no más de 2 semanas continuas en ese máximo |
+| **Banda horaria parental** | Art. 27 | Derecho a adelantar o retrasar hasta **2 horas** el inicio de la jornada para madres, padres o cuidadores de **hijos hasta 12 años** |
+| **Horas extra compensadas con descanso** | Art. 32, inciso cuarto | Las horas extraordinarias pueden compensarse con **hasta 5 días hábiles de descanso adicional** al año, previo pacto |
+
+#### Checklist — Ley 21.561
+
+1. [ ] Verificar que **todos los contratos y reglamentos internos** reflejen la jornada vigente de **42 horas semanales** (desde abril de 2026).
+2. [ ] Recalcular el **valor de la hora ordinaria** y el de la hora extraordinaria tras cada reducción; la ley no permite rebajar remuneraciones por la reducción de jornada.
+3. [ ] Revisar los **sistemas de control de asistencia** y su parametrización con el nuevo tope semanal.
+4. [ ] Evaluar la adopción del **promedio en 4 semanas** (art. 22 bis) si la operación es estacional, respetando el tope de 45 horas semanales.
+5. [ ] Implementar y comunicar la **banda horaria de 2 horas** para trabajadores con hijos de hasta 12 años (art. 27).
+6. [ ] Formalizar por escrito cualquier **pacto de compensación de horas extra con días de descanso** (máx. 5 días hábiles al año).
+7. [ ] Planificar la transición a **40 horas en abril de 2028** (dimensionamiento de dotación, turnos y productividad).
+8. [ ] Reportar la jornada promedio y las horas extraordinarias como indicador social en la memoria (NCG 461).
+
+---
+
+### 5.3 Ley 16.744 y DS 67 de 1999 — accidentabilidad, siniestralidad y cotización adicional
+
+#### 5.3.1 Ley 16.744 — financiamiento y prevención
+
+| Concepto | Valor exacto | Artículo |
+|---|---|---|
+| **Cotización básica general** | **0,90%** de las remuneraciones imponibles, **de cargo del empleador** | Art. 15 (versión 2011-08-30) |
+| **Cotización adicional diferenciada** | en función de la **actividad y riesgo** de la empresa, con **tope máximo de 3,4%** de las remuneraciones imponibles | Art. 15 |
+| **Recargo por condiciones inseguras** | la cotización adicional puede recargarse **hasta en 100%** | Art. 16 (versión 1996-05-08) |
+| **Rebaja / exención** | las empresas que acrediten medidas de prevención pueden obtener rebaja o exención de la cotización adicional; el **reglamento** fija requisitos, proporciones y plazos | Art. 16 |
+| **Comité Paritario de Higiene y Seguridad** | obligatorio en empresas con **más de 25 trabajadores** | Art. 66 (versión 2014-09-17) |
+| **Departamento de Prevención de Riesgos** | obligatorio en empresas con **más de 100 trabajadores** | Art. 66 |
+
+`[VERIFICADO]` [16]
+
+> Nota: la cotización básica general de 0,90% del art. 15 convive con la **cotización extraordinaria** establecida por leyes posteriores; ese componente adicional **no fue verificado** en esta sesión. `[NO VERIFICADO]`
+
+#### 5.3.2 DS 67 de 1999 (Ministerio del Trabajo y Previsión Social)
+
+Reglamento para la aplicación de los **artículos 15 y 16 de la Ley 16.744**, sobre exenciones, rebajas y recargos de la cotización adicional diferenciada. **Publicado el 7 de marzo de 2000**; texto vigente con modificaciones hasta **2023-06-30**. `[VERIFICADO]` [17]
+
+**Definiciones (artículo 2°)** `[VERIFICADO]` [17]:
+
+| Concepto | Definición |
+|---|---|
+| **Siniestralidad efectiva** | Las incapacidades y muertes provocadas por accidentes del trabajo y enfermedades profesionales (con las exclusiones de los arts. 5° y 6° de la Ley 16.744) |
+| **Período Anual** (letra c) | Lapso de **12 meses** comprendido entre el **1° de julio** de un año y el **30 de junio** del siguiente |
+| **Período de Evaluación** (letra d) | Los **tres Períodos Anuales** inmediatamente anteriores al **1° de julio** del año respectivo |
+| **Tasa de siniestralidad por incapacidades temporales** | (Días perdidos en el período anual ÷ promedio anual de trabajadores) **× 100** |
+| **Tasa de siniestralidad por invalideces y muertes** | Se determina con una **tabla de factores según grado de invalidez** (de **0,25 a 2,50 puntos**), convertida a porcentaje mediante una segunda tabla (rango **0 a 385 puntos**) |
+| **Tasa de siniestralidad total** (letra k) | **Suma** de las dos tasas anteriores |
+
+**Proceso de evaluación y vigencia** `[VERIFICADO]` [17]:
+- Se realiza **cada dos años**, durante el **segundo semestre** (art. 6°).
+- La tasa resultante rige **entre el 1° de enero del año siguiente al del Proceso de Evaluación y el 31 de diciembre del año subsiguiente** (art. 13) — es decir, por **dos años**.
+- El organismo administrador **notifica en septiembre** el promedio anual de trabajadores y la nómina con días perdidos e invalideces (art. 11°).
+- La empresa tiene **15 días desde la notificación** para **rectificar errores** (art. 11°).
+
+**Tabla de cotización adicional según tasa de siniestralidad total (artículo 5°)** — extremos verificados `[VERIFICADO]` [17]:
+
+| Tasa de siniestralidad total | Cotización adicional |
+|---|---|
+| 0 a 32 | **0,00%** |
+| 33 a 64 | **0,34%** |
+| 65 a 96 | **0,68%** |
+| … (tramos intermedios de 32 puntos, incremento de 0,34%) | … |
+| 981 y más | **6,80%** |
+
+> Los tramos intermedios completos no se transcriben aquí: **consultar el art. 5° del DS 67 antes de usar cualquier valor intermedio.** `[NO VERIFICADO]` para los tramos no listados.
+
+**Requisitos para acceder a rebaja o exención (artículo 8°)** `[VERIFICADO]` [17]:
+- Estar **al día en el pago de las cotizaciones** de la Ley 16.744.
+- **Acreditar antes del 31 de octubre** haber mantenido un **sistema de gestión de seguridad y salud en el trabajo** durante el último período anual.
+- Si la acreditación es parcial o tardía, la rebaja se aplica desde el **tercer mes siguiente** a la acreditación.
+
+**Recargos (artículos 15, 16 y 17)** `[VERIFICADO]` [17]:
+- Procede **recargo de hasta 100%** por: condiciones inseguras graves, incumplimiento de medidas preventivas ordenadas, uso de sustancias prohibidas, concentraciones de contaminantes químicos excedidas y biomarcadores sobre el límite de tolerancia.
+- El recargo rige **desde el 1° del mes siguiente a la notificación** y subsiste hasta **dos meses después** de cesada la causal (art. 16).
+- **Tope conjunto:** recargo + cotización adicional **no pueden exceder 6,8%**; si la cotización adicional por sí sola ya alcanza 6,8%, el recargo se extingue (art. 17).
+
+#### Checklist — Ley 16.744 / DS 67
+
+1. [ ] Verificar la **tasa de cotización adicional** vigente de la empresa y el período bianual en que rige (art. 13 DS 67).
+2. [ ] Llevar el registro mensual de **días perdidos por accidentes del trabajo y enfermedades profesionales** y del **promedio anual de trabajadores** (es el numerador y denominador de la tasa).
+3. [ ] Revisar la **notificación de septiembre** del organismo administrador (mutualidad o ISL) y **rectificar errores dentro de 15 días** (art. 11° DS 67).
+4. [ ] **Antes del 31 de octubre**, acreditar el **sistema de gestión de SST** para postular a rebaja o exención (art. 8° DS 67).
+5. [ ] Mantener las **cotizaciones al día** — es requisito de admisibilidad de la rebaja.
+6. [ ] Constituir y mantener en funcionamiento el **Comité Paritario de Higiene y Seguridad** si hay **más de 25 trabajadores** (art. 66 Ley 16.744).
+7. [ ] Constituir el **Departamento de Prevención de Riesgos** con experto si hay **más de 100 trabajadores** (art. 66 Ley 16.744).
+8. [ ] Ejecutar y documentar las **medidas preventivas prescritas** por el organismo administrador: su incumplimiento gatilla recargo de hasta 100%.
+9. [ ] Controlar la **exposición a agentes químicos y biomarcadores**: superar los límites es causal directa de recargo (art. 15 DS 67).
+10. [ ] Calcular y reportar los indicadores de **tasa de accidentabilidad, tasa de siniestralidad y días perdidos**, que son los indicadores laborales que exige la NCG 461.
+
+---
+
+### 5.4 Ley 20.348 — igualdad de remuneraciones y registro de cargos
+
+- **Ley 20.348**, "Resguarda el derecho a la igualdad en las remuneraciones". Texto en LeyChile con `fechaVersion = 2009-06-19`. `[VERIFICADO]` [18]
+
+**Principio (art. 62 bis del Código del Trabajo)** — texto literal `[VERIFICADO]` [18]:
+
+> *"El empleador deberá dar cumplimiento al principio de igualdad de remuneraciones entre hombres y mujeres que presten un mismo trabajo, no siendo consideradas arbitrarias las diferencias objetivas que se funden en capacidades, calificaciones, idoneidad, responsabilidad o productividad."*
+
+**Registro de cargos (art. 154 N°6 del Código del Trabajo)** `[VERIFICADO]` [18]:
+- Las empresas con **200 trabajadores o más** deben mantener en el **Reglamento Interno de Orden, Higiene y Seguridad** *"un registro que consigne los diversos cargos o funciones en la empresa y sus características técnicas esenciales"*.
+
+**Procedimiento de reclamo (art. 154 N°13 del Código del Trabajo)** `[VERIFICADO]` [18]:
+- El **reclamo y la respuesta deben constar por escrito y estar debidamente fundados**.
+- **Plazo de respuesta del empleador: máximo 30 días.**
+- Agotado el procedimiento interno, el reclamo se sustancia conforme al **Párrafo 6° del Capítulo II del Título I del Libro V del Código del Trabajo** (procedimiento de tutela laboral).
+
+**Incentivo / sanción (art. 511 del Código del Trabajo, inciso final agregado)** `[VERIFICADO]` [18]:
+- Los empleadores que **no tengan diferencias arbitrarias de remuneración** pueden solicitar una **rebaja del 10% de las multas** cursadas, salvo en casos de prácticas antisindicales o vulneración de derechos fundamentales.
+
+> **Advertencia de vigencia:** la versión de la Ley 20.348 consultada es la original de 2009. Los artículos del **Código del Trabajo** que ella introdujo (62 bis, 154 N°6 y N°13, 511) **pueden haber sido modificados por leyes posteriores** — en particular el umbral de 200 trabajadores del registro de cargos. **Contrastar con el texto vigente del Código del Trabajo antes de usar.** `[NO VERIFICADO]`
+
+#### Checklist — Ley 20.348
+
+1. [ ] Verificar si la empresa tiene **200 trabajadores o más**; si es así, incorporar al Reglamento Interno el **registro de cargos y funciones con sus características técnicas esenciales**.
+2. [ ] Describir cada cargo con criterios objetivos (**capacidades, calificaciones, idoneidad, responsabilidad, productividad**) — son las únicas diferencias que la ley considera no arbitrarias.
+3. [ ] Realizar un **análisis de brecha salarial por género** comparando cargos de igual valor, no solo cargos de igual nombre.
+4. [ ] Documentar la **justificación objetiva** de toda diferencia de remuneración detectada.
+5. [ ] Incorporar al Reglamento Interno el **procedimiento de reclamo por desigualdad salarial**, con la exigencia de reclamo y respuesta **por escrito y fundados**.
+6. [ ] Asegurar que el procedimiento respete el **plazo máximo de 30 días** de respuesta del empleador.
+7. [ ] Capacitar a RR.HH. y jefaturas en el procedimiento y en el riesgo de **tutela laboral** si se agota el procedimiento interno.
+8. [ ] Publicar la **brecha salarial por género** como indicador en la memoria anual (exigencia expresa de la NCG 461).
+9. [ ] Contrastar el umbral de 200 trabajadores y los artículos citados con el **texto vigente del Código del Trabajo** (ver advertencia de vigencia).
+
+---
+
+## 6. Perú
+
+### 6.1 SMV — Reporte de Sostenibilidad Corporativa
+
+**Norma vigente**
+
+- **Resolución de Superintendente N° 018-2020-SMV/02**, Lima, **6 de febrero de 2020**, **publicada en El Peruano el 8 de febrero de 2020**. `[VERIFICADO]` [19]
+- **Sustituye** el "Reporte de Sostenibilidad Corporativa" aprobado por el **artículo 1° de la Resolución SMV N° 033-2015-SMV/01**, **Anexo de la Memoria, numeral (10180)**, que forma parte de las **Normas Comunes para la Determinación del Contenido de los Documentos Informativos** (aprobadas por Resolución Gerencia General N° 211-98-EF/94.11). `[VERIFICADO]` [19]
+- **Artículo 3°:** deroga el segundo párrafo del art. 3° de la Resolución SMV N° 033-2015-SMV/01. `[VERIFICADO]` [19]
+- **Artículo 5° (vigencia):** la resolución rige **al día siguiente de su publicación** (9 de febrero de 2020), **salvo el artículo 3°, que entró en vigencia el 1 de enero de 2021**. `[VERIFICADO]` [19]
+
+**Quién y cuándo — artículo 2° (texto literal)** `[VERIFICADO]` [19]:
+
+> *"El Reporte de Sostenibilidad Corporativa sustituido por la presente resolución, deberá presentarse por los emisores de manera obligatoria en el 2021. Durante el 2020, los emisores podrán voluntariamente presentar dicho reporte en la información anual que difundan correspondiente al ejercicio 2019..."*
+
+| Aspecto | Detalle |
+|---|---|
+| **Obligados** | Los **emisores** con valores inscritos en el Registro Público del Mercado de Valores que deben presentar Memoria Anual a la SMV |
+| **Desde cuándo** | **Obligatorio desde 2021** (respecto del ejercicio 2020). Voluntario en 2020 para el ejercicio 2019 |
+| **Período informado** | El ejercicio culminado el **31 de diciembre del año calendario anterior** al de su envío |
+| **Cómo se presenta** | Como **anexo de la Memoria Anual**, en los formatos electrónicos que fija la SMV, a través del sistema **MVNet** |
+| **Estándar de veracidad** | El contenido debe ser **veraz y suficiente**, conforme al **artículo 10 de la Ley del Mercado de Valores** |
+
+`[VERIFICADO]` [19]
+
+**Metodología: "cumplir o explicar"** `[VERIFICADO]` [19]
+- Cada pregunta se responde con **Sí** (se cumple totalmente y la sociedad puede **sustentar su respuesta de manera documentada**) o **No**.
+- Si se marca **"No"**, la sociedad **debe explicar las razones** por las que no ha adoptado la acción.
+- Se agrega un campo de **Información Complementaria**.
+- Se identifica, si corresponde, la **denominación de la empresa revisora** (sociedad de auditoría o consultora) que revisó el informe.
+
+**Estructura del reporte** `[VERIFICADO]` [19]:
+
+| Sección | Contenido |
+|---|---|
+| **I. Medio ambiente y cambio climático** | Política ambiental o sistema de gestión (aprobación por el **Directorio**, gestión de riesgos físicos y de transición del cambio climático, informe anual de resultados al Directorio); investigaciones, quejas de la comunidad, controversias públicas, medidas correctivas, medidas cautelares y multas ambientales del ejercicio y de ejercicios anteriores; **medición de emisiones de GEI**; energía; agua; **residuos sólidos** (peligrosos y no peligrosos en TM, últimos **tres ejercicios**, según los Anexos III y V del Reglamento del D. Leg. 1278 aprobado por DS 014-2017-MINAM) y metas de reducción/reciclaje aprobadas por el Directorio |
+| **II. Social** | **Grupos de interés** (identificación de riesgos y oportunidades, plan de acción, informe al Directorio, reporte público); **controversias o conflictos materiales** con grupos de interés; y demás materias sociales del cuestionario |
+| **III. Información complementaria** | Información adicional de detalle |
+
+> El reporte adopta expresamente la noción de **materialidad del Global Reporting Initiative (GRI)**: se consideran materiales *"aquellos aspectos que reflejen impactos significativos económicos, ambientales y sociales de la organización o influyan sustancialmente en las valoraciones y decisiones de los grupos de interés"*. `[VERIFICADO]` [19]
+
+> Existen **exclusiones** al deber de presentar el Reporte de Sostenibilidad Corporativa para ciertos regímenes de emisores (por ejemplo, los contemplados en la **Resolución SMV N° 013-2023-SMV/01**, que señala emisores que "no se encuentran obligados a presentar el Reporte de Sostenibilidad Corporativa"). El detalle de esos regímenes **no fue verificado** en esta sesión. `[NO VERIFICADO]`
+
+#### Checklist — Reporte de Sostenibilidad Corporativa (SMV)
+
+1. [ ] Confirmar si la sociedad es **emisor con valores inscritos en el RPMV** obligado a presentar Memoria Anual a la SMV, y si le alcanza alguna exclusión.
+2. [ ] Preparar el reporte referido al **ejercicio cerrado el 31 de diciembre anterior** y remitirlo como **anexo de la Memoria Anual vía MVNet**.
+3. [ ] Para cada respuesta **"Sí"**, tener el **sustento documentado** disponible (política, acta de directorio, informe, medición).
+4. [ ] Para cada respuesta **"No"**, redactar una **explicación sustantiva** — la omisión de explicar es el incumplimiento más frecuente del régimen "cumplir o explicar".
+5. [ ] Verificar que la **política ambiental o sistema de gestión esté aprobada por el Directorio** y que exista un **informe anual de resultados puesto en conocimiento del Directorio**.
+6. [ ] Documentar si la política contempla **riesgos físicos** (inundaciones, deslizamientos, sequías, desertificación) y **riesgos de transición** (nuevas tecnologías, descarbonización de portafolios).
+7. [ ] Reunir el histórico de **investigaciones, quejas de la comunidad, controversias públicas, medidas correctivas o cautelares y multas ambientales**, con su estado al cierre del ejercicio (incluidas las iniciadas en ejercicios anteriores).
+8. [ ] **Medir las emisiones de GEI** y tener la metodología documentada.
+9. [ ] Medir **residuos sólidos peligrosos y no peligrosos en toneladas métricas** para los **últimos tres ejercicios**, clasificados según los Anexos III y V del Reglamento del D. Leg. 1278 (DS 014-2017-MINAM).
+10. [ ] Documentar la **identificación de grupos de interés**, el plan de acción, el informe de resultados al Directorio y el reporte público de avances.
+11. [ ] Registrar las **controversias o conflictos materiales** con grupos de interés ocurridos en el ejercicio.
+12. [ ] Si el reporte fue revisado por una **sociedad de auditoría o consultora**, consignar su denominación en la carátula del reporte.
+
+---
+
 ## Cambios recientes (2024–2026)
 
-*(sección en construcción — se completará tras las secciones 5 y 6)*
+*(sección en construcción — se completará tras el resto del bloque de Perú)*
 
 | Fecha | Jurisdicción | Cambio | Impacto |
 |---|---|---|---|

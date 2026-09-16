@@ -47,16 +47,28 @@ def parsear_fecha(valor):
     )
 
 
-def cargar_feriados(ruta_csv):
-    """Lee un CSV con columna 'fecha' (AAAA-MM-DD) y devuelve un conjunto de fechas."""
+def cargar_feriados(ruta_csv, ambitos=None):
+    """Lee un CSV de feriados y devuelve {fecha: nombre}.
+
+    Columnas esperadas: fecha (AAAA-MM-DD), nombre y, opcionalmente, ambito.
+    `ambitos` filtra por territorio: por defecto solo los nacionales mas los
+    ambitos que se pidan (por ejemplo una region o comuna con feriado propio).
+    """
     feriados = {}
     if not ruta_csv or not os.path.isfile(ruta_csv):
         return feriados
+    permitidos = None
+    if ambitos is not None:
+        permitidos = {str(a).strip().lower() for a in ambitos if a}
+        permitidos.add("nacional")
+        permitidos.add("")
     with open(ruta_csv, encoding="utf-8-sig", newline="") as archivo:
         for fila in csv.DictReader(archivo):
             claves = {(k or "").strip().lower(): (v or "").strip() for k, v in fila.items()}
             crudo = claves.get("fecha")
             if not crudo:
+                continue
+            if permitidos is not None and claves.get("ambito", "").lower() not in permitidos:
                 continue
             try:
                 feriados[parsear_fecha(crudo)] = claves.get("nombre", "Feriado")

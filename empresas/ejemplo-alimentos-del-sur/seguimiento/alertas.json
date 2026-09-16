@@ -1,0 +1,22 @@
+[
+  {
+    "origen": "Ley Karin",
+    "caso": "KARIN-2026-001",
+    "titulo": "Adoptar medidas de resguardo (KARIN-2026-001)",
+    "vence": "2026-09-15",
+    "estado": "vencido",
+    "por_vencer": false,
+    "detalle": "Separar espacios fisicos, redistribuir la jornada u ofrecer atencion psicologica temprana a traves del organismo administrador de la Ley 16.744. No pueden ser gravosas ni perjudiciales para quien denuncia.",
+    "articulo": "Art. 211-B bis inc. 2 del Codigo del Trabajo; art. 13 DS 21"
+  },
+  {
+    "origen": "Ley Karin",
+    "caso": "KARIN-2026-001",
+    "titulo": "Designar a la persona investigadora e informarlo por escrito (KARIN-2026-001)",
+    "vence": "2026-09-21",
+    "estado": "por vencer",
+    "por_vencer": true,
+    "detalle": "Designar preferentemente a alguien con formacion en acoso, genero o derechos fundamentales, e informar la designacion por escrito a la persona denunciante.",
+    "articulo": "Art. 211-C inc. final del Codigo del Trabajo; art. 14 DS 21"
+  }
+]
