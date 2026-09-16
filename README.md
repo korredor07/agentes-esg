@@ -1,62 +1,101 @@
 # Agentes ESG
 
 Un equipo de agentes de inteligencia artificial, en español, que ayuda a
-empresas y personas **sin conocimientos técnicos** a medir su huella de carbono,
-cumplir la normativa ambiental, social y de gobernanza que les aplica, y
-preparar reportes de sostenibilidad.
+empresas y personas **sin conocimientos técnicos** a medir su huella de
+carbono, cumplir la normativa ambiental, social y de gobernanza que les aplica,
+y preparar reportes de sostenibilidad.
 
 Funciona dentro de **Claude Code** (la aplicación de escritorio de Claude o la
 terminal). Tú conversas en español; los agentes hacen el trabajo y te dejan los
 archivos listos en tu computador.
 
+> Es software libre, hecho sobre normas y estándares públicos. No está afiliado
+> a ningún organismo ni a ninguna plataforma comercial.
+
 ---
-
-## Qué necesitas
-
-1. Un computador con **Windows, macOS o Linux**.
-2. La aplicación **Claude** instalada, con una cuenta de pago (Pro o Max), que es
-   la que incluye Claude Code: <https://claude.ai/download>
-3. **Python 3** (gratis). Si no lo tienes, el asistente te ofrece instalarlo la
-   primera vez; no necesitas saber usarlo.
 
 ## Cómo instalarlo (3 pasos, sin terminal)
 
-1. **Descarga la carpeta**: en esta página de GitHub, botón verde **Code** →
-   **Download ZIP**.
+1. **Descarga la carpeta**: botón verde **Code** → **Download ZIP**.
 2. **Descomprime** el archivo donde quieras guardar tu trabajo (por ejemplo, en
    Documentos). Te quedará una carpeta llamada `agentes-esg`.
 3. **Ábrela en Claude**: abre la aplicación Claude → pestaña **Code** → elige la
    carpeta `agentes-esg` → escribe **hola**.
 
-Eso es todo. El asistente te saluda, revisa tu computador y te guía.
+El asistente te saluda, revisa tu computador y te guía desde ahí.
+
+Necesitas: un computador con Windows, macOS o Linux; la aplicación **Claude**
+con cuenta de pago (<https://claude.ai/download>); y **Python 3**, que el
+asistente te ofrece instalar la primera vez si no lo tienes.
 
 ### Alternativa: instalarlo como plugin
 
-Si usas Claude Code en la terminal y quieres tener los agentes disponibles en
-cualquier carpeta:
+Si usas Claude Code en la terminal y quieres los agentes en cualquier carpeta:
 
 ```bash
 claude plugin marketplace add korredor07/agentes-esg
 claude plugin install esg@agentes-esg
 ```
 
-Los comandos quedan como `/esg:inicio`, `/esg:ayuda`, etc.
+Los comandos quedan como `/esg:inicio`, `/esg:huella-carbono`, etc.
 
-## Qué puedes pedirle
+---
 
-Escribe con tus palabras. Por ejemplo:
+## Qué sabe hacer
 
-- «Quiero medir la huella de carbono de mi empresa del año pasado.»
-- «Me llegó una carta de la autoridad, ¿qué hago?»
-- «Mi cliente europeo me pide datos de sostenibilidad.»
-- «Necesito un reporte para una licitación.»
-- «No sé por dónde empezar.»
+Escribe con tus palabras: «quiero medir mi huella», «¿qué leyes me aplican?»,
+«me llegó una denuncia», «necesito un reporte para una licitación». Si no sabes
+qué pedir, escribe **ayuda**.
 
-Si no sabes qué pedir, escribe **ayuda** y te ofrece un menú por objetivos.
+### Medir y reducir
+
+- **Huella de carbono** (alcances 1, 2 y 3) con factores oficiales de Chile,
+  Perú y referencias internacionales, cada uno con su fuente y su año.
+- **Cadena de valor**: compras, fletes, viajes, residuos y agua, por actividad
+  o por gasto, con análisis de dónde está el grueso del impacto.
+- **Metas de reducción**: trayectoria año a año, revisión de criterios y
+  probabilidad real de cumplirlas (simulación de Monte Carlo).
+- **Plan de descarbonización**: qué medidas conviene hacer primero y cuánto
+  cuesta cada tonelada evitada (curva MACC).
+
+### Cumplir
+
+- **Qué normativa te aplica** en Chile, Perú y para exportar a la Unión Europea,
+  con plazos y riesgos.
+- **Calendario de obligaciones** del año, con avisos de lo que está abierto o
+  por vencer.
+- **Ley Karin** (Chile): plazos legales exactos de una denuncia, protocolo de
+  prevención y documentos.
+- **Ley REP**: metas por producto prioritario, material y año, con la fórmula
+  de cada decreto.
+- **Declaraciones ambientales** (RETC, residuos, emisiones, residuos peligrosos).
+- **Gobernanza y protección de datos personales**.
+
+### Reportar y respaldar
+
+- **Reportes de sostenibilidad**: GRI, NIIF S1/S2, norma de la CMF y el estándar
+  voluntario europeo para pymes, con índice de contenidos y borrador en Word.
+- **Doble materialidad**, preparación para **verificación externa** y revisión
+  **anti-greenwashing** antes de publicar.
+- **Indicadores sociales**: dotación, rotación, brecha salarial, accidentes,
+  capacitación e inclusión.
+- **Bóveda de evidencias** con huella digital SHA-256 verificable.
+- **Tablero** y **diagnóstico ESG** con brechas priorizadas por riesgo.
+
+### Sectoriales
+
+Minería (relaves, ventilación, exposición ocupacional, cierre de faenas),
+agua, logística, cadena de frío, activos fijos y depreciación, proveedores,
+academia interna y seguimiento comercial.
+
+Para ver el detalle y la comparación con una plataforma comercial:
+[docs/equivalencias.md](docs/equivalencias.md).
+
+---
 
 ## Dónde quedan tus datos
 
-Todo se guarda en tu computador, dentro de la carpeta `empresas/`:
+Todo se guarda en tu computador, dentro de `empresas/`:
 
 ```
 empresas/mi-empresa/
@@ -64,25 +103,49 @@ empresas/mi-empresa/
 ├── datos/           tus planillas y documentos
 ├── resultados/      resultados de los cálculos
 ├── reportes/        entregables en Word, Excel y HTML
-├── evidencias/      respaldos con huella digital SHA-256
+├── evidencias/      respaldos con huella digital
 └── seguimiento/     brechas, casos y metas en curso
 ```
 
-Nada se sube a internet ni se comparte con terceros. La carpeta `empresas/` está
-excluida del repositorio (`.gitignore`), así que **no se publica** aunque uses
-Git.
+Nada se sube a internet. La carpeta `empresas/` está excluida del repositorio,
+así que **no se publica** aunque uses Git.
+
+Hay una empresa ficticia de ejemplo (`empresas/ejemplo-alimentos-del-sur`) con
+datos inventados, para que veas cómo se ve todo antes de cargar lo tuyo.
+
+---
 
 ## Qué no hace
 
-Para que tomes decisiones informadas, esto es lo que **no** puede hacer:
-
-- No es asesoría legal ni una auditoría. Es orientación de apoyo.
-- No firma electrónicamente ni emite sellos de tiempo acreditados. El registro de
-  evidencias prueba integridad y orden, no identidad legal.
-- No declara por ti ante ningún organismo. Prepara la información; el envío lo
+- No es asesoría legal ni una auditoría: es orientación de apoyo.
+- No firma electrónicamente ni emite sellos de tiempo acreditados. El registro
+  de evidencias prueba integridad y orden, no identidad legal.
+- No declara por ti ante ningún organismo: prepara la información, el envío lo
   haces tú en el portal correspondiente.
-- No inventa datos: si un factor de emisión, un plazo o una multa no están
-  verificados, te lo dice en vez de rellenar el hueco.
+- No inventa datos. Si un factor, un plazo o una multa no están verificados, te
+  lo dice en vez de rellenar el hueco.
+
+---
+
+## Guías
+
+- [Guía de uso paso a paso](docs/guia-de-uso.md) — para empezar.
+- [Equivalencias con plataformas comerciales](docs/equivalencias.md) — qué
+  cubre y qué no.
+- [Investigación normativa](docs/investigacion/) — de dónde sale cada dato, con
+  sus fuentes y su fecha de verificación.
+
+## Para quien quiera revisar el código
+
+- Motor de cálculo en `.claude/motor/` (Python, **solo biblioteca estándar**:
+  no instala dependencias).
+- Instrucciones de cada agente en `.claude/skills/` y `.claude/agents/`, en
+  texto plano legible.
+- Pruebas: `python -m unittest discover -s tests -t tests`
+- Validación del plugin: `claude plugin validate .`
+- Los factores de emisión y datos normativos están en
+  `.claude/motor/datos/`, cada fila con su fuente, año, licencia y fecha de
+  verificación.
 
 ## Cómo actualizarlo
 
@@ -91,19 +154,8 @@ Para que tomes decisiones informadas, esto es lo que **no** puede hacer:
 - **Si lo instalaste como plugin**: se actualiza solo; puedes forzarlo con
   `claude plugin marketplace update agentes-esg`.
 
-## Para quien quiera revisar el código
-
-- El motor de cálculo está en `.claude/motor/` (Python, solo biblioteca
-  estándar: no instala dependencias).
-- Las instrucciones de cada agente están en `.claude/skills/` y
-  `.claude/agents/`, en texto plano legible.
-- Pruebas: `python -m unittest discover -s tests -t tests`
-- Los datos normativos y factores de emisión llevan fuente, año y licencia en
-  `.claude/motor/datos/`.
-
 ## Licencia
 
 Código bajo licencia MIT (ver [LICENSE](LICENSE)). Los datos normativos y
 factores de emisión conservan la licencia de su fuente original, indicada en
-cada archivo. Este proyecto no está afiliado a ningún organismo público ni a
-ninguna plataforma comercial de gestión ESG.
+cada archivo.

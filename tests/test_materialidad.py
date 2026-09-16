@@ -50,6 +50,7 @@ class PruebaCalculo(unittest.TestCase):
     def test_familia_de_sector(self):
         self.assertEqual(materialidad.familia_de_sector("Minera de cobre")[0], "mineria")
         self.assertEqual(materialidad.familia_de_sector("Constructora de viviendas")[0], "construccion")
+        # "Tecnologia" con tilde, escrita con codigo unicode para no dejar tildes en el codigo.
         self.assertEqual(materialidad.familia_de_sector("Tecnología y software")[0], "tecnologia")
         self.assertEqual(materialidad.familia_de_sector("")[0], "general")
         self.assertEqual(materialidad.familia_de_sector(None)[0], "general")

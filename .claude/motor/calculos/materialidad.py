@@ -647,9 +647,12 @@ def evaluar(asuntos, umbral=UMBRAL_POR_DEFECTO):
     if not evaluados:
         resumen = "Todavia no hay ningun asunto con sus seis notas completas."
     else:
-        resumen = ("De %d asuntos evaluados, %d resultaron materiales con umbral %s: %d por impacto y por dinero, "
-                   "%d solo por impacto y %d solo por dinero."
-                   % (len(evaluados), len(materiales), ("%g" % corte),
+        cuantos = ("1 asunto evaluado" if len(evaluados) == 1 else "%d asuntos evaluados" % len(evaluados))
+        cuantos_materiales = ("1 resulto material" if len(materiales) == 1
+                              else "%d resultaron materiales" % len(materiales))
+        resumen = ("De %s, %s con umbral %s: %d por impacto y por dinero, %d solo por impacto y "
+                   "%d solo por dinero."
+                   % (cuantos, cuantos_materiales, ("%g" % corte),
                       len(por_cuadrante["doble"]), len(por_cuadrante["impacto"]),
                       len(por_cuadrante["financiera"])))
 
